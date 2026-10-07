@@ -1,0 +1,10 @@
+/*
+ * One part of the address (the house and Moo number, a sub-district, a district…): kept whole.
+ *
+ * An inline block rather than `white-space: nowrap`: it moves to the next line as one piece, exactly
+ * as a no-wrap span does, but if a part is ever wider than the whole column (text enlarged on a narrow
+ * phone) it wraps inside itself instead of pushing the page wider than the screen.
+ */
+.group {
+  display: inline-block;
+}

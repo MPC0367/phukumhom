@@ -1,0 +1,385 @@
+/*
+ * Header, direction 2 (ART-DIRECTION section 5). Always visible, 76px, never hides and never changes height.
+ *
+ *   over a hero        transparent, paper-coloured wordmark and links; the hero supplies the top scrim
+ *   everywhere else    paper ground, ink links, a stone hairline beneath
+ * The change is a 0.4s colour transition. <HeaderFrame> writes data-over; before script runs the
+ * stylesheet reads the page itself (:has), and the bar is not fixed yet, so a page read without
+ * JavaScript never has paper-coloured links over paper.
+ *
+ *   from 72rem   Stay  Dining  Experiences  Location  Explore      PHUKUMHOM      TH / EN  Check availability
+ *   48 to 72rem  PHUKUMHOM                                TH / EN  Check availability  Menu
+ *   below        PHUKUMHOM                                                   TH / EN  Menu
+ *
+ * Those widths are the header's own (it is a size container), not the screen's. `rem` in a container
+ * query follows the root font size, where `rem` in a media query does not: when a guest enlarges the
+ * text the bar falls back to the arrangement that still fits instead of running off the screen.
+ *
+ * The narrowest arrangement is held inside the screen by arithmetic: every horizontal measure of the
+ * wordmark, TH / EN, Menu row is capped at the value it may have on a 320px screen, written in vw
+ * (14px is 4.375vw, 8px is 2.5vw, and so on), so with enlarged text the row grows with the screen and
+ * can never be wider than it.
+ *
+ * Component constants, the only values here that are not tokens:
+ *   --nav-fs          navigation label size; sits between --fs-small and --fs-body, as the Button label does
+ *   --nav-line        colour of the line under the current page: the action colour, or the text colour over a photograph
+ *   --wordmark-max    read by <Wordmark>: the cap on the size of the tracked name
+ *   --lang-pad        read by <LangSwitch>: the padding beside TH and EN
+ *   --header-gutter   the bar's side padding: the page gutter, capped; the mobile menu's sheet reads it too
+ *   --header-clear    how far the page's scroll padding reaches below the top of the screen
+ *   --header-halo     the soft edge under words over a photograph (the same recipe as ui/Band)
+ *   0.4s              the colour change, as the art direction sets it
+ *
+ * This file also styles <ExploreMenu> (a client island) so its button is exactly a navigation item.
+ */
+
+.header {
+  --wordmark-max: 3.875vw;
+  --lang-pad: min(var(--s-2), 2.5vw);
+  --header-gutter: min(var(--gutter), 6.25vw);
+  --header-clear: calc(var(--header-h) + var(--s-5));
+  --nav-line: var(--action);
+  --header-halo: none;
+  --text: var(--ink);
+  --text-muted: var(--ink-muted);
+  --accent: var(--forest);
+  --rule: var(--stone);
+  --focus: var(--focus-on-light);
+  --surface: var(--paper);
+
+  position: absolute;
+  inset-block-start: 0;
+  /* When a drawer locks the page the scrollbar goes; the bar keeps the width it had, so nothing in it moves. */
+  inset-inline: 0 var(--scroll-lock-pad, 0px);
+  z-index: var(--z-header);
+  container-type: inline-size;
+  height: var(--header-h);
+  border-block-end: var(--hairline) solid var(--stone);
+  background-color: var(--paper);
+  color: var(--accent);
+  text-shadow: var(--header-halo);
+  transition:
+    background-color 0.4s var(--ease),
+    border-color 0.4s var(--ease),
+    color 0.4s var(--ease);
+}
+
+/* Script has taken over: the bar stays with the screen. */
+.header[data-over] {
+  position: fixed;
+}
+
+/* A photograph is behind the bar. The second selector is the same state before script has answered. */
+.header[data-over="true"],
+:global(html:has(main [data-header-over])) .header:not([data-over]) {
+  --text: var(--on-dark);
+  --text-muted: color-mix(in srgb, var(--on-dark) 86%, transparent);
+  --accent: var(--on-dark);
+  --rule: color-mix(in srgb, var(--on-dark) 34%, transparent);
+  --focus: var(--focus-on-dark);
+  --nav-line: currentColor;
+  --header-halo: 0 0 1px color-mix(in srgb, var(--twilight) 80%, transparent), 0 0 0.3em color-mix(in srgb, var(--twilight) 70%, transparent),
+    0 0 1.4em color-mix(in srgb, var(--twilight) 60%, transparent);
+
+  border-block-end-color: transparent;
+  background-color: transparent;
+}
+
+/* Two classes: the bar is also a .container, and its capped gutter has to outrank that class's own. */
+.header .bar {
+  display: flex;
+  align-items: center;
+  gap: min(var(--s-3), 2.5vw);
+  height: 100%;
+  padding-inline: var(--header-gutter);
+}
+
+.brand {
+  flex: none;
+  margin-inline-end: auto;
+}
+
+.nav {
+  display: none;
+}
+
+.tools {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: min(var(--s-2), 2.5vw);
+}
+
+/* Two classes, so these always outrank the components' own rules whatever order the stylesheets load in. */
+.tools .lang {
+  font-size: min(var(--fs-small), 4.375vw);
+}
+
+.tools .book {
+  --button-h: 2.75rem;
+  --button-px: 1.375rem;
+
+  display: none;
+  white-space: nowrap;
+}
+
+/* A tablet, or a phone held sideways: room for the booking pill beside the Menu. */
+@container (min-width: 48rem) {
+  .tools {
+    gap: var(--s-4);
+  }
+
+  .tools .book {
+    display: inline-flex;
+  }
+}
+
+/* The full bar: pages on the left, the name in the middle, language and booking on the right. */
+@container (min-width: 72rem) {
+  .header .bar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    column-gap: clamp(var(--s-4), 2vw, var(--s-7));
+  }
+
+  .nav {
+    display: block;
+    justify-self: start;
+  }
+
+  .brand {
+    justify-self: center;
+    align-items: center;
+    margin-inline-end: 0;
+  }
+
+  .tools {
+    justify-self: end;
+    gap: clamp(var(--s-3), 1.4vw, var(--s-5));
+  }
+}
+
+/*
+ * The page keeps anchors and focused controls clear of this header with `scroll-padding-top` on
+ * <html>. The header's own controls sit inside that padding, so without this the browser could count
+ * them as hidden and scroll the page upward when one of them took focus. A negative scroll margin of
+ * the same size cancels the padding for them alone. (The mobile menu's sheet is not included: it
+ * scrolls by itself and has no such padding.)
+ */
+.brand,
+.navLink,
+.exploreButton,
+.exploreLink,
+.tools .book,
+.lang a {
+  scroll-margin-block-start: calc(-1 * var(--header-clear));
+}
+
+/* ── Navigation items: the four links and the Explore button share one look ── */
+
+.navList {
+  display: flex;
+  align-items: center;
+  gap: clamp(var(--s-4), 1.7vw, var(--s-6));
+  margin: 0;
+  list-style: none;
+}
+
+.navLink,
+.exploreButton {
+  --nav-fs: 0.9375rem;
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+  min-height: var(--tap);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: var(--nav-fs);
+  font-weight: 450;
+  line-height: 1.3;
+  text-decoration: none;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+  transition: color 0.4s var(--ease);
+}
+
+.navLink:lang(th),
+.exploreButton:lang(th) {
+  --nav-fs: 1rem;
+
+  line-height: 1.5;
+}
+
+/*
+ * The sliding line under a label. It draws in from the left when the pointer arrives and leaves to the
+ * right when it goes; under the current page (and under Explore while one of its pages is open) it is
+ * simply there, in the action colour, so the current page is never told by colour alone.
+ */
+.navLink::after,
+.exploreButton::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: var(--s-2);
+  height: var(--hairline);
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform var(--t-panel) var(--ease-out);
+}
+
+.navLink[aria-current]::after,
+.exploreButton[data-current="true"]::after {
+  height: calc(2 * var(--hairline));
+  background: var(--nav-line);
+  transform: scaleX(1);
+}
+
+.exploreButton[aria-expanded="true"]::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+@media (hover: hover) {
+  .navLink:hover::after,
+  .exploreButton:hover::after {
+    transform: scaleX(1);
+    transform-origin: left center;
+  }
+}
+
+.navLink:focus-visible,
+.exploreButton:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: var(--s-1);
+  border-radius: var(--radius-sm);
+}
+
+/* ── Explore: the disclosure ── */
+
+.exploreWrap {
+  position: relative;
+  display: flex;
+}
+
+.chevron {
+  flex: none;
+  transition: transform var(--t-hover) var(--ease-out);
+}
+
+.exploreButton[aria-expanded="true"] .chevron {
+  transform: rotate(180deg);
+}
+
+/*
+ * The list: a white rounded panel hung under its own label, set back by its padding so the first
+ * letters of its links stand under the first letter of "Explore". It can open over a photograph, so it
+ * carries the one shadow, and it is always ink on white whatever state the bar is in.
+ */
+.explorePanel {
+  --text: var(--ink);
+  --text-muted: var(--ink-muted);
+  --accent: var(--forest);
+  --focus: var(--focus-on-light);
+
+  position: absolute;
+  inset-block-start: calc(100% + var(--s-2));
+  inset-inline-start: calc(-1 * (var(--s-5) + var(--s-2) + var(--hairline)));
+  inset-inline-end: auto;
+  min-width: 15rem;
+  margin: 0;
+  padding: var(--s-2);
+  border: var(--hairline) solid var(--stone);
+  border-radius: var(--radius-md);
+  background: var(--white);
+  box-shadow: var(--shadow-float);
+  text-shadow: none;
+  list-style: none;
+  transform-origin: 2rem 0;
+  animation: explore-arrive var(--t-panel) var(--ease-out);
+}
+
+.exploreLink {
+  --nav-fs: 0.9375rem;
+
+  display: flex;
+  align-items: center;
+  min-height: var(--tap);
+  padding: var(--s-2) var(--s-5);
+  border-radius: var(--radius-sm);
+  color: var(--ink);
+  font-size: var(--nav-fs);
+  font-weight: 400;
+  line-height: 1.3;
+  text-decoration: none;
+  transition:
+    background-color var(--t-ui) var(--ease),
+    color var(--t-ui) var(--ease);
+}
+
+.exploreLink:lang(th) {
+  --nav-fs: 1rem;
+
+  line-height: 1.5;
+}
+
+.exploreLink[aria-current] {
+  color: var(--forest);
+  font-weight: 500;
+  text-decoration-line: underline;
+  text-decoration-thickness: var(--hairline);
+  text-decoration-color: var(--action);
+  text-underline-offset: 0.4em;
+}
+
+.exploreLink[aria-current]:lang(th) {
+  text-underline-offset: 0.5em;
+}
+
+@media (hover: hover) {
+  .exploreLink:hover {
+    background: var(--sand);
+    color: var(--forest);
+  }
+}
+
+.exploreLink:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: -2px;
+}
+
+@keyframes explore-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(calc(-1 * var(--s-2))) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .explorePanel {
+    animation: none;
+  }
+}
+
+@media print {
+  .header,
+  .header[data-over] {
+    position: static;
+  }
+
+  .nav,
+  .tools {
+    display: none;
+  }
+}

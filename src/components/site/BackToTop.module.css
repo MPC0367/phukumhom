@@ -1,0 +1,158 @@
+/*
+ * Back to top: a 48px white disc in the lower right corner, a ring round it that fills with the page,
+ * and an arrow that lifts under the pointer. Hidden by default and without script; <BackToTop> sets
+ * data-state="shown".
+ *
+ * On phones it stands above the action bar (that bar's height, its gap from the edge and a little air);
+ * from 48rem, where there is no bar, it sits in the corner.
+ *
+ * Component constants: the 48px disc (--tap would be 44px: the ring needs the extra room).
+ */
+
+/* Two screens tall, at the top of the document: when it has scrolled away, the button may appear. */
+.marker {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  width: var(--hairline);
+  height: 200vh;
+  height: 200svh;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.button {
+  position: fixed;
+  inset-inline-end: max(var(--s-4), env(safe-area-inset-right, 0px));
+  inset-block-end: calc(var(--sticky-actions-h) + var(--s-3) + var(--s-3) + env(safe-area-inset-bottom, 0px));
+  z-index: var(--z-sticky-actions);
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--white);
+  color: var(--forest);
+  box-shadow: var(--shadow-float);
+  cursor: pointer;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(var(--s-3));
+  transition:
+    opacity var(--t-panel) var(--ease),
+    transform var(--t-panel) var(--ease-out),
+    background-color var(--t-hover) var(--ease),
+    color var(--t-hover) var(--ease),
+    visibility 0s linear var(--t-panel);
+}
+
+.button[data-state="shown"] {
+  visibility: visible;
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity var(--t-panel) var(--ease),
+    transform var(--t-panel) var(--ease-out),
+    background-color var(--t-hover) var(--ease),
+    color var(--t-hover) var(--ease),
+    visibility 0s linear 0s;
+}
+
+/*
+ * Below 80rem the page margin is narrower than the disc, so it lies over the end of the content column
+ * (the last words of a line on a phone, the corner of a photograph on a tablet). There, while the page
+ * is being read downward the disc keeps out of the way, and it comes back as soon as the guest scrolls
+ * up. From 80rem it stands in the margin and is simply there. `data-dir` is written by <BackToTop> from
+ * the scroll direction; with no direction known yet the button shows as usual.
+ */
+@media (max-width: 79.9375rem) {
+  .button[data-state="shown"][data-dir="down"] {
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(var(--s-3));
+    transition:
+      opacity var(--t-panel) var(--ease),
+      transform var(--t-panel) var(--ease-out),
+      visibility 0s linear var(--t-panel);
+  }
+}
+
+@media (min-width: 48rem) {
+  .button {
+    inset-inline-end: max(var(--s-5), env(safe-area-inset-right, 0px));
+    inset-block-end: calc(var(--s-6) + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/*
+ * From 80rem the chapter index stands in the page gutter, and so does this: a 44px disc on the index's
+ * own centre line (the index is 2.25rem wide and 0.75rem from the edge, so its centre is 1.875rem in),
+ * clear of the content column. In the 24px corner it used to lie over the column's last few pixels: the
+ * arrow of a right-aligned link, the corner of a panel.
+ */
+@media (min-width: 80rem) {
+  .button {
+    inset-inline-end: max(var(--s-2), env(safe-area-inset-right, 0px));
+    width: var(--tap);
+    height: var(--tap);
+  }
+}
+
+.ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  /* The stroke starts at twelve o'clock. */
+  transform: rotate(-90deg);
+}
+
+.track,
+.progress {
+  fill: none;
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+
+.track {
+  stroke: var(--stone);
+}
+
+.progress {
+  stroke: var(--action);
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  stroke-linecap: round;
+}
+
+/* The shared arrow points right; here it points up. */
+.arrow {
+  transform: rotate(-90deg);
+  transition: transform var(--t-hover) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .button:hover {
+    background: var(--forest);
+    color: var(--paper);
+  }
+
+  .button:hover .arrow {
+    transform: rotate(-90deg) translateX(3px);
+  }
+}
+
+.button:active .arrow {
+  transform: rotate(-90deg) translateX(4px);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}

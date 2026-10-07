@@ -1,0 +1,55 @@
+/*
+ * The studio credit, the last line of the page (O2Credit.tsx).
+ * A quiet row of its own under the footer's base line: the studio's mark and "Design Studio" in the
+ * small-caps label voice, at the footer's muted colour, brightening under the pointer like every other
+ * link down there. The text sits on the O's baseline so the 2 hangs below it, as in the studio's logo.
+ */
+.row {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  margin-block-start: var(--s-5);
+  padding-block-start: var(--s-4);
+  border-block-start: var(--hairline) solid var(--rule);
+}
+
+.credit {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  padding-inline: var(--s-3);
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  font-size: clamp(0.6875rem, 0.65rem + 0.13vw, 0.78125rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.19em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  transition: color var(--t-hover) var(--ease);
+}
+
+.lockup {
+  white-space: nowrap;
+}
+
+.mark {
+  display: inline-block;
+  width: 1.95em;
+  height: 1.6em;
+  margin-inline-end: 0.5em;
+  vertical-align: -0.366em;
+}
+
+@media (hover: hover) {
+  .credit:hover {
+    color: var(--clay-soft);
+  }
+}
+
+.credit:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  color: var(--text);
+}

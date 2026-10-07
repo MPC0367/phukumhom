@@ -1,0 +1,3757 @@
+{
+  "clay-buildings-hedge-columns-sunset-wide": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#785f4d",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/clay-buildings-hedge-columns-sunset-wide-480.webp",
+        "jpg": "/media/clay-buildings-hedge-columns-sunset-wide-480.jpg",
+        "bytesWebp": 19110,
+        "bytesJpg": 22304
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/clay-buildings-hedge-columns-sunset-wide-760.webp",
+        "jpg": "/media/clay-buildings-hedge-columns-sunset-wide-760.jpg",
+        "bytesWebp": 42784,
+        "bytesJpg": 50434
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/clay-buildings-hedge-columns-sunset-wide-1000.webp",
+        "jpg": "/media/clay-buildings-hedge-columns-sunset-wide-1000.jpg",
+        "bytesWebp": 66790,
+        "bytesJpg": 80899
+      },
+      {
+        "enlarged": true,
+        "width": 1440,
+        "height": 960,
+        "webp": "/media/clay-buildings-hedge-columns-sunset-wide-1440.webp",
+        "jpg": "",
+        "bytesWebp": 83940,
+        "bytesJpg": 0
+      },
+      {
+        "enlarged": true,
+        "width": 1920,
+        "height": 1281,
+        "webp": "/media/clay-buildings-hedge-columns-sunset-wide-1920.webp",
+        "jpg": "",
+        "bytesWebp": 113184,
+        "bytesJpg": 0
+      }
+    ]
+  },
+  "garden-roundabout-standing-stone-overcast": {
+    "master": "original",
+    "width": 1000,
+    "height": 595,
+    "dominant": "#958c77",
+    "variants": [
+      {
+        "width": 480,
+        "height": 286,
+        "webp": "/media/garden-roundabout-standing-stone-overcast-480.webp",
+        "jpg": "/media/garden-roundabout-standing-stone-overcast-480.jpg",
+        "bytesWebp": 22878,
+        "bytesJpg": 23019
+      },
+      {
+        "width": 760,
+        "height": 452,
+        "webp": "/media/garden-roundabout-standing-stone-overcast-760.webp",
+        "jpg": "/media/garden-roundabout-standing-stone-overcast-760.jpg",
+        "bytesWebp": 55924,
+        "bytesJpg": 55079
+      },
+      {
+        "width": 1000,
+        "height": 595,
+        "webp": "/media/garden-roundabout-standing-stone-overcast-1000.webp",
+        "jpg": "/media/garden-roundabout-standing-stone-overcast-1000.jpg",
+        "bytesWebp": 94356,
+        "bytesJpg": 92855
+      },
+      {
+        "enlarged": true,
+        "width": 1440,
+        "height": 857,
+        "webp": "/media/garden-roundabout-standing-stone-overcast-1440.webp",
+        "jpg": "",
+        "bytesWebp": 124940,
+        "bytesJpg": 0
+      },
+      {
+        "enlarged": true,
+        "width": 1920,
+        "height": 1142,
+        "webp": "/media/garden-roundabout-standing-stone-overcast-1920.webp",
+        "jpg": "",
+        "bytesWebp": 165872,
+        "bytesJpg": 0
+      }
+    ]
+  },
+  "sunset-sky-clay-building-hedges-portrait": {
+    "master": "original",
+    "width": 600,
+    "height": 900,
+    "dominant": "#755f54",
+    "variants": [
+      {
+        "width": 360,
+        "height": 540,
+        "webp": "/media/sunset-sky-clay-building-hedges-portrait-360.webp",
+        "jpg": "/media/sunset-sky-clay-building-hedges-portrait-360.jpg",
+        "bytesWebp": 30812,
+        "bytesJpg": 31707
+      },
+      {
+        "width": 600,
+        "height": 900,
+        "webp": "/media/sunset-sky-clay-building-hedges-portrait-600.webp",
+        "jpg": "/media/sunset-sky-clay-building-hedges-portrait-600.jpg",
+        "bytesWebp": 75538,
+        "bytesJpg": 80053
+      }
+    ]
+  },
+  "garden-lane-pergola-building-violet-dusk": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#625056",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/garden-lane-pergola-building-violet-dusk-480.webp",
+        "jpg": "/media/garden-lane-pergola-building-violet-dusk-480.jpg",
+        "bytesWebp": 39156,
+        "bytesJpg": 34809
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/garden-lane-pergola-building-violet-dusk-760.webp",
+        "jpg": "/media/garden-lane-pergola-building-violet-dusk-760.jpg",
+        "bytesWebp": 100928,
+        "bytesJpg": 90414
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/garden-lane-pergola-building-violet-dusk-1000.webp",
+        "jpg": "/media/garden-lane-pergola-building-violet-dusk-1000.jpg",
+        "bytesWebp": 171694,
+        "bytesJpg": 155921
+      }
+    ]
+  },
+  "building-entrance-teal-curtains-clipped-hedges": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#76814f",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/building-entrance-teal-curtains-clipped-hedges-480.webp",
+        "jpg": "/media/building-entrance-teal-curtains-clipped-hedges-480.jpg",
+        "bytesWebp": 60254,
+        "bytesJpg": 49315
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/building-entrance-teal-curtains-clipped-hedges-760.webp",
+        "jpg": "/media/building-entrance-teal-curtains-clipped-hedges-760.jpg",
+        "bytesWebp": 146410,
+        "bytesJpg": 121430
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/building-entrance-teal-curtains-clipped-hedges-1000.webp",
+        "jpg": "/media/building-entrance-teal-curtains-clipped-hedges-1000.jpg",
+        "bytesWebp": 199246,
+        "bytesJpg": 202568
+      }
+    ]
+  },
+  "forecourt-rooftop-pergolas-late-afternoon": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#837e7f",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/forecourt-rooftop-pergolas-late-afternoon-480.webp",
+        "jpg": "/media/forecourt-rooftop-pergolas-late-afternoon-480.jpg",
+        "bytesWebp": 31704,
+        "bytesJpg": 32010
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/forecourt-rooftop-pergolas-late-afternoon-760.webp",
+        "jpg": "/media/forecourt-rooftop-pergolas-late-afternoon-760.jpg",
+        "bytesWebp": 74102,
+        "bytesJpg": 75033
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/forecourt-rooftop-pergolas-late-afternoon-1000.webp",
+        "jpg": "/media/forecourt-rooftop-pergolas-late-afternoon-1000.jpg",
+        "bytesWebp": 122242,
+        "bytesJpg": 124280
+      },
+      {
+        "enlarged": true,
+        "width": 1440,
+        "height": 960,
+        "webp": "/media/forecourt-rooftop-pergolas-late-afternoon-1440.webp",
+        "jpg": "",
+        "bytesWebp": 164184,
+        "bytesJpg": 0
+      },
+      {
+        "enlarged": true,
+        "width": 1920,
+        "height": 1281,
+        "webp": "/media/forecourt-rooftop-pergolas-late-afternoon-1920.webp",
+        "jpg": "",
+        "bytesWebp": 202078,
+        "bytesJpg": 0
+      }
+    ]
+  },
+  "lit-doorway-forecourt-palm-blue-hour": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#544848",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/lit-doorway-forecourt-palm-blue-hour-480.webp",
+        "jpg": "/media/lit-doorway-forecourt-palm-blue-hour-480.jpg",
+        "bytesWebp": 40460,
+        "bytesJpg": 35200
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/lit-doorway-forecourt-palm-blue-hour-760.webp",
+        "jpg": "/media/lit-doorway-forecourt-palm-blue-hour-760.jpg",
+        "bytesWebp": 104992,
+        "bytesJpg": 91991
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/lit-doorway-forecourt-palm-blue-hour-1000.webp",
+        "jpg": "/media/lit-doorway-forecourt-palm-blue-hour-1000.jpg",
+        "bytesWebp": 177432,
+        "bytesJpg": 158447
+      }
+    ]
+  },
+  "twin-rooftop-pergolas-entrance-blue-hour": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#4a414d",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/twin-rooftop-pergolas-entrance-blue-hour-480.webp",
+        "jpg": "/media/twin-rooftop-pergolas-entrance-blue-hour-480.jpg",
+        "bytesWebp": 30634,
+        "bytesJpg": 28542
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/twin-rooftop-pergolas-entrance-blue-hour-760.webp",
+        "jpg": "/media/twin-rooftop-pergolas-entrance-blue-hour-760.jpg",
+        "bytesWebp": 80424,
+        "bytesJpg": 74699
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/twin-rooftop-pergolas-entrance-blue-hour-1000.webp",
+        "jpg": "/media/twin-rooftop-pergolas-entrance-blue-hour-1000.jpg",
+        "bytesWebp": 137176,
+        "bytesJpg": 128889
+      },
+      {
+        "enlarged": true,
+        "width": 1440,
+        "height": 960,
+        "webp": "/media/twin-rooftop-pergolas-entrance-blue-hour-1440.webp",
+        "jpg": "",
+        "bytesWebp": 190718,
+        "bytesJpg": 0
+      },
+      {
+        "enlarged": true,
+        "width": 1920,
+        "height": 1281,
+        "webp": "/media/twin-rooftop-pergolas-entrance-blue-hour-1920.webp",
+        "jpg": "",
+        "bytesWebp": 200782,
+        "bytesJpg": 0
+      }
+    ]
+  },
+  "garden-lane-standing-stone-stars-blue-hour": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#484556",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/garden-lane-standing-stone-stars-blue-hour-480.webp",
+        "jpg": "/media/garden-lane-standing-stone-stars-blue-hour-480.jpg",
+        "bytesWebp": 35022,
+        "bytesJpg": 31119
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/garden-lane-standing-stone-stars-blue-hour-760.webp",
+        "jpg": "/media/garden-lane-standing-stone-stars-blue-hour-760.jpg",
+        "bytesWebp": 93158,
+        "bytesJpg": 82820
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/garden-lane-standing-stone-stars-blue-hour-1000.webp",
+        "jpg": "/media/garden-lane-standing-stone-stars-blue-hour-1000.jpg",
+        "bytesWebp": 159680,
+        "bytesJpg": 143249
+      }
+    ]
+  },
+  "topiary-forecourt-pergola-buildings-blue-hour": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#4d4658",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/topiary-forecourt-pergola-buildings-blue-hour-480.webp",
+        "jpg": "/media/topiary-forecourt-pergola-buildings-blue-hour-480.jpg",
+        "bytesWebp": 33164,
+        "bytesJpg": 30463
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/topiary-forecourt-pergola-buildings-blue-hour-760.webp",
+        "jpg": "/media/topiary-forecourt-pergola-buildings-blue-hour-760.jpg",
+        "bytesWebp": 86972,
+        "bytesJpg": 79057
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/topiary-forecourt-pergola-buildings-blue-hour-1000.webp",
+        "jpg": "/media/topiary-forecourt-pergola-buildings-blue-hour-1000.jpg",
+        "bytesWebp": 148394,
+        "bytesJpg": 135338
+      },
+      {
+        "enlarged": true,
+        "width": 1440,
+        "height": 960,
+        "webp": "/media/topiary-forecourt-pergola-buildings-blue-hour-1440.webp",
+        "jpg": "",
+        "bytesWebp": 196064,
+        "bytesJpg": 0
+      },
+      {
+        "enlarged": true,
+        "width": 1920,
+        "height": 1281,
+        "webp": "/media/topiary-forecourt-pergola-buildings-blue-hour-1920.webp",
+        "jpg": "",
+        "bytesWebp": 204680,
+        "bytesJpg": 0
+      }
+    ]
+  },
+  "lane-path-lamps-purple-trees-blue-hour": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#454355",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/lane-path-lamps-purple-trees-blue-hour-480.webp",
+        "jpg": "/media/lane-path-lamps-purple-trees-blue-hour-480.jpg",
+        "bytesWebp": 36256,
+        "bytesJpg": 32229
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/lane-path-lamps-purple-trees-blue-hour-760.webp",
+        "jpg": "/media/lane-path-lamps-purple-trees-blue-hour-760.jpg",
+        "bytesWebp": 95090,
+        "bytesJpg": 84655
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/lane-path-lamps-purple-trees-blue-hour-1000.webp",
+        "jpg": "/media/lane-path-lamps-purple-trees-blue-hour-1000.jpg",
+        "bytesWebp": 159066,
+        "bytesJpg": 144830
+      }
+    ]
+  },
+  "boardwalk-lane-standing-stone-blue-hour": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#5a5d60",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/boardwalk-lane-standing-stone-blue-hour-480.webp",
+        "jpg": "/media/boardwalk-lane-standing-stone-blue-hour-480.jpg",
+        "bytesWebp": 39904,
+        "bytesJpg": 36087
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/boardwalk-lane-standing-stone-blue-hour-760.webp",
+        "jpg": "/media/boardwalk-lane-standing-stone-blue-hour-760.jpg",
+        "bytesWebp": 101576,
+        "bytesJpg": 91614
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/boardwalk-lane-standing-stone-blue-hour-1000.webp",
+        "jpg": "/media/boardwalk-lane-standing-stone-blue-hour-1000.jpg",
+        "bytesWebp": 167588,
+        "bytesJpg": 154828
+      }
+    ]
+  },
+  "wet-lane-lit-hedge-columns-blue-hour": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#424a6e",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/wet-lane-lit-hedge-columns-blue-hour-480.webp",
+        "jpg": "/media/wet-lane-lit-hedge-columns-blue-hour-480.jpg",
+        "bytesWebp": 29062,
+        "bytesJpg": 28251
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/wet-lane-lit-hedge-columns-blue-hour-760.webp",
+        "jpg": "/media/wet-lane-lit-hedge-columns-blue-hour-760.jpg",
+        "bytesWebp": 72354,
+        "bytesJpg": 70120
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/wet-lane-lit-hedge-columns-blue-hour-1000.webp",
+        "jpg": "/media/wet-lane-lit-hedge-columns-blue-hour-1000.jpg",
+        "bytesWebp": 122100,
+        "bytesJpg": 117831
+      }
+    ]
+  },
+  "tiled-roof-garden-building-palm-hills": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#6d7755",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/tiled-roof-garden-building-palm-hills-480.webp",
+        "jpg": "/media/tiled-roof-garden-building-palm-hills-480.jpg",
+        "bytesWebp": 52610,
+        "bytesJpg": 44277
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/tiled-roof-garden-building-palm-hills-760.webp",
+        "jpg": "/media/tiled-roof-garden-building-palm-hills-760.jpg",
+        "bytesWebp": 129154,
+        "bytesJpg": 111383
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/tiled-roof-garden-building-palm-hills-1000.webp",
+        "jpg": "/media/tiled-roof-garden-building-palm-hills-1000.jpg",
+        "bytesWebp": 190998,
+        "bytesJpg": 186364
+      }
+    ]
+  },
+  "carved-stone-dark-glazed-jar-flowers": {
+    "master": "original",
+    "width": 600,
+    "height": 900,
+    "dominant": "#40677e",
+    "variants": [
+      {
+        "width": 360,
+        "height": 540,
+        "webp": "/media/carved-stone-dark-glazed-jar-flowers-360.webp",
+        "jpg": "/media/carved-stone-dark-glazed-jar-flowers-360.jpg",
+        "bytesWebp": 43664,
+        "bytesJpg": 42795
+      },
+      {
+        "width": 600,
+        "height": 900,
+        "webp": "/media/carved-stone-dark-glazed-jar-flowers-600.webp",
+        "jpg": "/media/carved-stone-dark-glazed-jar-flowers-600.jpg",
+        "bytesWebp": 107586,
+        "bytesJpg": 107336
+      }
+    ]
+  },
+  "green-glazed-jar-fountain-carved-stone": {
+    "master": "original",
+    "width": 600,
+    "height": 900,
+    "dominant": "#425c88",
+    "variants": [
+      {
+        "width": 360,
+        "height": 540,
+        "webp": "/media/green-glazed-jar-fountain-carved-stone-360.webp",
+        "jpg": "/media/green-glazed-jar-fountain-carved-stone-360.jpg",
+        "bytesWebp": 35860,
+        "bytesJpg": 34932
+      },
+      {
+        "width": 600,
+        "height": 900,
+        "webp": "/media/green-glazed-jar-fountain-carved-stone-600.webp",
+        "jpg": "/media/green-glazed-jar-fountain-carved-stone-600.jpg",
+        "bytesWebp": 91226,
+        "bytesJpg": 89468
+      }
+    ]
+  },
+  "garden-lawn-glazed-jars-clay-buildings": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#5f7379",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/garden-lawn-glazed-jars-clay-buildings-480.webp",
+        "jpg": "/media/garden-lawn-glazed-jars-clay-buildings-480.jpg",
+        "bytesWebp": 32100,
+        "bytesJpg": 31792
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/garden-lawn-glazed-jars-clay-buildings-760.webp",
+        "jpg": "/media/garden-lawn-glazed-jars-clay-buildings-760.jpg",
+        "bytesWebp": 76620,
+        "bytesJpg": 75812
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/garden-lawn-glazed-jars-clay-buildings-1000.webp",
+        "jpg": "/media/garden-lawn-glazed-jars-clay-buildings-1000.jpg",
+        "bytesWebp": 124796,
+        "bytesJpg": 124659
+      }
+    ]
+  },
+  "clay-buildings-rooftop-pergolas-garden-stone": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#2d728b",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/clay-buildings-rooftop-pergolas-garden-stone-480.webp",
+        "jpg": "/media/clay-buildings-rooftop-pergolas-garden-stone-480.jpg",
+        "bytesWebp": 24192,
+        "bytesJpg": 25492
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/clay-buildings-rooftop-pergolas-garden-stone-760.webp",
+        "jpg": "/media/clay-buildings-rooftop-pergolas-garden-stone-760.jpg",
+        "bytesWebp": 58204,
+        "bytesJpg": 59533
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/clay-buildings-rooftop-pergolas-garden-stone-1000.webp",
+        "jpg": "/media/clay-buildings-rooftop-pergolas-garden-stone-1000.jpg",
+        "bytesWebp": 94486,
+        "bytesJpg": 98157
+      }
+    ]
+  },
+  "clay-buildings-rooftop-pergolas-hazy-lane": {
+    "master": "upscaled",
+    "width": 4096,
+    "height": 2502,
+    "dominant": "#8a7e74",
+    "variants": [
+      {
+        "width": 480,
+        "height": 293,
+        "webp": "/media/clay-buildings-rooftop-pergolas-hazy-lane-480.webp",
+        "jpg": "/media/clay-buildings-rooftop-pergolas-hazy-lane-480.jpg",
+        "bytesWebp": 12096,
+        "bytesJpg": 15850
+      },
+      {
+        "width": 760,
+        "height": 464,
+        "webp": "/media/clay-buildings-rooftop-pergolas-hazy-lane-760.webp",
+        "jpg": "/media/clay-buildings-rooftop-pergolas-hazy-lane-760.jpg",
+        "bytesWebp": 25884,
+        "bytesJpg": 34148
+      },
+      {
+        "width": 1000,
+        "height": 611,
+        "webp": "/media/clay-buildings-rooftop-pergolas-hazy-lane-1000.webp",
+        "jpg": "/media/clay-buildings-rooftop-pergolas-hazy-lane-1000.jpg",
+        "bytesWebp": 39560,
+        "bytesJpg": 54438
+      },
+      {
+        "width": 1440,
+        "height": 880,
+        "webp": "/media/clay-buildings-rooftop-pergolas-hazy-lane-1440.webp",
+        "jpg": "",
+        "bytesWebp": 52218,
+        "bytesJpg": 0
+      },
+      {
+        "width": 1920,
+        "height": 1173,
+        "webp": "/media/clay-buildings-rooftop-pergolas-hazy-lane-1920.webp",
+        "jpg": "",
+        "bytesWebp": 79172,
+        "bytesJpg": 0
+      },
+      {
+        "width": 2560,
+        "height": 1564,
+        "webp": "/media/clay-buildings-rooftop-pergolas-hazy-lane-2560.webp",
+        "jpg": "",
+        "bytesWebp": 118618,
+        "bytesJpg": 0
+      }
+    ]
+  },
+  "open-dining-pavilion-lawn-dusk": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#4c3b59",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/open-dining-pavilion-lawn-dusk-480.webp",
+        "jpg": "/media/open-dining-pavilion-lawn-dusk-480.jpg",
+        "bytesWebp": 38998,
+        "bytesJpg": 35414
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/open-dining-pavilion-lawn-dusk-760.webp",
+        "jpg": "/media/open-dining-pavilion-lawn-dusk-760.jpg",
+        "bytesWebp": 95660,
+        "bytesJpg": 88032
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/open-dining-pavilion-lawn-dusk-1000.webp",
+        "jpg": "/media/open-dining-pavilion-lawn-dusk-1000.jpg",
+        "bytesWebp": 155436,
+        "bytesJpg": 147639
+      },
+      {
+        "enlarged": true,
+        "width": 1440,
+        "height": 960,
+        "webp": "/media/open-dining-pavilion-lawn-dusk-1440.webp",
+        "jpg": "",
+        "bytesWebp": 202358,
+        "bytesJpg": 0
+      },
+      {
+        "enlarged": true,
+        "width": 1920,
+        "height": 1281,
+        "webp": "/media/open-dining-pavilion-lawn-dusk-1920.webp",
+        "jpg": "",
+        "bytesWebp": 198758,
+        "bytesJpg": 0
+      }
+    ]
+  },
+  "dining-pavilion-tables-log-posts-dusk": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#5b4054",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/dining-pavilion-tables-log-posts-dusk-480.webp",
+        "jpg": "/media/dining-pavilion-tables-log-posts-dusk-480.jpg",
+        "bytesWebp": 36306,
+        "bytesJpg": 35300
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/dining-pavilion-tables-log-posts-dusk-760.webp",
+        "jpg": "/media/dining-pavilion-tables-log-posts-dusk-760.jpg",
+        "bytesWebp": 84294,
+        "bytesJpg": 83401
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/dining-pavilion-tables-log-posts-dusk-1000.webp",
+        "jpg": "/media/dining-pavilion-tables-log-posts-dusk-1000.jpg",
+        "bytesWebp": 134518,
+        "bytesJpg": 135975
+      }
+    ]
+  },
+  "dining-pavilion-interior-woven-lamp-dusk": {
+    "master": "original",
+    "width": 600,
+    "height": 900,
+    "dominant": "#7e544d",
+    "variants": [
+      {
+        "width": 360,
+        "height": 540,
+        "webp": "/media/dining-pavilion-interior-woven-lamp-dusk-360.webp",
+        "jpg": "/media/dining-pavilion-interior-woven-lamp-dusk-360.jpg",
+        "bytesWebp": 43424,
+        "bytesJpg": 44835
+      },
+      {
+        "width": 600,
+        "height": 900,
+        "webp": "/media/dining-pavilion-interior-woven-lamp-dusk-600.webp",
+        "jpg": "/media/dining-pavilion-interior-woven-lamp-dusk-600.jpg",
+        "bytesWebp": 97484,
+        "bytesJpg": 106909
+      }
+    ]
+  },
+  "tiered-roof-garden-buildings-lantern-dusk": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#4c4f58",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/tiered-roof-garden-buildings-lantern-dusk-480.webp",
+        "jpg": "/media/tiered-roof-garden-buildings-lantern-dusk-480.jpg",
+        "bytesWebp": 38794,
+        "bytesJpg": 34652
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/tiered-roof-garden-buildings-lantern-dusk-760.webp",
+        "jpg": "/media/tiered-roof-garden-buildings-lantern-dusk-760.jpg",
+        "bytesWebp": 102206,
+        "bytesJpg": 90735
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/tiered-roof-garden-buildings-lantern-dusk-1000.webp",
+        "jpg": "/media/tiered-roof-garden-buildings-lantern-dusk-1000.jpg",
+        "bytesWebp": 174472,
+        "bytesJpg": 156417
+      }
+    ]
+  },
+  "porch-steps-rocking-chairs-dusk": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#5c4839",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/porch-steps-rocking-chairs-dusk-480.webp",
+        "jpg": "/media/porch-steps-rocking-chairs-dusk-480.jpg",
+        "bytesWebp": 39648,
+        "bytesJpg": 37351
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/porch-steps-rocking-chairs-dusk-760.webp",
+        "jpg": "/media/porch-steps-rocking-chairs-dusk-760.jpg",
+        "bytesWebp": 94172,
+        "bytesJpg": 90369
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/porch-steps-rocking-chairs-dusk-1000.webp",
+        "jpg": "/media/porch-steps-rocking-chairs-dusk-1000.jpg",
+        "bytesWebp": 152478,
+        "bytesJpg": 147698
+      }
+    ]
+  },
+  "porch-rocking-chairs-sunflowers-night": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#783f0d",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/porch-rocking-chairs-sunflowers-night-480.webp",
+        "jpg": "/media/porch-rocking-chairs-sunflowers-night-480.jpg",
+        "bytesWebp": 33370,
+        "bytesJpg": 33893
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/porch-rocking-chairs-sunflowers-night-760.webp",
+        "jpg": "/media/porch-rocking-chairs-sunflowers-night-760.jpg",
+        "bytesWebp": 68842,
+        "bytesJpg": 74625
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/porch-rocking-chairs-sunflowers-night-1000.webp",
+        "jpg": "/media/porch-rocking-chairs-sunflowers-night-1000.jpg",
+        "bytesWebp": 103396,
+        "bytesJpg": 117567
+      }
+    ]
+  },
+  "porch-rocking-chair-golf-carts-night": {
+    "master": "original",
+    "width": 600,
+    "height": 900,
+    "dominant": "#7d5c42",
+    "variants": [
+      {
+        "width": 360,
+        "height": 540,
+        "webp": "/media/porch-rocking-chair-golf-carts-night-360.webp",
+        "jpg": "/media/porch-rocking-chair-golf-carts-night-360.jpg",
+        "bytesWebp": 40500,
+        "bytesJpg": 41940
+      },
+      {
+        "width": 600,
+        "height": 900,
+        "webp": "/media/porch-rocking-chair-golf-carts-night-600.webp",
+        "jpg": "/media/porch-rocking-chair-golf-carts-night-600.jpg",
+        "bytesWebp": 91882,
+        "bytesJpg": 102300
+      }
+    ]
+  },
+  "blue-room-bed-facing-balcony-door": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#ab9fa1",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/blue-room-bed-facing-balcony-door-480.webp",
+        "jpg": "/media/blue-room-bed-facing-balcony-door-480.jpg",
+        "bytesWebp": 17708,
+        "bytesJpg": 22424
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/blue-room-bed-facing-balcony-door-760.webp",
+        "jpg": "/media/blue-room-bed-facing-balcony-door-760.jpg",
+        "bytesWebp": 38398,
+        "bytesJpg": 49329
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/blue-room-bed-facing-balcony-door-1000.webp",
+        "jpg": "/media/blue-room-bed-facing-balcony-door-1000.jpg",
+        "bytesWebp": 60246,
+        "bytesJpg": 78605
+      }
+    ]
+  },
+  "blue-room-bed-arched-sitting-alcove": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#a9a0a2",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/blue-room-bed-arched-sitting-alcove-480.webp",
+        "jpg": "/media/blue-room-bed-arched-sitting-alcove-480.jpg",
+        "bytesWebp": 15732,
+        "bytesJpg": 20820
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/blue-room-bed-arched-sitting-alcove-760.webp",
+        "jpg": "/media/blue-room-bed-arched-sitting-alcove-760.jpg",
+        "bytesWebp": 32920,
+        "bytesJpg": 44805
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/blue-room-bed-arched-sitting-alcove-1000.webp",
+        "jpg": "/media/blue-room-bed-arched-sitting-alcove-1000.jpg",
+        "bytesWebp": 49904,
+        "bytesJpg": 70226
+      }
+    ]
+  },
+  "olive-room-bed-open-balcony-door": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#ab966b",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/olive-room-bed-open-balcony-door-480.webp",
+        "jpg": "/media/olive-room-bed-open-balcony-door-480.jpg",
+        "bytesWebp": 18218,
+        "bytesJpg": 22649
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/olive-room-bed-open-balcony-door-760.webp",
+        "jpg": "/media/olive-room-bed-open-balcony-door-760.jpg",
+        "bytesWebp": 36160,
+        "bytesJpg": 47051
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/olive-room-bed-open-balcony-door-1000.webp",
+        "jpg": "/media/olive-room-bed-open-balcony-door-1000.jpg",
+        "bytesWebp": 54562,
+        "bytesJpg": 73173
+      }
+    ]
+  },
+  "striped-headboard-painting-bedside-lamp": {
+    "master": "original",
+    "width": 600,
+    "height": 900,
+    "dominant": "#c6b890",
+    "variants": [
+      {
+        "width": 360,
+        "height": 540,
+        "webp": "/media/striped-headboard-painting-bedside-lamp-360.webp",
+        "jpg": "/media/striped-headboard-painting-bedside-lamp-360.jpg",
+        "bytesWebp": 10596,
+        "bytesJpg": 16452
+      },
+      {
+        "width": 600,
+        "height": 900,
+        "webp": "/media/striped-headboard-painting-bedside-lamp-600.webp",
+        "jpg": "/media/striped-headboard-painting-bedside-lamp-600.jpg",
+        "bytesWebp": 22630,
+        "bytesJpg": 36550
+      }
+    ]
+  },
+  "balcony-woven-table-chair-steps": {
+    "master": "original",
+    "width": 600,
+    "height": 900,
+    "dominant": "#af9772",
+    "variants": [
+      {
+        "width": 360,
+        "height": 540,
+        "webp": "/media/balcony-woven-table-chair-steps-360.webp",
+        "jpg": "/media/balcony-woven-table-chair-steps-360.jpg",
+        "bytesWebp": 30326,
+        "bytesJpg": 34436
+      },
+      {
+        "width": 600,
+        "height": 900,
+        "webp": "/media/balcony-woven-table-chair-steps-600.webp",
+        "jpg": "/media/balcony-woven-table-chair-steps-600.jpg",
+        "bytesWebp": 69698,
+        "bytesJpg": 80553
+      }
+    ]
+  },
+  "pink-building-lily-pond-rocks": {
+    "master": "upscaled",
+    "width": 4096,
+    "height": 2737,
+    "dominant": "#688388",
+    "variants": [
+      {
+        "width": 480,
+        "height": 321,
+        "webp": "/media/pink-building-lily-pond-rocks-480.webp",
+        "jpg": "/media/pink-building-lily-pond-rocks-480.jpg",
+        "bytesWebp": 35148,
+        "bytesJpg": 35123
+      },
+      {
+        "width": 760,
+        "height": 508,
+        "webp": "/media/pink-building-lily-pond-rocks-760.webp",
+        "jpg": "/media/pink-building-lily-pond-rocks-760.jpg",
+        "bytesWebp": 81298,
+        "bytesJpg": 80785
+      },
+      {
+        "width": 1000,
+        "height": 668,
+        "webp": "/media/pink-building-lily-pond-rocks-1000.webp",
+        "jpg": "/media/pink-building-lily-pond-rocks-1000.jpg",
+        "bytesWebp": 129926,
+        "bytesJpg": 131762
+      },
+      {
+        "width": 1440,
+        "height": 962,
+        "webp": "/media/pink-building-lily-pond-rocks-1440.webp",
+        "jpg": "",
+        "bytesWebp": 189422,
+        "bytesJpg": 0
+      },
+      {
+        "width": 1920,
+        "height": 1283,
+        "webp": "/media/pink-building-lily-pond-rocks-1920.webp",
+        "jpg": "",
+        "bytesWebp": 203228,
+        "bytesJpg": 0
+      }
+    ]
+  },
+  "pink-building-garden-stone-from-above": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#64797a",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/pink-building-garden-stone-from-above-480.webp",
+        "jpg": "/media/pink-building-garden-stone-from-above-480.jpg",
+        "bytesWebp": 34386,
+        "bytesJpg": 33464
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/pink-building-garden-stone-from-above-760.webp",
+        "jpg": "/media/pink-building-garden-stone-from-above-760.jpg",
+        "bytesWebp": 83758,
+        "bytesJpg": 80586
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/pink-building-garden-stone-from-above-1000.webp",
+        "jpg": "/media/pink-building-garden-stone-from-above-1000.jpg",
+        "bytesWebp": 138232,
+        "bytesJpg": 133117
+      }
+    ]
+  },
+  "rooftop-lounger-cushions-hill-view": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#7f7e7a",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/rooftop-lounger-cushions-hill-view-480.webp",
+        "jpg": "/media/rooftop-lounger-cushions-hill-view-480.jpg",
+        "bytesWebp": 10764,
+        "bytesJpg": 15287
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/rooftop-lounger-cushions-hill-view-760.webp",
+        "jpg": "/media/rooftop-lounger-cushions-hill-view-760.jpg",
+        "bytesWebp": 22514,
+        "bytesJpg": 33186
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/rooftop-lounger-cushions-hill-view-1000.webp",
+        "jpg": "/media/rooftop-lounger-cushions-hill-view-1000.jpg",
+        "bytesWebp": 35034,
+        "bytesJpg": 54166
+      }
+    ]
+  },
+  "rooftop-round-table-lounger-field-view": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#968d8d",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/rooftop-round-table-lounger-field-view-480.webp",
+        "jpg": "/media/rooftop-round-table-lounger-field-view-480.jpg",
+        "bytesWebp": 22720,
+        "bytesJpg": 25890
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/rooftop-round-table-lounger-field-view-760.webp",
+        "jpg": "/media/rooftop-round-table-lounger-field-view-760.jpg",
+        "bytesWebp": 50006,
+        "bytesJpg": 57804
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/rooftop-round-table-lounger-field-view-1000.webp",
+        "jpg": "/media/rooftop-round-table-lounger-field-view-1000.jpg",
+        "bytesWebp": 78120,
+        "bytesJpg": 91658
+      },
+      {
+        "enlarged": true,
+        "width": 1440,
+        "height": 960,
+        "webp": "/media/rooftop-round-table-lounger-field-view-1440.webp",
+        "jpg": "",
+        "bytesWebp": 100546,
+        "bytesJpg": 0
+      },
+      {
+        "enlarged": true,
+        "width": 1920,
+        "height": 1281,
+        "webp": "/media/rooftop-round-table-lounger-field-view-1920.webp",
+        "jpg": "",
+        "bytesWebp": 134680,
+        "bytesJpg": 0
+      }
+    ]
+  },
+  "rooftop-terrace-table-screen-steps-down": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#90878d",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/rooftop-terrace-table-screen-steps-down-480.webp",
+        "jpg": "/media/rooftop-terrace-table-screen-steps-down-480.jpg",
+        "bytesWebp": 25692,
+        "bytesJpg": 28172
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/rooftop-terrace-table-screen-steps-down-760.webp",
+        "jpg": "/media/rooftop-terrace-table-screen-steps-down-760.jpg",
+        "bytesWebp": 55130,
+        "bytesJpg": 62398
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/rooftop-terrace-table-screen-steps-down-1000.webp",
+        "jpg": "/media/rooftop-terrace-table-screen-steps-down-1000.jpg",
+        "bytesWebp": 85994,
+        "bytesJpg": 98557
+      }
+    ]
+  },
+  "carved-standing-stone-pink-building-lawn": {
+    "master": "original",
+    "width": 1000,
+    "height": 552,
+    "dominant": "#949076",
+    "variants": [
+      {
+        "width": 480,
+        "height": 265,
+        "webp": "/media/carved-standing-stone-pink-building-lawn-480.webp",
+        "jpg": "/media/carved-standing-stone-pink-building-lawn-480.jpg",
+        "bytesWebp": 26294,
+        "bytesJpg": 25772
+      },
+      {
+        "width": 760,
+        "height": 420,
+        "webp": "/media/carved-standing-stone-pink-building-lawn-760.webp",
+        "jpg": "/media/carved-standing-stone-pink-building-lawn-760.jpg",
+        "bytesWebp": 61544,
+        "bytesJpg": 60692
+      },
+      {
+        "width": 1000,
+        "height": 552,
+        "webp": "/media/carved-standing-stone-pink-building-lawn-1000.webp",
+        "jpg": "/media/carved-standing-stone-pink-building-lawn-1000.jpg",
+        "bytesWebp": 99390,
+        "bytesJpg": 98890
+      },
+      {
+        "enlarged": true,
+        "width": 1440,
+        "height": 795,
+        "webp": "/media/carved-standing-stone-pink-building-lawn-1440.webp",
+        "jpg": "",
+        "bytesWebp": 131346,
+        "bytesJpg": 0
+      },
+      {
+        "enlarged": true,
+        "width": 1920,
+        "height": 1060,
+        "webp": "/media/carved-standing-stone-pink-building-lawn-1920.webp",
+        "jpg": "",
+        "bytesWebp": 171266,
+        "bytesJpg": 0
+      }
+    ]
+  },
+  "four-poster-bed-desk-window-alcove": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#9c96a3",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/four-poster-bed-desk-window-alcove-480.webp",
+        "jpg": "/media/four-poster-bed-desk-window-alcove-480.jpg",
+        "bytesWebp": 19766,
+        "bytesJpg": 23695
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/four-poster-bed-desk-window-alcove-760.webp",
+        "jpg": "/media/four-poster-bed-desk-window-alcove-760.jpg",
+        "bytesWebp": 40632,
+        "bytesJpg": 51496
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/four-poster-bed-desk-window-alcove-1000.webp",
+        "jpg": "/media/four-poster-bed-desk-window-alcove-1000.jpg",
+        "bytesWebp": 63480,
+        "bytesJpg": 81719
+      }
+    ]
+  },
+  "four-poster-bed-balcony-door-roses": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#ac9798",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/four-poster-bed-balcony-door-roses-480.webp",
+        "jpg": "/media/four-poster-bed-balcony-door-roses-480.jpg",
+        "bytesWebp": 21478,
+        "bytesJpg": 25529
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/four-poster-bed-balcony-door-roses-760.webp",
+        "jpg": "/media/four-poster-bed-balcony-door-roses-760.jpg",
+        "bytesWebp": 45702,
+        "bytesJpg": 55695
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/four-poster-bed-balcony-door-roses-1000.webp",
+        "jpg": "/media/four-poster-bed-balcony-door-roses-1000.jpg",
+        "bytesWebp": 70364,
+        "bytesJpg": 87614
+      }
+    ]
+  },
+  "four-poster-bed-balcony-green-hillside": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#97959d",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/four-poster-bed-balcony-green-hillside-480.webp",
+        "jpg": "/media/four-poster-bed-balcony-green-hillside-480.jpg",
+        "bytesWebp": 17994,
+        "bytesJpg": 23271
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/four-poster-bed-balcony-green-hillside-760.webp",
+        "jpg": "/media/four-poster-bed-balcony-green-hillside-760.jpg",
+        "bytesWebp": 37134,
+        "bytesJpg": 49804
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/four-poster-bed-balcony-green-hillside-1000.webp",
+        "jpg": "/media/four-poster-bed-balcony-green-hillside-1000.jpg",
+        "bytesWebp": 56200,
+        "bytesJpg": 77822
+      }
+    ]
+  },
+  "bathtub-wooden-surround-trees-hill-view": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#848c7d",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/bathtub-wooden-surround-trees-hill-view-480.webp",
+        "jpg": "/media/bathtub-wooden-surround-trees-hill-view-480.jpg",
+        "bytesWebp": 33802,
+        "bytesJpg": 34018
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/bathtub-wooden-surround-trees-hill-view-760.webp",
+        "jpg": "/media/bathtub-wooden-surround-trees-hill-view-760.jpg",
+        "bytesWebp": 78196,
+        "bytesJpg": 79479
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/bathtub-wooden-surround-trees-hill-view-1000.webp",
+        "jpg": "/media/bathtub-wooden-surround-trees-hill-view-1000.jpg",
+        "bytesWebp": 122476,
+        "bytesJpg": 128933
+      },
+      {
+        "enlarged": true,
+        "width": 1440,
+        "height": 960,
+        "webp": "/media/bathtub-wooden-surround-trees-hill-view-1440.webp",
+        "jpg": "",
+        "bytesWebp": 162670,
+        "bytesJpg": 0
+      },
+      {
+        "enlarged": true,
+        "width": 1920,
+        "height": 1281,
+        "webp": "/media/bathtub-wooden-surround-trees-hill-view-1920.webp",
+        "jpg": "",
+        "bytesWebp": 195046,
+        "bytesJpg": 0
+      }
+    ]
+  },
+  "ochre-buildings-rooftop-screens-garden-path": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#998e63",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/ochre-buildings-rooftop-screens-garden-path-480.webp",
+        "jpg": "/media/ochre-buildings-rooftop-screens-garden-path-480.jpg",
+        "bytesWebp": 41382,
+        "bytesJpg": 38592
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/ochre-buildings-rooftop-screens-garden-path-760.webp",
+        "jpg": "/media/ochre-buildings-rooftop-screens-garden-path-760.jpg",
+        "bytesWebp": 99196,
+        "bytesJpg": 94164
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/ochre-buildings-rooftop-screens-garden-path-1000.webp",
+        "jpg": "/media/ochre-buildings-rooftop-screens-garden-path-1000.jpg",
+        "bytesWebp": 163580,
+        "bytesJpg": 155558
+      }
+    ]
+  },
+  "bedroom-gold-curtains-balcony-doors-day": {
+    "master": "original",
+    "width": 1000,
+    "height": 666,
+    "dominant": "#a69671",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/bedroom-gold-curtains-balcony-doors-day-480.webp",
+        "jpg": "/media/bedroom-gold-curtains-balcony-doors-day-480.jpg",
+        "bytesWebp": 18522,
+        "bytesJpg": 24445
+      },
+      {
+        "width": 760,
+        "height": 506,
+        "webp": "/media/bedroom-gold-curtains-balcony-doors-day-760.webp",
+        "jpg": "/media/bedroom-gold-curtains-balcony-doors-day-760.jpg",
+        "bytesWebp": 38030,
+        "bytesJpg": 52278
+      },
+      {
+        "width": 1000,
+        "height": 666,
+        "webp": "/media/bedroom-gold-curtains-balcony-doors-day-1000.webp",
+        "jpg": "/media/bedroom-gold-curtains-balcony-doors-day-1000.jpg",
+        "bytesWebp": 58860,
+        "bytesJpg": 81634
+      }
+    ]
+  },
+  "bed-corner-lamp-balcony-door-portrait": {
+    "master": "original",
+    "width": 622,
+    "height": 900,
+    "dominant": "#c7ba9a",
+    "variants": [
+      {
+        "width": 360,
+        "height": 521,
+        "webp": "/media/bed-corner-lamp-balcony-door-portrait-360.webp",
+        "jpg": "/media/bed-corner-lamp-balcony-door-portrait-360.jpg",
+        "bytesWebp": 19358,
+        "bytesJpg": 24949
+      },
+      {
+        "width": 600,
+        "height": 868,
+        "webp": "/media/bed-corner-lamp-balcony-door-portrait-600.webp",
+        "jpg": "/media/bed-corner-lamp-balcony-door-portrait-600.jpg",
+        "bytesWebp": 42124,
+        "bytesJpg": 57708
+      },
+      {
+        "width": 622,
+        "height": 900,
+        "webp": "/media/bed-corner-lamp-balcony-door-portrait-622.webp",
+        "jpg": "/media/bed-corner-lamp-balcony-door-portrait-622.jpg",
+        "bytesWebp": 44820,
+        "bytesJpg": 61464
+      }
+    ]
+  },
+  "bedroom-dusk-taupe-curtains-balcony-doors": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#917686",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/bedroom-dusk-taupe-curtains-balcony-doors-480.webp",
+        "jpg": "/media/bedroom-dusk-taupe-curtains-balcony-doors-480.jpg",
+        "bytesWebp": 24188,
+        "bytesJpg": 26878
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/bedroom-dusk-taupe-curtains-balcony-doors-760.webp",
+        "jpg": "/media/bedroom-dusk-taupe-curtains-balcony-doors-760.jpg",
+        "bytesWebp": 53946,
+        "bytesJpg": 61636
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/bedroom-dusk-taupe-curtains-balcony-doors-1000.webp",
+        "jpg": "/media/bedroom-dusk-taupe-curtains-balcony-doors-1000.jpg",
+        "bytesWebp": 84304,
+        "bytesJpg": 98122
+      }
+    ]
+  },
+  "bedside-horse-lamp-bed-dusk": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#876e73",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/bedside-horse-lamp-bed-dusk-480.webp",
+        "jpg": "/media/bedside-horse-lamp-bed-dusk-480.jpg",
+        "bytesWebp": 19934,
+        "bytesJpg": 24310
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/bedside-horse-lamp-bed-dusk-760.webp",
+        "jpg": "/media/bedside-horse-lamp-bed-dusk-760.jpg",
+        "bytesWebp": 43264,
+        "bytesJpg": 54161
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/bedside-horse-lamp-bed-dusk-1000.webp",
+        "jpg": "/media/bedside-horse-lamp-bed-dusk-1000.jpg",
+        "bytesWebp": 67474,
+        "bytesJpg": 86540
+      }
+    ]
+  },
+  "desk-brass-lamp-balcony-chairs-dusk": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#67586b",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/desk-brass-lamp-balcony-chairs-dusk-480.webp",
+        "jpg": "/media/desk-brass-lamp-balcony-chairs-dusk-480.jpg",
+        "bytesWebp": 20650,
+        "bytesJpg": 24731
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/desk-brass-lamp-balcony-chairs-dusk-760.webp",
+        "jpg": "/media/desk-brass-lamp-balcony-chairs-dusk-760.jpg",
+        "bytesWebp": 44338,
+        "bytesJpg": 54330
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/desk-brass-lamp-balcony-chairs-dusk-1000.webp",
+        "jpg": "/media/desk-brass-lamp-balcony-chairs-dusk-1000.jpg",
+        "bytesWebp": 67710,
+        "bytesJpg": 85632
+      }
+    ]
+  },
+  "desk-gerbera-vase-cream-chair": {
+    "master": "original",
+    "width": 600,
+    "height": 900,
+    "dominant": "#a39680",
+    "variants": [
+      {
+        "width": 360,
+        "height": 540,
+        "webp": "/media/desk-gerbera-vase-cream-chair-360.webp",
+        "jpg": "/media/desk-gerbera-vase-cream-chair-360.jpg",
+        "bytesWebp": 17726,
+        "bytesJpg": 24269
+      },
+      {
+        "width": 600,
+        "height": 900,
+        "webp": "/media/desk-gerbera-vase-cream-chair-600.webp",
+        "jpg": "/media/desk-gerbera-vase-cream-chair-600.jpg",
+        "bytesWebp": 36052,
+        "bytesJpg": 52395
+      }
+    ]
+  },
+  "bathroom-glass-door-timber-shower-area": {
+    "master": "original",
+    "width": 600,
+    "height": 900,
+    "dominant": "#a68e73",
+    "variants": [
+      {
+        "width": 360,
+        "height": 540,
+        "webp": "/media/bathroom-glass-door-timber-shower-area-360.webp",
+        "jpg": "/media/bathroom-glass-door-timber-shower-area-360.jpg",
+        "bytesWebp": 25302,
+        "bytesJpg": 29370
+      },
+      {
+        "width": 600,
+        "height": 900,
+        "webp": "/media/bathroom-glass-door-timber-shower-area-600.webp",
+        "jpg": "/media/bathroom-glass-door-timber-shower-area-600.jpg",
+        "bytesWebp": 63026,
+        "bytesJpg": 74751
+      }
+    ]
+  },
+  "rooftop-terrace-pergola-steps-golden-hour": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#5c4846",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/rooftop-terrace-pergola-steps-golden-hour-480.webp",
+        "jpg": "/media/rooftop-terrace-pergola-steps-golden-hour-480.jpg",
+        "bytesWebp": 28372,
+        "bytesJpg": 32259
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/rooftop-terrace-pergola-steps-golden-hour-760.webp",
+        "jpg": "/media/rooftop-terrace-pergola-steps-golden-hour-760.jpg",
+        "bytesWebp": 64102,
+        "bytesJpg": 73780
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/rooftop-terrace-pergola-steps-golden-hour-1000.webp",
+        "jpg": "/media/rooftop-terrace-pergola-steps-golden-hour-1000.jpg",
+        "bytesWebp": 106002,
+        "bytesJpg": 120544
+      }
+    ]
+  },
+  "balcony-wooden-swing-seat-dusk": {
+    "master": "original",
+    "width": 600,
+    "height": 900,
+    "dominant": "#5a5056",
+    "variants": [
+      {
+        "width": 360,
+        "height": 540,
+        "webp": "/media/balcony-wooden-swing-seat-dusk-360.webp",
+        "jpg": "/media/balcony-wooden-swing-seat-dusk-360.jpg",
+        "bytesWebp": 50334,
+        "bytesJpg": 49018
+      },
+      {
+        "width": 600,
+        "height": 900,
+        "webp": "/media/balcony-wooden-swing-seat-dusk-600.webp",
+        "jpg": "/media/balcony-wooden-swing-seat-dusk-600.jpg",
+        "bytesWebp": 118518,
+        "bytesJpg": 120666
+      }
+    ]
+  },
+  "rooftop-terrace-parasol-table-hill-view": {
+    "master": "original",
+    "width": 1000,
+    "height": 563,
+    "dominant": "#7e8e83",
+    "variants": [
+      {
+        "width": 480,
+        "height": 270,
+        "webp": "/media/rooftop-terrace-parasol-table-hill-view-480.webp",
+        "jpg": "/media/rooftop-terrace-parasol-table-hill-view-480.jpg",
+        "bytesWebp": 19518,
+        "bytesJpg": 21452
+      },
+      {
+        "width": 760,
+        "height": 428,
+        "webp": "/media/rooftop-terrace-parasol-table-hill-view-760.webp",
+        "jpg": "/media/rooftop-terrace-parasol-table-hill-view-760.jpg",
+        "bytesWebp": 41924,
+        "bytesJpg": 47317
+      },
+      {
+        "width": 1000,
+        "height": 563,
+        "webp": "/media/rooftop-terrace-parasol-table-hill-view-1000.webp",
+        "jpg": "/media/rooftop-terrace-parasol-table-hill-view-1000.jpg",
+        "bytesWebp": 64392,
+        "bytesJpg": 75700
+      },
+      {
+        "enlarged": true,
+        "width": 1440,
+        "height": 811,
+        "webp": "/media/rooftop-terrace-parasol-table-hill-view-1440.webp",
+        "jpg": "",
+        "bytesWebp": 80528,
+        "bytesJpg": 0
+      },
+      {
+        "enlarged": true,
+        "width": 1920,
+        "height": 1081,
+        "webp": "/media/rooftop-terrace-parasol-table-hill-view-1920.webp",
+        "jpg": "",
+        "bytesWebp": 109630,
+        "bytesJpg": 0
+      }
+    ]
+  },
+  "white-teapot-cup-longan-tray": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#7a684f",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/white-teapot-cup-longan-tray-480.webp",
+        "jpg": "/media/white-teapot-cup-longan-tray-480.jpg",
+        "bytesWebp": 13222,
+        "bytesJpg": 18882
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/white-teapot-cup-longan-tray-760.webp",
+        "jpg": "/media/white-teapot-cup-longan-tray-760.jpg",
+        "bytesWebp": 22916,
+        "bytesJpg": 36397
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/white-teapot-cup-longan-tray-1000.webp",
+        "jpg": "/media/white-teapot-cup-longan-tray-1000.jpg",
+        "bytesWebp": 32026,
+        "bytesJpg": 53879
+      }
+    ]
+  },
+  "balcony-hanging-swing-daybed-garden-view": {
+    "master": "original",
+    "width": 600,
+    "height": 900,
+    "dominant": "#947751",
+    "variants": [
+      {
+        "width": 360,
+        "height": 540,
+        "webp": "/media/balcony-hanging-swing-daybed-garden-view-360.webp",
+        "jpg": "/media/balcony-hanging-swing-daybed-garden-view-360.jpg",
+        "bytesWebp": 46198,
+        "bytesJpg": 48105
+      },
+      {
+        "width": 600,
+        "height": 900,
+        "webp": "/media/balcony-hanging-swing-daybed-garden-view-600.webp",
+        "jpg": "/media/balcony-hanging-swing-daybed-garden-view-600.jpg",
+        "bytesWebp": 108776,
+        "bytesJpg": 115943
+      }
+    ]
+  },
+  "roof-terrace-sun-lounger-lit-steps": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#897467",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/roof-terrace-sun-lounger-lit-steps-480.webp",
+        "jpg": "/media/roof-terrace-sun-lounger-lit-steps-480.jpg",
+        "bytesWebp": 15394,
+        "bytesJpg": 20204
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/roof-terrace-sun-lounger-lit-steps-760.webp",
+        "jpg": "/media/roof-terrace-sun-lounger-lit-steps-760.jpg",
+        "bytesWebp": 30812,
+        "bytesJpg": 42914
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/roof-terrace-sun-lounger-lit-steps-1000.webp",
+        "jpg": "/media/roof-terrace-sun-lounger-lit-steps-1000.jpg",
+        "bytesWebp": 45986,
+        "bytesJpg": 67170
+      }
+    ]
+  },
+  "rooftop-spa-tub-pergola-hill-view": {
+    "master": "upscaled",
+    "width": 4096,
+    "height": 2737,
+    "dominant": "#827c75",
+    "variants": [
+      {
+        "width": 480,
+        "height": 321,
+        "webp": "/media/rooftop-spa-tub-pergola-hill-view-480.webp",
+        "jpg": "/media/rooftop-spa-tub-pergola-hill-view-480.jpg",
+        "bytesWebp": 26390,
+        "bytesJpg": 29490
+      },
+      {
+        "width": 760,
+        "height": 508,
+        "webp": "/media/rooftop-spa-tub-pergola-hill-view-760.webp",
+        "jpg": "/media/rooftop-spa-tub-pergola-hill-view-760.jpg",
+        "bytesWebp": 57872,
+        "bytesJpg": 66229
+      },
+      {
+        "width": 1000,
+        "height": 668,
+        "webp": "/media/rooftop-spa-tub-pergola-hill-view-1000.webp",
+        "jpg": "/media/rooftop-spa-tub-pergola-hill-view-1000.jpg",
+        "bytesWebp": 90794,
+        "bytesJpg": 106512
+      },
+      {
+        "width": 1440,
+        "height": 962,
+        "webp": "/media/rooftop-spa-tub-pergola-hill-view-1440.webp",
+        "jpg": "",
+        "bytesWebp": 124588,
+        "bytesJpg": 0
+      },
+      {
+        "width": 1920,
+        "height": 1283,
+        "webp": "/media/rooftop-spa-tub-pergola-hill-view-1920.webp",
+        "jpg": "",
+        "bytesWebp": 182790,
+        "bytesJpg": 0
+      },
+      {
+        "width": 2560,
+        "height": 1711,
+        "webp": "/media/rooftop-spa-tub-pergola-hill-view-2560.webp",
+        "jpg": "",
+        "bytesWebp": 203366,
+        "bytesJpg": 0
+      }
+    ]
+  },
+  "rooftop-terrace-table-lounger-valley-haze": {
+    "master": "upscaled",
+    "width": 4096,
+    "height": 2737,
+    "dominant": "#7f6552",
+    "variants": [
+      {
+        "width": 480,
+        "height": 321,
+        "webp": "/media/rooftop-terrace-table-lounger-valley-haze-480.webp",
+        "jpg": "/media/rooftop-terrace-table-lounger-valley-haze-480.jpg",
+        "bytesWebp": 24274,
+        "bytesJpg": 28245
+      },
+      {
+        "width": 760,
+        "height": 508,
+        "webp": "/media/rooftop-terrace-table-lounger-valley-haze-760.webp",
+        "jpg": "/media/rooftop-terrace-table-lounger-valley-haze-760.jpg",
+        "bytesWebp": 52686,
+        "bytesJpg": 61783
+      },
+      {
+        "width": 1000,
+        "height": 668,
+        "webp": "/media/rooftop-terrace-table-lounger-valley-haze-1000.webp",
+        "jpg": "/media/rooftop-terrace-table-lounger-valley-haze-1000.jpg",
+        "bytesWebp": 84556,
+        "bytesJpg": 99376
+      },
+      {
+        "width": 1440,
+        "height": 962,
+        "webp": "/media/rooftop-terrace-table-lounger-valley-haze-1440.webp",
+        "jpg": "",
+        "bytesWebp": 116428,
+        "bytesJpg": 0
+      },
+      {
+        "width": 1920,
+        "height": 1283,
+        "webp": "/media/rooftop-terrace-table-lounger-valley-haze-1920.webp",
+        "jpg": "",
+        "bytesWebp": 171206,
+        "bytesJpg": 0
+      },
+      {
+        "width": 2560,
+        "height": 1711,
+        "webp": "/media/rooftop-terrace-table-lounger-valley-haze-2560.webp",
+        "jpg": "",
+        "bytesWebp": 202854,
+        "bytesJpg": 0
+      }
+    ]
+  },
+  "rooftop-terrace-dusk-wall-lamps-spa-tub": {
+    "master": "upscaled",
+    "width": 4096,
+    "height": 2737,
+    "dominant": "#565283",
+    "variants": [
+      {
+        "width": 480,
+        "height": 321,
+        "webp": "/media/rooftop-terrace-dusk-wall-lamps-spa-tub-480.webp",
+        "jpg": "/media/rooftop-terrace-dusk-wall-lamps-spa-tub-480.jpg",
+        "bytesWebp": 19230,
+        "bytesJpg": 24265
+      },
+      {
+        "width": 760,
+        "height": 508,
+        "webp": "/media/rooftop-terrace-dusk-wall-lamps-spa-tub-760.webp",
+        "jpg": "/media/rooftop-terrace-dusk-wall-lamps-spa-tub-760.jpg",
+        "bytesWebp": 40102,
+        "bytesJpg": 51724
+      },
+      {
+        "width": 1000,
+        "height": 668,
+        "webp": "/media/rooftop-terrace-dusk-wall-lamps-spa-tub-1000.webp",
+        "jpg": "/media/rooftop-terrace-dusk-wall-lamps-spa-tub-1000.jpg",
+        "bytesWebp": 61576,
+        "bytesJpg": 82187
+      },
+      {
+        "width": 1440,
+        "height": 962,
+        "webp": "/media/rooftop-terrace-dusk-wall-lamps-spa-tub-1440.webp",
+        "jpg": "",
+        "bytesWebp": 82786,
+        "bytesJpg": 0
+      },
+      {
+        "width": 1920,
+        "height": 1283,
+        "webp": "/media/rooftop-terrace-dusk-wall-lamps-spa-tub-1920.webp",
+        "jpg": "",
+        "bytesWebp": 123446,
+        "bytesJpg": 0
+      },
+      {
+        "width": 2560,
+        "height": 1711,
+        "webp": "/media/rooftop-terrace-dusk-wall-lamps-spa-tub-2560.webp",
+        "jpg": "",
+        "bytesWebp": 181932,
+        "bytesJpg": 0
+      }
+    ]
+  },
+  "spa-tub-wooden-blinds-low-sun": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#776b5f",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/spa-tub-wooden-blinds-low-sun-480.webp",
+        "jpg": "/media/spa-tub-wooden-blinds-low-sun-480.jpg",
+        "bytesWebp": 39596,
+        "bytesJpg": 38817
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/spa-tub-wooden-blinds-low-sun-760.webp",
+        "jpg": "/media/spa-tub-wooden-blinds-low-sun-760.jpg",
+        "bytesWebp": 88664,
+        "bytesJpg": 89946
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/spa-tub-wooden-blinds-low-sun-1000.webp",
+        "jpg": "/media/spa-tub-wooden-blinds-low-sun-1000.jpg",
+        "bytesWebp": 138958,
+        "bytesJpg": 144771
+      }
+    ]
+  },
+  "pink-building-rooftop-pergolas-lawn": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#53695e",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/pink-building-rooftop-pergolas-lawn-480.webp",
+        "jpg": "/media/pink-building-rooftop-pergolas-lawn-480.jpg",
+        "bytesWebp": 40106,
+        "bytesJpg": 36594
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/pink-building-rooftop-pergolas-lawn-760.webp",
+        "jpg": "/media/pink-building-rooftop-pergolas-lawn-760.jpg",
+        "bytesWebp": 100494,
+        "bytesJpg": 91598
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/pink-building-rooftop-pergolas-lawn-1000.webp",
+        "jpg": "/media/pink-building-rooftop-pergolas-lawn-1000.jpg",
+        "bytesWebp": 167632,
+        "bytesJpg": 155727
+      }
+    ]
+  },
+  "brass-elephant-spout-spa-tub-low-sun": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#776969",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/brass-elephant-spout-spa-tub-low-sun-480.webp",
+        "jpg": "/media/brass-elephant-spout-spa-tub-low-sun-480.jpg",
+        "bytesWebp": 40294,
+        "bytesJpg": 38034
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/brass-elephant-spout-spa-tub-low-sun-760.webp",
+        "jpg": "/media/brass-elephant-spout-spa-tub-low-sun-760.jpg",
+        "bytesWebp": 83546,
+        "bytesJpg": 84745
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/brass-elephant-spout-spa-tub-low-sun-1000.webp",
+        "jpg": "/media/brass-elephant-spout-spa-tub-low-sun-1000.jpg",
+        "bytesWebp": 126282,
+        "bytesJpg": 133882
+      }
+    ]
+  },
+  "spa-tub-rim-slatted-blinds-sunlight": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#737275",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/spa-tub-rim-slatted-blinds-sunlight-480.webp",
+        "jpg": "/media/spa-tub-rim-slatted-blinds-sunlight-480.jpg",
+        "bytesWebp": 31556,
+        "bytesJpg": 34768
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/spa-tub-rim-slatted-blinds-sunlight-760.webp",
+        "jpg": "/media/spa-tub-rim-slatted-blinds-sunlight-760.jpg",
+        "bytesWebp": 68532,
+        "bytesJpg": 77804
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/spa-tub-rim-slatted-blinds-sunlight-1000.webp",
+        "jpg": "/media/spa-tub-rim-slatted-blinds-sunlight-1000.jpg",
+        "bytesWebp": 108746,
+        "bytesJpg": 127300
+      }
+    ]
+  },
+  "rooftop-terrace-green-parasol-field-view": {
+    "master": "original",
+    "width": 1000,
+    "height": 659,
+    "dominant": "#aea095",
+    "variants": [
+      {
+        "width": 480,
+        "height": 316,
+        "webp": "/media/rooftop-terrace-green-parasol-field-view-480.webp",
+        "jpg": "/media/rooftop-terrace-green-parasol-field-view-480.jpg",
+        "bytesWebp": 19730,
+        "bytesJpg": 24005
+      },
+      {
+        "width": 760,
+        "height": 501,
+        "webp": "/media/rooftop-terrace-green-parasol-field-view-760.webp",
+        "jpg": "/media/rooftop-terrace-green-parasol-field-view-760.jpg",
+        "bytesWebp": 39724,
+        "bytesJpg": 50214
+      },
+      {
+        "width": 1000,
+        "height": 659,
+        "webp": "/media/rooftop-terrace-green-parasol-field-view-1000.webp",
+        "jpg": "/media/rooftop-terrace-green-parasol-field-view-1000.jpg",
+        "bytesWebp": 59434,
+        "bytesJpg": 77399
+      }
+    ]
+  },
+  "floating-roses-glass-bowl-wooden-table": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#7c5558",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/floating-roses-glass-bowl-wooden-table-480.webp",
+        "jpg": "/media/floating-roses-glass-bowl-wooden-table-480.jpg",
+        "bytesWebp": 21932,
+        "bytesJpg": 26117
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/floating-roses-glass-bowl-wooden-table-760.webp",
+        "jpg": "/media/floating-roses-glass-bowl-wooden-table-760.jpg",
+        "bytesWebp": 40592,
+        "bytesJpg": 53454
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/floating-roses-glass-bowl-wooden-table-1000.webp",
+        "jpg": "/media/floating-roses-glass-bowl-wooden-table-1000.jpg",
+        "bytesWebp": 59044,
+        "bytesJpg": 80578
+      }
+    ]
+  },
+  "reception-sign-ferns-lantern-night": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#4a2f0f",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/reception-sign-ferns-lantern-night-480.webp",
+        "jpg": "/media/reception-sign-ferns-lantern-night-480.jpg",
+        "bytesWebp": 38990,
+        "bytesJpg": 36903
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/reception-sign-ferns-lantern-night-760.webp",
+        "jpg": "/media/reception-sign-ferns-lantern-night-760.jpg",
+        "bytesWebp": 89734,
+        "bytesJpg": 87200
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/reception-sign-ferns-lantern-night-1000.webp",
+        "jpg": "/media/reception-sign-ferns-lantern-night-1000.jpg",
+        "bytesWebp": 145190,
+        "bytesJpg": 143158
+      }
+    ]
+  },
+  "reception-building-front-dusk": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#443a3e",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/reception-building-front-dusk-480.webp",
+        "jpg": "/media/reception-building-front-dusk-480.jpg",
+        "bytesWebp": 35302,
+        "bytesJpg": 32957
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/reception-building-front-dusk-760.webp",
+        "jpg": "/media/reception-building-front-dusk-760.jpg",
+        "bytesWebp": 92192,
+        "bytesJpg": 86788
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/reception-building-front-dusk-1000.webp",
+        "jpg": "/media/reception-building-front-dusk-1000.jpg",
+        "bytesWebp": 157386,
+        "bytesJpg": 149078
+      },
+      {
+        "enlarged": true,
+        "width": 1440,
+        "height": 960,
+        "webp": "/media/reception-building-front-dusk-1440.webp",
+        "jpg": "",
+        "bytesWebp": 198608,
+        "bytesJpg": 0
+      },
+      {
+        "enlarged": true,
+        "width": 1920,
+        "height": 1281,
+        "webp": "/media/reception-building-front-dusk-1920.webp",
+        "jpg": "",
+        "bytesWebp": 200094,
+        "bytesJpg": 0
+      }
+    ]
+  },
+  "reception-side-view-carts-trees-dusk": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#3e364d",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/reception-side-view-carts-trees-dusk-480.webp",
+        "jpg": "/media/reception-side-view-carts-trees-dusk-480.jpg",
+        "bytesWebp": 34320,
+        "bytesJpg": 32188
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/reception-side-view-carts-trees-dusk-760.webp",
+        "jpg": "/media/reception-side-view-carts-trees-dusk-760.jpg",
+        "bytesWebp": 87100,
+        "bytesJpg": 81670
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/reception-side-view-carts-trees-dusk-1000.webp",
+        "jpg": "/media/reception-side-view-carts-trees-dusk-1000.jpg",
+        "bytesWebp": 143252,
+        "bytesJpg": 137563
+      }
+    ]
+  },
+  "reception-drive-golf-carts-dusk": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#383057",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/reception-drive-golf-carts-dusk-480.webp",
+        "jpg": "/media/reception-drive-golf-carts-dusk-480.jpg",
+        "bytesWebp": 30296,
+        "bytesJpg": 28483
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/reception-drive-golf-carts-dusk-760.webp",
+        "jpg": "/media/reception-drive-golf-carts-dusk-760.jpg",
+        "bytesWebp": 76028,
+        "bytesJpg": 71758
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/reception-drive-golf-carts-dusk-1000.webp",
+        "jpg": "/media/reception-drive-golf-carts-dusk-1000.jpg",
+        "bytesWebp": 126338,
+        "bytesJpg": 120873
+      }
+    ]
+  },
+  "white-building-plank-path-dusk": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#5a4d64",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/white-building-plank-path-dusk-480.webp",
+        "jpg": "/media/white-building-plank-path-dusk-480.jpg",
+        "bytesWebp": 39066,
+        "bytesJpg": 36334
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/white-building-plank-path-dusk-760.webp",
+        "jpg": "/media/white-building-plank-path-dusk-760.jpg",
+        "bytesWebp": 92862,
+        "bytesJpg": 87899
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/white-building-plank-path-dusk-1000.webp",
+        "jpg": "/media/white-building-plank-path-dusk-1000.jpg",
+        "bytesWebp": 148456,
+        "bytesJpg": 145162
+      }
+    ]
+  },
+  "dining-pavilion-stepping-stones-dusk": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#593d53",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/dining-pavilion-stepping-stones-dusk-480.webp",
+        "jpg": "/media/dining-pavilion-stepping-stones-dusk-480.jpg",
+        "bytesWebp": 32708,
+        "bytesJpg": 31498
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/dining-pavilion-stepping-stones-dusk-760.webp",
+        "jpg": "/media/dining-pavilion-stepping-stones-dusk-760.jpg",
+        "bytesWebp": 77072,
+        "bytesJpg": 75711
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/dining-pavilion-stepping-stones-dusk-1000.webp",
+        "jpg": "/media/dining-pavilion-stepping-stones-dusk-1000.jpg",
+        "bytesWebp": 123428,
+        "bytesJpg": 125626
+      }
+    ]
+  },
+  "white-building-tiered-roof-dusk": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#664a56",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/white-building-tiered-roof-dusk-480.webp",
+        "jpg": "/media/white-building-tiered-roof-dusk-480.jpg",
+        "bytesWebp": 36478,
+        "bytesJpg": 34687
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/white-building-tiered-roof-dusk-760.webp",
+        "jpg": "/media/white-building-tiered-roof-dusk-760.jpg",
+        "bytesWebp": 87480,
+        "bytesJpg": 84060
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/white-building-tiered-roof-dusk-1000.webp",
+        "jpg": "/media/white-building-tiered-roof-dusk-1000.jpg",
+        "bytesWebp": 141550,
+        "bytesJpg": 138835
+      }
+    ]
+  },
+  "reception-lounge-armchairs-antler-chandeliers": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#786560",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/reception-lounge-armchairs-antler-chandeliers-480.webp",
+        "jpg": "/media/reception-lounge-armchairs-antler-chandeliers-480.jpg",
+        "bytesWebp": 36168,
+        "bytesJpg": 35055
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/reception-lounge-armchairs-antler-chandeliers-760.webp",
+        "jpg": "/media/reception-lounge-armchairs-antler-chandeliers-760.jpg",
+        "bytesWebp": 79524,
+        "bytesJpg": 81058
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/reception-lounge-armchairs-antler-chandeliers-1000.webp",
+        "jpg": "/media/reception-lounge-armchairs-antler-chandeliers-1000.jpg",
+        "bytesWebp": 121254,
+        "bytesJpg": 129957
+      }
+    ]
+  },
+  "white-building-frangipani-planters-day": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#566885",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/white-building-frangipani-planters-day-480.webp",
+        "jpg": "/media/white-building-frangipani-planters-day-480.jpg",
+        "bytesWebp": 25866,
+        "bytesJpg": 26089
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/white-building-frangipani-planters-day-760.webp",
+        "jpg": "/media/white-building-frangipani-planters-day-760.jpg",
+        "bytesWebp": 62698,
+        "bytesJpg": 63347
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/white-building-frangipani-planters-day-1000.webp",
+        "jpg": "/media/white-building-frangipani-planters-day-1000.jpg",
+        "bytesWebp": 103946,
+        "bytesJpg": 106700
+      }
+    ]
+  },
+  "dining-pavilions-lit-night-lawn": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#654627",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/dining-pavilions-lit-night-lawn-480.webp",
+        "jpg": "/media/dining-pavilions-lit-night-lawn-480.jpg",
+        "bytesWebp": 37906,
+        "bytesJpg": 36522
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/dining-pavilions-lit-night-lawn-760.webp",
+        "jpg": "/media/dining-pavilions-lit-night-lawn-760.jpg",
+        "bytesWebp": 84638,
+        "bytesJpg": 84467
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/dining-pavilions-lit-night-lawn-1000.webp",
+        "jpg": "/media/dining-pavilions-lit-night-lawn-1000.jpg",
+        "bytesWebp": 134528,
+        "bytesJpg": 136231
+      }
+    ]
+  },
+  "dining-pavilions-night-upright-view": {
+    "master": "original",
+    "width": 600,
+    "height": 900,
+    "dominant": "#4b3123",
+    "variants": [
+      {
+        "width": 360,
+        "height": 540,
+        "webp": "/media/dining-pavilions-night-upright-view-360.webp",
+        "jpg": "/media/dining-pavilions-night-upright-view-360.jpg",
+        "bytesWebp": 35242,
+        "bytesJpg": 35963
+      },
+      {
+        "width": 600,
+        "height": 900,
+        "webp": "/media/dining-pavilions-night-upright-view-600.webp",
+        "jpg": "/media/dining-pavilions-night-upright-view-600.jpg",
+        "bytesWebp": 84228,
+        "bytesJpg": 89583
+      }
+    ]
+  },
+  "restaurant-pavilion-timber-roof-night": {
+    "master": "original",
+    "width": 592,
+    "height": 900,
+    "dominant": "#6b4215",
+    "variants": [
+      {
+        "width": 360,
+        "height": 547,
+        "webp": "/media/restaurant-pavilion-timber-roof-night-360.webp",
+        "jpg": "/media/restaurant-pavilion-timber-roof-night-360.jpg",
+        "bytesWebp": 42864,
+        "bytesJpg": 46045
+      },
+      {
+        "width": 592,
+        "height": 900,
+        "webp": "/media/restaurant-pavilion-timber-roof-night-592.webp",
+        "jpg": "/media/restaurant-pavilion-timber-roof-night-592.jpg",
+        "bytesWebp": 89550,
+        "bytesJpg": 102971
+      }
+    ]
+  },
+  "restaurant-table-glasses-place-settings-night": {
+    "master": "original",
+    "width": 600,
+    "height": 900,
+    "dominant": "#99632d",
+    "variants": [
+      {
+        "width": 360,
+        "height": 540,
+        "webp": "/media/restaurant-table-glasses-place-settings-night-360.webp",
+        "jpg": "/media/restaurant-table-glasses-place-settings-night-360.jpg",
+        "bytesWebp": 26584,
+        "bytesJpg": 32367
+      },
+      {
+        "width": 600,
+        "height": 900,
+        "webp": "/media/restaurant-table-glasses-place-settings-night-600.webp",
+        "jpg": "/media/restaurant-table-glasses-place-settings-night-600.jpg",
+        "bytesWebp": 51174,
+        "bytesJpg": 68184
+      }
+    ]
+  },
+  "rice-porridge-juice-hot-drink-garden-table": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#998660",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/rice-porridge-juice-hot-drink-garden-table-480.webp",
+        "jpg": "/media/rice-porridge-juice-hot-drink-garden-table-480.jpg",
+        "bytesWebp": 25820,
+        "bytesJpg": 28946
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/rice-porridge-juice-hot-drink-garden-table-760.webp",
+        "jpg": "/media/rice-porridge-juice-hot-drink-garden-table-760.jpg",
+        "bytesWebp": 51070,
+        "bytesJpg": 61323
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/rice-porridge-juice-hot-drink-garden-table-1000.webp",
+        "jpg": "/media/rice-porridge-juice-hot-drink-garden-table-1000.jpg",
+        "bytesWebp": 74728,
+        "bytesJpg": 94323
+      }
+    ]
+  },
+  "pan-eggs-juice-hot-drink-garden-table": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#867b5c",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/pan-eggs-juice-hot-drink-garden-table-480.webp",
+        "jpg": "/media/pan-eggs-juice-hot-drink-garden-table-480.jpg",
+        "bytesWebp": 33872,
+        "bytesJpg": 34705
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/pan-eggs-juice-hot-drink-garden-table-760.webp",
+        "jpg": "/media/pan-eggs-juice-hot-drink-garden-table-760.jpg",
+        "bytesWebp": 67770,
+        "bytesJpg": 73555
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/pan-eggs-juice-hot-drink-garden-table-1000.webp",
+        "jpg": "/media/pan-eggs-juice-hot-drink-garden-table-1000.jpg",
+        "bytesWebp": 99658,
+        "bytesJpg": 113616
+      }
+    ]
+  },
+  "pale-sliced-salad-shallots-white-plate": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#9d8d6f",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/pale-sliced-salad-shallots-white-plate-480.webp",
+        "jpg": "/media/pale-sliced-salad-shallots-white-plate-480.jpg",
+        "bytesWebp": 14838,
+        "bytesJpg": 19701
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/pale-sliced-salad-shallots-white-plate-760.webp",
+        "jpg": "/media/pale-sliced-salad-shallots-white-plate-760.jpg",
+        "bytesWebp": 27990,
+        "bytesJpg": 39091
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/pale-sliced-salad-shallots-white-plate-1000.webp",
+        "jpg": "/media/pale-sliced-salad-shallots-white-plate-1000.jpg",
+        "bytesWebp": 41034,
+        "bytesJpg": 58908
+      }
+    ]
+  },
+  "dried-shrimp-dip-carved-vegetables": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#7d917a",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/dried-shrimp-dip-carved-vegetables-480.webp",
+        "jpg": "/media/dried-shrimp-dip-carved-vegetables-480.jpg",
+        "bytesWebp": 25770,
+        "bytesJpg": 29605
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/dried-shrimp-dip-carved-vegetables-760.webp",
+        "jpg": "/media/dried-shrimp-dip-carved-vegetables-760.jpg",
+        "bytesWebp": 49290,
+        "bytesJpg": 59582
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/dried-shrimp-dip-carved-vegetables-1000.webp",
+        "jpg": "/media/dried-shrimp-dip-carved-vegetables-1000.jpg",
+        "bytesWebp": 71570,
+        "bytesJpg": 89489
+      }
+    ]
+  },
+  "sliced-meat-salad-shallots-herbs-lettuce": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#767a5a",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/sliced-meat-salad-shallots-herbs-lettuce-480.webp",
+        "jpg": "/media/sliced-meat-salad-shallots-herbs-lettuce-480.jpg",
+        "bytesWebp": 34158,
+        "bytesJpg": 35712
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/sliced-meat-salad-shallots-herbs-lettuce-760.webp",
+        "jpg": "/media/sliced-meat-salad-shallots-herbs-lettuce-760.jpg",
+        "bytesWebp": 70126,
+        "bytesJpg": 76722
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/sliced-meat-salad-shallots-herbs-lettuce-1000.webp",
+        "jpg": "/media/sliced-meat-salad-shallots-herbs-lettuce-1000.jpg",
+        "bytesWebp": 106060,
+        "bytesJpg": 119557
+      }
+    ]
+  },
+  "prawn-vegetable-soup-white-bowl": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#728572",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/prawn-vegetable-soup-white-bowl-480.webp",
+        "jpg": "/media/prawn-vegetable-soup-white-bowl-480.jpg",
+        "bytesWebp": 22394,
+        "bytesJpg": 26817
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/prawn-vegetable-soup-white-bowl-760.webp",
+        "jpg": "/media/prawn-vegetable-soup-white-bowl-760.jpg",
+        "bytesWebp": 42428,
+        "bytesJpg": 53806
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/prawn-vegetable-soup-white-bowl-1000.webp",
+        "jpg": "/media/prawn-vegetable-soup-white-bowl-1000.jpg",
+        "bytesWebp": 60960,
+        "bytesJpg": 80759
+      }
+    ]
+  },
+  "stir-fried-greens-brown-sauce-plate": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#a7a278",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/stir-fried-greens-brown-sauce-plate-480.webp",
+        "jpg": "/media/stir-fried-greens-brown-sauce-plate-480.jpg",
+        "bytesWebp": 21138,
+        "bytesJpg": 24681
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/stir-fried-greens-brown-sauce-plate-760.webp",
+        "jpg": "/media/stir-fried-greens-brown-sauce-plate-760.jpg",
+        "bytesWebp": 41890,
+        "bytesJpg": 50687
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/stir-fried-greens-brown-sauce-plate-1000.webp",
+        "jpg": "/media/stir-fried-greens-brown-sauce-plate-1000.jpg",
+        "bytesWebp": 62212,
+        "bytesJpg": 77399
+      }
+    ]
+  },
+  "clear-mushroom-soup-coriander-cup": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#927656",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/clear-mushroom-soup-coriander-cup-480.webp",
+        "jpg": "/media/clear-mushroom-soup-coriander-cup-480.jpg",
+        "bytesWebp": 20062,
+        "bytesJpg": 24305
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/clear-mushroom-soup-coriander-cup-760.webp",
+        "jpg": "/media/clear-mushroom-soup-coriander-cup-760.jpg",
+        "bytesWebp": 37510,
+        "bytesJpg": 49482
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/clear-mushroom-soup-coriander-cup-1000.webp",
+        "jpg": "/media/clear-mushroom-soup-coriander-cup-1000.jpg",
+        "bytesWebp": 54978,
+        "bytesJpg": 74489
+      }
+    ]
+  },
+  "fried-pastry-ice-cream-orchid-dessert": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#8d817c",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/fried-pastry-ice-cream-orchid-dessert-480.webp",
+        "jpg": "/media/fried-pastry-ice-cream-orchid-dessert-480.jpg",
+        "bytesWebp": 25570,
+        "bytesJpg": 29350
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/fried-pastry-ice-cream-orchid-dessert-760.webp",
+        "jpg": "/media/fried-pastry-ice-cream-orchid-dessert-760.jpg",
+        "bytesWebp": 48784,
+        "bytesJpg": 60140
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/fried-pastry-ice-cream-orchid-dessert-1000.webp",
+        "jpg": "/media/fried-pastry-ice-cream-orchid-dessert-1000.jpg",
+        "bytesWebp": 71838,
+        "bytesJpg": 91636
+      }
+    ]
+  },
+  "golden-fried-bread-pieces-plate": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#d49c77",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/golden-fried-bread-pieces-plate-480.webp",
+        "jpg": "/media/golden-fried-bread-pieces-plate-480.jpg",
+        "bytesWebp": 28062,
+        "bytesJpg": 30120
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/golden-fried-bread-pieces-plate-760.webp",
+        "jpg": "/media/golden-fried-bread-pieces-plate-760.jpg",
+        "bytesWebp": 60482,
+        "bytesJpg": 65755
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/golden-fried-bread-pieces-plate-1000.webp",
+        "jpg": "/media/golden-fried-bread-pieces-plate-1000.jpg",
+        "bytesWebp": 94084,
+        "bytesJpg": 103431
+      }
+    ]
+  },
+  "mixed-leaf-salad-fruit-green-dressing": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#947a54",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/mixed-leaf-salad-fruit-green-dressing-480.webp",
+        "jpg": "/media/mixed-leaf-salad-fruit-green-dressing-480.jpg",
+        "bytesWebp": 29494,
+        "bytesJpg": 32206
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/mixed-leaf-salad-fruit-green-dressing-760.webp",
+        "jpg": "/media/mixed-leaf-salad-fruit-green-dressing-760.jpg",
+        "bytesWebp": 56782,
+        "bytesJpg": 66224
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/mixed-leaf-salad-fruit-green-dressing-1000.webp",
+        "jpg": "/media/mixed-leaf-salad-fruit-green-dressing-1000.jpg",
+        "bytesWebp": 82112,
+        "bytesJpg": 100412
+      }
+    ]
+  },
+  "dark-red-iced-drinks-wooden-table": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#7f564b",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/dark-red-iced-drinks-wooden-table-480.webp",
+        "jpg": "/media/dark-red-iced-drinks-wooden-table-480.jpg",
+        "bytesWebp": 11060,
+        "bytesJpg": 15673
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/dark-red-iced-drinks-wooden-table-760.webp",
+        "jpg": "/media/dark-red-iced-drinks-wooden-table-760.jpg",
+        "bytesWebp": 21972,
+        "bytesJpg": 32762
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/dark-red-iced-drinks-wooden-table-1000.webp",
+        "jpg": "/media/dark-red-iced-drinks-wooden-table-1000.jpg",
+        "bytesWebp": 33210,
+        "bytesJpg": 50426
+      }
+    ]
+  },
+  "red-iced-drink-pool-edge": {
+    "master": "original",
+    "width": 600,
+    "height": 900,
+    "dominant": "#798389",
+    "variants": [
+      {
+        "width": 360,
+        "height": 540,
+        "webp": "/media/red-iced-drink-pool-edge-360.webp",
+        "jpg": "/media/red-iced-drink-pool-edge-360.jpg",
+        "bytesWebp": 21814,
+        "bytesJpg": 28236
+      },
+      {
+        "width": 600,
+        "height": 900,
+        "webp": "/media/red-iced-drink-pool-edge-600.webp",
+        "jpg": "/media/red-iced-drink-pool-edge-600.jpg",
+        "bytesWebp": 46438,
+        "bytesJpg": 62572
+      }
+    ]
+  },
+  "shared-pool-loungers-timber-deck": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#67899c",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/shared-pool-loungers-timber-deck-480.webp",
+        "jpg": "/media/shared-pool-loungers-timber-deck-480.jpg",
+        "bytesWebp": 55382,
+        "bytesJpg": 46859
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/shared-pool-loungers-timber-deck-760.webp",
+        "jpg": "/media/shared-pool-loungers-timber-deck-760.jpg",
+        "bytesWebp": 138130,
+        "bytesJpg": 118884
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/shared-pool-loungers-timber-deck-1000.webp",
+        "jpg": "/media/shared-pool-loungers-timber-deck-1000.jpg",
+        "bytesWebp": 197058,
+        "bytesJpg": 201297
+      }
+    ]
+  },
+  "braised-ribs-sesame-orchid-garnish": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#b88564",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/braised-ribs-sesame-orchid-garnish-480.webp",
+        "jpg": "/media/braised-ribs-sesame-orchid-garnish-480.jpg",
+        "bytesWebp": 25230,
+        "bytesJpg": 28320
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/braised-ribs-sesame-orchid-garnish-760.webp",
+        "jpg": "/media/braised-ribs-sesame-orchid-garnish-760.jpg",
+        "bytesWebp": 48470,
+        "bytesJpg": 57666
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/braised-ribs-sesame-orchid-garnish-1000.webp",
+        "jpg": "/media/braised-ribs-sesame-orchid-garnish-1000.jpg",
+        "bytesWebp": 71572,
+        "bytesJpg": 86516
+      }
+    ]
+  },
+  "chilli-relish-raw-vegetable-plate": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#966d32",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/chilli-relish-raw-vegetable-plate-480.webp",
+        "jpg": "/media/chilli-relish-raw-vegetable-plate-480.jpg",
+        "bytesWebp": 20396,
+        "bytesJpg": 25409
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/chilli-relish-raw-vegetable-plate-760.webp",
+        "jpg": "/media/chilli-relish-raw-vegetable-plate-760.jpg",
+        "bytesWebp": 36252,
+        "bytesJpg": 49822
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/chilli-relish-raw-vegetable-plate-1000.webp",
+        "jpg": "/media/chilli-relish-raw-vegetable-plate-1000.jpg",
+        "bytesWebp": 51868,
+        "bytesJpg": 73276
+      }
+    ]
+  },
+  "baked-scallops-in-shells-candlelight": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#b27f2c",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/baked-scallops-in-shells-candlelight-480.webp",
+        "jpg": "/media/baked-scallops-in-shells-candlelight-480.jpg",
+        "bytesWebp": 21580,
+        "bytesJpg": 26382
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/baked-scallops-in-shells-candlelight-760.webp",
+        "jpg": "/media/baked-scallops-in-shells-candlelight-760.jpg",
+        "bytesWebp": 40280,
+        "bytesJpg": 52366
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/baked-scallops-in-shells-candlelight-1000.webp",
+        "jpg": "/media/baked-scallops-in-shells-candlelight-1000.jpg",
+        "bytesWebp": 57216,
+        "bytesJpg": 77631
+      }
+    ]
+  },
+  "fried-whole-fish-pineapple-banana-leaf": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#ac8146",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/fried-whole-fish-pineapple-banana-leaf-480.webp",
+        "jpg": "/media/fried-whole-fish-pineapple-banana-leaf-480.jpg",
+        "bytesWebp": 32654,
+        "bytesJpg": 34572
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/fried-whole-fish-pineapple-banana-leaf-760.webp",
+        "jpg": "/media/fried-whole-fish-pineapple-banana-leaf-760.jpg",
+        "bytesWebp": 63108,
+        "bytesJpg": 72138
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/fried-whole-fish-pineapple-banana-leaf-1000.webp",
+        "jpg": "/media/fried-whole-fish-pineapple-banana-leaf-1000.jpg",
+        "bytesWebp": 92910,
+        "bytesJpg": 109984
+      }
+    ]
+  },
+  "shared-pool-open-pavilion-blue-sky": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#6f8598",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/shared-pool-open-pavilion-blue-sky-480.webp",
+        "jpg": "/media/shared-pool-open-pavilion-blue-sky-480.jpg",
+        "bytesWebp": 34256,
+        "bytesJpg": 34295
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/shared-pool-open-pavilion-blue-sky-760.webp",
+        "jpg": "/media/shared-pool-open-pavilion-blue-sky-760.jpg",
+        "bytesWebp": 78250,
+        "bytesJpg": 79787
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/shared-pool-open-pavilion-blue-sky-1000.webp",
+        "jpg": "/media/shared-pool-open-pavilion-blue-sky-1000.jpg",
+        "bytesWebp": 125882,
+        "bytesJpg": 129856
+      },
+      {
+        "enlarged": true,
+        "width": 1440,
+        "height": 960,
+        "webp": "/media/shared-pool-open-pavilion-blue-sky-1440.webp",
+        "jpg": "",
+        "bytesWebp": 169570,
+        "bytesJpg": 0
+      },
+      {
+        "enlarged": true,
+        "width": 1920,
+        "height": 1281,
+        "webp": "/media/shared-pool-open-pavilion-blue-sky-1920.webp",
+        "jpg": "",
+        "bytesWebp": 197664,
+        "bytesJpg": 0
+      }
+    ]
+  },
+  "shared-pool-water-spouts-loungers": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#759299",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/shared-pool-water-spouts-loungers-480.webp",
+        "jpg": "/media/shared-pool-water-spouts-loungers-480.jpg",
+        "bytesWebp": 46718,
+        "bytesJpg": 41119
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/shared-pool-water-spouts-loungers-760.webp",
+        "jpg": "/media/shared-pool-water-spouts-loungers-760.jpg",
+        "bytesWebp": 114088,
+        "bytesJpg": 102273
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/shared-pool-water-spouts-loungers-1000.webp",
+        "jpg": "/media/shared-pool-water-spouts-loungers-1000.jpg",
+        "bytesWebp": 190158,
+        "bytesJpg": 171593
+      }
+    ]
+  },
+  "poolside-loungers-parasol-wooded-hills": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#80937c",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/poolside-loungers-parasol-wooded-hills-480.webp",
+        "jpg": "/media/poolside-loungers-parasol-wooded-hills-480.jpg",
+        "bytesWebp": 39904,
+        "bytesJpg": 36299
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/poolside-loungers-parasol-wooded-hills-760.webp",
+        "jpg": "/media/poolside-loungers-parasol-wooded-hills-760.jpg",
+        "bytesWebp": 103900,
+        "bytesJpg": 93469
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/poolside-loungers-parasol-wooded-hills-1000.webp",
+        "jpg": "/media/poolside-loungers-parasol-wooded-hills-1000.jpg",
+        "bytesWebp": 179600,
+        "bytesJpg": 160923
+      },
+      {
+        "enlarged": true,
+        "width": 1440,
+        "height": 960,
+        "webp": "/media/poolside-loungers-parasol-wooded-hills-1440.webp",
+        "jpg": "",
+        "bytesWebp": 192866,
+        "bytesJpg": 0
+      }
+    ]
+  },
+  "serrated-salad-greens-garden-bed": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#769652",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/serrated-salad-greens-garden-bed-480.webp",
+        "jpg": "/media/serrated-salad-greens-garden-bed-480.jpg",
+        "bytesWebp": 28544,
+        "bytesJpg": 30149
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/serrated-salad-greens-garden-bed-760.webp",
+        "jpg": "/media/serrated-salad-greens-garden-bed-760.jpg",
+        "bytesWebp": 59202,
+        "bytesJpg": 65416
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/serrated-salad-greens-garden-bed-1000.webp",
+        "jpg": "/media/serrated-salad-greens-garden-bed-1000.jpg",
+        "bytesWebp": 88406,
+        "bytesJpg": 101643
+      }
+    ]
+  },
+  "frilly-green-lettuce-garden-bed": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#81a333",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/frilly-green-lettuce-garden-bed-480.webp",
+        "jpg": "/media/frilly-green-lettuce-garden-bed-480.jpg",
+        "bytesWebp": 26742,
+        "bytesJpg": 29544
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/frilly-green-lettuce-garden-bed-760.webp",
+        "jpg": "/media/frilly-green-lettuce-garden-bed-760.jpg",
+        "bytesWebp": 51058,
+        "bytesJpg": 60922
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/frilly-green-lettuce-garden-bed-1000.webp",
+        "jpg": "/media/frilly-green-lettuce-garden-bed-1000.jpg",
+        "bytesWebp": 73942,
+        "bytesJpg": 92166
+      }
+    ]
+  },
+  "red-lettuce-leaves-water-droplets": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#9e6b5d",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/red-lettuce-leaves-water-droplets-480.webp",
+        "jpg": "/media/red-lettuce-leaves-water-droplets-480.jpg",
+        "bytesWebp": 35210,
+        "bytesJpg": 36114
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/red-lettuce-leaves-water-droplets-760.webp",
+        "jpg": "/media/red-lettuce-leaves-water-droplets-760.jpg",
+        "bytesWebp": 71372,
+        "bytesJpg": 77354
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/red-lettuce-leaves-water-droplets-1000.webp",
+        "jpg": "/media/red-lettuce-leaves-water-droplets-1000.jpg",
+        "bytesWebp": 105004,
+        "bytesJpg": 118859
+      }
+    ]
+  },
+  "red-edged-lettuce-leaves-close-up": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#908339",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/red-edged-lettuce-leaves-close-up-480.webp",
+        "jpg": "/media/red-edged-lettuce-leaves-close-up-480.jpg",
+        "bytesWebp": 25530,
+        "bytesJpg": 28133
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/red-edged-lettuce-leaves-close-up-760.webp",
+        "jpg": "/media/red-edged-lettuce-leaves-close-up-760.jpg",
+        "bytesWebp": 50562,
+        "bytesJpg": 59650
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/red-edged-lettuce-leaves-close-up-1000.webp",
+        "jpg": "/media/red-edged-lettuce-leaves-close-up-1000.jpg",
+        "bytesWebp": 74484,
+        "bytesJpg": 91992
+      }
+    ]
+  },
+  "gac-fruit-hanging-on-vine": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#818445",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/gac-fruit-hanging-on-vine-480.webp",
+        "jpg": "/media/gac-fruit-hanging-on-vine-480.jpg",
+        "bytesWebp": 23742,
+        "bytesJpg": 26037
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/gac-fruit-hanging-on-vine-760.webp",
+        "jpg": "/media/gac-fruit-hanging-on-vine-760.jpg",
+        "bytesWebp": 45982,
+        "bytesJpg": 53515
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/gac-fruit-hanging-on-vine-1000.webp",
+        "jpg": "/media/gac-fruit-hanging-on-vine-1000.jpg",
+        "bytesWebp": 67402,
+        "bytesJpg": 81551
+      }
+    ]
+  },
+  "gourds-hanging-from-garden-trellis": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#6d8549",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/gourds-hanging-from-garden-trellis-480.webp",
+        "jpg": "/media/gourds-hanging-from-garden-trellis-480.jpg",
+        "bytesWebp": 68418,
+        "bytesJpg": 55440
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/gourds-hanging-from-garden-trellis-760.webp",
+        "jpg": "/media/gourds-hanging-from-garden-trellis-760.jpg",
+        "bytesWebp": 146436,
+        "bytesJpg": 125922
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/gourds-hanging-from-garden-trellis-1000.webp",
+        "jpg": "/media/gourds-hanging-from-garden-trellis-1000.jpg",
+        "bytesWebp": 197770,
+        "bytesJpg": 198264
+      }
+    ]
+  },
+  "brown-buildings-timber-balconies-lawn": {
+    "master": "original",
+    "width": 749,
+    "height": 900,
+    "dominant": "#94967d",
+    "variants": [
+      {
+        "width": 360,
+        "height": 433,
+        "webp": "/media/brown-buildings-timber-balconies-lawn-360.webp",
+        "jpg": "/media/brown-buildings-timber-balconies-lawn-360.jpg",
+        "bytesWebp": 31434,
+        "bytesJpg": 30051
+      },
+      {
+        "width": 600,
+        "height": 721,
+        "webp": "/media/brown-buildings-timber-balconies-lawn-600.webp",
+        "jpg": "/media/brown-buildings-timber-balconies-lawn-600.jpg",
+        "bytesWebp": 84032,
+        "bytesJpg": 80398
+      },
+      {
+        "width": 749,
+        "height": 900,
+        "webp": "/media/brown-buildings-timber-balconies-lawn-749.webp",
+        "jpg": "/media/brown-buildings-timber-balconies-lawn-749.jpg",
+        "bytesWebp": 124888,
+        "bytesJpg": 122282
+      }
+    ]
+  },
+  "pink-buildings-rooftop-pergolas-garden": {
+    "master": "original",
+    "width": 1000,
+    "height": 614,
+    "dominant": "#989180",
+    "variants": [
+      {
+        "width": 480,
+        "height": 295,
+        "webp": "/media/pink-buildings-rooftop-pergolas-garden-480.webp",
+        "jpg": "/media/pink-buildings-rooftop-pergolas-garden-480.jpg",
+        "bytesWebp": 20144,
+        "bytesJpg": 21375
+      },
+      {
+        "width": 760,
+        "height": 467,
+        "webp": "/media/pink-buildings-rooftop-pergolas-garden-760.webp",
+        "jpg": "/media/pink-buildings-rooftop-pergolas-garden-760.jpg",
+        "bytesWebp": 48914,
+        "bytesJpg": 50638
+      },
+      {
+        "width": 1000,
+        "height": 614,
+        "webp": "/media/pink-buildings-rooftop-pergolas-garden-1000.webp",
+        "jpg": "/media/pink-buildings-rooftop-pergolas-garden-1000.jpg",
+        "bytesWebp": 81638,
+        "bytesJpg": 84333
+      },
+      {
+        "enlarged": true,
+        "width": 1440,
+        "height": 884,
+        "webp": "/media/pink-buildings-rooftop-pergolas-garden-1440.webp",
+        "jpg": "",
+        "bytesWebp": 105754,
+        "bytesJpg": 0
+      },
+      {
+        "enlarged": true,
+        "width": 1920,
+        "height": 1179,
+        "webp": "/media/pink-buildings-rooftop-pergolas-garden-1920.webp",
+        "jpg": "",
+        "bytesWebp": 141702,
+        "bytesJpg": 0
+      }
+    ]
+  },
+  "wooden-rocking-horses-on-lawn": {
+    "master": "original",
+    "width": 1000,
+    "height": 674,
+    "dominant": "#959871",
+    "variants": [
+      {
+        "width": 480,
+        "height": 324,
+        "webp": "/media/wooden-rocking-horses-on-lawn-480.webp",
+        "jpg": "/media/wooden-rocking-horses-on-lawn-480.jpg",
+        "bytesWebp": 42132,
+        "bytesJpg": 38207
+      },
+      {
+        "width": 760,
+        "height": 512,
+        "webp": "/media/wooden-rocking-horses-on-lawn-760.webp",
+        "jpg": "/media/wooden-rocking-horses-on-lawn-760.jpg",
+        "bytesWebp": 100550,
+        "bytesJpg": 90893
+      },
+      {
+        "width": 1000,
+        "height": 674,
+        "webp": "/media/wooden-rocking-horses-on-lawn-1000.webp",
+        "jpg": "/media/wooden-rocking-horses-on-lawn-1000.jpg",
+        "bytesWebp": 161834,
+        "bytesJpg": 151579
+      }
+    ]
+  },
+  "garden-path-flower-borders-twilight": {
+    "master": "original",
+    "width": 1000,
+    "height": 719,
+    "dominant": "#463e2d",
+    "variants": [
+      {
+        "width": 480,
+        "height": 345,
+        "webp": "/media/garden-path-flower-borders-twilight-480.webp",
+        "jpg": "/media/garden-path-flower-borders-twilight-480.jpg",
+        "bytesWebp": 39438,
+        "bytesJpg": 37002
+      },
+      {
+        "width": 760,
+        "height": 546,
+        "webp": "/media/garden-path-flower-borders-twilight-760.webp",
+        "jpg": "/media/garden-path-flower-borders-twilight-760.jpg",
+        "bytesWebp": 81820,
+        "bytesJpg": 83517
+      },
+      {
+        "width": 1000,
+        "height": 719,
+        "webp": "/media/garden-path-flower-borders-twilight-1000.webp",
+        "jpg": "/media/garden-path-flower-borders-twilight-1000.jpg",
+        "bytesWebp": 121190,
+        "bytesJpg": 130916
+      }
+    ]
+  },
+  "garden-bench-lamps-twilight-sky": {
+    "master": "original",
+    "width": 1000,
+    "height": 750,
+    "dominant": "#4b3f44",
+    "variants": [
+      {
+        "width": 480,
+        "height": 360,
+        "webp": "/media/garden-bench-lamps-twilight-sky-480.webp",
+        "jpg": "/media/garden-bench-lamps-twilight-sky-480.jpg",
+        "bytesWebp": 36682,
+        "bytesJpg": 36228
+      },
+      {
+        "width": 760,
+        "height": 570,
+        "webp": "/media/garden-bench-lamps-twilight-sky-760.webp",
+        "jpg": "/media/garden-bench-lamps-twilight-sky-760.jpg",
+        "bytesWebp": 79796,
+        "bytesJpg": 82435
+      },
+      {
+        "width": 1000,
+        "height": 750,
+        "webp": "/media/garden-bench-lamps-twilight-sky-1000.webp",
+        "jpg": "/media/garden-bench-lamps-twilight-sky-1000.jpg",
+        "bytesWebp": 121116,
+        "bytesJpg": 130624
+      }
+    ]
+  },
+  "pond-islet-yellow-leaved-tree": {
+    "master": "original",
+    "width": 1000,
+    "height": 667,
+    "dominant": "#879a9b",
+    "variants": [
+      {
+        "width": 480,
+        "height": 320,
+        "webp": "/media/pond-islet-yellow-leaved-tree-480.webp",
+        "jpg": "/media/pond-islet-yellow-leaved-tree-480.jpg",
+        "bytesWebp": 28182,
+        "bytesJpg": 28192
+      },
+      {
+        "width": 760,
+        "height": 507,
+        "webp": "/media/pond-islet-yellow-leaved-tree-760.webp",
+        "jpg": "/media/pond-islet-yellow-leaved-tree-760.jpg",
+        "bytesWebp": 68506,
+        "bytesJpg": 67564
+      },
+      {
+        "width": 1000,
+        "height": 667,
+        "webp": "/media/pond-islet-yellow-leaved-tree-1000.webp",
+        "jpg": "/media/pond-islet-yellow-leaved-tree-1000.jpg",
+        "bytesWebp": 114482,
+        "bytesJpg": 112365
+      }
+    ]
+  }
+}

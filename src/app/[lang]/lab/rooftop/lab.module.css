@@ -1,0 +1,22 @@
+/*
+ * Lab scaffolding: an empty stretch above and below the band, so it is reached by scrolling the way it
+ * will be on the homepage. The stretches are paper, like the chapters that will sit either side of it,
+ * and a faint rule marks where each neighbour would begin.
+ */
+.spacer {
+  display: grid;
+  align-content: end;
+  min-height: 70vh;
+  min-height: 70svh;
+  background: var(--paper);
+}
+
+.spacerAfter {
+  align-content: start;
+}
+
+.spacerMark {
+  display: block;
+  height: var(--hairline);
+  background: var(--rule);
+}

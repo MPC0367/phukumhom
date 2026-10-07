@@ -1,0 +1,12 @@
+/*
+ * Stars — the canvas fills whatever box it is given. Position it from the parent (usually
+ * position: absolute; inset: 0) and fade it with opacity there. Its CSS color is the colour of the stars.
+ * :where() keeps these defaults at zero specificity so the class a page passes in always wins.
+ */
+:where(.stars) {
+  display: block;
+  width: 100%;
+  height: 100%;
+  color: var(--on-dark);
+  pointer-events: none;
+}

@@ -1,0 +1,150 @@
+/*
+ * The planner drawer's content. ui/Drawer supplies the panel (white, rounded, the close button, the
+ * padding); this file sets the rhythm inside it. The drawer's first child is the header, which ui/Drawer
+ * keeps clear of the close button.
+ *
+ * .drawer is passed to the <dialog> itself: it only names it, so <PlannerDrawerHost> can tell a click
+ * inside this drawer from one inside any other dialog.
+ *
+ * Component constants: the phone number's size, between .h3 and .h2 so it reads as a figure to tap.
+ */
+.drawer {
+  overscroll-behavior: contain;
+}
+
+.head {
+  display: grid;
+  justify-items: start;
+  gap: var(--s-3);
+}
+
+.head .title {
+  margin-block-start: var(--s-1);
+}
+
+.lead {
+  max-width: 30ch;
+  color: var(--text-muted);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  text-wrap: pretty;
+}
+
+.lead:lang(th) {
+  max-width: 22em;
+  text-wrap: balance;
+}
+
+.planner {
+  margin-block-start: var(--s-6);
+}
+
+.talk {
+  display: grid;
+  justify-items: start;
+  gap: var(--s-1);
+  margin-block-start: var(--s-7);
+  padding-block-start: var(--s-5);
+  border-block-start: var(--hairline) solid var(--rule);
+}
+
+.phone {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  margin-block-start: var(--s-1);
+  color: var(--accent);
+  font-family: var(--font-display);
+  /* Capped by the screen, so the number stays on one line in a narrow sheet with enlarged text. */
+  font-size: min(clamp(1.875rem, 1.5rem + 1.6vw, 2.375rem), 11vw);
+  white-space: nowrap;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  text-decoration-line: underline;
+  text-decoration-thickness: var(--hairline);
+  text-decoration-color: transparent;
+  text-underline-offset: 0.18em;
+  transition: text-decoration-color var(--t-hover) var(--ease);
+}
+
+@media (hover: hover) {
+  .phone:hover {
+    text-decoration-color: var(--action);
+  }
+}
+
+.phone:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: var(--s-1);
+  border-radius: var(--radius-sm);
+}
+
+/* The resort's clock and today's sunset: one quiet line at the foot. Empty until script supplies the figures. */
+.sky {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-1) var(--s-3);
+  margin-block-start: var(--s-6);
+}
+
+.skyRule {
+  width: var(--hairline);
+  height: 0.95em;
+  background: currentColor;
+  opacity: 0.5;
+}
+
+/* A phone: the two phrases stand one under the other, with nothing between them. */
+@media (max-width: 30rem) {
+  .sky {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .skyRule {
+    display: none;
+  }
+}
+
+/* Until the clock is live there is nothing to part. */
+.sky:has([data-live="false"]) .skyRule {
+  visibility: hidden;
+}
+
+/*
+ * The drawer's parts arrive one after another as it slides in. CSS only, and only on an open dialog, so
+ * nothing here can hide content from a page without script; nothing moves under reduced motion.
+ */
+@keyframes planner-rise {
+  from {
+    opacity: 0;
+    transform: translateY(var(--s-5));
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .drawer[open] .head,
+  .drawer[open] .planner,
+  .drawer[open] .talk,
+  .drawer[open] .sky {
+    animation: planner-rise 0.7s var(--ease-out) both;
+  }
+
+  .drawer[open] .head {
+    animation-delay: 120ms;
+  }
+
+  .drawer[open] .planner {
+    animation-delay: 200ms;
+  }
+
+  .drawer[open] .talk {
+    animation-delay: 280ms;
+  }
+
+  .drawer[open] .sky {
+    animation-delay: 360ms;
+  }
+}

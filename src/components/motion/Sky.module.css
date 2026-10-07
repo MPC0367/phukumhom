@@ -1,0 +1,92 @@
+/*
+ * Clock, SunsetTime, MoonTonight, SkyTonight.
+ *
+ * Until script supplies a value (data-live="false": the server's HTML, no JavaScript) a component keeps
+ * its place and shows nothing: the placeholder figure reserves the exact width, because figures are
+ * tabular, and visibility: hidden keeps the half-finished phrase from being seen or read out.
+ */
+:where(.sky) {
+  display: inline-block;
+}
+
+.sky[data-live="false"] {
+  visibility: hidden;
+}
+
+.figure {
+  font-variant-numeric: tabular-nums lining-nums;
+  white-space: nowrap;
+}
+
+/* ── Moon ── */
+
+.moonRow {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.15em 0.5em;
+}
+
+/* The label, the moon and the name each stay whole; a narrow column moves the name to its own line. */
+.moonRow > * {
+  white-space: nowrap;
+}
+
+.moon {
+  display: inline-block;
+  flex: none;
+  width: 1.25em;
+  height: 1.25em;
+  max-width: none;
+}
+
+.name {
+  display: inline-grid;
+}
+
+/* Every phase name in one cell while the phase is unknown: the widest sets the width. */
+.sizer {
+  grid-area: 1 / 1;
+  visibility: hidden;
+}
+
+/* ── SkyTonight ── */
+
+.panel {
+  display: grid;
+  gap: var(--s-4);
+  color: var(--text);
+}
+
+.list {
+  display: grid;
+  gap: var(--s-5);
+  margin: 0;
+}
+
+.row {
+  display: grid;
+  gap: var(--s-2);
+  padding-block-end: var(--s-4);
+  border-block-end: var(--hairline) solid var(--rule);
+}
+
+.value {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  font-weight: 500;
+  line-height: var(--lh-h3);
+}
+
+.value:lang(th) {
+  font-family: var(--font-display-th);
+}
+
+.caveat {
+  max-width: var(--measure-narrow);
+}
+
+.note {
+  max-width: var(--measure-narrow);
+}

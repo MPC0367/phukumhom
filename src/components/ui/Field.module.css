@@ -1,0 +1,268 @@
+/*
+ * Field — a white well, 56px tall, with its label inside.
+ *
+ * The label is RAISED by default and rests on the centre line only while the control is an empty,
+ * unfocused text field (:placeholder-shown and not :focus). Date and time inputs and selects never match
+ * :placeholder-shown, so their label is always raised and their native hint and picker stay usable.
+ *
+ * Fields restate their own colours (ink on white) rather than reading the surface tokens: a form is the
+ * same on a white panel, a sand panel or a drawer opened from a dark band.
+ *
+ * Component constants:
+ *   --field-h           56px
+ *   --field-px          side padding of the well
+ *   --field-label-up    the raised label's size relative to the 16px value text (13px)
+ *   --field-label-lift  how far the raised label moves up from where scaling alone would leave it
+ * The value text is 16px in both languages: anything smaller makes iOS zoom the page on focus.
+ */
+.field {
+  --field-h: 3.5rem;
+  --field-px: var(--s-4);
+  --field-label-up: 0.8125;
+  --field-label-lift: -0.5rem;
+
+  display: grid;
+  row-gap: var(--s-2);
+  min-width: 0;
+}
+
+.control {
+  position: relative;
+  display: block;
+  min-width: 0;
+}
+
+.input {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  height: var(--field-h);
+  margin: 0;
+  padding: var(--s-5) var(--field-px) 0.375rem;
+  border: var(--hairline) solid var(--border-control);
+  border-radius: var(--radius-sm);
+  background: var(--white);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0;
+  appearance: none;
+  transition:
+    border-color var(--t-ui) var(--ease),
+    box-shadow var(--t-ui) var(--ease);
+}
+
+.input:lang(th) {
+  line-height: 1.5;
+}
+
+/* A field is a white well wherever it stands: none of a <Band>'s halo on its value or label. */
+.field,
+.field * {
+  text-shadow: none;
+}
+
+@media (hover: hover) {
+  .input:hover {
+    border-color: var(--ink-muted);
+  }
+}
+
+/* Focus: the border turns forest and gains a second pixel, and the ring stands one pixel clear of it. */
+.input:focus-visible {
+  border-color: var(--forest);
+  box-shadow: inset 0 0 0 var(--hairline) var(--forest);
+  outline: 2px solid var(--focus-on-light);
+  outline-offset: 2px;
+}
+
+/* ── Label ── */
+
+.label {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: calc(var(--field-px) + var(--hairline));
+  display: flex;
+  align-items: center;
+  /* The raised label is scaled to 13px: its box is given back the width the scale takes away. */
+  max-width: calc((100% - 2 * var(--field-px)) / var(--field-label-up));
+  height: var(--field-h);
+  overflow: hidden;
+  color: var(--ink-muted);
+  font-size: 1rem;
+  line-height: 1.3;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  pointer-events: none;
+  transform: translateY(var(--field-label-lift)) scale(var(--field-label-up));
+  transform-origin: left top;
+  transition:
+    transform var(--t-ui) var(--ease),
+    color var(--t-ui) var(--ease);
+}
+
+.labelText {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.label:lang(th) {
+  line-height: 1.5;
+}
+
+/* At rest: an empty text field that does not have focus. */
+.input:placeholder-shown:not(:focus) + .label {
+  max-width: calc(100% - 2 * var(--field-px));
+  transform: none;
+}
+
+.input:focus + .label {
+  color: var(--forest);
+}
+
+.optional {
+  font-weight: 400;
+}
+
+/* Autofill paints its own ground: keep the well white, and the label raised (it is by default). */
+.input:-webkit-autofill {
+  -webkit-text-fill-color: var(--ink);
+  box-shadow: inset 0 0 0 100vmax var(--white);
+}
+
+/* ── Native date and time inputs: fully usable, quietly tidied ── */
+
+.input::-webkit-date-and-time-value {
+  text-align: start;
+}
+
+.input::-webkit-calendar-picker-indicator {
+  margin-inline-start: var(--s-2);
+  padding: var(--s-1);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  opacity: 0.72;
+}
+
+.input::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
+/* ── Select ── */
+
+.select {
+  padding-inline-end: calc(var(--field-px) + var(--s-6));
+  cursor: pointer;
+  text-overflow: ellipsis;
+}
+
+.chevron {
+  position: absolute;
+  inset-block-start: calc((var(--field-h) - 18px) / 2);
+  inset-inline-end: var(--field-px);
+  color: var(--ink-muted);
+  pointer-events: none;
+  transition: transform var(--t-ui) var(--ease);
+}
+
+.select:focus-visible ~ .chevron {
+  color: var(--forest);
+}
+
+/* ── Textarea: the raised label becomes a cap, so written lines never scroll through it ── */
+
+.textarea {
+  height: auto;
+  min-height: 8.5rem;
+  padding-block: var(--s-6) var(--s-3);
+  line-height: 1.6;
+  resize: vertical;
+}
+
+.textarea:lang(th) {
+  line-height: 1.8;
+}
+
+.area .label {
+  inset-block-start: var(--hairline);
+  inset-inline: var(--hairline);
+  max-width: none;
+  height: var(--s-6);
+  padding-inline: var(--field-px);
+  padding-block-start: var(--s-2);
+  border-start-start-radius: var(--radius-sm);
+  border-start-end-radius: var(--radius-sm);
+  background: var(--white);
+  font-size: 0.8125rem;
+  transform: none;
+  transition:
+    height var(--t-ui) var(--ease),
+    font-size var(--t-ui) var(--ease),
+    color var(--t-ui) var(--ease);
+}
+
+.area .input:placeholder-shown:not(:focus) + .label {
+  max-width: none;
+  height: var(--field-h);
+  padding-block-start: 0;
+  background: transparent;
+  font-size: 1rem;
+}
+
+/* ── Messages ── */
+
+.messages {
+  display: grid;
+  row-gap: var(--s-1);
+  padding-inline: var(--hairline);
+}
+
+.hint {
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+  color: var(--ink-muted);
+  text-wrap: pretty;
+}
+
+.error {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s-2);
+  font-size: var(--fs-small);
+  font-weight: 500;
+  line-height: var(--lh-small);
+  color: var(--error);
+}
+
+/* A drawn mark, so the error is not carried by colour alone. */
+.errorMark {
+  flex: none;
+  box-sizing: content-box;
+  margin-block-start: calc((1lh - 14px) / 2 - 2px);
+  padding: 2px;
+  border-radius: var(--radius-pill);
+  background: var(--error);
+  color: var(--white);
+}
+
+/* ── Error state: the border is error-coloured and two pixels thick ── */
+
+.invalid .input {
+  border-color: var(--error);
+  box-shadow: inset 0 0 0 var(--hairline) var(--error);
+}
+
+.invalid .label,
+.invalid .input:focus + .label {
+  color: var(--error);
+}
+
+.input:disabled {
+  border-color: var(--stone);
+  background: var(--sand);
+  color: var(--ink-muted);
+  cursor: not-allowed;
+}

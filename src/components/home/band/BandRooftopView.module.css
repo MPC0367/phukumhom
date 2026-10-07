@@ -1,0 +1,152 @@
+/*
+ * Band A — the rooftop view. <Band> supplies the photograph layer, the scrims, the grain and the halo
+ * under the words; this file only shapes the height and lays out the words.
+ *
+ * Component constants:
+ *   95vw            the band is never taller than 95% of its own width: a 3:2 frame then keeps at least
+ *                   70% of its width in view, which is the tightest crop a full-bleed frame may take
+ *   20rem           the floor that still holds the kicker, a two-line pull and the caption
+ *   --band-line     the pull line: .statement one step up
+ */
+
+/* Two classes: <Band> sets its own min-height with one, and this must win whatever order the sheets load in. */
+.band.band {
+  min-height: max(20rem, min(80vh, 95vw));
+  min-height: max(20rem, min(80svh, 95vw));
+}
+
+/*
+ * The scrim. <Band scrim="hero"> pools the twilight colour over nearly the whole band, which is right for
+ * a hero with five lines of text and wrong here: this frame is mostly sky, and the sky must stay bright.
+ * So <Band> is given scrim="none" and the band draws its own, on the same layer (behind the words):
+ *
+ *   phone   the band is nearly square and the words take its lower half: one even wash that is strong
+ *           to 60% of the height and gone by the top, so the upper third is clear sky
+ *   wide    the bottom scrim token plus a pool in the lower left corner, where the kicker and the pull
+ *           line sit; the upper half and the right of the photograph are left alone
+ *
+ * node _qa/h2/band-contrast.mjs measures the result against the lightest pixels behind each line.
+ */
+.band.band::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(
+    0deg,
+    color-mix(in srgb, var(--twilight) 82%, transparent) 0%,
+    color-mix(in srgb, var(--twilight) 76%, transparent) 42%,
+    color-mix(in srgb, var(--twilight) 70%, transparent) 60%,
+    color-mix(in srgb, var(--twilight) 24%, transparent) 80%,
+    transparent 98%
+  );
+}
+
+/* The words sit a little lower on a phone, clear of the brightest cloud. Three classes: this is <Band>'s own inner box. */
+.band.band > :global(.container) {
+  padding-block: var(--s-7) var(--s-6);
+}
+
+@media (min-width: 48rem) {
+  .band.band::before {
+    background-image:
+      var(--scrim-bottom),
+      radial-gradient(
+        ellipse 64% 82% at 0% 100%,
+        color-mix(in srgb, var(--twilight) 74%, transparent) 0%,
+        color-mix(in srgb, var(--twilight) 58%, transparent) 46%,
+        transparent 100%
+      );
+  }
+
+  .band.band > :global(.container) {
+    padding-block: var(--s-9) var(--s-8);
+  }
+}
+
+@media (min-width: 64rem) {
+  .band.band > :global(.container) {
+    padding-block: var(--s-10) var(--s-9);
+  }
+}
+
+/* The Parallax frame fills the band's media layer. */
+.media {
+  position: absolute;
+  inset: 0;
+}
+
+.layout {
+  display: grid;
+  row-gap: var(--s-5);
+}
+
+.words {
+  display: grid;
+  row-gap: var(--s-3);
+  min-width: 0;
+}
+
+.line {
+  --band-line: clamp(2.125rem, 1.15rem + 4.3vw, 5rem);
+
+  max-width: 12em;
+  font-size: var(--band-line);
+  line-height: 1.02;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+.line:lang(th) {
+  --band-line: clamp(1.75rem, 1.2rem + 2.5vw, 3.5rem);
+
+  max-width: 14em;
+  line-height: 1.42;
+  letter-spacing: 0;
+}
+
+/* One Thai phrase: it wraps inside itself only when it is longer than the line. */
+.phrase {
+  display: inline-block;
+}
+
+.caption {
+  max-width: 30rem;
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+  color: var(--text-muted);
+}
+
+.caption:lang(th) {
+  text-wrap: balance;
+}
+
+/* The room type a photograph belongs to, on a line of its own above what the frame shows. */
+.captionRoom,
+.captionText {
+  display: block;
+}
+
+.captionRoom {
+  font-weight: 500;
+  color: var(--text);
+}
+
+@media (min-width: 48rem) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: var(--s-8);
+    align-items: end;
+  }
+
+  .words {
+    row-gap: var(--s-4);
+  }
+
+  .caption {
+    max-width: 22rem;
+    padding-block-end: 0.5em;
+    text-align: end;
+  }
+}

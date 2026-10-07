@@ -1,0 +1,372 @@
+/*
+ * Button — a pill. Colours come from the semantic tokens, so the same markup reads correctly on paper,
+ * sand, white, twilight, forest and over a photograph.
+ *
+ * Component constants (the only values here that are not tokens):
+ *   --button-h         48px (md) / 56px (lg)
+ *   --button-px        side padding: 26px / 34px, the optical match for a full-radius end
+ *   --button-fs        label size; sits between --fs-small and --fs-body
+ *   --button-inverse   the label colour once an outline button has filled with its line colour.
+ *                      It is the ground the button sits on (--surface), which every surface helper
+ *                      defines except .on-photo; there it is ink (see the rules at the end).
+ *   --line-y           how far the quiet variant's underline sits above the bottom of its line box
+ */
+.button {
+  --button-h: 3rem;
+  --button-px: 1.625rem;
+  --button-fs: 0.9375rem;
+  --button-lh: 1.25;
+  --button-inverse: var(--surface);
+  --button-line: var(--accent);
+  --line-y: 0.3em;
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  overflow: clip;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  min-height: var(--button-h);
+  padding: var(--s-2) var(--button-px);
+  border: var(--hairline) solid transparent;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--accent);
+  font-family: var(--font-sans);
+  font-size: var(--button-fs);
+  font-weight: 500;
+  line-height: var(--button-lh);
+  letter-spacing: 0.01em;
+  text-align: center;
+  text-decoration: none;
+  text-wrap: balance;
+  cursor: pointer;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color var(--t-hover) var(--ease),
+    border-color var(--t-hover) var(--ease),
+    color var(--t-hover) var(--ease),
+    transform var(--t-ui) var(--ease);
+}
+
+/* Zero specificity, so a layout class passed in by a page can always set a margin. */
+:where(.button) {
+  margin: 0;
+}
+
+/* A pill has its own ground: it never takes the halo a <Band> gives to words over a photograph. */
+.button,
+.button * {
+  text-shadow: none;
+}
+
+/* Thai: a touch larger, a taller line so tone marks clear the pill, and never tracked. */
+.button:lang(th) {
+  --button-fs: 1rem;
+  --button-lh: 1.5;
+  --line-y: 0.1em;
+
+  letter-spacing: 0;
+}
+
+.label {
+  min-width: 0;
+}
+
+.icon {
+  flex: none;
+  transition: transform var(--t-hover) var(--ease-out);
+}
+
+/* ── Size ── */
+
+.lg {
+  --button-h: 3.5rem;
+  --button-px: 2.125rem;
+  --button-fs: 1.0625rem;
+}
+
+.lg:lang(th) {
+  --button-fs: 1.0625rem;
+}
+
+.full {
+  display: flex;
+  width: 100%;
+}
+
+/* ── Primary: the terracotta of the buildings ── */
+
+.primary {
+  border-color: var(--action);
+  background: var(--action);
+  color: var(--on-action);
+}
+
+/* ── Secondary and ghost: an outline whose colour rises through the pill on hover ── */
+
+.secondary {
+  --button-line: var(--accent);
+
+  border-color: var(--button-line);
+  color: var(--button-line);
+}
+
+.ghost {
+  --button-line: var(--text);
+
+  border-color: color-mix(in srgb, var(--button-line) 72%, transparent);
+  color: var(--button-line);
+}
+
+.secondary::before,
+.ghost::before {
+  content: "";
+  position: absolute;
+  /* One hairline past the padding box, so the fill meets the border without a seam. */
+  inset: calc(-1 * var(--hairline));
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--button-line);
+  transform: translateY(102%);
+  transition: transform var(--t-panel) var(--ease-out);
+}
+
+/* ── Quiet: the label and a line that redraws itself ── */
+
+.quiet {
+  --button-h: var(--tap);
+
+  justify-content: flex-start;
+  padding-inline: 0;
+  border-radius: var(--radius-sm);
+  overflow: visible;
+  text-align: start;
+}
+
+.quiet .label {
+  --line-rest: color-mix(in srgb, currentColor 62%, transparent);
+
+  background-image: linear-gradient(currentColor, currentColor), linear-gradient(var(--line-rest), var(--line-rest));
+  background-repeat: no-repeat;
+  background-position:
+    0 calc(100% - var(--line-y)),
+    0 calc(100% - var(--line-y));
+  background-size:
+    0% var(--hairline),
+    100% var(--hairline);
+  transition: background-size var(--t-panel) var(--ease-out);
+}
+
+.quiet.full {
+  justify-content: center;
+  text-align: center;
+}
+
+/* ── Hover (pointer devices only, so nothing sticks after a tap) ── */
+
+@media (hover: hover) {
+  .primary:hover {
+    border-color: var(--action-hover);
+    background: var(--action-hover);
+  }
+
+  .secondary:hover,
+  .ghost:hover {
+    border-color: var(--button-line);
+    color: var(--button-inverse);
+  }
+
+  .secondary:hover::before,
+  .ghost:hover::before {
+    transform: none;
+  }
+
+  .quiet:hover .label {
+    background-size:
+      100% var(--hairline),
+      100% var(--hairline);
+  }
+
+  .button:hover .iconForward {
+    transform: translateX(4px);
+  }
+
+  .button:hover .iconBack {
+    transform: translateX(-4px);
+  }
+
+  .button:hover .iconDiagonal {
+    transform: translate(3px, -3px);
+  }
+}
+
+/* ── Pressed: the pill gives a little, and an outline fills at once (this is the touch feedback) ── */
+
+.button:active {
+  transform: scale(0.98);
+}
+
+.primary:active {
+  border-color: var(--action-hover);
+  background: var(--action-hover);
+}
+
+.secondary:active,
+.ghost:active {
+  border-color: var(--button-line);
+  color: var(--button-inverse);
+}
+
+.secondary:active::before,
+.ghost:active::before {
+  transform: none;
+}
+
+/*
+ * ── Focus: a 2px ring, 3px clear of the pill, in the surface's focus colour. The gap shows the ground,
+ * so the ring reads beside a fill. Over a photograph the ground is unknown: the gap is filled with the
+ * scrim colour, which keeps the paper ring visible against sky as well as shade.
+ */
+
+.button:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
+
+.quiet:focus-visible {
+  outline-offset: var(--s-1);
+}
+
+:global(.on-photo) .button:focus-visible {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--twilight) 78%, transparent);
+}
+
+/* ── Working: a hairline travels under the label; the label stays readable ── */
+
+.button[aria-busy="true"] {
+  cursor: progress;
+  pointer-events: none;
+}
+
+.button[aria-busy="true"]::after {
+  content: "";
+  position: absolute;
+  inset-inline: var(--button-px);
+  inset-block-end: calc((var(--button-h) - 1lh) / 2 - var(--s-1));
+  height: var(--hairline);
+  background: currentColor;
+  opacity: 0.75;
+}
+
+/* A quiet button swaps its underline for the working line, so there are never two. */
+.quiet[aria-busy="true"]::after {
+  inset-inline: 0;
+}
+
+.quiet[aria-busy="true"] .label {
+  background-image: none;
+}
+
+.button[aria-busy="true"] .icon {
+  transform: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .button[aria-busy="true"]::after {
+    opacity: 1;
+    animation: working 1400ms var(--ease) infinite;
+  }
+}
+
+@keyframes working {
+  0% {
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
+
+  50% {
+    transform: scaleX(1);
+    transform-origin: left center;
+  }
+
+  50.01% {
+    transform: scaleX(1);
+    transform-origin: right center;
+  }
+
+  100% {
+    transform: scaleX(0);
+    transform-origin: right center;
+  }
+}
+
+/* ── Disabled (after hover and pressed, so it outranks them at equal specificity) ── */
+
+.button:disabled,
+.button[aria-disabled="true"] {
+  cursor: not-allowed;
+  transform: none;
+}
+
+.button[aria-disabled="true"] {
+  pointer-events: none;
+}
+
+.primary:disabled,
+.primary[aria-disabled="true"] {
+  border-color: var(--rule);
+  background: var(--rule);
+  color: var(--text-muted);
+}
+
+.secondary:disabled,
+.secondary[aria-disabled="true"],
+.ghost:disabled,
+.ghost[aria-disabled="true"] {
+  border-color: var(--rule);
+  color: var(--text-muted);
+}
+
+.secondary:disabled::before,
+.secondary[aria-disabled="true"]::before,
+.ghost:disabled::before,
+.ghost[aria-disabled="true"]::before {
+  transform: translateY(102%);
+}
+
+.quiet:disabled,
+.quiet[aria-disabled="true"] {
+  color: var(--text-muted);
+}
+
+.quiet:disabled .label,
+.quiet[aria-disabled="true"] .label {
+  background-image: none;
+}
+
+.button:disabled .icon,
+.button[aria-disabled="true"] .icon {
+  transform: none;
+}
+
+/*
+ * ── Over a photograph ──
+ * .on-photo re-points the text tokens but not --surface (there is no flat ground), so the label of a
+ * filled outline button is ink there. A light panel floating over the photograph (the planner dock, a
+ * drawer opened from the hero) carries data-ground="light" and takes its own surface back.
+ */
+:global(.on-photo) .button {
+  --button-inverse: var(--ink);
+}
+
+:global(.on-photo) :global([data-ground="light"]) .button {
+  --button-inverse: var(--surface);
+}
+
+:global(.on-photo) :global([data-ground="light"]) .button:focus-visible {
+  box-shadow: none;
+}

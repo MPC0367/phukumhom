@@ -1,0 +1,915 @@
+/*
+ * The rooftop band: homepage chapter 03. One number turns the whole of it.
+ *
+ *   --t     what the scene shows: 0 day, 0.5 low sun, 1 dusk         (photographs, grounds, stars, moon)
+ *   --v     where the control stands, same scale                     (the thumb and its sun-to-moon mark)
+ *   --now   the present at the resort, same scale                    (the "Now" mark on the track)
+ *
+ * DaySky.tsx writes them to the section. The values below are the daytime, which is therefore what
+ * the server's HTML shows, and what the band is before and without script.
+ *
+ * THE GROUNDS. The band has two, each a vertical sky (top to foot) mixed in OKLCH from the tokens:
+ *
+ *   day    0 → 0.5    white → peach                over    clay-wash → clay rose             ink text
+ *   dusk   0.6 → 1    wine → twilight              over    terracotta-deep → twilight-soft   paper text
+ *
+ * OKLCH is what keeps the evening clean: from fired clay to twilight blue the hue turns the short way
+ * round, through wine and plum, instead of sinking through grey. Between 0.5 and 0.6 neither ground
+ * moves; the band changes from one to the other in a single step near 0.55 (data-sky), softened by a
+ * short dissolve. It has to be a step: no colour holds 4.5:1 against both ink and paper, so there is no
+ * gradual way across.
+ *
+ * MEASURED (_qa/rooftop/contrast.mjs, every step from 0 to 100 and back, against the top and the foot
+ * of whichever ground is showing): body text never below 6.18:1, the title never below 5.82:1, the
+ * primary button's label 4.74:1 on its fill, the filled chip 10.57:1.
+ *
+ * THE PHOTOGRAPHS are never recoloured. Three real frames lie one over the other and each later one
+ * arrives behind a soft edge (see "The photographs").
+ *
+ * Component constants (the only values here that are not tokens):
+ *   0.56 / 0.54      the step, in day-store.ts; the 0.5 and 0.6 holds here bracket it
+ *   --thumb          the thumb is one tap target across (--tap)
+ *   --groove         the drawn track is 14px tall
+ *   62.5rem          the widest the photograph is shown (about 1000px)
+ *   --feather        the soft edge between two photographs is 26% of the frame
+ */
+
+@property --rt-text {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --rt-accent {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+.band {
+  --t: 0;
+  --v: 0;
+  --now: 0;
+
+  /* Readings of the day, each 0 to 1. */
+  --to-low: clamp(0, var(--t) * 2, 1);
+  --to-dusk: clamp(0, var(--t) * 2 - 1, 1);
+  --to-night: clamp(0, (var(--t) - 0.6) * 2.5, 1);
+  --starlight: clamp(0, (var(--t) - 0.7) * 3.3334, 1);
+  --sun-leaves: clamp(0, (var(--v) - 0.4) * 5, 1);
+  --moon-forms: clamp(0, (var(--v) - 0.5) * 4, 1);
+
+  /* The two colours the tokens do not name. */
+  --clay-rose: color-mix(in oklch, var(--clay-soft) 82%, var(--clay));
+  --peach: color-mix(in oklch, var(--white) 38%, var(--clay-soft));
+  --wine: color-mix(in oklch, var(--terracotta-deep) 70%, var(--twilight));
+
+  /* The four skies. */
+  --sky-day-top: color-mix(in oklch, var(--white), var(--peach) calc(var(--to-low) * 100%));
+  --sky-day-foot: color-mix(in oklch, var(--clay-wash), var(--clay-rose) calc(var(--to-low) * 100%));
+  --sky-dusk-top: color-mix(in oklch, var(--wine), var(--twilight) calc(var(--to-night) * 100%));
+  --sky-dusk-foot: color-mix(in oklch, var(--terracotta-deep), var(--twilight-soft) calc(var(--to-night) * 100%));
+
+  /* How long the step between the grounds takes. Under reduced motion the token is 1ms. */
+  --dissolve: calc(var(--t-panel) * 1.5);
+
+  /* The day ground's tokens. Everything inside reads these, as on any surface helper. */
+  --rt-text: var(--ink);
+  --rt-accent: var(--forest);
+  --text: var(--rt-text);
+  --text-muted: var(--rt-text);
+  --accent: var(--rt-accent);
+  --rule: color-mix(in srgb, var(--rt-text) 20%, transparent);
+  --line: color-mix(in srgb, var(--rt-text) 64%, transparent);
+  --focus: var(--ink);
+  --surface: var(--paper);
+  --surface-raised: var(--white);
+  --action: var(--terracotta);
+  --action-hover: var(--terracotta-deep);
+  --on-action: var(--paper);
+
+  position: relative;
+  isolation: isolate;
+  /* clip, never hidden: the rail is sticky. */
+  overflow: clip;
+  padding-block: var(--section-y);
+  /* By day the band is nearly the paper of the chapter before it: a hairline marks where it begins. */
+  border-block-start: var(--hairline) solid var(--rule);
+  background: var(--sky-day-foot);
+  color: var(--text);
+  /* The words change in the middle of the dissolve, and faster than the ground does, so they are never grey for long. */
+  transition:
+    --rt-text calc(var(--dissolve) * 0.5) var(--ease) calc(var(--dissolve) * 0.2),
+    --rt-accent calc(var(--dissolve) * 0.5) var(--ease) calc(var(--dissolve) * 0.2);
+}
+
+.band[data-sky="dusk"] {
+  --rt-text: var(--on-dark);
+  --rt-accent: var(--on-dark);
+  --focus: var(--focus-on-dark);
+  --surface: var(--twilight);
+  --surface-raised: var(--twilight-soft);
+  --action: var(--on-dark);
+  --action-hover: var(--white);
+  --on-action: var(--ink);
+}
+
+/* ───────────── The sky: two grounds, stars, the moon ───────────── */
+
+.sky {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.skyDay,
+.skyDusk {
+  position: absolute;
+  inset: 0;
+}
+
+/* The day ground, and over it the light of the sun: a wide soft bloom, high on the right by day, that
+   sinks toward the foot of the band as the sun gets low. It only ever lightens the ground. */
+.skyDay {
+  background:
+    radial-gradient(
+      ellipse 58rem 34rem at calc(84% - 14% * var(--to-low)) calc(4% + 58% * var(--to-low)),
+      color-mix(in srgb, var(--white) calc(46% + 22% * var(--to-low)), transparent),
+      transparent 72%
+    ),
+    linear-gradient(180deg, var(--sky-day-top), var(--sky-day-foot));
+}
+
+.skyDusk {
+  background: linear-gradient(180deg, var(--sky-dusk-top), var(--sky-dusk-foot));
+  opacity: 0;
+  transition: opacity var(--dissolve) var(--ease);
+}
+
+.band[data-sky="dusk"] .skyDusk {
+  opacity: 1;
+}
+
+.sky .stars {
+  position: absolute;
+  inset: 0;
+  color: var(--on-dark);
+  opacity: calc(var(--starlight));
+}
+
+/* Tonight's moon, in the open sky above the photograph. Its size is its font-size: the icon is 1.25em. */
+.moon {
+  position: absolute;
+  inset-block-start: clamp(1rem, 3vw, 2.75rem);
+  inset-inline-end: var(--gutter);
+  display: block;
+  font-size: clamp(1.75rem, 1.4rem + 1.5vw, 2.75rem);
+  line-height: 1;
+  color: var(--on-dark);
+  opacity: calc(var(--starlight));
+}
+
+/* ───────────── Layout: a rail and a stage ───────────── */
+
+.band .grid {
+  position: relative;
+  display: grid;
+  row-gap: var(--s-8);
+}
+
+.rail {
+  min-width: 0;
+  container-type: inline-size;
+}
+
+.railInner {
+  display: grid;
+  justify-items: start;
+}
+
+/* Numeral and kicker take the ground's text colour: clay is not legible on clay rose. */
+.rail .numeral {
+  margin-block-end: var(--s-4);
+  color: var(--text);
+}
+
+.rail .kicker {
+  margin-block-end: var(--s-3);
+  color: var(--text);
+}
+
+.rail .title {
+  max-width: 100%;
+  margin-inline-start: -0.035em;
+  font-size: var(--fs-chapter);
+  /* Capped by the rail and the length of the word, as <Chapter> does: seven letters, 28.5 rail widths. */
+  font-size: min(var(--fs-chapter), 28.5cqi);
+  overflow-wrap: normal;
+}
+
+.rail .title:lang(th) {
+  margin-inline-start: 0;
+  font-size: min(var(--fs-chapter), 25cqi);
+}
+
+.titleLine {
+  display: block;
+}
+
+.words {
+  display: grid;
+  row-gap: var(--s-4);
+  max-width: 24rem;
+  margin-block-start: var(--s-6);
+}
+
+.lead {
+  font-size: var(--fs-lead);
+  font-weight: 300;
+  line-height: var(--lh-lead);
+  text-wrap: pretty;
+}
+
+/* Thai has no spaces for "pretty" to work with; "balance" keeps the last line from being a stub. (Not
+   the lead: its last words are a room name that cannot break, and balancing round it leaves a hole.) */
+.more:lang(th) {
+  text-wrap: balance;
+}
+
+.more {
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  text-wrap: pretty;
+}
+
+.roomName,
+.whole {
+  white-space: nowrap;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3);
+  margin-block-start: var(--s-6);
+}
+
+/* --stage-max: the widest the photograph is shown, and so the width of everything under it. */
+.stage {
+  --stage-max: 62.5rem;
+
+  min-width: 0;
+}
+
+@media (min-width: 64rem) {
+  .band .grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--col-gap);
+    row-gap: 0;
+  }
+
+  .rail {
+    grid-column: 1 / span 4;
+    padding-inline-end: var(--s-5);
+  }
+
+  .stage {
+    grid-column: 5 / -1;
+  }
+
+  .actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (min-width: 64rem) and (min-height: 45rem) {
+  .railInner {
+    position: sticky;
+    inset-block-start: calc(var(--header-h) + var(--s-7));
+  }
+}
+
+/* ───────────── The photographs ───────────── */
+
+/* <MediaReveal>'s wrapper: the rounded clip. */
+.reveal {
+  width: 100%;
+  max-width: var(--stage-max);
+  border-radius: var(--radius-lg);
+  isolation: isolate;
+}
+
+.frame {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 3;
+  background: var(--twilight-soft);
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  /* A thumb moving up or down scrolls the page; sideways is ours. */
+  touch-action: pan-y;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.frame[data-dragging="true"] {
+  cursor: grabbing;
+}
+
+.frame img {
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+.shot {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+}
+
+.shotMedia {
+  position: absolute;
+  inset: 0;
+}
+
+/*
+ * Each later frame lies over the one before it, so nothing ever shows through from behind, and it
+ * arrives as a soft edge that crosses the photograph from the left, the way the thumb travels. Every
+ * pixel's opacity is still a continuous function of --t, but the two frames are only ever mixed inside
+ * that one soft band: a flat dissolve of two different views of the terrace is a double exposure.
+ *
+ *   --arrive    how far this frame has come, 0 to 1
+ *   --feather   the width of the soft edge, as a share of the photograph
+ */
+.shotLow {
+  --arrive: var(--to-low);
+}
+
+.shotDusk {
+  --arrive: var(--to-dusk);
+}
+
+.shotLow,
+.shotDusk {
+  --feather: 26%;
+  --edge: calc(var(--arrive) * (100% + var(--feather)));
+
+  -webkit-mask-image: linear-gradient(90deg, black calc(var(--edge) - var(--feather)), transparent var(--edge));
+  mask-image: linear-gradient(90deg, black calc(var(--edge) - var(--feather)), transparent var(--edge));
+}
+
+@supports not ((mask-image: linear-gradient(black, transparent)) or (-webkit-mask-image: linear-gradient(black, transparent))) {
+  .shotLow,
+  .shotDusk {
+    opacity: calc(var(--arrive));
+  }
+}
+
+/* With script the three names are spoken, not shown: the corner label names the one on top. */
+.shotLabel {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (min-width: 40rem) {
+  .frame {
+    aspect-ratio: 3 / 2;
+  }
+}
+
+/* On a short, wide screen the photograph gives way, so that it and the track under it are seen
+   together; the caption, the control and the tiles keep to its width. */
+@media (min-width: 64rem) {
+  .stage {
+    --stage-max: min(62.5rem, max(30rem, calc((100svh - var(--header-h) - 13rem) * 1.5)));
+  }
+}
+
+/* The incoming frame settles as it arrives. Not under reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  .shotLow .shotMedia,
+  .shotDusk .shotMedia {
+    transform: scale(calc(1.05 - 0.05 * var(--arrive)));
+  }
+}
+
+/* The named time, in the corner of the photograph. Three pills in one cell; the stop decides which shows. */
+.when {
+  position: absolute;
+  inset-block-start: var(--s-4);
+  inset-inline-start: var(--s-4);
+  display: grid;
+  justify-items: start;
+  margin: 0;
+  color: var(--on-dark);
+  font-size: var(--fs-eyebrow);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.when:lang(th) {
+  letter-spacing: 0;
+  text-transform: none;
+  line-height: 1.6;
+}
+
+.whenWord {
+  grid-area: 1 / 1;
+  padding: 0.4rem 0.875rem;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--twilight) 78%, transparent);
+  opacity: 0;
+  transform: translateY(0.375rem);
+  transition:
+    opacity var(--t-hover) var(--ease),
+    transform var(--t-panel) var(--ease-out);
+}
+
+.band:not([data-stop]) .when0,
+.band[data-stop="0"] .when0,
+.band[data-stop="1"] .when1,
+.band[data-stop="2"] .when2 {
+  opacity: 1;
+  transform: none;
+}
+
+/* The prompt on the photograph. It leaves once the guest has moved the day. */
+.hint {
+  position: absolute;
+  inset-block-end: var(--s-4);
+  inset-inline-start: 50%;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin: 0;
+  padding: 0.5rem 0.875rem;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--twilight) 78%, transparent);
+  color: var(--on-dark);
+  font-size: var(--fs-small);
+  font-weight: 500;
+  line-height: 1.3;
+  white-space: nowrap;
+  transform: translateX(-50%);
+  pointer-events: none;
+  transition: opacity var(--t-panel) var(--ease);
+}
+
+.hint:lang(th) {
+  line-height: 1.5;
+}
+
+.band[data-touched="true"] .hint {
+  opacity: 0;
+}
+
+.caption {
+  max-width: var(--stage-max);
+  margin-block-start: var(--s-3);
+  color: var(--text);
+}
+
+/* ───────────── The control ───────────── */
+
+.control {
+  --thumb: var(--tap);
+  --groove: 0.875rem;
+
+  max-width: var(--stage-max);
+  margin-block-start: var(--s-5);
+}
+
+.now {
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  text-wrap: pretty;
+}
+
+.nowTime {
+  font-weight: 500;
+}
+
+/* The sentence has a hole in it until the time is known. */
+.band:not([data-now]) .nowTime {
+  visibility: hidden;
+}
+
+/* <Clock> names itself for assistive technology; here the sentence around it already does. */
+.clock :global(.vh) {
+  display: none;
+}
+
+.track {
+  position: relative;
+  height: var(--thumb);
+  /* Room above for the "Now" mark. */
+  margin-block-start: var(--s-7);
+}
+
+.groove {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: calc((var(--thumb) - var(--groove)) / 2);
+  height: var(--groove);
+  /* The outline is the full text colour: under the thumb the groove is the colour of the band itself. */
+  border: var(--hairline) solid var(--text);
+  border-radius: var(--radius-pill);
+  background: linear-gradient(90deg, var(--white) 0%, var(--clay-soft) 50%, var(--terracotta-deep) 60%, var(--twilight) 100%);
+  background: linear-gradient(to right in oklch, var(--white) 0%, var(--clay-soft) 50%, var(--terracotta-deep) 60%, var(--twilight) 100%);
+}
+
+/* The real control: the whole track, transparent, over the drawn one. Its own thumb is as wide as the drawn thumb, so the two always agree. */
+.range {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  opacity: 0;
+  cursor: grab;
+  appearance: none;
+  -webkit-appearance: none;
+  touch-action: pan-y;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.range:active {
+  cursor: grabbing;
+}
+
+.range::-webkit-slider-runnable-track {
+  height: 100%;
+  background: transparent;
+}
+
+.range::-webkit-slider-thumb {
+  width: var(--thumb);
+  height: var(--thumb);
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.range::-moz-range-track {
+  height: 100%;
+  background: transparent;
+}
+
+.range::-moz-range-thumb {
+  width: var(--thumb);
+  height: var(--thumb);
+  border: 0;
+}
+
+.thumb {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: calc(var(--v) * (100% - var(--thumb)));
+  display: grid;
+  place-items: center;
+  width: var(--thumb);
+  height: var(--thumb);
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--terracotta);
+  color: var(--paper);
+  /* A paper ring, then a hairline in the text colour: terracotta alone is under 3:1 on clay rose. */
+  box-shadow:
+    0 0 0 2px var(--paper),
+    0 0 0 3px var(--text),
+    0 0.625rem 1.25rem -0.375rem color-mix(in srgb, var(--twilight) 60%, transparent);
+  pointer-events: none;
+  z-index: 1;
+  transition: transform var(--t-ui) var(--ease);
+}
+
+.range:active ~ .thumb {
+  transform: scale(1.08);
+}
+
+/* The focus ring stands clear of the thumb's own rings, so it reads as a third, separate one. */
+.range:focus-visible ~ .thumb {
+  outline: 2px solid var(--focus);
+  outline-offset: 6px;
+}
+
+/* The mark: a sun whose rays draw in as the evening comes, and whose disc is then cut to a crescent. */
+.glyph {
+  position: relative;
+  display: block;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.rays {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: calc(1 - var(--sun-leaves));
+  transform: rotate(calc(var(--v) * 90deg)) scale(calc(1 - 0.35 * var(--sun-leaves)));
+}
+
+.core {
+  position: absolute;
+  inset: 0.375rem;
+  border-radius: 50%;
+  background: currentColor;
+  transform: scale(calc(1 + 0.4 * var(--moon-forms)));
+}
+
+/* The cut: a disc of the thumb's own colour that slides over the core from the upper right. */
+.bite {
+  position: absolute;
+  inset: 0.25rem;
+  border-radius: 50%;
+  background: var(--terracotta);
+  transform: translate(calc(1.35rem - 1rem * var(--moon-forms)), calc(-1.35rem + 1rem * var(--moon-forms)));
+}
+
+/* "Now": a word and a short tick standing on the track at the present. A button, one tap target across. */
+.nowMark {
+  position: absolute;
+  inset-block-end: calc(100% + var(--s-1));
+  inset-inline-start: calc(var(--thumb) / 2 + var(--now) * (100% - var(--thumb)));
+  display: grid;
+  justify-items: center;
+  align-content: end;
+  min-width: var(--tap);
+  min-height: var(--tap);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text);
+  font-size: var(--fs-eyebrow);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  transform: translateX(-50%);
+  cursor: pointer;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nowMark:lang(th) {
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* The tick runs from the word down to the groove. The thumb passes in front of it. */
+.nowMark::after {
+  content: "";
+  position: absolute;
+  inset-block-start: 100%;
+  inset-inline-start: 50%;
+  width: var(--hairline);
+  height: calc((var(--thumb) - var(--groove)) / 2 + var(--s-1) - 1px);
+  background: currentColor;
+  pointer-events: none;
+}
+
+.band:not([data-now]) .nowMark {
+  visibility: hidden;
+}
+
+.stops {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--s-2);
+  margin-block-start: var(--s-2);
+}
+
+/* Two classes, so these outrank the chip's own whichever stylesheet loads first. */
+.stops .stop {
+  --chip-line: var(--line);
+  --chip-inverse: var(--surface);
+}
+
+/* ───────────── Tonight: sunset, moon, the clear-evening line ───────────── */
+
+.tonight {
+  display: grid;
+  row-gap: var(--s-5);
+  max-width: var(--stage-max);
+  margin-block-start: var(--s-8);
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tile {
+  display: grid;
+  align-content: space-between;
+  row-gap: var(--s-3);
+  min-width: 0;
+  padding: var(--s-4);
+  border: var(--hairline) solid var(--rule);
+  border-radius: var(--radius-md);
+}
+
+/* Until its figure is known a tile keeps its place and shows nothing: a label over a blank is a hole. */
+.tile:has([data-live="false"]) {
+  visibility: hidden;
+}
+
+.tile .tileLabel {
+  color: var(--text);
+}
+
+/* Smaller than a heading on a phone, where the two tiles share one row. */
+.tileValue {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 0.9rem + 1.5vw, 2rem);
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.tileValue:lang(th) {
+  font-family: var(--font-display-th);
+  font-size: clamp(1.125rem, 0.9rem + 0.95vw, 1.625rem);
+  line-height: 1.5;
+}
+
+/* The tile's own label already says "Moon tonight". */
+.tileValue :global(.vh) {
+  display: none;
+}
+
+/* In a narrow tile a long phase name may take a second line rather than leave the tile. */
+.tileValue :global([data-part="name"]) {
+  white-space: normal;
+}
+
+.tonightWords {
+  display: grid;
+  row-gap: var(--s-2);
+  max-width: 34rem;
+}
+
+.clear {
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  text-wrap: pretty;
+}
+
+.note {
+  color: var(--text);
+  text-wrap: pretty;
+}
+
+/* The note is about the figures: it waits for them. */
+.tonight:has([data-live="false"]) .note {
+  visibility: hidden;
+}
+
+@media (min-width: 40rem) {
+  .tiles {
+    gap: var(--s-4);
+  }
+
+  .tile {
+    padding: var(--s-5) var(--s-6);
+  }
+}
+
+/* ───────────── Forced colours: the system draws the control ───────────── */
+
+@media (forced-colors: active) {
+  .range {
+    opacity: 1;
+    appearance: auto;
+    -webkit-appearance: auto;
+  }
+
+  .groove,
+  .thumb {
+    display: none;
+  }
+}
+
+/* ───────────── No JavaScript ─────────────
+ *
+ * The <noscript> marker is an element only when script is off. Then the band is a still twilight
+ * chapter: the three photographs side by side (stacked on a phone), each under its name; no control,
+ * no clock, no sunset or moon (they are computed in the browser), and the clear-evening line.
+ */
+
+.nojs {
+  display: none;
+}
+
+.band:has(.nojs) {
+  --rt-text: var(--on-dark);
+  --rt-accent: var(--on-dark);
+  --focus: var(--focus-on-dark);
+  --surface: var(--twilight);
+  --surface-raised: var(--twilight-soft);
+  --action: var(--on-dark);
+  --action-hover: var(--white);
+  --on-action: var(--ink);
+
+  background: var(--twilight);
+}
+
+.band:has(.nojs) .sky,
+.band:has(.nojs) .when,
+.band:has(.nojs) .hint,
+.band:has(.nojs) .control,
+.band:has(.nojs) .tiles,
+.band:has(.nojs) .note {
+  display: none;
+}
+
+.band:has(.nojs) .reveal {
+  overflow: visible;
+  border-radius: 0;
+}
+
+.band:has(.nojs) .frame {
+  display: grid;
+  gap: var(--s-5);
+  aspect-ratio: auto;
+  background: transparent;
+  cursor: auto;
+  touch-action: auto;
+}
+
+.band:has(.nojs) .shot {
+  position: static;
+  display: grid;
+  row-gap: var(--s-2);
+  opacity: 1;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+.band:has(.nojs) .shotMedia {
+  position: relative;
+  inset: auto;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  transform: none;
+}
+
+.band:has(.nojs) .shotLabel {
+  position: static;
+  width: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  clip-path: none;
+  white-space: normal;
+  font-size: var(--fs-eyebrow);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+}
+
+.band:has(.nojs) .shotLabel:lang(th) {
+  letter-spacing: 0;
+  text-transform: none;
+  line-height: 1.6;
+}
+
+.band:has(.nojs) .tonight {
+  grid-template-columns: minmax(0, 1fr);
+  margin-block-start: var(--s-6);
+}
+
+@media (min-width: 40rem) {
+  .band:has(.nojs) .frame {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--s-4);
+  }
+}
+
+@media print {
+  .railInner {
+    position: static;
+  }
+}

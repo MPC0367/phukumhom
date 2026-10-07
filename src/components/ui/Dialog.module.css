@@ -1,0 +1,125 @@
+/*
+ * Dialog — the native element, restyled. Layout rules that would defeat display: none are scoped to
+ * [open]: a closed <dialog> must stay undisplayed.
+ *
+ * The scrim is a spread shadow on the dialog itself rather than a ::backdrop fill: ::backdrop only began
+ * inheriting custom properties in 2024, and a token that fails to resolve there would leave the page
+ * behind fully visible. The (transparent) backdrop still receives the click that closes.
+ *
+ * The light tokens are restated (and the element carries data-ground="light"), so a dialog opened from
+ * inside a twilight band or over a photograph is still ink on white, with forest buttons.
+ */
+.dialog {
+  --text: var(--ink);
+  --text-muted: var(--ink-muted);
+  --rule: var(--stone);
+  --accent: var(--forest);
+  --surface: var(--white);
+  --surface-raised: var(--white);
+  --focus: var(--focus-on-light);
+  --dialog-scrim: color-mix(in srgb, var(--twilight) 62%, transparent);
+
+  max-width: none;
+  max-height: none;
+  margin: auto;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  background: var(--white);
+  color: var(--ink);
+  box-shadow: 0 0 0 100vmax var(--dialog-scrim);
+}
+
+/* typography.css turns numerals clay-soft inside the dark helpers; in this light panel they are clay-deep. */
+dialog.dialog :global(.numeral) {
+  color: var(--clay-deep);
+}
+
+/* A dialog opened from inside a <Band> is its own ground: none of the band's halo. */
+.dialog,
+.dialog * {
+  text-shadow: none;
+}
+
+.dialog::backdrop {
+  background: transparent;
+}
+
+.dialog[open] {
+  animation: arrive var(--t-panel) var(--ease-out);
+}
+
+.panel {
+  display: flow-root;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* When the content scrolls, browsers may give the scroller keyboard focus: draw its ring inside the edge. */
+.panel:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: -2px;
+}
+
+/* ── Sheet: rises from the bottom edge on phones, a centred rounded panel from 40rem ── */
+
+.sheet {
+  width: 100%;
+  margin-block-end: 0;
+  border-start-start-radius: var(--radius-xl);
+  border-start-end-radius: var(--radius-xl);
+}
+
+.sheet .panel {
+  max-height: calc(100dvh - var(--s-8));
+  padding: var(--s-6) var(--s-5);
+  padding-block-end: calc(var(--s-6) + env(safe-area-inset-bottom, 0px));
+}
+
+@media (min-width: 40rem) {
+  .sheet {
+    width: min(100% - 2 * var(--s-6), 36rem);
+    margin-block-end: auto;
+    border-radius: var(--radius-xl);
+  }
+
+  .sheet .panel {
+    max-height: calc(100dvh - 2 * var(--s-8));
+    padding: var(--s-7);
+  }
+}
+
+/* ── Full: the whole viewport, on paper ── */
+
+.full {
+  --surface: var(--paper);
+
+  width: 100%;
+  height: 100dvh;
+  margin: 0;
+  background: var(--paper);
+  box-shadow: none;
+}
+
+.full .panel {
+  height: 100%;
+}
+
+@keyframes arrive {
+  from {
+    opacity: 0;
+    transform: translateY(var(--s-4));
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dialog[open] {
+    animation: none;
+  }
+}

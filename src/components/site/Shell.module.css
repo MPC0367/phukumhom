@@ -1,0 +1,49 @@
+/*
+ * The two elements of the shell that the language layout writes itself: <body> and <main>.
+ *
+ * The viewport is declared `viewport-fit=cover` so that env(safe-area-inset-bottom) is real and the
+ * phone action bar can keep clear of the home indicator. The price is that, on a notched phone held
+ * sideways, the page would run under the notch, so <body> takes the side insets back. In every
+ * other case they are zero.
+ */
+.body {
+  padding-inline: env(safe-area-inset-left, 0px) env(safe-area-inset-right, 0px);
+}
+
+/*
+ * <main> takes focus only when the skip link is used (see SkipLinkAnchor.tsx; it is not focusable
+ * the rest of the time). It is a region, not a control: no ring around the whole page.
+ */
+.main {
+  display: block;
+}
+
+.main:focus {
+  outline: none;
+}
+
+/*
+ * The header lies over the page (it is fixed, and transparent over a hero). A page that opens with a
+ * `data-header-over` element runs up behind it; every other page starts below it. The page says which
+ * it is in its own markup, so this holds in the server's HTML, before and without any script.
+ * `data-header-over` belongs on the element at the very top of a page and nowhere else.
+ */
+.main:not(:has([data-header-over])) {
+  padding-block-start: var(--header-h);
+}
+
+@media print {
+  .main:not(:has([data-header-over])) {
+    padding-block-start: 0;
+  }
+}
+
+/* The zero-size mark at the very top of the document that "Back to top" links point at (#top). */
+.top {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}

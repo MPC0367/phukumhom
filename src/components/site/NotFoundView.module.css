@@ -1,0 +1,148 @@
+/*
+ * The 404 page. A band with the message over a photograph, then the places to start again as large
+ * numbered rows on paper: the same vocabulary as the rest of the site, so a wrong address still lands
+ * somewhere that looks like the resort.
+ *
+ * Component constants: the title's measure (in its own em, so it follows the fluid hero scale), and the
+ * number column of a row.
+ */
+.text {
+  display: grid;
+  justify-items: start;
+  max-width: 100%;
+}
+
+.text .title {
+  max-width: 11em;
+  margin-block-start: var(--s-4);
+  /* Optical: a large serif capital stands a little inside its box. */
+  margin-inline-start: -0.03em;
+}
+
+.text .title:lang(th) {
+  max-width: 14em;
+  margin-inline-start: 0;
+}
+
+.after {
+  display: grid;
+  justify-items: start;
+}
+
+/* The title is set at 0.9 leading: the tail of a g hangs below its line box, so the sentence keeps its distance. */
+.after .body {
+  max-width: 36ch;
+  margin-block-start: var(--s-7);
+}
+
+.after .body:lang(th) {
+  max-width: 24em;
+  margin-block-start: var(--s-5);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3);
+  margin-block-start: var(--s-6);
+}
+
+/* ── The places ── */
+
+.places {
+  padding-block: var(--section-y-tight) var(--section-y);
+}
+
+.list {
+  margin: 0;
+  list-style: none;
+}
+
+.entry {
+  border-block-end: var(--hairline) solid var(--rule);
+}
+
+.entry:first-child {
+  border-block-start: var(--hairline) solid var(--rule);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: var(--s-8) minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: var(--s-3);
+  min-height: 5.5rem;
+  padding-block: var(--s-4);
+  color: var(--accent);
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.number {
+  align-self: start;
+  padding-block-start: 0.85em;
+}
+
+.row .label {
+  color: inherit;
+  transition: transform var(--t-panel) var(--ease-out);
+}
+
+.arrow {
+  color: var(--action);
+  transition: transform var(--t-panel) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .row:hover .label {
+    transform: translateX(var(--s-3));
+  }
+
+  .row:hover .arrow {
+    transform: translateX(var(--s-2));
+  }
+}
+
+.row:active .arrow {
+  transform: translateX(var(--s-2));
+}
+
+.row:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* The three room types hang under "Rooms", set in from the number column. */
+.rooms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--s-7);
+  margin: 0;
+  padding: 0 0 var(--s-4) calc(var(--s-8) + var(--s-3));
+  list-style: none;
+}
+
+@media (max-width: 29.9375rem) {
+  .after,
+  .actions {
+    width: 100%;
+  }
+
+  .actions > * {
+    flex: 1 1 100%;
+  }
+}
+
+@media (max-width: 39.9375rem) {
+  .row {
+    grid-template-columns: var(--s-7) minmax(0, 1fr) auto;
+    min-height: 4.5rem;
+  }
+
+  .rooms {
+    display: grid;
+    padding-inline-start: calc(var(--s-7) + var(--s-3));
+  }
+}

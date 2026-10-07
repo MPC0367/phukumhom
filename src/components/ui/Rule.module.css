@@ -1,0 +1,46 @@
+/*
+ * Rule — a drawn separator. currentColor at reduced strength, so it follows the text it divides on any
+ * surface. Component constants: the mark is one hairline thick; a vertical rule is 0.95em tall and a short
+ * horizontal one is 1.75em long, both measured in the surrounding type so they scale with it.
+ */
+.rule {
+  --rule-strength: 0.5;
+
+  display: inline-block;
+  flex: none;
+  background: currentColor;
+  opacity: var(--rule-strength);
+}
+
+.vertical {
+  width: var(--hairline);
+  height: 0.95em;
+  margin-inline: 0.7em;
+  /* Sits on the x-height band of the text beside it rather than hanging from the baseline. */
+  vertical-align: -0.12em;
+}
+
+.horizontal {
+  width: 1.75em;
+  height: var(--hairline);
+  margin-inline: 0.55em;
+  vertical-align: 0.32em;
+}
+
+/* Thai sets no capitals: the band of the letters sits a little lower and taller. */
+.vertical:lang(th) {
+  height: 1.05em;
+  vertical-align: -0.2em;
+}
+
+.horizontal:lang(th) {
+  vertical-align: 0.36em;
+}
+
+.full {
+  display: block;
+  width: 100%;
+  height: var(--hairline);
+  background: var(--rule);
+  opacity: 1;
+}

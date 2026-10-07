@@ -1,0 +1,218 @@
+/*
+ * Loader — a paper screen over the whole window, shown only by the inline boot script (Loader.tsx).
+ *
+ * Composition: a lot of sky. The wordmark stands on a horizon line a little below the middle of the
+ * screen; beneath the line, the resort's descriptor on the left and the counter on the right.
+ *
+ * Everything that moves is a CSS animation or transition on transform, opacity or clip-path, so it runs
+ * off the main thread while the page hydrates. The start states below (letters under their masks, the
+ * line undrawn) are not "hidden content": the whole element is `hidden` until script switches it on.
+ *
+ * States, written by the boot script:
+ *   [hidden]                       not shown (server HTML, no JavaScript, reduced motion, finished)
+ *   data-visit="first" | "repeat"  the first hard load of a session runs the full sequence; later ones a short one
+ *   data-state="out"               the blind lifts
+ */
+.loader {
+  --lift: 700ms;
+  --rise: 880ms;
+  --step: 38ms;
+  --draw: 1000ms;
+  --lead: 60ms;
+
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-loader);
+  display: block;
+  overflow: hidden;
+  /* No clicks reach the page while it is covered. */
+  pointer-events: auto;
+}
+
+.loader[hidden] {
+  display: none;
+}
+
+.loader[data-visit="repeat"] {
+  --lift: 480ms;
+  --rise: 480ms;
+  --step: 12ms;
+  --draw: 360ms;
+  --lead: 0ms;
+}
+
+/* The blind is two sheets: paper in front, and a band of fired clay that follows it up a beat later. */
+.veil,
+.sheet {
+  position: absolute;
+  inset: 0;
+  clip-path: inset(0 0 0 0);
+  transition: clip-path var(--lift) cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.veil {
+  background: var(--clay-soft);
+  transition-delay: 90ms;
+}
+
+.sheet {
+  display: grid;
+  grid-template-rows: 57fr auto 43fr;
+  padding-inline: var(--gutter);
+  background: var(--paper);
+  color: var(--forest);
+}
+
+.loader[data-state="out"] .veil,
+.loader[data-state="out"] .sheet {
+  clip-path: inset(0 0 100% 0);
+}
+
+/* ── Above the horizon: the wordmark ── */
+
+.upper {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-block-end: clamp(1rem, 2.6vh, 1.75rem);
+  transition: transform var(--lift) cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.wordmark {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  margin: 0;
+  /* Tracking adds space after the last letter too: pad the start by the same amount so it centres. */
+  padding-inline-start: var(--tracking-wordmark);
+  font-family: var(--font-sans);
+  font-size: clamp(1.75rem, 0.6rem + 5.6vw, 5.5rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: var(--tracking-wordmark);
+  white-space: nowrap;
+}
+
+/* A word that is not Latin is one piece: no tracking, room for marks above and below the line. */
+.wordmark:lang(th) {
+  padding-inline-start: 0;
+  font-family: var(--font-display-th);
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+.clip {
+  display: inline-block;
+  overflow: hidden;
+  /* Room for the mask to hold the whole glyph at rest. */
+  padding-block: 0.12em;
+  margin-block: -0.12em;
+}
+
+.space {
+  display: inline-block;
+  width: 0.3em;
+}
+
+.letter {
+  display: inline-block;
+  transform: translateY(125%);
+  animation: loader-rise var(--rise) cubic-bezier(0.16, 1, 0.3, 1) calc(var(--lead) + var(--i, 0) * var(--step)) forwards;
+}
+
+/* ── The horizon ── */
+
+.horizon {
+  position: relative;
+  height: var(--hairline);
+  overflow: hidden;
+  background: var(--stone);
+}
+
+.horizonFill {
+  position: absolute;
+  inset: 0;
+  background: var(--terracotta);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  animation: loader-draw var(--draw) cubic-bezier(0.65, 0, 0.35, 1) var(--lead) forwards;
+}
+
+/* ── Below the horizon: descriptor and counter ── */
+
+.lower {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--s-5);
+  padding-block-start: clamp(0.875rem, 2vh, 1.25rem);
+  transition: transform var(--lift) cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.sub {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--fs-eyebrow);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  opacity: 0;
+  animation: loader-fade 700ms var(--ease-out) calc(var(--lead) + var(--rise) * 0.35) forwards;
+}
+
+.sub:lang(th) {
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.count {
+  margin: 0;
+  min-width: 3ch;
+  font-family: var(--font-display);
+  font-size: clamp(3.25rem, 2rem + 5.4vw, 6.75rem);
+  font-weight: 500;
+  line-height: 0.82;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums lining-nums;
+  text-align: end;
+  color: var(--forest);
+}
+
+/* As the blind lifts, what is printed on it travels a little further than the blind does. */
+.loader[data-state="out"] .upper,
+.loader[data-state="out"] .lower {
+  transform: translateY(-9vh);
+}
+
+@keyframes loader-rise {
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes loader-draw {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes loader-fade {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Belt and braces: the boot script already declines to show it. */
+@media (prefers-reduced-motion: reduce) {
+  .loader {
+    display: none;
+  }
+}
+
+@media print {
+  .loader {
+    display: none;
+  }
+}

@@ -1,0 +1,17 @@
+/*
+ * Lab scaffolding: an empty stretch above and below the section, so it is reached by scrolling the way
+ * it will be on the homepage. A faint rule marks where the neighbouring section would begin.
+ */
+.spacer {
+  display: grid;
+  align-content: end;
+  min-height: 112vh;
+  min-height: 112svh;
+  background: var(--sand);
+}
+
+.spacerMark {
+  display: block;
+  height: var(--hairline);
+  background: var(--rule);
+}

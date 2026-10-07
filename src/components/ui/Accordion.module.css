@@ -1,0 +1,161 @@
+/*
+ * Accordion — native disclosure on hairlines. The whole summary row is the target (64px or more).
+ *
+ * Component constants: --accordion-marker is the round plus/minus (40px); its strokes are 14px long.
+ */
+.accordion {
+  --accordion-marker: 2.5rem;
+
+  border-block-end: var(--hairline) solid var(--rule);
+}
+
+.item {
+  border-block-start: var(--hairline) solid var(--rule);
+}
+
+.summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-5);
+  min-height: var(--s-9);
+  padding-block: var(--s-3);
+  list-style: none;
+  cursor: pointer;
+  color: var(--text);
+  -webkit-tap-highlight-color: transparent;
+  transition: color var(--t-hover) var(--ease);
+}
+
+/* Remove the default disclosure triangle in every engine. */
+.summary::-webkit-details-marker {
+  display: none;
+}
+
+.summary::marker {
+  content: "";
+}
+
+.question {
+  min-width: 0;
+  max-width: var(--measure);
+  font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+  font-weight: 500;
+  line-height: 1.4;
+  text-wrap: pretty;
+}
+
+.question:lang(th) {
+  line-height: 1.65;
+}
+
+/* ── The marker: a plus whose upright turns to lie on the bar ── */
+
+.marker {
+  position: relative;
+  flex: none;
+  width: var(--accordion-marker);
+  height: var(--accordion-marker);
+  border: var(--hairline) solid var(--rule);
+  border-radius: var(--radius-pill);
+  color: var(--accent);
+  transition:
+    background-color var(--t-hover) var(--ease),
+    border-color var(--t-hover) var(--ease),
+    color var(--t-hover) var(--ease);
+}
+
+.stroke {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  width: 0.875rem;
+  height: 1.5px;
+  margin: -0.75px 0 0 -0.4375rem;
+  border-radius: var(--radius-pill);
+  background: currentColor;
+  transition: transform var(--t-panel) var(--ease-out);
+}
+
+.upright {
+  transform: rotate(90deg);
+}
+
+.item[open] .upright {
+  transform: rotate(0deg);
+}
+
+.item[open] .marker {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--surface);
+}
+
+@media (hover: hover) {
+  .summary:hover {
+    color: var(--accent);
+  }
+
+  .summary:hover .marker {
+    border-color: var(--accent);
+  }
+}
+
+.summary:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+.answer {
+  padding-block: 0 var(--s-6);
+  padding-inline-end: calc(var(--accordion-marker) + var(--s-5));
+  color: var(--text);
+}
+
+/* ── Opening ── */
+
+/* Baseline: the answer settles in. */
+@media (prefers-reduced-motion: no-preference) {
+  .item[open] .answer {
+    animation: settle var(--t-panel) var(--ease-out);
+  }
+}
+
+@keyframes settle {
+  from {
+    opacity: 0;
+    transform: translateY(calc(-1 * var(--s-2)));
+  }
+}
+
+/* Enhanced: the height itself eases open and shut, where the browser can animate to `auto`. */
+@supports (interpolate-size: allow-keywords) {
+  .item {
+    interpolate-size: allow-keywords;
+  }
+
+  .item::details-content {
+    block-size: 0;
+    overflow: clip;
+    transition-property: block-size, content-visibility;
+    transition-duration: var(--t-panel);
+    transition-timing-function: var(--ease-out);
+    transition-behavior: allow-discrete;
+  }
+
+  .item[open]::details-content {
+    block-size: auto;
+  }
+}
+
+/* Over a photograph there is no flat ground to take the open marker's colour from. */
+:global(.on-photo) .item[open] .marker {
+  color: var(--ink);
+}
+
+@media print {
+  .item::details-content {
+    block-size: auto;
+  }
+}

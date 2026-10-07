@@ -1,0 +1,130 @@
+/*
+ * HomeReel — Band B. Sand from edge to edge; the head sits in the container and the reel does not.
+ *
+ *   GALLERY
+ *   The garden, the rooftops and the rooms,           The resort’s own photographs. Move along…
+ *   one frame at a time.                              ( Open the gallery → )      ← DRAG →
+ *
+ *   [ frame ][ frame ][ frame ][ frame ][ fra…        from one edge of the screen to the other
+ */
+.band {
+  padding-block: var(--section-y);
+  /* clip, not hidden: nothing here may become a scroll container (sticky rails, the reel's own viewport). */
+  overflow-x: clip;
+  /* The band measures itself, so the reel can find the container's edge without counting a scrollbar (100vw would). */
+  container-type: inline-size;
+}
+
+.head {
+  display: grid;
+  gap: var(--s-6);
+}
+
+.words {
+  min-width: 0;
+}
+
+.words .kicker {
+  margin-block-end: var(--s-4);
+}
+
+.words .line {
+  max-width: 16em;
+  color: var(--forest);
+}
+
+.words .line:lang(th) {
+  max-width: 14em;
+}
+
+.phrase {
+  display: inline-block;
+}
+
+.side {
+  display: grid;
+  gap: var(--s-5);
+  min-width: 0;
+}
+
+.lead {
+  max-width: 30em;
+  color: var(--text-muted);
+  text-wrap: pretty;
+}
+
+.lead:lang(th) {
+  text-wrap: balance;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-4) var(--s-6);
+}
+
+/* Only where it is true: a touch screen, or a pointer once the row can be dragged. */
+.actions .hint {
+  display: none;
+  align-items: center;
+  gap: var(--s-2);
+  white-space: nowrap;
+}
+
+@media (hover: none) {
+  .actions .hint {
+    display: inline-flex;
+  }
+}
+
+.band:has([data-drift="on"]) .hint {
+  display: inline-flex;
+}
+
+/* With the pointer on the row, the cue's two arrows part a little: the row is ready to be pulled. */
+.hint svg {
+  transition: transform var(--t-hover) var(--ease-out);
+}
+
+.band:has([data-drift="on"]:hover) .hint svg:first-child {
+  transform: translateX(calc(-1 * var(--s-1)));
+}
+
+.band:has([data-drift="on"]:hover) .hint svg:last-child {
+  transform: translateX(var(--s-1));
+}
+
+.row {
+  margin-block-start: var(--s-8);
+}
+
+/* The first frame rests on the page gutter, in line with the words above it. */
+.reel {
+  --reel-inset: var(--gutter);
+}
+
+@media (min-width: 64rem) {
+  .head {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--col-gap);
+    align-items: end;
+  }
+
+  .words {
+    grid-column: 1 / span 7;
+  }
+
+  .side {
+    grid-column: 9 / -1;
+  }
+
+  .row {
+    margin-block-start: var(--s-10);
+  }
+
+  /* On wide screens the container is narrower than the screen: the first frame still starts on its edge. */
+  .reel {
+    --reel-inset: max(var(--gutter), calc((100cqi - var(--container)) / 2));
+  }
+}

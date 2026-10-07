@@ -1,0 +1,7 @@
+/*
+ * One Thai phrase, kept whole. An inline block rather than white-space: nowrap: it moves to the next
+ * line as one piece, but a phrase wider than the whole line wraps inside itself instead of overflowing.
+ */
+.phrase {
+  display: inline-block;
+}

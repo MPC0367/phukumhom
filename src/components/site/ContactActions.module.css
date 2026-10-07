@@ -1,0 +1,37 @@
+/* ContactActions: a list of <Button>s. This file only arranges them. */
+.actions {
+  padding: 0;
+  list-style: none;
+}
+
+/*
+ * Zero specificity, as in Button: the reset must not outrank a layout helper. Written as a plain
+ * class it tied with the page's `.flow > * + *` and, loading later, won — so the row sat flush under
+ * whatever came before it.
+ */
+:where(.actions) {
+  margin: 0;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2) var(--s-6);
+}
+
+.stack {
+  display: grid;
+  gap: var(--s-3);
+}
+
+.item {
+  display: flex;
+  min-width: 0;
+}
+
+/* In the stacked call action the number follows the words in the muted tone, as a second voice. */
+.number {
+  font-weight: 400;
+  white-space: nowrap;
+}

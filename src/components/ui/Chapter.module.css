@@ -1,0 +1,137 @@
+/*
+ * Chapter — a sticky rail and a content column on the 12-column grid.
+ *
+ *   ┌ rail (1–4) ─────────┐ ┌ content (5–12) ──────────────────────────┐
+ *   │ 01                  │ │                                           │
+ *   │ THE SETTING         │ │                                           │
+ *   │ Garden              │ │                                           │
+ *   │ intro, 34ch         │ │                                           │
+ *   │ link · pill         │ │                                           │
+ *   └─────────────────────┘ └───────────────────────────────────────────┘
+ *
+ * Component constants:
+ *   --chapter-top   where the rail sticks: header height + 2.5rem
+ *   --chapter-title-cap   set per title by Chapter.tsx, in rail widths (cqi): the size at which its
+ *                   longest word still fits the rail. 27cqi (eight letters) when it is not set.
+ *   45rem           the viewport height below which the rail stops sticking
+ */
+.chapter {
+  --chapter-top: calc(var(--header-h) + var(--s-7));
+
+  position: relative;
+  padding-block: var(--section-y);
+}
+
+/* Paper restated, so a paper chapter is still paper when a parent has changed the surface. */
+.paper {
+  --surface: var(--paper);
+
+  background: var(--paper);
+}
+
+.divider {
+  border-block-start: var(--hairline) solid var(--rule);
+}
+
+/* Two classes: the element is also the global .container, whose padding must stay. */
+.chapter .grid {
+  display: grid;
+  row-gap: var(--s-8);
+}
+
+.rail {
+  min-width: 0;
+  container-type: inline-size;
+}
+
+.railInner {
+  display: grid;
+  justify-items: start;
+}
+
+.rail .numeral {
+  margin-block-end: var(--s-4);
+}
+
+.rail .kicker {
+  margin-block-end: var(--s-3);
+}
+
+.rail .title {
+  max-width: 100%;
+  /* A large serif capital carries side bearing: pull it back so its stem stands on the kicker's edge. */
+  margin-inline-start: -0.035em;
+  font-size: var(--fs-chapter);
+  font-size: min(var(--fs-chapter), var(--chapter-title-cap, 27cqi));
+  overflow-wrap: normal;
+  hyphens: manual;
+}
+
+.rail .title:lang(th) {
+  margin-inline-start: 0;
+}
+
+.intro {
+  max-width: var(--measure-narrow);
+  margin-block-start: var(--s-5);
+  font-size: clamp(1rem, 0.94rem + 0.28vw, 1.125rem);
+  line-height: var(--lh-body);
+  color: var(--text-muted);
+  text-wrap: pretty;
+}
+
+.intro:lang(th) {
+  text-wrap: balance;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--s-3);
+  margin-block-start: var(--s-6);
+}
+
+.content {
+  min-width: 0;
+}
+
+@media (min-width: 64rem) {
+  .chapter .grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--col-gap);
+    row-gap: 0;
+  }
+
+  /* The rail keeps the row's full height (it must not be aligned to start): that is the track its inner
+     block travels along while it sticks. */
+  .rail {
+    grid-column: 1 / span 4;
+    padding-inline-end: var(--s-5);
+  }
+
+  .content {
+    grid-column: 5 / -1;
+  }
+
+  .wide .rail {
+    grid-column: 1 / span 5;
+  }
+
+  .wide .content {
+    grid-column: 6 / -1;
+  }
+}
+
+@media (min-width: 64rem) and (min-height: 45rem) {
+  .railInner {
+    position: sticky;
+    inset-block-start: var(--chapter-top);
+  }
+}
+
+@media print {
+  .railInner {
+    position: static;
+  }
+}

@@ -1,0 +1,420 @@
+/*
+ * Lightbox — the trigger on the page, and the full-screen viewer.
+ *
+ * The viewer wears .on-twilight (set in the markup), so its text, rules and focus ring are the dark tokens.
+ * It fills the viewport, so it needs no scrim.
+ *
+ * Component constants:
+ *   --lightbox-thumb    height of the thumbnail strip's pictures
+ *   --lightbox-round    the round buttons: one tap target and a little (48px)
+ */
+
+/* ───────────── Trigger ───────────── */
+
+.trigger {
+  --trigger-radius: var(--radius-lg);
+
+  position: relative;
+  display: block;
+  border-radius: var(--trigger-radius);
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* The clip holds the picture; the hit area is outside it so the focus ring is not cut off. */
+.clip {
+  position: relative;
+  display: block;
+  height: 100%;
+  overflow: hidden;
+  border-radius: inherit;
+  isolation: isolate;
+}
+
+.clip img {
+  transition: transform var(--t-plate-hover) var(--ease-out);
+}
+
+.hit {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  cursor: zoom-in;
+  appearance: none;
+}
+
+.hit:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
+
+.badge {
+  position: absolute;
+  inset-block-end: var(--s-3);
+  inset-inline-end: var(--s-3);
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: var(--tap);
+  height: var(--tap);
+  border-radius: var(--radius-pill);
+  background: var(--paper);
+  color: var(--ink);
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-8px, 8px);
+  transition:
+    opacity var(--t-hover) var(--ease),
+    transform var(--t-panel) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .trigger:hover .clip img {
+    transform: scale(1.04);
+  }
+
+  .trigger:hover .badge {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.trigger:focus-within .clip img {
+  transform: scale(1.04);
+}
+
+.trigger:focus-within .badge {
+  opacity: 1;
+  transform: none;
+}
+
+/* ───────────── Viewer ───────────── */
+
+.lightbox {
+  --lightbox-thumb: 3.5rem;
+  --lightbox-round: 3rem;
+
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+}
+
+/* Opened from a reel inside a <Band>, the viewer takes none of the band's halo. */
+.lightbox,
+.lightbox * {
+  text-shadow: none;
+}
+
+.lightbox::backdrop {
+  background: transparent;
+}
+
+.lightbox[open] {
+  animation: lightbox-in var(--t-panel) var(--ease-out);
+}
+
+.layout {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto auto;
+  height: 100%;
+  padding-block-end: env(safe-area-inset-bottom, 0px);
+}
+
+/* ── Top bar: counter and close ── */
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+  padding: var(--s-3) var(--s-4);
+}
+
+.counter {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5em;
+  padding-inline-start: var(--s-1);
+  font-size: var(--fs-small);
+  font-variant-numeric: tabular-nums lining-nums;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.current {
+  min-width: 1.4em;
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  text-align: end;
+}
+
+.slash {
+  opacity: 0.7;
+}
+
+/* ── Round buttons: close, previous, next ── */
+
+.round {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: var(--lightbox-round);
+  height: var(--lightbox-round);
+  padding: 0;
+  border: var(--hairline) solid color-mix(in srgb, var(--on-dark) 46%, transparent);
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--twilight) 55%, transparent);
+  color: var(--on-dark);
+  cursor: pointer;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color var(--t-hover) var(--ease),
+    border-color var(--t-hover) var(--ease),
+    color var(--t-hover) var(--ease),
+    transform var(--t-ui) var(--ease);
+}
+
+.round svg {
+  transition: transform var(--t-hover) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .round:hover {
+    border-color: var(--on-dark);
+    background: var(--on-dark);
+    color: var(--ink);
+  }
+
+  .next:hover svg {
+    transform: translateX(3px);
+  }
+
+  .previous:hover svg {
+    transform: translateX(-3px);
+  }
+}
+
+.round:active {
+  transform: scale(0.94);
+}
+
+.round:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
+
+/* ── Stage ── */
+
+.stage {
+  position: relative;
+  min-height: 0;
+  touch-action: pan-y pinch-zoom;
+  user-select: none;
+}
+
+.picture {
+  position: absolute;
+  inset: 0 var(--s-4);
+  display: grid;
+  /* One definite cell the size of the stage: the photograph's max-height: 100% has something to measure. */
+  grid-template: minmax(0, 1fr) / minmax(0, 1fr);
+  place-items: center;
+  animation: photo-in var(--t-panel) var(--ease-out);
+}
+
+/* A <source> is an (empty) box of its own and would take the grid's one cell. */
+.picture source {
+  display: none;
+}
+
+.picture .image {
+  grid-area: 1 / 1;
+  width: auto;
+  height: auto;
+  max-height: 100%;
+  border-radius: var(--radius-md);
+  object-fit: contain;
+}
+
+.failed {
+  position: absolute;
+  inset: 0 var(--s-5);
+  display: grid;
+  place-items: center;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* ── Foot: previous, caption, next ── */
+
+.foot {
+  display: grid;
+  grid-template-columns: var(--lightbox-round) minmax(0, 1fr) var(--lightbox-round);
+  align-items: center;
+  gap: var(--s-4);
+  padding: var(--s-4);
+}
+
+.caption {
+  grid-column: 2;
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+  color: var(--text);
+  text-align: center;
+  text-wrap: balance;
+}
+
+.previous {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.next {
+  grid-column: 3;
+  grid-row: 1;
+}
+
+/* ── Thumbnails: wide screens only ── */
+
+.thumbs {
+  display: none;
+}
+
+@media (min-width: 64rem) {
+  .bar {
+    padding: var(--s-4) var(--s-5);
+  }
+
+  .picture {
+    inset: 0 calc(var(--lightbox-round) + 2 * var(--s-6));
+  }
+
+  /* The arrows leave the foot and stand at the sides of the stage. */
+  .foot {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    padding-block: var(--s-4) var(--s-3);
+  }
+
+  .caption {
+    grid-column: 1;
+    max-width: 60ch;
+  }
+
+  .previous,
+  .next {
+    position: absolute;
+    inset-block-start: calc(50% - var(--lightbox-thumb) / 2 - var(--lightbox-round) / 2);
+  }
+
+  .previous {
+    inset-inline-start: var(--s-6);
+  }
+
+  .next {
+    inset-inline-end: var(--s-6);
+  }
+
+  .thumbs {
+    display: flex;
+    gap: var(--s-2);
+    max-width: 100%;
+    margin: 0 auto;
+    padding: var(--s-2) var(--s-5) var(--s-5);
+    overflow-x: auto;
+    list-style: none;
+    scrollbar-width: none;
+  }
+
+  .thumbs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .thumbItem {
+    flex: none;
+  }
+
+  .thumb {
+    display: block;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    cursor: pointer;
+    opacity: 0.5;
+    appearance: none;
+    transition:
+      opacity var(--t-hover) var(--ease),
+      transform var(--t-hover) var(--ease-out);
+  }
+
+  .thumb img {
+    display: block;
+    width: auto;
+    height: var(--lightbox-thumb);
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+
+  .thumb:hover {
+    opacity: 0.85;
+  }
+
+  .thumb[aria-current="true"] {
+    opacity: 1;
+    outline: var(--hairline) solid var(--on-dark);
+    outline-offset: 2px;
+  }
+
+  .thumb:focus-visible {
+    opacity: 1;
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
+}
+
+@keyframes lightbox-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes photo-in {
+  from {
+    opacity: 0;
+    transform: scale(0.985);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lightbox[open],
+  .picture {
+    animation: none;
+  }
+}
+
+@media print {
+  .lightbox {
+    display: none;
+  }
+}

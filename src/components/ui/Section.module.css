@@ -1,0 +1,43 @@
+/*
+ * Section. Sand, white, twilight and forest grounds, and the vertical rhythm, come from the global helpers
+ * (.on-sand, .on-white, .on-twilight, .on-forest, .section, .section-tight). Paper is the page ground
+ * restated, so a paper section still reads as paper when a parent has changed the surface.
+ *
+ * .sand, .white, .normal and .tight carry no declarations of their own: they are local names for the
+ * ground and the rhythm, so the rules below can tell what two neighbouring sections are.
+ */
+.paper {
+  --surface: var(--paper);
+
+  background: var(--paper);
+}
+
+/*
+ * Same ground, no seam. Two neighbours on one ground would otherwise add their paddings, and the empty
+ * band between them would be twice the section rhythm. So the second section's leading padding gives way
+ * and the gap is the larger of the two rhythms, as collapsing margins would make it:
+ *
+ *   normal + normal, normal + tight    one --section-y        (the first section's trailing padding)
+ *   tight  + tight                     one --section-y-tight
+ *   tight  + normal                    one --section-y        (the tight padding, topped up)
+ *
+ * A neighbour with spacing="none" brings no padding, so nothing gives way beside it. Where the ground
+ * changes, each band keeps its own padding: the space belongs to the band.
+ */
+.paper.normal + .paper.normal,
+.paper.normal + .paper.tight,
+.paper.tight + .paper.tight,
+.sand.normal + .sand.normal,
+.sand.normal + .sand.tight,
+.sand.tight + .sand.tight,
+.white.normal + .white.normal,
+.white.normal + .white.tight,
+.white.tight + .white.tight {
+  padding-block-start: 0;
+}
+
+.paper.tight + .paper.normal,
+.sand.tight + .sand.normal,
+.white.tight + .white.normal {
+  padding-block-start: calc(var(--section-y) - var(--section-y-tight));
+}

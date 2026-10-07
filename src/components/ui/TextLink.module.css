@@ -1,0 +1,110 @@
+/*
+ * TextLink. The line is the cue (colour alone never marks a link). It is drawn as two background layers
+ * on the text box rather than with text-decoration, so the hover line can grow from the left:
+ *
+ *   rest    a hairline at 62% of the label colour, full width (3:1 or better on every ground)
+ *   hover   a second hairline at full strength grows over it, left to right
+ *
+ * Component constant: --line-y lifts the line from the bottom of the line box to just under the letters.
+ * Thai keeps it lower so it clears the vowels written below the consonants.
+ */
+.link {
+  --line-y: 0.3em;
+  --line-rest: color-mix(in srgb, currentColor 62%, transparent);
+
+  color: var(--accent);
+}
+
+/* Doubled class: the line is drawn as a background, so the underline that .prose gives its links must go. */
+.link.link {
+  text-decoration: none;
+}
+
+.link:lang(th) {
+  --line-y: 0.1em;
+}
+
+.inline,
+.label {
+  background-image: linear-gradient(currentColor, currentColor), linear-gradient(var(--line-rest), var(--line-rest));
+  background-repeat: no-repeat;
+  background-position:
+    0 calc(100% - var(--line-y)),
+    0 calc(100% - var(--line-y));
+  background-size:
+    0% var(--hairline),
+    100% var(--hairline);
+  transition: background-size var(--t-panel) var(--ease-out);
+}
+
+.inline {
+  font-weight: inherit;
+}
+
+/* ── Arrow: an onward link on its own line ── */
+
+.arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  min-height: var(--tap);
+  font-size: var(--fs-body);
+  font-weight: 500;
+  line-height: 1.3;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.arrow:lang(th) {
+  line-height: 1.5;
+}
+
+.icon {
+  flex: none;
+  transition: transform var(--t-hover) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .inline:hover,
+  .arrow:hover .label {
+    background-size:
+      100% var(--hairline),
+      100% var(--hairline);
+  }
+
+  .arrow:hover .icon {
+    transform: translateX(4px);
+  }
+
+  .arrow:hover .iconDiagonal {
+    transform: translate(3px, -3px);
+  }
+}
+
+.inline:focus-visible,
+.arrow:focus-visible .label {
+  background-size:
+    100% var(--hairline),
+    100% var(--hairline);
+}
+
+.arrow:active .icon {
+  transform: translateX(6px);
+}
+
+.arrow:active .iconDiagonal {
+  transform: translate(4px, -4px);
+}
+
+/* The offset is set at rest (it does nothing without an outline); the ring appears on :focus-visible. */
+.link.inline {
+  outline-offset: 2px;
+}
+
+.link.arrow {
+  outline-offset: var(--s-1);
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--focus);
+  border-radius: var(--radius-sm);
+}

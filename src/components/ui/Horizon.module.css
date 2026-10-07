@@ -1,0 +1,46 @@
+/*
+ * Horizon — a label riding on a hairline.
+ *
+ *   01 ── THE SETTING ────────────────────────────────────────────
+ *
+ * The label keeps its natural width; the line takes what is left and never shrinks below 24px.
+ */
+.horizon {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  width: 100%;
+  min-height: var(--hairline);
+}
+
+.label {
+  flex: 0 1 auto;
+  min-width: 0;
+  margin: 0;
+}
+
+.line {
+  flex: 1 1 0;
+  min-width: var(--s-5);
+  height: var(--hairline);
+  background: var(--rule);
+  transform-origin: left center;
+}
+
+/* ── Draw: once, from the left. Never the only way the line becomes visible. ── */
+
+@media (prefers-reduced-motion: no-preference) and (scripting: enabled) {
+  .draw .line {
+    animation: draw var(--t-horizon) var(--ease-out) both;
+  }
+}
+
+@keyframes draw {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}

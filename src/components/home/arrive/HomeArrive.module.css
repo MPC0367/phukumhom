@@ -1,0 +1,440 @@
+/*
+ * Chapter 07, "Getting here".
+ *
+ *   ┌ Address (white) ─────────────┐ ┌ Talk to the resort (forest) ──┐
+ *   │ ADDRESS                  (⌖) │ │ TALK TO THE RESORT        (✆) │
+ *   │ 28 Moo 22, Wang Katha, …     │ │ +66 65 542 9451               │
+ *   │ [Copy address]               │ │ 18:42 local time              │
+ *   │ [Share location]             │ │ [Contact on Facebook]         │
+ *   │ Open in Google Maps ↗        │ │ [Send an enquiry]             │
+ *   │ The link opens …             │ │ An enquiry is a message …     │
+ *   └──────────────────────────────┘ └───────────────────────────────┘
+ *   ┌ the reception building at dusk ──────────────────────────────┐
+ *   │ (caption)                                                    │
+ *   │                                   ┌ In Wang Katha, on the ┐  │
+ *   └───────────────────────────────────│ quieter side of …     │──┘
+ *                                       └───────────────────────┘
+ *
+ * The block is a size container: the panels sit side by side from 44rem of their own width and stack
+ * below it, so they are right in the homepage's content column at every screen width.
+ *
+ * Component constants:
+ *   --arrive-mark       the round icon in a panel's corner (44px)
+ *   --arrive-overlap    how far the locality card rides up over the photograph when the block is narrow
+ *                       (from 36rem of its own width it rides up 5rem)
+ *   --arrive-veil       the ground of the caption over the photograph: the scrim colour at 72%, which
+ *                       keeps paper text above 4.5:1 whatever pixels are behind it
+ */
+.arrive {
+  --arrive-mark: var(--tap);
+  --arrive-overlap: var(--s-6);
+  --arrive-veil: color-mix(in srgb, var(--twilight) 72%, transparent);
+
+  container-type: inline-size;
+  display: grid;
+  gap: var(--s-4);
+  min-width: 0;
+}
+
+/* ── The two panels ── */
+
+.panels {
+  display: grid;
+  gap: var(--s-4);
+}
+
+/* If the address is ever withheld the remaining panel takes the whole row. */
+.panels > :only-child {
+  grid-column: 1 / -1;
+}
+
+/* Each panel is a size container too: the address and the phone number are sized by the panel they are in. */
+.arrive .panel {
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* The forest panel: .on-forest re-points the tokens; the ground is restated here because an outline panel
+   clears its own, and the outline is not needed on a filled ground. */
+.arrive .talk {
+  border-color: transparent;
+  background: var(--forest);
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+  min-height: var(--arrive-mark);
+  margin-block-end: var(--s-5);
+}
+
+.mark {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: var(--arrive-mark);
+  height: var(--arrive-mark);
+  border: var(--hairline) solid var(--rule);
+  border-radius: var(--radius-pill);
+  color: var(--accent);
+}
+
+
+/* <address> is information, not an aside: upright, in the display face, broken only between its parts. */
+.arrive .address {
+  /* The longest part, "Nakhon Ratchasima 30130,", is about ten of these ems wide and must hold on one line. */
+  font-size: clamp(1.375rem, 9cqi, 2rem);
+  font-style: normal;
+  text-wrap: balance;
+}
+
+.arrive .address:lang(th) {
+  font-size: clamp(1.25rem, 7.4cqi, 1.625rem);
+}
+
+/* Whatever is at the foot of a panel sits on its floor, so the two panels end level. */
+.foot {
+  display: grid;
+  gap: var(--s-4);
+  margin-block-start: auto;
+  padding-block-start: var(--s-6);
+}
+
+/* In a narrow panel the two pills stack and take the width of the wider, so they read as a pair.
+   From 30rem of the panel they sit side by side at their own widths. */
+.actions,
+.contact {
+  display: inline-grid;
+  justify-self: start;
+  gap: var(--s-3);
+}
+
+@container (min-width: 30rem) {
+  .actions,
+  .contact {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+
+/* Copy and share need script (the <noscript> rule in HomeArrive.tsx covers browsers without this query). */
+@media (scripting: none) {
+  .actions {
+    display: none;
+  }
+}
+
+.mapRow {
+  display: grid;
+  justify-items: start;
+  gap: var(--s-1);
+  padding-block-start: var(--s-3);
+  border-block-start: var(--hairline) solid var(--rule);
+}
+
+.note {
+  max-width: 34em;
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+  color: var(--text-muted);
+  text-wrap: pretty;
+}
+
+/* ── Copy address: the button that turns into a tick ── */
+
+.copyInner {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+/* Both labels share one cell, so the button is as wide as the longer and never changes size. The cell is
+   padded and pulled back by the same amount: it clips a little outside the line, so Thai marks above
+   and below are never cut, and takes no extra room. */
+.swap {
+  display: inline-grid;
+  justify-items: start;
+  overflow: hidden;
+  overflow: clip;
+  margin-block: -0.3em;
+  padding-block: 0.3em;
+}
+
+.swapRest,
+.swapDone {
+  grid-area: 1 / 1;
+  transition:
+    transform var(--t-panel) var(--ease-out),
+    opacity var(--t-hover) var(--ease);
+}
+
+.swapDone {
+  opacity: 0;
+  transform: translateY(110%);
+}
+
+.copy[data-copied="true"] .swapRest {
+  opacity: 0;
+  transform: translateY(-110%);
+}
+
+.copy[data-copied="true"] .swapDone {
+  opacity: 1;
+  transform: none;
+}
+
+.glyph {
+  display: inline-grid;
+  flex: none;
+}
+
+.glyphCopy,
+.glyphCheck {
+  grid-area: 1 / 1;
+  transition:
+    transform var(--t-panel) var(--ease-out),
+    opacity var(--t-hover) var(--ease);
+}
+
+.glyphCheck {
+  opacity: 0;
+  transform: scale(0.6);
+}
+
+/* The tick draws itself: its one stroke is dashed to its own length and slid into view. */
+.glyphCheck path {
+  stroke-dasharray: 26;
+  stroke-dashoffset: 26;
+  transition: stroke-dashoffset var(--t-panel) var(--ease-out) 80ms;
+}
+
+.copy[data-copied="true"] .glyphCopy {
+  opacity: 0;
+  transform: scale(0.6);
+}
+
+.copy[data-copied="true"] .glyphCheck {
+  opacity: 1;
+  transform: none;
+}
+
+.copy[data-copied="true"] .glyphCheck path {
+  stroke-dashoffset: 0;
+}
+
+/* While it is a tick the outline is full, exactly as it is under the pointer. */
+.copy[data-copied="true"] {
+  border-color: var(--button-line);
+  color: var(--button-inverse);
+}
+
+.copy[data-copied="true"]::before {
+  transform: none;
+}
+
+/* ── The phone number: a figure that dials ── */
+
+.phoneLine {
+  margin-block-start: var(--s-2);
+}
+
+/* Sized by the panel, so the whole number always holds on one line: fifteen characters across in
+   English ("+66 65 542 9451"), twelve in Thai. */
+.arrive .phone {
+  display: inline-block;
+  padding-block: 0.08em 0.14em;
+  font-size: clamp(1.75rem, 15cqi, 4.25rem);
+  color: var(--text);
+  text-decoration: none;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.arrive .phone:lang(th) {
+  font-size: clamp(1.75rem, 15.2cqi, 4.25rem);
+}
+
+/* A hairline under the number; a full-strength one draws over it from the left on hover and focus. */
+.phoneDigits {
+  --line-rest: color-mix(in srgb, currentColor 34%, transparent);
+
+  padding-block-end: 0.08em;
+  background-image: linear-gradient(var(--clay-soft), var(--clay-soft)), linear-gradient(var(--line-rest), var(--line-rest));
+  background-repeat: no-repeat;
+  background-position:
+    0 100%,
+    0 100%;
+  background-size:
+    0% var(--hairline),
+    100% var(--hairline);
+  transition: background-size var(--t-enter) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .phone:hover .phoneDigits {
+    background-size:
+      100% var(--hairline),
+      100% var(--hairline);
+  }
+}
+
+.phone:focus-visible .phoneDigits {
+  background-size:
+    100% var(--hairline),
+    100% var(--hairline);
+}
+
+.phone:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: var(--s-1);
+  border-radius: var(--radius-sm);
+}
+
+.phone:active {
+  color: var(--clay-soft);
+}
+
+/* The time at the resort right now, so a caller knows. The line keeps its place and shows nothing until
+   the clock has a value (it has none on the server or without script). */
+.now {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin-block-start: var(--s-3);
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+  color: var(--text-muted);
+}
+
+.now:has([data-live="false"]) {
+  visibility: hidden;
+}
+
+.nowIcon {
+  flex: none;
+}
+
+/* ── Side by side ── */
+
+@container (min-width: 44rem) {
+  .panels {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+}
+
+/* ── The photograph and the card that floats over its corner ── */
+
+.stage {
+  position: relative;
+  /* The card's own stacking: it rides above the photograph and its caption. */
+  isolation: isolate;
+}
+
+.photo {
+  position: relative;
+  margin: 0;
+}
+
+.photo .frame {
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-lg);
+  isolation: isolate;
+}
+
+.frame .parallax {
+  position: absolute;
+  inset: 0;
+}
+
+.caption {
+  position: absolute;
+  inset-block-start: var(--s-3);
+  inset-inline-start: var(--s-3);
+  z-index: 1;
+  max-width: calc(100% - 2 * var(--s-3));
+}
+
+.captionChip {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--s-6);
+  padding: var(--s-1) 0.875rem;
+  border-radius: var(--radius-pill);
+  background: var(--arrive-veil);
+  color: var(--on-dark);
+  font-size: var(--fs-small);
+  line-height: 1.3;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+.captionChip:lang(th) {
+  line-height: 1.5;
+}
+
+.cardSlot {
+  position: relative;
+  z-index: 1;
+  margin-block-start: calc(-1 * var(--arrive-overlap));
+  margin-inline: var(--s-3);
+}
+
+.stage .card {
+  display: grid;
+  gap: var(--s-3);
+  padding: var(--s-5);
+  border-radius: var(--radius-lg);
+}
+
+.cardMark {
+  display: grid;
+  place-items: center;
+  width: var(--s-7);
+  height: var(--s-7);
+  border-radius: var(--radius-pill);
+  background: var(--clay-wash);
+  color: var(--clay-deep);
+}
+
+.stage .locality {
+  max-width: 16em;
+  text-wrap: balance;
+}
+
+@container (min-width: 36rem) {
+  .photo .frame {
+    aspect-ratio: 3 / 2;
+  }
+
+  .caption {
+    inset-block-start: var(--s-4);
+    inset-inline-start: var(--s-4);
+  }
+
+  .cardSlot {
+    width: min(23rem, 54%);
+    margin-block-start: calc(-1 * var(--s-10));
+    margin-inline: auto var(--s-5);
+  }
+
+  .stage .card {
+    padding: var(--s-6);
+  }
+}
+
+@media print {
+  .actions {
+    display: none;
+  }
+}
+
+/* The motion wrappers inside the rail's <h2> and intro are spans (valid inside both); they lay out as blocks. */
+.railTitle,
+.railIntro {
+  display: block;
+}

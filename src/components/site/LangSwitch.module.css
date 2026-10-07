@@ -1,0 +1,81 @@
+/*
+ * Language switch: TH / EN. The codes are Latin letters in both languages, but each carries its own
+ * `lang`, so nothing here is tracked or transformed.
+ *
+ * The language being read is ink with a hairline beneath it (never colour alone); the other one is a
+ * muted link, 44px square to the touch. Colours are the surface tokens, so the same markup reads on
+ * paper, on white and in the twilight footer.
+ *
+ * Optional hook read from the surroundings: --lang-pad, the padding beside each code. The header sets
+ * it so that the switch still fits the bar when a guest has enlarged the text on a narrow phone.
+ */
+.switch {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  font-family: var(--font-sans);
+  font-size: var(--fs-small);
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--tap);
+  padding-inline: var(--lang-pad, var(--s-2));
+  color: var(--text);
+  text-decoration: none;
+  white-space: nowrap;
+  /* The header changes ground in 0.4s; its words keep step. */
+  transition: color 0.4s var(--ease);
+}
+
+/* The mark under the current language. */
+.item[aria-current="true"]::after {
+  content: "";
+  position: absolute;
+  inset-inline: var(--lang-pad, var(--s-2));
+  inset-block-end: var(--s-3);
+  height: var(--hairline);
+  background: var(--accent);
+}
+
+.link {
+  color: var(--text-muted);
+  -webkit-tap-highlight-color: transparent;
+  transition: color var(--t-ui) var(--ease);
+}
+
+/*
+ * The two codes sit close together as one mark, so the link's box is only as wide as its letters.
+ * This invisible extension makes what a finger can hit 44px wide without moving anything.
+ */
+.link::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inset-inline: calc(-1 * var(--s-1));
+}
+
+@media (hover: hover) {
+  .link:hover {
+    color: var(--accent);
+  }
+}
+
+.link:active {
+  color: var(--accent);
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: calc(-1 * var(--s-1));
+}
+
+.separator {
+  color: var(--text-muted);
+  font-weight: 400;
+}

@@ -1,0 +1,383 @@
+/*
+ * HomeGrounds — four tiles in a staggered 2×2, in two forms.
+ *
+ * PLAIN (the default: the server's HTML, touch screens, no JavaScript, reduced motion)
+ *   A rounded photograph with the name and one sentence under it. Phones: one column that steps from
+ *   side to side. From 40rem: two columns, the right one set lower.
+ *
+ * LIFTED (a mouse, 40rem and wider, and the motion system running: html.motion)
+ *   The photograph is the whole tile and the shapes interlock like a checkerboard:
+ *
+ *     ┌────────┐
+ *     │ tall   │ ┌────────┐
+ *     │        │ │ wide   │
+ *     └────────┘ └────────┘
+ *     ┌────────┐ ┌────────┐
+ *     │ wide   │ │ tall   │
+ *     └────────┘ │        │
+ *                └────────┘
+ *
+ *   The name is a paper tag on the photograph. On hover or keyboard focus a white sheet slides up over
+ *   the lower part with the name and the sentence, and the photograph eases to 1.04.
+ *
+ * Component constants:
+ *   --tiles-gap    space between tiles
+ *   --tile-w       one tile's width, from the field's own width (container units)
+ *   --tall, --wide a tile's height as a multiple of its width, for the two shapes
+ *   --drop         how far the right column is set down: half the difference between the two shapes,
+ *                  which is exactly what makes the four tiles interlock
+ */
+.chapter {
+  position: relative;
+}
+
+.phrase {
+  display: inline-block;
+}
+
+.field {
+  container-type: inline-size;
+}
+
+.tiles {
+  --tiles-gap: var(--s-5);
+
+  display: grid;
+  row-gap: var(--s-8);
+}
+
+/* Phones: one column, stepping from the left edge to the right. */
+.cell {
+  width: 88%;
+  min-width: 0;
+}
+
+.cell:nth-child(even) {
+  margin-inline-start: auto;
+}
+
+.tile {
+  position: relative;
+}
+
+.media {
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius-lg);
+  /* Its own stacking context, so the scaled picture cannot escape the corners in WebKit. */
+  isolation: isolate;
+}
+
+.cell:nth-child(2) .media {
+  aspect-ratio: 1 / 1;
+}
+
+.cell:nth-child(3) .media {
+  aspect-ratio: 4 / 3;
+}
+
+/* The layer that drifts with the page (a mouse or trackpad only): it fills the tile. */
+.drift {
+  position: absolute;
+  inset: 0;
+}
+
+.media img {
+  transition: transform var(--t-plate-hover) var(--ease-out);
+}
+
+/* The link is the photograph. Its ring is drawn round the tile (below), where nothing clips it. */
+.go {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.go:focus-visible {
+  outline: 2px solid var(--focus-on-dark);
+  outline-offset: -6px;
+}
+
+@supports selector(:has(a)) {
+  .go:focus-visible {
+    outline: none;
+  }
+
+  .tile:has(.go:focus-visible) {
+    outline: 2px solid var(--focus);
+    outline-offset: 4px;
+    border-radius: var(--radius-lg);
+  }
+}
+
+.badge {
+  position: absolute;
+  inset-block-start: var(--s-3);
+  inset-inline-end: var(--s-3);
+  display: grid;
+  place-items: center;
+  width: var(--tap);
+  height: var(--tap);
+  border-radius: var(--radius-pill);
+  background: var(--paper);
+  color: var(--ink);
+  transition:
+    background-color var(--t-hover) var(--ease),
+    color var(--t-hover) var(--ease);
+}
+
+.badge svg {
+  transition: transform var(--t-hover) var(--ease-out);
+}
+
+/* Only the lifted form shows the tag. */
+.tag {
+  display: none;
+}
+
+.sheet {
+  padding-block-start: var(--s-4);
+  padding-inline-end: var(--s-4);
+}
+
+.sheet .name {
+  font-size: clamp(1.5rem, 1.3rem + 0.9vw, 1.875rem);
+  line-height: 1.12;
+}
+
+.sheet .name:lang(th) {
+  font-size: clamp(1.3125rem, 1.2rem + 0.5vw, 1.5rem);
+  line-height: 1.45;
+}
+
+.excerpt {
+  max-width: 34em;
+  margin-block-start: var(--s-2);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  text-wrap: pretty;
+}
+
+.excerpt:lang(th) {
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+.sheet .arranged {
+  margin-block-start: var(--s-3);
+  color: var(--clay-deep);
+}
+
+/* The photograph answers the pointer in both forms. */
+@media (hover: hover) {
+  .tile:hover .media img {
+    transform: scale(1.04);
+  }
+
+  .tile:hover .badge {
+    background: var(--action);
+    color: var(--on-action);
+  }
+
+  .tile:hover .badge svg {
+    transform: translate(2px, -2px);
+  }
+}
+
+.tile:focus-within .media img {
+  transform: scale(1.04);
+}
+
+.tile:focus-within .badge {
+  background: var(--action);
+  color: var(--on-action);
+}
+
+/* ── The pointer under the tiles ── */
+
+.ask {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-2) var(--s-6);
+  margin-block-start: var(--s-9);
+  padding-block-start: var(--s-5);
+  border-block-start: var(--hairline) solid var(--rule);
+}
+
+.askText {
+  max-width: 30em;
+  font-size: var(--fs-lead);
+  font-weight: 300;
+  line-height: var(--lh-lead);
+  text-wrap: balance;
+}
+
+/* ── Two columns ── */
+
+@media (min-width: 40rem) {
+  .tiles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    column-gap: var(--tiles-gap);
+  }
+
+  .cell {
+    width: auto;
+  }
+
+  /* The right column is set lower. */
+  .cell:nth-child(even) {
+    margin-block-start: var(--s-9);
+    margin-inline-start: 0;
+  }
+
+  /* A row shares one shape, so the names line up across it. */
+  .cell:nth-child(n) .media {
+    aspect-ratio: 4 / 5;
+  }
+
+  .cell:nth-child(n + 3) .media {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+/* ── Lifted ── */
+
+@media (min-width: 40rem) and (hover: hover) and (pointer: fine) {
+  :global(html.motion) .tiles {
+    --tile-w: calc((100cqi - var(--tiles-gap)) / 2);
+    --tall: 1.3333;
+    --wide: 1;
+    --drop: calc(var(--tile-w) * (var(--tall) - var(--wide)) / 2);
+
+    row-gap: var(--tiles-gap);
+  }
+
+  :global(html.motion) .cell:nth-child(n) .media {
+    aspect-ratio: 3 / 4;
+  }
+
+  :global(html.motion) .cell:nth-child(2) .media,
+  :global(html.motion) .cell:nth-child(3) .media {
+    aspect-ratio: 1 / 1;
+  }
+
+  :global(html.motion) .cell:nth-child(2) {
+    margin-block-start: var(--drop);
+  }
+
+  /* Up into the space the wide tile above it leaves. */
+  :global(html.motion) .cell:nth-child(4) {
+    margin-block-start: calc(-1 * var(--drop));
+  }
+
+  :global(html.motion) .tile {
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    isolation: isolate;
+  }
+
+  :global(html.motion) .tag {
+    position: absolute;
+    inset-block-end: var(--s-3);
+    inset-inline-start: var(--s-3);
+    z-index: 1;
+    display: block;
+    max-width: calc(100% - 2 * var(--s-3));
+    padding: 0.5rem 1rem 0.5625rem;
+    border-radius: var(--radius-md);
+    background: var(--paper);
+    color: var(--forest);
+    font-family: var(--font-display);
+    font-size: 1.375rem;
+    font-weight: 500;
+    line-height: 1.12;
+    pointer-events: none;
+    transition:
+      opacity var(--t-ui) var(--ease),
+      transform var(--t-panel) var(--ease-out);
+  }
+
+  :global(html.motion) .tag:lang(th) {
+    font-family: var(--font-display-th);
+    font-size: 1.125rem;
+    line-height: 1.5;
+  }
+
+  /* The sheet rests below the tile's lower edge, out of sight, and rises on its own shadow. */
+  :global(html.motion) .sheet {
+    position: absolute;
+    inset-block-end: var(--s-3);
+    inset-inline: var(--s-3);
+    z-index: 2;
+    padding: var(--s-4) var(--s-5) var(--s-5);
+    border-radius: var(--radius-md);
+    background: var(--white);
+    box-shadow: var(--shadow-float);
+    /* The photograph underneath is the link: a press on the sheet goes through to it. */
+    pointer-events: none;
+    transform: translateY(calc(100% + var(--s-5)));
+  }
+
+  /*
+   * The sheet travels only while the pointer or the keyboard is somewhere in the chapter. When the form
+   * itself changes (the motion system starting, a tablet's keyboard being attached, a full-page capture
+   * resizing the window) the sheet takes its place at once instead of sliding there.
+   */
+  :global(html.motion) .chapter:hover .sheet,
+  :global(html.motion) .chapter:focus-within .sheet {
+    transition: transform var(--t-panel) var(--ease-out);
+  }
+
+  :global(html.motion) .sheet .name {
+    font-size: 1.5rem;
+  }
+
+  :global(html.motion) .sheet .name:lang(th) {
+    font-size: 1.25rem;
+  }
+
+  :global(html.motion) .excerpt {
+    color: var(--ink-muted);
+  }
+
+  :global(html.motion) .tile:hover .sheet,
+  :global(html.motion) .tile:focus-within .sheet {
+    transform: none;
+  }
+
+  :global(html.motion) .tile:hover .tag,
+  :global(html.motion) .tile:focus-within .tag {
+    opacity: 0;
+    transform: translateY(var(--s-3));
+  }
+}
+
+@media (min-width: 80rem) and (hover: hover) and (pointer: fine) {
+  :global(html.motion) .tiles {
+    --tall: 1.25;
+    --wide: 0.75;
+  }
+
+  :global(html.motion) .cell:nth-child(n) .media {
+    aspect-ratio: 4 / 5;
+  }
+
+  :global(html.motion) .cell:nth-child(2) .media,
+  :global(html.motion) .cell:nth-child(3) .media {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+/* ── The rail ──
+   <Chapter> takes its title and intro as nodes; they are handed over inside the motion system's
+   entrances, which need a box of their own to move (an inline <span> cannot be transformed). */
+
+.railTitle,
+.railIntro {
+  display: block;
+}

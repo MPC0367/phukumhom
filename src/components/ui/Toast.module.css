@@ -1,0 +1,106 @@
+/*
+ * Toast — a dark pill, bottom centre. The layer is a popover (top layer) where supported and a fixed
+ * element otherwise; either way the rules below place it. The UA popover styles (a centred, bordered,
+ * Canvas-coloured box) are all overridden.
+ *
+ * Component constants: the pill rises 12px as it arrives and leaves the same way.
+ */
+.layer {
+  position: fixed;
+  inset: auto 0 calc(var(--sticky-actions-h) + env(safe-area-inset-bottom, 0px) + var(--s-4));
+  z-index: calc(var(--z-dialog) + 5);
+  display: grid;
+  justify-items: center;
+  width: fit-content;
+  max-width: calc(100% - 2 * var(--s-5));
+  height: fit-content;
+  margin: 0 auto;
+  padding: 0;
+  overflow: visible;
+  border: 0;
+  background: transparent;
+  color: var(--on-dark);
+  pointer-events: none;
+}
+
+.layer::backdrop {
+  display: none;
+}
+
+@media (min-width: 48rem) {
+  .layer {
+    inset-block-end: var(--s-7);
+  }
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  min-height: var(--tap);
+  padding: var(--s-2) var(--s-5) var(--s-2) var(--s-3);
+  border-radius: var(--radius-pill);
+  background: var(--forest-deep);
+  color: var(--on-dark);
+  box-shadow: var(--shadow-float);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.35;
+  animation: toast-in var(--t-panel) var(--ease-out) both;
+}
+
+.toast:lang(th) {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.leaving {
+  animation: toast-out 320ms var(--ease) both;
+}
+
+.mark {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: var(--s-5);
+  height: var(--s-5);
+  border-radius: var(--radius-pill);
+  background: var(--clay-soft);
+  color: var(--forest-deep);
+}
+
+.message {
+  min-width: 0;
+  text-wrap: balance;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--s-3));
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes toast-out {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(var(--s-2));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toast,
+  .leaving {
+    animation-duration: 1ms;
+  }
+}

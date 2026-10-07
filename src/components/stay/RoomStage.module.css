@@ -1,0 +1,675 @@
+/*
+ * RoomStage — a list of the room types and the photograph that follows the choice.
+ *
+ *   wide (the root is 38rem or more) and live           narrow, or not yet live
+ *   ┌ list ───────────────────┐ ┌ stage ─────────┐     ┌ entry ─────────────────────────┐
+ *   │ 01 Deluxe Balcony    (−) │ │                │     │ 01 Deluxe Balcony           (−) │
+ *   │    the distinction       │ │   photograph   │     │    ┌ photograph ─────────────┐ │
+ *   │    [chip] [chip]         │ │   (sticky)     │     │    └─────────────────────────┘ │
+ *   │    [chip ───────]        │ │                │     │    the distinction, chips…     │
+ *   │    (View room) (Check)   │ │ 01 ─ 03   ▬▭▭  │     ├────────────────────────────────┤
+ *   ├──────────────────────────┤ └────────────────┘     │ 02 Deluxe Bathtub           (+) │
+ *   │ 02 Deluxe Bathtub    (+) │  caption               └────────────────────────────────┘
+ *   └──────────────────────────┘
+ *
+ * The root is a size container: the layout answers to the column it is placed in, not to the window, so
+ * the same component works in a chapter's content column, on the stay page and on a tablet.
+ *
+ * NOTHING IS HIDDEN BY THIS FILE ALONE. Every rule that collapses or hides is keyed on
+ * .root[data-enhanced], an attribute only script sets (RoomStageClient). Without it every entry is open
+ * and shows its own photograph. Transitions are keyed on .root[data-animate], set by the first
+ * interaction, so the collapse at hydration is instant and unseen.
+ *
+ * Component constants:
+ *   --stage-top     where the stage sticks: the header's height plus 2.5rem, the same line as a chapter rail
+ *   --stage-open    how long a panel takes to open or close
+ *   --stage-num     width of the numeral column; the panel's content is indented by the same amount
+ *   38rem           the root width from which the stage stands beside the list
+ */
+.root {
+  --stage-top: calc(var(--header-h) + var(--s-7));
+  --stage-open: 560ms;
+  --stage-num: 2.25rem;
+
+  container-type: inline-size;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root {
+    --stage-open: 1ms;
+  }
+}
+
+.layout {
+  display: grid;
+  row-gap: var(--s-7);
+}
+
+.listWrap {
+  min-width: 0;
+}
+
+/* ───────────── Entries ───────────── */
+
+.list {
+  border-block-end: var(--hairline) solid var(--rule);
+}
+
+.entry {
+  position: relative;
+  border-block-start: var(--hairline) solid var(--rule);
+}
+
+/* The open entry's rule is redrawn in the action colour, from the left. */
+.entry::before {
+  content: "";
+  position: absolute;
+  inset-block-start: calc(-1 * var(--hairline));
+  inset-inline: 0;
+  height: 2px;
+  background: var(--action);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+
+.root[data-enhanced] .entry[data-open]::before {
+  transform: scaleX(1);
+}
+
+.root[data-animate] .entry::before {
+  transition: transform 700ms var(--ease-out);
+}
+
+/* ── Header ── */
+
+.head {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--stage-num) minmax(0, 1fr) auto;
+  column-gap: var(--s-3);
+  align-items: start;
+  padding-block: var(--s-5);
+}
+
+/* The numeral stands on the cap line of the name beside it. */
+.num {
+  padding-block-start: 0.85rem;
+}
+
+.titles {
+  display: grid;
+  row-gap: var(--s-1);
+  min-width: 0;
+}
+
+/* Two classes: the element also wears the global .h2, whose size this replaces with one measured in the root's width. */
+.entry .name {
+  font-size: clamp(1.75rem, 1.1rem + 2.7cqi, 2.75rem);
+  line-height: 1.1;
+  color: var(--accent);
+}
+
+.entry .name:lang(th) {
+  font-size: clamp(1.375rem, 1rem + 1.7cqi, 1.9375rem);
+  line-height: 1.32;
+}
+
+/* The Latin room name inside a Thai heading keeps the English display face, set a little larger so its
+   small x-height stands level with the Thai classifier before it. */
+.name:lang(th) span:lang(en) {
+  font-family: var(--font-display);
+  font-size: 1.16em;
+  letter-spacing: -0.01em;
+}
+
+.trigger {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+  text-align: start;
+  cursor: pointer;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* The whole header row is the hit area, and a little more at each side so the focus ring clears the numeral. */
+.trigger::after {
+  content: "";
+  position: absolute;
+  inset: 0 calc(-1 * var(--s-2));
+  z-index: 1;
+  border-radius: var(--radius-sm);
+}
+
+.trigger:focus-visible {
+  outline: none;
+}
+
+.trigger:focus-visible::after {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* The name's own box (RoomName renders one element), so it can ease aside without moving the hit area. */
+.trigger > span {
+  display: inline-block;
+  transition: transform var(--t-panel) var(--ease-out);
+}
+
+.sub {
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+  color: var(--text-muted);
+}
+
+.sub::first-letter {
+  text-transform: uppercase;
+}
+
+/* Plus and minus, drawn: the upright bar turns to lie on the level one when the entry is open. */
+.toggle {
+  position: relative;
+  display: block;
+  width: var(--tap);
+  height: var(--tap);
+  border: var(--hairline) solid var(--border-control);
+  border-radius: var(--radius-pill);
+  color: var(--text);
+  transition:
+    background-color var(--t-hover) var(--ease),
+    border-color var(--t-hover) var(--ease),
+    color var(--t-hover) var(--ease);
+}
+
+.toggle::before,
+.toggle::after {
+  content: "";
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  width: 0.875rem;
+  height: 1.5px;
+  margin: -0.75px 0 0 -0.4375rem;
+  border-radius: 1px;
+  background: currentColor;
+  transition: transform var(--stage-open) var(--ease-out);
+}
+
+.toggle::after {
+  transform: rotate(90deg);
+}
+
+.root[data-enhanced] .entry[data-open] .toggle {
+  border-color: var(--action);
+  background: var(--action);
+  color: var(--on-action);
+}
+
+.root[data-enhanced] .entry[data-open] .toggle::after {
+  transform: rotate(180deg);
+}
+
+/* Without script every entry is open and the header does nothing: no control is drawn. */
+.root:not([data-enhanced]) .toggle {
+  display: none;
+}
+
+.root:not([data-enhanced]) .trigger {
+  cursor: default;
+}
+
+@media (hover: hover) {
+  .root[data-enhanced] .entry:not([data-open]) .head:hover .trigger > span {
+    transform: translateX(0.5rem);
+  }
+
+  .root[data-enhanced] .entry:not([data-open]) .head:hover .toggle {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: var(--surface);
+  }
+}
+
+/* ── Panel ── */
+
+.panel {
+  display: grid;
+  grid-template-rows: 1fr;
+}
+
+.panelClip {
+  min-width: 0;
+  min-height: 0;
+}
+
+/* Clipped only while it can collapse. The side room keeps focus rings from being cut at the edge. */
+.root[data-enhanced] .panelClip {
+  overflow: hidden;
+  margin-inline: calc(-1 * var(--s-2));
+  padding-inline: var(--s-2);
+}
+
+.root[data-enhanced] .entry:not([data-open]) .panel {
+  grid-template-rows: 0fr;
+}
+
+.root[data-enhanced] .entry:not([data-open]) .panelClip {
+  visibility: hidden;
+}
+
+.root[data-animate] .panel {
+  transition: grid-template-rows var(--stage-open) var(--ease-out);
+}
+
+.root[data-animate] .panelClip {
+  transition: visibility 0s linear var(--stage-open);
+}
+
+.root[data-animate] .entry[data-open] .panelClip {
+  transition-delay: 0s;
+}
+
+.body {
+  display: grid;
+  row-gap: var(--s-5);
+  padding-block-end: var(--s-7);
+}
+
+/* What is inside settles in as the panel opens: each block in turn, the chips last and a beat apart. */
+.root[data-enhanced] .entry:not([data-open]) .body > * {
+  opacity: 0;
+  transform: translateY(0.75rem);
+}
+
+.root[data-animate] .body > * {
+  transition:
+    opacity 260ms var(--ease),
+    transform 260ms var(--ease);
+}
+
+.root[data-animate] .entry[data-open] .body > * {
+  transition:
+    opacity 520ms var(--ease) 140ms,
+    transform 640ms var(--ease-out) 140ms;
+}
+
+.root[data-enhanced] .entry:not([data-open]) .fact {
+  opacity: 0;
+  transform: translateY(0.625rem);
+}
+
+.root[data-animate] .entry[data-open] .fact {
+  transition:
+    opacity 520ms var(--ease) calc(260ms + var(--i, 0) * 80ms),
+    transform 640ms var(--ease-out) calc(260ms + var(--i, 0) * 80ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root[data-animate] .body > *,
+  .root[data-animate] .entry[data-open] .body > *,
+  .root[data-animate] .entry[data-open] .fact,
+  .root[data-animate] .entry::before {
+    transition: none;
+  }
+}
+
+.distinction {
+  max-width: 30em;
+  font-size: var(--fs-lead);
+  font-weight: 300;
+  line-height: var(--lh-lead);
+  color: var(--text);
+  text-wrap: pretty;
+}
+
+.distinction:lang(th) {
+  text-wrap: balance;
+}
+
+/* ── Fact chips ── */
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.factSlot {
+  min-width: 0;
+}
+
+.factWide {
+  grid-column: 1 / -1;
+}
+
+.fact {
+  display: grid;
+  align-content: start;
+  row-gap: var(--s-1);
+  height: 100%;
+  padding: var(--s-3) var(--s-4) 0.875rem;
+  border: var(--hairline) solid transparent;
+  border-radius: var(--radius-md);
+  background: var(--sand);
+}
+
+/* The chip that holds the room type's difference: a clay wash and the clay mark. */
+.factMarked {
+  border-color: color-mix(in srgb, var(--clay) 46%, transparent);
+  background: var(--clay-wash);
+}
+
+.fact .factLabel {
+  font-size: 0.71875rem;
+}
+
+.fact .factLabel:lang(th) {
+  font-size: 0.8125rem;
+}
+
+.factValue {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--text);
+  text-wrap: pretty;
+}
+
+.factValue:lang(th) {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.mark {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-inline-end: 0.5rem;
+  border-radius: var(--radius-pill);
+  background: var(--action);
+  vertical-align: 0.08em;
+}
+
+/* ── Actions ── */
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2) var(--s-6);
+}
+
+.chosen {
+  margin-block-start: calc(-1 * var(--s-2));
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+  color: var(--text-muted);
+}
+
+/* On the narrowest screens the two pills share the width evenly instead of leaving a ragged pair. */
+@container (max-width: 26rem) {
+  .actions {
+    display: grid;
+  }
+}
+
+/* ───────────── The stage ───────────── */
+
+.stage {
+  display: none;
+  margin: 0;
+}
+
+.stageFrame {
+  aspect-ratio: 4 / 5;
+  max-height: calc(100vh - var(--stage-top) - 6.5rem);
+  max-height: calc(100svh - var(--stage-top) - 6.5rem);
+  border-radius: var(--radius-lg);
+  background: var(--sand);
+  isolation: isolate;
+}
+
+/* The frames live in their own stacking context, so the numbers script gives them stay beneath the overlay. */
+.stageLayers {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  isolation: isolate;
+}
+
+.layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0;
+}
+
+.layer[data-initial] {
+  z-index: 1;
+  opacity: 1;
+}
+
+.stageOverlay {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--s-4);
+  padding: var(--s-9) var(--s-5) var(--s-5);
+  background: linear-gradient(0deg, rgb(18 26 33 / 0.8) 0%, rgb(18 26 33 / 0.56) 38%, rgb(18 26 33 / 0.2) 72%, rgb(18 26 33 / 0) 100%);
+  color: var(--on-dark);
+  pointer-events: none;
+}
+
+.count {
+  display: flex;
+  align-items: baseline;
+  gap: 0.625rem;
+  overflow: hidden;
+}
+
+.count .countNow {
+  display: inline-block;
+  font-size: 2.5rem;
+  animation: stage-count 620ms var(--ease-out) both;
+}
+
+.countRule {
+  align-self: center;
+  width: 1.75rem;
+  height: var(--hairline);
+  background: currentColor;
+  opacity: 0.7;
+}
+
+.countOf {
+  font-size: var(--fs-small);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums lining-nums;
+  letter-spacing: 0.08em;
+  opacity: 0.86;
+}
+
+@keyframes stage-count {
+  from {
+    opacity: 0;
+    transform: translateY(70%);
+  }
+}
+
+.ticks {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding-block-end: 0.625rem;
+}
+
+.tick {
+  width: 1.125rem;
+  height: 2px;
+  border-radius: 1px;
+  background: currentColor;
+  opacity: 0.45;
+  transition:
+    width var(--stage-open) var(--ease-out),
+    opacity var(--stage-open) var(--ease);
+}
+
+.tick[data-on] {
+  width: 2.25rem;
+  opacity: 1;
+}
+
+.stageCaption {
+  margin-block-start: var(--s-3);
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+  color: var(--text-muted);
+  text-wrap: pretty;
+  animation: stage-caption 520ms var(--ease-out) both;
+}
+
+/* The room type a photograph belongs to, on a line of its own above what the frame shows. */
+.captionRoom,
+.captionText {
+  display: block;
+}
+
+.captionRoom {
+  font-weight: 500;
+  color: var(--text);
+}
+
+@keyframes stage-caption {
+  from {
+    opacity: 0;
+    transform: translateY(0.375rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .count .countNow,
+  .stageCaption {
+    animation: none;
+  }
+}
+
+/* ───────────── Wide ───────────── */
+
+@container (min-width: 38rem) {
+  .head {
+    column-gap: var(--s-4);
+    padding-block: var(--s-6);
+  }
+
+  /* Beside the stage the list has about half the root: the names follow that width more closely. */
+  .entry .name {
+    font-size: clamp(1.5rem, 0.2rem + 4cqi, 2.75rem);
+  }
+
+  .entry .name:lang(th) {
+    font-size: clamp(1.25rem, 0.1rem + 3.1cqi, 1.75rem);
+  }
+
+  .body {
+    padding-inline-start: calc(var(--stage-num) + var(--s-4));
+    padding-block-end: var(--s-8);
+  }
+
+  /* Live: the list and the stage side by side; the photographs inside the entries step aside. */
+  .root[data-enhanced] .layout {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    column-gap: clamp(1.5rem, 4.6cqi, 3rem);
+    align-items: start;
+  }
+
+  .root[data-enhanced] .stage {
+    position: sticky;
+    inset-block-start: var(--stage-top);
+    display: block;
+  }
+
+  .root[data-enhanced] .inlinePhoto {
+    display: none;
+  }
+
+  /* Not live: each entry sets its words beside its own photograph. */
+  .root:not([data-enhanced]) .body {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    column-gap: clamp(1.5rem, 4.6cqi, 3rem);
+    align-items: start;
+  }
+
+  .root:not([data-enhanced]) .body > * {
+    grid-column: 1;
+  }
+
+  .root:not([data-enhanced]) .inlinePhoto {
+    grid-column: 2;
+    grid-row: 1 / span 5;
+  }
+}
+
+/* A short window: the stage does not stick, so it can never be taller than the screen it is pinned to. */
+@media (max-height: 40rem) {
+  .root[data-enhanced] .stage {
+    position: static;
+  }
+}
+
+/* On paper every entry is open with its own photograph, whatever was selected on screen. */
+@media print {
+  .root[data-enhanced] .stage,
+  .toggle {
+    display: none;
+  }
+
+  .root[data-enhanced] .entry .panel {
+    grid-template-rows: 1fr;
+  }
+
+  .root[data-enhanced] .entry .panelClip {
+    visibility: visible;
+  }
+
+  .root[data-enhanced] .entry .body > *,
+  .root[data-enhanced] .entry .fact {
+    opacity: 1;
+    transform: none;
+  }
+
+  .root[data-enhanced] .inlinePhoto {
+    display: block;
+  }
+}
+
+/* The counter's digits are set in the English display serif in both languages (see .count .countNow above):
+   on a Thai page .figure would switch them to the Thai serif, whose numerals are a good deal heavier. */
+.count .countNow:lang(th) {
+  font-family: var(--font-display);
+}
+
+/* In the accordion the entry's own photograph comes to rest as its panel opens. */
+.root[data-enhanced] .entry:not([data-open]) .inlinePhoto img {
+  transform: scale(1.06);
+}
+
+.root[data-animate] .entry[data-open] .inlinePhoto img {
+  transition: transform 1100ms var(--ease-out) 120ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root[data-enhanced] .entry:not([data-open]) .inlinePhoto img {
+    transform: none;
+  }
+}

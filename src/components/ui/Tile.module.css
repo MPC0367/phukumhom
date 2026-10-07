@@ -1,0 +1,113 @@
+/*
+ * TileRow — one rounded outline, hairlines between the cells. Phones: the cells stack and each lays its
+ * figure beside its words. From 40rem: equal columns, figure above words.
+ *
+ * Component constants:
+ *   --tile-figure        the column the figures share on a phone, wide enough for "14:00" at the phone
+ *                        figure size, so the words of every row start on one edge
+ *   --tile-figure-size   the size of .figure, restated from typography.css so it can be capped
+ *   --tile-figure-cap    set per tile by Tile.tsx, in tile widths (cqi): the size at which this figure
+ *                        still fits its tile
+ */
+.row {
+  --tile-figure: 7.25rem;
+
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: var(--hairline) solid var(--rule);
+  border-radius: var(--radius-lg);
+}
+
+.tile {
+  --tile-figure-size: clamp(2.5rem, 1.8rem + 2.6vw, 4.25rem);
+
+  container-type: inline-size;
+  display: grid;
+  grid-template-columns: var(--tile-figure) minmax(0, 1fr);
+  column-gap: var(--s-4);
+  align-items: center;
+  min-width: 0;
+  padding: var(--s-5);
+}
+
+.tile + .tile {
+  border-block-start: var(--hairline) solid var(--rule);
+}
+
+.plain {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.tile .figure {
+  font-size: var(--tile-figure-size);
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+/* The unit rides on the figure's baseline at about a third of its size: read with it, never competing. */
+.unit {
+  margin-inline-start: 0.14em;
+  font-family: var(--font-sans);
+  font-size: 0.32em;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--text-muted);
+}
+
+.words {
+  display: grid;
+  row-gap: var(--s-1);
+  min-width: 0;
+}
+
+.label {
+  font-size: var(--fs-body);
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--text);
+  text-wrap: balance;
+}
+
+.label:lang(th) {
+  line-height: 1.6;
+}
+
+.note {
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+  color: var(--text-muted);
+  text-wrap: pretty;
+}
+
+@media (min-width: 40rem) {
+  .row {
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+  }
+
+  /* Side by side the tile is narrow: the figure gives way before it would leave the tile. */
+  .tile .figure {
+    font-size: min(var(--tile-figure-size), var(--tile-figure-cap, 100cqi));
+  }
+
+  .tile {
+    grid-template-columns: minmax(0, 1fr);
+    align-content: start;
+    align-items: start;
+    row-gap: var(--s-4);
+    padding: var(--s-6) var(--s-6) var(--s-7);
+  }
+
+  .tile + .tile {
+    border-block-start: 0;
+    border-inline-start: var(--hairline) solid var(--rule);
+  }
+}
+
+@media (min-width: 80rem) {
+  .tile {
+    padding: var(--s-7) var(--s-7) var(--s-8);
+  }
+}

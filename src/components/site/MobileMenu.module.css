@@ -1,0 +1,473 @@
+/*
+ * Mobile menu, direction 2. The button lives in the header while the header is narrower than 72rem (its
+ * own width, see Header.module.css). The sheet is ui/Dialog's "full" variant on a forest ground: its top
+ * row is the header again (same height, wordmark in the same place, Close exactly where Menu was), so
+ * opening it reads as a blind coming down over the page, not a new screen.
+ *
+ * Component constants:
+ *   --menu-fs       label size of the two word-and-icon buttons (as the navigation labels)
+ *   --menu-fs-max   its cap on a narrow screen: the size it has at 320px, in vw, like every other
+ *                   measure of the header's narrow row (the reasoning is in Header.module.css)
+ *   --menu-clear    how far a focused link in the sheet keeps below the sheet's sticky top row
+ *   --major-fs      the size of the four main pages, in the sheet's own width (cqi) so it follows the
+ *                   screen and the guest's text size together
+ *   0.6s / 0.8s     the blind and the rows that rise after it; 60ms between rows
+ */
+
+/* .fallback is the plain link that stands in for the button when the page has no script. */
+.trigger,
+.close,
+.fallback {
+  --menu-fs: 0.9375rem;
+  --menu-fs-max: 4.6875vw;
+
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: min(var(--s-2), 2.5vw);
+  min-width: min(var(--tap), 13.75vw);
+  min-height: var(--tap);
+  margin: 0;
+  padding: 0 0 0 min(var(--s-2), 2.5vw);
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font-family: var(--font-sans);
+  font-size: min(var(--menu-fs), var(--menu-fs-max));
+  font-weight: 500;
+  line-height: 1.3;
+  text-decoration: none;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+  transition: color 0.4s var(--ease);
+}
+
+.trigger:lang(th),
+.close:lang(th),
+.fallback:lang(th) {
+  --menu-fs: 1rem;
+  --menu-fs-max: 5vw;
+
+  line-height: 1.5;
+}
+
+.trigger:focus-visible,
+.close:focus-visible,
+.fallback:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* The two lines of the glyph part a little under the pointer; the cross turns a quarter. */
+.triggerIcon,
+.closeIcon {
+  transition: transform var(--t-hover) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .trigger:hover .triggerIcon {
+    transform: scaleX(0.82);
+  }
+
+  .close:hover .closeIcon {
+    transform: rotate(90deg);
+  }
+}
+
+/* In the header: taking focus must not scroll the page (the note is in Header.module.css). */
+.trigger,
+.fallback {
+  scroll-margin-block-start: calc(-1 * var(--header-clear, 0px));
+}
+
+@container (min-width: 72rem) {
+  .trigger,
+  .fallback {
+    display: none;
+  }
+}
+
+/* ── The sheet's own <dialog>: forest, and a blind instead of ui/Dialog's rise ──
+ * `dialog.dialog` (an element and a class) outranks ui/Dialog's single-class rules whatever order the
+ * two stylesheets load in.
+ */
+
+dialog.dialog {
+  --surface: var(--forest);
+
+  background: var(--forest);
+  color: var(--on-dark);
+  clip-path: inset(0 0 100% 0);
+  transition-property: clip-path, overlay, display;
+  transition-duration: 0.6s;
+  transition-timing-function: var(--ease-out);
+  transition-behavior: allow-discrete;
+}
+
+dialog.dialog[open] {
+  clip-path: inset(0 0 0 0);
+  animation: none;
+}
+
+@starting-style {
+  dialog.dialog[open] {
+    clip-path: inset(0 0 100% 0);
+  }
+}
+
+@supports not (transition-behavior: allow-discrete) {
+  dialog.dialog[open] {
+    animation: menu-blind 0.6s var(--ease-out);
+  }
+}
+
+@keyframes menu-blind {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+}
+
+@keyframes menu-rise {
+  from {
+    opacity: 0;
+    transform: translateY(1.75rem);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  dialog.dialog[open] .rise {
+    animation: menu-rise 0.8s var(--ease-out) both;
+    animation-delay: calc(140ms + var(--i, 0) * 60ms);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  dialog.dialog {
+    transition-duration: 1ms;
+  }
+
+  dialog.dialog[open] {
+    animation: none;
+  }
+}
+
+/* ── The sheet ── */
+
+.sheet {
+  --menu-clear: calc(var(--header-h) + var(--s-2));
+  /* The second limit only binds when a guest has enlarged the text: the longest label still fits the sheet. */
+  --major-fs: min(clamp(2.25rem, 11cqi, 3.75rem), 13cqi);
+
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  /* The sheet covers the whole screen, so on a notched phone held sideways it keeps clear of the notch itself. */
+  padding-inline: env(safe-area-inset-left, 0px) env(safe-area-inset-right, 0px);
+}
+
+.sheet:lang(th) {
+  --major-fs: min(clamp(1.75rem, 8.4cqi, 2.875rem), 10.5cqi);
+}
+
+/*
+ * The top row stays in view while the sheet scrolls (a phone held sideways, a short screen), so
+ * Close is always on screen. Two classes: the row is also a .container, and it takes the header's
+ * capped gutter so that Close stands where Menu was at any text size.
+ */
+.sheet .top {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 1;
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: min(var(--s-3), 2.5vw);
+  height: var(--header-h);
+  padding-inline: var(--header-gutter, var(--gutter));
+  border-block-end: var(--hairline) solid var(--rule);
+  background: var(--forest);
+  color: var(--on-dark);
+}
+
+.sheet .body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--s-6);
+  padding-block: var(--s-2) calc(var(--s-5) + env(safe-area-inset-bottom, 0px));
+  padding-inline: var(--header-gutter, var(--gutter));
+}
+
+/* A link reached by keyboard scrolls into view below the sticky row, never underneath it. */
+.body a {
+  scroll-margin-block-start: var(--menu-clear);
+}
+
+/* ── The four main pages: display serif, numbered, one to a row on a hairline ── */
+
+.majorList {
+  margin: 0;
+  list-style: none;
+}
+
+.major {
+  border-block-end: var(--hairline) solid var(--rule);
+}
+
+.majorLink {
+  display: grid;
+  grid-template-columns: var(--s-7) minmax(0, 1fr) auto;
+  align-items: baseline;
+  column-gap: var(--s-2);
+  min-height: 4.25rem;
+  padding-block: var(--s-2);
+  color: var(--text);
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Three classes and the element: ui/Dialog turns numerals clay-deep for its light panels; this sheet is forest. */
+dialog.dialog .sheet .majorNumber {
+  color: var(--clay-soft);
+}
+
+.majorLabel {
+  font-family: var(--font-display);
+  font-size: var(--major-fs);
+  font-weight: 500;
+  line-height: 1.04;
+  letter-spacing: var(--tracking-display);
+  transition: transform var(--t-panel) var(--ease-out);
+}
+
+.majorLabel:lang(th) {
+  font-family: var(--font-display-th);
+  line-height: 1.42;
+  letter-spacing: 0;
+}
+
+.majorArrow {
+  align-self: center;
+  color: var(--clay-soft);
+  opacity: 0.7;
+  transition:
+    transform var(--t-panel) var(--ease-out),
+    opacity var(--t-hover) var(--ease);
+}
+
+@media (hover: hover) {
+  .majorLink:hover .majorLabel {
+    transform: translateX(var(--s-2));
+  }
+
+  .majorLink:hover .majorArrow {
+    opacity: 1;
+    transform: translateX(var(--s-2));
+  }
+}
+
+.majorLink:active .majorArrow {
+  opacity: 1;
+  transform: translateX(var(--s-2));
+}
+
+/* The current page: its number becomes a filled mark and the word is underlined, never colour alone. */
+.majorLink[aria-current] .majorLabel {
+  text-decoration-line: underline;
+  text-decoration-thickness: var(--hairline);
+  text-decoration-color: var(--clay-soft);
+  text-underline-offset: 0.16em;
+}
+
+.majorLink[aria-current] .majorLabel:lang(th) {
+  text-underline-offset: 0.3em;
+}
+
+.majorLink[aria-current] .majorArrow {
+  opacity: 1;
+}
+
+/* ── Everything else ── */
+
+.side {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--s-5);
+}
+
+.minorList {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: var(--col-gap);
+  margin: 0;
+  list-style: none;
+}
+
+.minorLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  color: var(--text);
+  font-size: min(1.0625rem, 6.4cqi);
+  font-weight: 400;
+  line-height: 1.4;
+  text-decoration-line: underline;
+  text-decoration-thickness: var(--hairline);
+  text-decoration-color: transparent;
+  text-underline-offset: 0.3em;
+  transition: text-decoration-color var(--t-hover) var(--ease);
+}
+
+.minorLink:lang(th) {
+  line-height: 1.6;
+  text-underline-offset: 0.42em;
+}
+
+.minorLink[aria-current] {
+  text-decoration-color: var(--clay-soft);
+}
+
+@media (hover: hover) {
+  .minorLink:hover {
+    text-decoration-color: currentColor;
+  }
+}
+
+/*
+ * The ring stands outside the link. These links have no side padding (their words start on the
+ * gutter line), so a ring drawn inside the box would run through the first letter.
+ */
+.majorLink:focus-visible,
+.minorLink:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-3);
+}
+
+/* The booking pill: its ends give way before its label has to break (text enlarged on a narrow phone). */
+.actions > a {
+  --button-px: min(2.125rem, 7cqi);
+}
+
+/* Call and the map link, side by side: Call keeps to its words, the map link takes the rest. */
+.contactRow {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--s-3);
+}
+
+.contactRow > * {
+  --button-px: min(1.125rem, 4cqi);
+
+  min-width: 0;
+}
+
+.callInner {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+
+.foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-1) var(--s-5);
+  margin-block-start: auto;
+  padding-block-start: var(--s-2);
+  border-block-start: var(--hairline) solid var(--rule);
+}
+
+/* The language codes carry their own side padding: pull the block out so "TH" starts on the gutter line. */
+.foot > :first-child {
+  margin-inline-start: calc(-1 * var(--lang-pad, var(--s-2)));
+}
+
+.clock {
+  color: var(--text-muted);
+  font-size: var(--fs-small);
+  line-height: 1.5;
+}
+
+/*
+ * The giant wordmark along the foot of the sheet: only where the screen is tall enough to leave room
+ * under the links (a tablet, a tall phone). Decoration, in the soft clay of the footer's own.
+ */
+.sheet .mark {
+  display: none;
+  flex: none;
+  margin-block-start: auto;
+  padding-block: var(--s-6) calc(var(--s-6) + env(safe-area-inset-bottom, 0px));
+  padding-inline: var(--header-gutter, var(--gutter));
+  color: var(--clay-soft);
+}
+
+.markSvg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  fill: currentColor;
+  font-family: var(--font-sans);
+  font-weight: 500;
+}
+
+@media (min-height: 56rem) {
+  .sheet .mark {
+    display: block;
+  }
+
+  /* The sheet's last row is now the wordmark: the language row keeps to its place under the actions. */
+  .foot {
+    margin-block-start: 0;
+  }
+
+  .sheet .body {
+    flex: 0 0 auto;
+    padding-block-end: 0;
+  }
+}
+
+/* ── A tablet, or a phone held sideways: two columns ── */
+
+@container (min-width: 48rem) {
+  .sheet {
+    --major-fs: clamp(3rem, 7cqi, 4.75rem);
+  }
+
+  .sheet:lang(th) {
+    --major-fs: clamp(2.25rem, 5.2cqi, 3.5rem);
+  }
+
+  .sheet .body {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    column-gap: clamp(var(--s-8), 8cqi, var(--s-12));
+    align-items: start;
+    padding-block-start: var(--s-6);
+  }
+
+  .majorLink {
+    min-height: 5.5rem;
+  }
+
+  .side {
+    gap: var(--s-7);
+    padding-block-start: var(--s-4);
+  }
+
+  .foot {
+    margin-block-start: 0;
+  }
+}

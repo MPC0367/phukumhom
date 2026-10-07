@@ -1,0 +1,66 @@
+/*
+ * AtAGlance — a rounded white panel with plain bullets, each hung from a short terracotta stroke.
+ * The light tokens are restated so the panel stays ink on white even inside a dark band.
+ */
+.glance {
+  --text: var(--ink);
+  --text-muted: var(--ink-muted);
+  --rule: var(--stone);
+  --accent: var(--forest);
+  --focus: var(--focus-on-light);
+  --surface: var(--white);
+
+  padding: var(--s-5);
+  border: var(--hairline) solid var(--stone);
+  border-radius: var(--radius-lg);
+  background: var(--white);
+  color: var(--ink);
+}
+
+/* Its own ground: none of the halo a <Band> gives to words over a photograph. */
+.glance,
+.glance * {
+  text-shadow: none;
+}
+
+.glance .title {
+  margin-block-end: var(--s-4);
+}
+
+.list {
+  display: grid;
+  row-gap: var(--s-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  position: relative;
+  max-width: var(--measure);
+  padding-inline-start: var(--s-6);
+  font-size: var(--fs-body);
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+
+.item:lang(th) {
+  line-height: 1.8;
+}
+
+/* The marker is a drawn stroke, not a character: decoration, the list semantics carry the meaning. */
+.item::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: 0.5lh;
+  width: var(--s-4);
+  height: var(--hairline);
+  background: var(--terracotta);
+}
+
+@media (min-width: 40rem) {
+  .glance {
+    padding: var(--s-6) var(--s-7) var(--s-7);
+  }
+}

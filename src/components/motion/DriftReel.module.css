@@ -1,0 +1,86 @@
+/*
+ * DriftReel.
+ *
+ * As written here, with no attribute, it is a native horizontal scroller: touch, wheel and keyboard all
+ * work, items snap, nothing is copied. That is what the server sends and what stays under reduced motion.
+ *
+ * Script adds data-drift="on" to the reel. Then the viewport stops being a scroller and the track is
+ * moved with a transform instead.
+ *
+ *   --reel-gap    space between items (the `gap` prop); default var(--s-4)
+ *   --reel-inset  how far in from the reel's edge the first item rests; set it through className; default 0
+ *
+ * Neither is declared here (they are read with fallbacks), so a class passed in can set them without a
+ * specificity contest.
+ */
+:where(.reel) {
+  position: relative;
+  min-width: 0;
+}
+
+.viewport {
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  scroll-padding-inline: var(--reel-inset, 0px);
+  scrollbar-width: thin;
+  scrollbar-color: var(--stone-deep) transparent;
+  /* Room for a focus ring on an item, without moving anything. */
+  padding-block: var(--s-1);
+  margin-block: calc(-1 * var(--s-1));
+}
+
+.track {
+  display: flex;
+  gap: var(--reel-gap, var(--s-4));
+  width: max-content;
+  padding-inline: var(--reel-inset, 0px);
+}
+
+.set,
+.clones {
+  display: flex;
+  flex: none;
+  gap: var(--reel-gap, var(--s-4));
+}
+
+.set {
+  /* Items measure their offset from the set. */
+  position: relative;
+}
+
+.clones:empty {
+  display: none;
+}
+
+.set > *,
+.clones > * {
+  flex: none;
+  scroll-snap-align: start;
+}
+
+/* ── Drifting ── */
+
+.reel[data-drift="on"] .viewport {
+  overflow: hidden;
+  /* clip, where supported: the box is not a scroll container, so focusing an item cannot scroll it. */
+  overflow-x: clip;
+  overflow-y: visible;
+  scroll-snap-type: none;
+}
+
+.reel[data-drift="on"] .track {
+  will-change: transform;
+}
+
+.reel[data-drift="on"] .set > *,
+.reel[data-drift="on"] .clones > * {
+  scroll-snap-align: none;
+}
+
+/* The browser's own image and link dragging would steal the gesture. */
+.reel[data-drift="on"] img {
+  -webkit-user-drag: none;
+  user-select: none;
+}

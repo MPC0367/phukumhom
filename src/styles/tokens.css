@@ -1,0 +1,175 @@
+/*
+ * Design tokens — Phukumhom Resort Khao Yai, direction 2 "Open sky".
+ * The only place raw colour, size and timing values live. Components use var(--…) and nothing else.
+ *
+ * Contrast (WCAG, measured):
+ *   forest/paper 10.6 · ink/paper 12.1 · ink-muted/paper 5.5 · ink-muted/sand 5.1 · clay-deep/paper 5.4
+ *   paper/terracotta 4.7 (primary button) · paper/forest 10.6 · stone-deep/paper 3.3 (UI boundaries)
+ *   on-dark/twilight 13.6 · on-dark-muted/twilight 7.5 · clay-soft/twilight 8.2 · clay-soft/forest 6.3
+ * Clay (#BC867A) is 2.75 on paper: atmosphere and fills only, never text on a light ground.
+ */
+:root {
+  /* ── Colour ── */
+  --paper: #f6f2ea;
+  --white: #fcfaf6;
+  --sand: #efe9dd;
+  --forest: #203d34;
+  --forest-deep: #17302a;
+  --ink: #26312c;
+  --ink-muted: #59645d;
+  --clay: #bc867a;
+  --clay-deep: #8a5548;
+  --clay-soft: #e3b3a4;
+  --clay-wash: #f0e4dc;
+  /* The action colour: the fired-clay red of the buildings, deep enough to carry paper text. */
+  --terracotta: #9e5946;
+  --terracotta-deep: #87493a;
+  --stone: #ded7c9;
+  --stone-deep: #84877f;
+  --timber: #6b4a36;
+  --twilight: #1b2731;
+  --twilight-soft: #263440;
+  --on-dark: #f6f2ea;
+  --on-dark-muted: #aeb8bd;
+  --rule-on-dark: #3f4d59;
+  --focus: #1f6f5c;
+  --focus-on-light: #1f6f5c;
+  --focus-on-dark: #f6f2ea;
+  --error: #9b2c1f;
+  --error-wash: #fbeeea;
+
+  /* Photographs under text: the scrims that keep type legible without flattening the picture. */
+  --scrim-top: linear-gradient(180deg, rgb(18 26 33 / 0.62) 0%, rgb(18 26 33 / 0.18) 55%, rgb(18 26 33 / 0) 100%);
+  --scrim-bottom: linear-gradient(0deg, rgb(18 26 33 / 0.78) 0%, rgb(18 26 33 / 0.42) 38%, rgb(18 26 33 / 0) 78%);
+  --scrim-full: linear-gradient(90deg, rgb(18 26 33 / 0.6) 0%, rgb(18 26 33 / 0.22) 55%, rgb(18 26 33 / 0.06) 100%);
+
+  /* Semantic aliases — components should prefer these */
+  --surface: var(--paper);
+  --surface-raised: var(--white);
+  --text: var(--ink);
+  --text-muted: var(--ink-muted);
+  --accent: var(--forest);
+  --action: var(--terracotta);
+  --action-hover: var(--terracotta-deep);
+  --on-action: var(--paper);
+  --rule: var(--stone);
+  --rule-strong: var(--forest);
+  --border-control: var(--stone-deep);
+
+  /* ── Type families (set by next/font variables on <html>) ── */
+  --font-display: var(--font-cormorant), "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --font-display-th: var(--font-noto-serif-thai), var(--font-noto-thai), "Leelawadee UI", serif;
+  --font-sans: var(--font-noto-thai), "Leelawadee UI", "Segoe UI", Tahoma, system-ui, sans-serif;
+
+  /* ── Type scale (English). Thai overrides live in typography.css under :lang(th). ── */
+  /* Hero line: as large as the screen allows. */
+  --fs-hero: clamp(3.5rem, 1.6rem + 9.6vw, 11.5rem);
+  /* Chapter titles: one or two words, set big. */
+  --fs-chapter: clamp(3rem, 1.9rem + 5.4vw, 7rem);
+  /* A statement: the sentence a chapter opens with. */
+  --fs-statement: clamp(1.75rem, 1.15rem + 2.5vw, 3.25rem);
+  --fs-display: clamp(2.75rem, 1.6rem + 5.2vw, 5.5rem);
+  --fs-h1: clamp(2.75rem, 1.8rem + 4.2vw, 5.5rem);
+  --fs-h2: clamp(2rem, 1.45rem + 2.4vw, 3.5rem);
+  --fs-h3: clamp(1.5rem, 1.25rem + 1vw, 2.125rem);
+  --fs-lead: clamp(1.125rem, 1.04rem + 0.42vw, 1.375rem);
+  --fs-body: 1.0625rem;
+  --fs-small: 0.875rem;
+  --fs-eyebrow: 0.78125rem;
+
+  --lh-hero: 0.9;
+  --lh-chapter: 0.95;
+  --lh-statement: 1.12;
+  --lh-display: 1;
+  --lh-h1: 1;
+  --lh-h2: 1.06;
+  --lh-h3: 1.16;
+  --lh-lead: 1.55;
+  --lh-body: 1.65;
+  --lh-small: 1.5;
+
+  --tracking-hero: -0.025em;
+  --tracking-display: -0.015em;
+  --tracking-eyebrow: 0.16em;
+  --tracking-wordmark: 0.26em;
+
+  --measure: 62ch;
+  --measure-narrow: 34ch;
+
+  /* ── Space ── */
+  --s-1: 0.25rem;
+  --s-2: 0.5rem;
+  --s-3: 0.75rem;
+  --s-4: 1rem;
+  --s-5: 1.5rem;
+  --s-6: 2rem;
+  --s-7: 2.5rem;
+  --s-8: 3.5rem;
+  --s-9: 4rem;
+  --s-10: 5rem;
+  --s-11: 6rem;
+  --s-12: 8rem;
+
+  --container: 82rem;
+  --container-wide: 96rem;
+  --gutter: clamp(1.25rem, 0.4rem + 3.6vw, 5rem);
+  --col-gap: clamp(1rem, 2vw, 2rem);
+  --section-y: clamp(4.5rem, 2.4rem + 8vw, 10rem);
+  --section-y-tight: clamp(3rem, 1.8rem + 4.4vw, 6rem);
+
+  /* Largest painted width for a framed photograph. Full-bleed media uses the hero-class derivatives instead. */
+  --plate-max-landscape: 72rem;
+  --plate-max-portrait: 40rem;
+
+  --header-h: 4.75rem;
+  --sticky-actions-h: 3.75rem;
+  --tap: 2.75rem;
+
+  /* ── Shape: soft, generous. Buttons and chips are pills; media and panels are rounded. ── */
+  --radius: 0.5rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.875rem;
+  --radius-lg: 1.25rem;
+  --radius-xl: 1.75rem;
+  --radius-pill: 999px;
+  --hairline: 1px;
+
+  /* One quiet shadow, for surfaces that float over a photograph (the planner dock, drawers). */
+  --shadow-float: 0 1.25rem 3.5rem -1.5rem rgb(18 26 33 / 0.45);
+
+  /* ── Motion ── */
+  --ease: cubic-bezier(0.2, 0.6, 0.2, 1);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --t-ui: 220ms;
+  --t-hover: 320ms;
+  --t-panel: 420ms;
+  --t-enter: 900ms;
+  --t-settle: 1200ms;
+  --t-horizon: 900ms;
+  --t-plate-hover: 900ms;
+  --enter-shift: 2.5rem;
+  --stagger: 90ms;
+
+  /* ── Layers ── */
+  --z-sticky-actions: 30;
+  --z-header: 40;
+  --z-progress: 45;
+  --z-menu: 60;
+  --z-dialog: 70;
+  --z-loader: 90;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --t-ui: 1ms;
+    --t-hover: 1ms;
+    --t-panel: 1ms;
+    --t-enter: 1ms;
+    --t-settle: 1ms;
+    --t-horizon: 1ms;
+    --t-plate-hover: 1ms;
+    --enter-shift: 0px;
+    --stagger: 0ms;
+  }
+}

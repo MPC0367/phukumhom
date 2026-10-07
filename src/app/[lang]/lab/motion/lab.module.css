@@ -1,0 +1,487 @@
+/*
+ * The motion lab. Layout only: every movement on the page comes from src/components/motion.
+ * It borrows the real page's vocabulary (a first screen, chapters with a sticky rail, a band, a reel on
+ * sand, a twilight band) so the motion is judged in the compositions it will actually live in.
+ */
+
+/* ── First screen ── */
+
+.hero {
+  display: grid;
+  gap: var(--s-7);
+  align-items: end;
+  min-height: calc(100svh - var(--header-h));
+  padding-block: var(--s-7) var(--s-8);
+}
+
+.heroText {
+  display: grid;
+  gap: var(--s-5);
+  align-content: end;
+  min-width: 0;
+}
+
+.heroEyebrow {
+  display: grid;
+  gap: var(--s-1);
+}
+
+.heroResort {
+  color: var(--text);
+}
+
+/* The page's hero line is set across the full width; here it shares the row with a photograph. */
+.heroLine {
+  font-size: clamp(3rem, 1.2rem + 6.4vw, 7.5rem);
+}
+
+.heroLine:lang(th) {
+  font-size: clamp(2.5rem, 1.3rem + 4.4vw, 5.5rem);
+}
+
+.heroSupporting {
+  max-width: 40ch;
+}
+
+.heroSupporting:lang(th) {
+  max-width: 30em;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2) var(--s-4);
+  padding-block-start: var(--s-4);
+  border-block-start: var(--hairline) solid var(--rule);
+}
+
+.metaRule {
+  display: none;
+  width: var(--hairline);
+  height: 1em;
+  background: var(--stone-deep);
+}
+
+@media (min-width: 40rem) {
+  .metaRule {
+    display: block;
+  }
+}
+
+.heroMedia {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  max-height: 76svh;
+  justify-self: end;
+  border-radius: var(--radius-lg);
+}
+
+/* A Parallax frame that fills the box around it. */
+.fillFrame {
+  width: 100%;
+  height: 100%;
+}
+
+@media (min-width: 64rem) {
+  .hero {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    column-gap: var(--col-gap);
+  }
+}
+
+/* ── In-page index ── */
+
+.index {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2) var(--s-6);
+  padding-block: var(--s-5);
+  font-size: var(--fs-small);
+}
+
+.index a {
+  padding-block: var(--s-2);
+  text-decoration: none;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 var(--hairline) no-repeat;
+  transition: background-size var(--t-hover) var(--ease-out);
+}
+
+.index a:hover,
+.index a:focus-visible {
+  background-size: 100% var(--hairline);
+}
+
+/* ── Chapter: sticky rail and content ── */
+
+.chapter {
+  display: grid;
+  gap: var(--s-8);
+  padding-block: var(--section-y);
+  border-block-start: var(--hairline) solid var(--rule);
+}
+
+.rail {
+  display: grid;
+  gap: var(--s-3);
+  align-content: start;
+  min-width: 0;
+}
+
+.railKicker {
+  color: var(--text-muted);
+}
+
+.railTitle {
+  margin-block-start: var(--s-2);
+}
+
+.railIntro {
+  max-width: var(--measure-narrow);
+}
+
+.content {
+  display: grid;
+  gap: var(--s-8);
+  min-width: 0;
+}
+
+@media (min-width: 64rem) {
+  .chapter {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--col-gap);
+  }
+
+  .rail {
+    grid-column: 1 / span 4;
+    position: sticky;
+    top: calc(var(--header-h) + var(--s-7));
+    align-self: start;
+  }
+
+  .content {
+    grid-column: 5 / -1;
+  }
+}
+
+.statement {
+  max-width: 22ch;
+}
+
+.statement:lang(th) {
+  max-width: 16em;
+}
+
+.specimen {
+  display: grid;
+  gap: var(--s-4);
+  padding: var(--s-6);
+  border: var(--hairline) solid var(--rule);
+  border-radius: var(--radius-lg);
+}
+
+/* ── Tiles and variants ── */
+
+.tiles {
+  display: grid;
+  margin: 0;
+  list-style: none;
+  border: var(--hairline) solid var(--rule);
+  border-radius: var(--radius-lg);
+}
+
+.tile {
+  display: grid;
+  gap: var(--s-3);
+  align-content: start;
+  padding: var(--s-6);
+  color: var(--accent);
+}
+
+.tile + .tile {
+  border-block-start: var(--hairline) solid var(--rule);
+}
+
+.tile p:last-child {
+  color: var(--text-muted);
+}
+
+.variants {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-4);
+}
+
+.variant {
+  display: grid;
+  gap: var(--s-2);
+  align-content: start;
+  min-height: 11rem;
+  padding: var(--s-5);
+  border-radius: var(--radius-md);
+  background: var(--white);
+}
+
+@media (min-width: 40rem) {
+  .tiles {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .tile + .tile {
+    border-block-start: 0;
+    border-inline-start: var(--hairline) solid var(--rule);
+  }
+
+  .variants {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* ── Two photographs ── */
+
+.duo {
+  gap: 0;
+}
+
+.duoWide {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  border-radius: var(--radius-lg);
+}
+
+.duoTall {
+  position: relative;
+  z-index: 1;
+  width: min(20rem, 46%);
+  aspect-ratio: 4 / 5;
+  margin-block-start: calc(-1 * var(--s-10));
+  margin-inline: auto var(--s-6);
+  border-radius: var(--radius-lg);
+  outline: var(--s-2) solid var(--surface);
+}
+
+/* ── Band ── */
+
+.band {
+  position: relative;
+  height: clamp(26rem, 82svh, 46rem);
+  overflow: hidden;
+  background: var(--twilight);
+}
+
+.bandMedia {
+  position: absolute;
+  inset: 0;
+}
+
+.bandScrim {
+  position: absolute;
+  inset: 0;
+  background: var(--scrim-bottom);
+}
+
+.bandText {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  height: 100%;
+  padding-block-end: var(--s-9);
+}
+
+.bandLine {
+  max-width: 14ch;
+  font-size: clamp(2.25rem, 1.2rem + 4.6vw, 5rem);
+  line-height: 1;
+}
+
+.bandLine:lang(th) {
+  max-width: 12em;
+  font-size: clamp(1.875rem, 1.2rem + 2.8vw, 3.5rem);
+  line-height: 1.4;
+}
+
+/* ── Reel ── */
+
+.reelBand {
+  padding-block: var(--section-y);
+  /* clip, not hidden: a hidden box becomes the scroll container that position: sticky measures against. */
+  overflow: clip;
+}
+
+.reelHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--s-6);
+}
+
+.reelHead .rail {
+  position: static;
+  flex: 1 1 20rem;
+}
+
+.reel {
+  --reel-inset: var(--gutter);
+
+  margin-block-start: var(--s-8);
+}
+
+.reelItem {
+  position: relative;
+  display: block;
+  height: clamp(15rem, 34vw, 26rem);
+  aspect-ratio: var(--ratio);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: none;
+  cursor: inherit;
+}
+
+.reelItem:focus-visible {
+  outline-offset: -4px;
+  border-radius: var(--radius-lg);
+}
+
+.reelItem picture {
+  transition: transform var(--t-plate-hover) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .reelItem:hover picture {
+    transform: scale(1.04);
+  }
+}
+
+.probe {
+  margin-block-start: var(--s-5);
+}
+
+.toggle {
+  min-height: var(--tap);
+  padding: var(--s-2) var(--s-5);
+  border: var(--hairline) solid var(--border-control);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  transition:
+    background-color var(--t-hover) var(--ease-out),
+    color var(--t-hover) var(--ease-out),
+    border-color var(--t-hover) var(--ease-out);
+}
+
+.toggle:hover {
+  border-color: var(--action);
+}
+
+.toggle[aria-pressed="true"] {
+  border-color: var(--action);
+  background: var(--action);
+  color: var(--on-action);
+}
+
+/* ── Twilight band ── */
+
+.skyBand {
+  position: relative;
+  overflow: clip;
+}
+
+.stars {
+  position: absolute;
+  inset: 0;
+  opacity: 0.9;
+}
+
+.skyChapter {
+  position: relative;
+  border-block-start: 0;
+}
+
+.skyContent {
+  gap: var(--s-7);
+}
+
+.skyMedia {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  border-radius: var(--radius-lg);
+}
+
+.skyPanel {
+  padding: var(--s-6);
+  border: var(--hairline) solid var(--rule);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--twilight-soft) 78%, transparent);
+}
+
+.skyFacts {
+  display: grid;
+  gap: var(--s-6);
+  margin: 0;
+}
+
+.skyFacts dd {
+  margin: var(--s-2) 0 0;
+}
+
+.skyFigure {
+  color: var(--clay-soft);
+}
+
+@media (min-width: 40rem) {
+  .skyFacts {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.readout {
+  display: grid;
+  gap: var(--s-3);
+}
+
+.readout[data-live="false"] .readoutValue {
+  visibility: hidden;
+}
+
+.readoutTrack {
+  height: 2px;
+  overflow: hidden;
+  background: var(--rule);
+}
+
+.readoutFill {
+  display: block;
+  height: 100%;
+  background: var(--clay-soft);
+  transform-origin: 0 50%;
+  transition: transform var(--t-settle) var(--ease-out);
+}
+
+/* ── Links ── */
+
+.linkList {
+  gap: var(--s-4);
+  margin: 0;
+  list-style: none;
+  font-family: var(--font-display);
+  font-size: var(--fs-h2);
+  line-height: var(--lh-h2);
+  color: var(--accent);
+}
+
+.linkList:lang(th) {
+  font-family: var(--font-display-th);
+}
+
+.linkList a {
+  text-decoration: none;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 var(--hairline) no-repeat;
+  transition: background-size var(--t-panel) var(--ease-out);
+}
+
+.linkList a:hover,
+.linkList a:focus-visible {
+  background-size: 100% var(--hairline);
+}

@@ -1,0 +1,38 @@
+/*
+ * Skip link. Parked above the viewport until focused, then it drops into the top corner over the
+ * header. A forest pill with a paper label (10.6:1); the global focus ring shows around it.
+ */
+.skip {
+  position: fixed;
+  inset-block-start: var(--s-3);
+  inset-inline-start: var(--s-3);
+  z-index: var(--z-menu);
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  padding: var(--s-2) var(--s-5);
+  border-radius: var(--radius-pill);
+  background: var(--forest);
+  color: var(--paper);
+  font-size: var(--fs-small);
+  font-weight: 500;
+  line-height: var(--lh-small);
+  text-decoration: none;
+  transform: translateY(calc(-100% - var(--s-5)));
+  transition: transform var(--t-ui) var(--ease);
+}
+
+.skip:lang(th) {
+  font-size: 1rem;
+}
+
+.skip:focus,
+.skip:focus-visible {
+  transform: none;
+}
+
+@media print {
+  .skip {
+    display: none;
+  }
+}

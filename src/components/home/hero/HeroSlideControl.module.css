@@ -1,0 +1,255 @@
+/*
+ * HeroSlideControl. It always sits over the photograph, inside the hero's .on-photo container, so its
+ * colours are the on-dark tokens and its words take the hero's halo.
+ *
+ *   below 64rem   one row: four bars that share the width, and the pause button
+ *   from 64rem    right-aligned: the counter (and the room type, when the frame belongs to one),
+ *                 the caption, then the bars with previous, next and pause
+ *
+ * Without script, and under reduced motion, it is `.still`: the first photograph's caption alone.
+ *
+ * Component constants:
+ *   2px / 3px      a bar at rest and under the pointer; its hit area is the full 44px
+ *   2.75rem        the counter's figure: the serif of the display line, at label scale
+ *   --control-line the resting colour of a bar's track and of a round button's outline (paper at 40%)
+ *   --control-well the ground of a round button: a little of the scrim colour, so its outline and icon
+ *                  read over a pale part of the photograph too
+ */
+
+.control {
+  /* Captions and counters are label-sized: they take the hero's tighter halo. The big figure keeps the display one. */
+  --hero-halo: var(--hero-halo-label, none);
+  --control-line: color-mix(in srgb, var(--on-dark) 40%, transparent);
+  --control-well: color-mix(in srgb, var(--twilight) 46%, transparent);
+
+  min-width: 0;
+  color: var(--on-dark);
+}
+
+/* ── Still: the caption alone ── */
+
+.still .caption {
+  display: block;
+  /* Below 64rem it sits directly above the meta strip. */
+  margin-block-end: var(--s-2);
+}
+
+/* ── Counter and caption: from 64rem only ── */
+
+.count,
+.caption {
+  display: none;
+}
+
+.caption {
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+  text-wrap: balance;
+}
+
+.figures {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5em;
+  font-size: var(--fs-eyebrow);
+  font-variant-numeric: lining-nums tabular-nums;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+}
+
+/* The current number, set in the display serif in both languages: these are Latin figures. */
+.now {
+  --hero-halo: var(--hero-halo-display, none);
+
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 2.75rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+.of,
+.total {
+  opacity: 0.86;
+}
+
+.room {
+  display: inline-block;
+  color: var(--on-dark);
+}
+
+/* A caption, a figure or a room name that has just changed rises into place. */
+.swap {
+  animation: swap 0.6s var(--ease-out) both;
+}
+
+@keyframes swap {
+  from {
+    opacity: 0;
+    transform: translateY(0.6em);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ── Bars and buttons ── */
+
+.transport {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+.bars {
+  display: flex;
+  flex: 1;
+  gap: var(--s-2);
+  min-width: 0;
+}
+
+/* The button is the whole 44px strip; the bar is the line through its middle. */
+.bar {
+  display: grid;
+  flex: 1;
+  align-items: center;
+  min-width: 0;
+  height: var(--tap);
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.track {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--control-line);
+  box-shadow: 0 0 6px color-mix(in srgb, var(--twilight) 60%, transparent);
+  transition:
+    height var(--t-ui) var(--ease),
+    background-color var(--t-ui) var(--ease);
+}
+
+.fill {
+  position: absolute;
+  inset: 0;
+  background: var(--on-dark);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+
+.bar:focus-visible {
+  outline: 2px solid var(--focus-on-dark);
+  outline-offset: -8px;
+  border-radius: var(--radius-sm);
+}
+
+.buttons {
+  display: flex;
+  flex: none;
+  gap: var(--s-2);
+}
+
+.round {
+  display: grid;
+  place-items: center;
+  width: var(--tap);
+  height: var(--tap);
+  padding: 0;
+  border: var(--hairline) solid var(--control-line);
+  border-radius: 50%;
+  background: var(--control-well);
+  color: var(--on-dark);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color var(--t-hover) var(--ease),
+    border-color var(--t-hover) var(--ease),
+    color var(--t-hover) var(--ease),
+    transform var(--t-ui) var(--ease);
+}
+
+.round:active {
+  transform: scale(0.94);
+}
+
+.round:focus-visible {
+  outline: 2px solid var(--focus-on-dark);
+  outline-offset: 3px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--twilight) 78%, transparent);
+}
+
+/* Previous and next join from 64rem; a phone has the bars to tap. */
+.turn {
+  display: none;
+}
+
+@media (hover: hover) {
+  .bar:hover .track {
+    height: 3px;
+    background: color-mix(in srgb, var(--on-dark) 64%, transparent);
+  }
+
+  .round:hover {
+    border-color: var(--on-dark);
+    background: var(--on-dark);
+    color: var(--ink);
+  }
+}
+
+@media (min-width: 64rem) {
+  .control {
+    display: grid;
+    justify-items: end;
+    text-align: end;
+  }
+
+  /* The bars run through the middle of a 44px strip: this puts them on the line of the meta strip beside them. */
+  .live {
+    margin-block-end: calc((1.4 * var(--fs-eyebrow) - var(--tap)) / 2);
+  }
+
+  .count {
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-end;
+  }
+
+  .caption {
+    display: block;
+    max-width: 21rem;
+    margin-block-start: var(--s-1);
+  }
+
+  .still .caption {
+    margin-block: 0;
+  }
+
+  .transport {
+    margin-block-start: var(--s-3);
+    gap: var(--s-4);
+  }
+
+  .bars {
+    flex: none;
+    gap: var(--s-1);
+  }
+
+  .bar {
+    flex: none;
+    width: 2.75rem;
+  }
+
+  .turn {
+    display: grid;
+  }
+}

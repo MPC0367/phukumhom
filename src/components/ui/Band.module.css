@@ -1,0 +1,186 @@
+/*
+ * Band — full-bleed media, a scrim, words. The band is its own stacking context: media, grain and scrims
+ * sit behind the words on negative layers, so nothing inside needs a z-index.
+ *
+ * Component constants:
+ *   62 / 80 / 100 svh    the three heights, each with a floor in rem so a short window still holds the words
+ *   --band-top-scrim     how far the top scrim reaches down (it only has to cover the header)
+ *   --band-pool-1..3     the corner pool of scrim="hero": the twilight colour at 78% in the lower left
+ *                        corner, 68% near two fifths of its radius, 54% near two thirds, gone at its edge.
+ *                        The ellipse is 110% x 130% of the band from 48rem and 170% x 125% on phones, where
+ *                        the words run the full width.
+ *   --band-halo-*        the halo under words over the photograph (see the rule on .inner)
+ * docs/contrast.md is generated from these values: change one, then run node _qa/ui/contrast.mjs.
+ */
+.band {
+  --band-top-scrim: 14rem;
+  --band-pool-1: color-mix(in srgb, var(--twilight) 78%, transparent);
+  --band-pool-2: color-mix(in srgb, var(--twilight) 68%, transparent);
+  --band-pool-3: color-mix(in srgb, var(--twilight) 54%, transparent);
+  --band-halo-edge: color-mix(in srgb, var(--twilight) 90%, transparent);
+  --band-halo-near: color-mix(in srgb, var(--twilight) 90%, transparent);
+  --band-halo-far: color-mix(in srgb, var(--twilight) 75%, transparent);
+
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  overflow: hidden;
+  background: var(--twilight);
+  color: var(--on-dark);
+}
+
+.half {
+  min-height: max(22rem, 62vh);
+  min-height: max(22rem, 62svh);
+}
+
+.tall {
+  min-height: max(28rem, 80vh);
+  min-height: max(28rem, 80svh);
+}
+
+.screen {
+  min-height: max(40rem, 100vh);
+  min-height: max(40rem, 100svh);
+}
+
+.media {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  overflow: hidden;
+}
+
+/* ── Scrims ── */
+
+.scrim {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.scrim-bottom {
+  background: var(--scrim-bottom);
+}
+
+.scrim-top {
+  inset-block-end: auto;
+  height: min(100%, var(--band-top-scrim));
+  background: var(--scrim-top);
+}
+
+.scrim-full {
+  background: var(--scrim-full);
+}
+
+.scrim-hero {
+  background-image:
+    var(--scrim-bottom),
+    radial-gradient(
+      ellipse 170% 125% at 0% 100%,
+      var(--band-pool-1) 0%,
+      var(--band-pool-2) 40%,
+      var(--band-pool-3) 66%,
+      transparent 100%
+    );
+}
+
+@media (min-width: 48rem) {
+  .scrim-hero {
+    background-image:
+      var(--scrim-bottom),
+      radial-gradient(
+        ellipse 110% 130% at 0% 100%,
+        var(--band-pool-1) 0%,
+        var(--band-pool-2) 38%,
+        var(--band-pool-3) 64%,
+        transparent 100%
+      );
+  }
+}
+
+/* ── Grain: static, fine, multiplied into the photograph. Wide screens only. ── */
+
+.grain {
+  display: none;
+}
+
+@media (min-width: 48rem) {
+  .grain {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    display: block;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 220px 220px;
+    mix-blend-mode: multiply;
+    opacity: 0.06;
+  }
+}
+
+/* ── Words ── */
+
+/* Two classes: the element is also the global .container. */
+.band .inner {
+  position: relative;
+  display: grid;
+  align-content: end;
+  padding-block: var(--s-9) var(--s-8);
+}
+
+/*
+ * A halo in the scrim colour under every word over the photograph: a one-pixel edge, a close glow and a
+ * wide soft one. The two glows are sized in the element's own em and capped (5px, 28px), so a 12px label
+ * gets a halo that is large for its size and a 160px headline one that is small for its: both keep
+ * crisp edges. This is what lets the scrim stay light enough for the photograph to keep its colour while
+ * small text still measures 4.5:1 against the pixels directly behind it (docs/contrast.md).
+ * Zero specificity: a control with its own ground (a pill, a chip, a light panel) switches it off.
+ */
+:where(.inner) * {
+  text-shadow:
+    0 0 1px var(--band-halo-edge),
+    0 0 min(0.25em, 5px) var(--band-halo-near),
+    0 0 min(0.9em, 28px) var(--band-halo-far);
+}
+
+/* Kickers and meta lines over a photograph are full paper, not the muted tone: they are the smallest text here.
+   Two classes only, so a light panel floating in the band can still set its own. */
+.inner :global(.eyebrow) {
+  color: var(--text);
+}
+
+/* typography.css gives numerals a clay tone that only reads on light grounds; over a photograph they are clay-soft. */
+.inner :global(.numeral) {
+  color: var(--clay-soft);
+}
+
+.band .start {
+  align-content: start;
+}
+
+.band .center {
+  align-content: center;
+}
+
+.overHeader .inner {
+  padding-block-start: calc(var(--header-h) + var(--s-7));
+}
+
+@media (min-width: 64rem) {
+  .band .inner {
+    padding-block: var(--s-10) var(--s-9);
+  }
+
+  .overHeader .inner {
+    padding-block-start: calc(var(--header-h) + var(--s-8));
+  }
+}
+
+@media print {
+  .scrim,
+  .grain {
+    display: none;
+  }
+}

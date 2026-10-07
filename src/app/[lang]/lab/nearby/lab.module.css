@@ -1,0 +1,25 @@
+/* The H5 lab frame: a screen of paper above the section and, for chapters, one below it. */
+.lead {
+  display: grid;
+  align-content: center;
+  gap: var(--s-3);
+  min-height: 92vh;
+  min-height: 92svh;
+}
+
+.hint {
+  max-width: var(--measure);
+  color: var(--text-muted);
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-4);
+  font-size: var(--fs-small);
+}
+
+.tail {
+  min-height: 70vh;
+  min-height: 70svh;
+}

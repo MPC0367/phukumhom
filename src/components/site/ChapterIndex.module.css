@@ -1,0 +1,155 @@
+/*
+ * Chapter index: a slim white capsule at the right edge holding one dot for each chapter. The capsule
+ * gives the dots a ground of their own, so they read over paper, sand, twilight, forest and a
+ * full-bleed photograph alike. The chapter being read is a short terracotta bar; a chapter's number and
+ * name slide out beside its dot on hover and on keyboard focus.
+ *
+ * Displayed from 80rem wide (and only on a screen tall enough to hold it); it sits in the page gutter
+ * there, clear of the text column. Hidden by default and without script: <ChapterIndex> sets
+ * data-state="shown".
+ *
+ * Component constants:
+ *   --dot        the dot's diameter, and the bar's width
+ *   --dot-bar    the height of the current chapter's bar
+ *   --hit        each link's box: the pointer target is larger than the dot it holds
+ */
+.index {
+  --dot: 0.375rem;
+  --dot-bar: 1.375rem;
+  --hit: 1.625rem;
+
+  display: none;
+}
+
+@media (min-width: 80rem) and (min-height: 34rem) {
+  .index {
+    position: fixed;
+    inset-block-start: 50%;
+    inset-inline-end: max(var(--s-3), env(safe-area-inset-right, 0px));
+    z-index: var(--z-sticky-actions);
+    display: block;
+    visibility: hidden;
+    opacity: 0;
+    transform: translate(var(--s-3), -50%);
+    transition:
+      opacity var(--t-panel) var(--ease),
+      transform var(--t-panel) var(--ease-out),
+      visibility 0s linear var(--t-panel);
+  }
+
+  .index[data-state="shown"] {
+    visibility: visible;
+    opacity: 1;
+    transform: translate(0, -50%);
+    transition:
+      opacity var(--t-panel) var(--ease),
+      transform var(--t-panel) var(--ease-out),
+      visibility 0s linear 0s;
+  }
+}
+
+.list {
+  display: grid;
+  margin: 0;
+  padding: var(--s-2) var(--s-1);
+  border: var(--hairline) solid color-mix(in srgb, var(--stone) 70%, transparent);
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--white) 88%, transparent);
+  -webkit-backdrop-filter: blur(0.5rem);
+  backdrop-filter: blur(0.5rem);
+  list-style: none;
+}
+
+.item {
+  display: flex;
+}
+
+.link {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: var(--hit);
+  height: var(--hit);
+  border-radius: var(--radius-pill);
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.mark {
+  width: var(--dot);
+  height: var(--dot);
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--forest) 38%, transparent);
+  transition:
+    height var(--t-panel) var(--ease-out),
+    background-color var(--t-hover) var(--ease),
+    transform var(--t-hover) var(--ease-out);
+}
+
+.link[aria-current="true"] .mark {
+  height: var(--dot-bar);
+  background: var(--action);
+}
+
+/* The current chapter's link is taller, so the bar has room and its neighbours keep their distance. */
+.link[aria-current="true"] {
+  height: calc(var(--dot-bar) + var(--s-3));
+}
+
+@media (hover: hover) {
+  .link:hover .mark {
+    background: var(--forest);
+    transform: scale(1.35);
+  }
+
+  .link[aria-current="true"]:hover .mark {
+    background: var(--action-hover);
+    transform: none;
+  }
+}
+
+/* The chapter's number and name: the link's text, shown beside the dot when it is pointed at or focused. */
+.label {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-end: calc(100% + var(--s-3));
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--s-2);
+  padding: var(--s-1) var(--s-3);
+  border-radius: var(--radius-pill);
+  background: var(--forest-deep);
+  color: var(--on-dark);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.5;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(var(--s-2), -50%);
+  transition:
+    opacity var(--t-hover) var(--ease),
+    transform var(--t-hover) var(--ease-out);
+}
+
+.label:lang(th) {
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+
+.number {
+  color: var(--clay-soft);
+  font-variant-numeric: tabular-nums lining-nums;
+  letter-spacing: 0.08em;
+}
+
+.link:hover .label,
+.link:focus-visible .label {
+  opacity: 1;
+  transform: translate(0, -50%);
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--focus-on-light);
+  outline-offset: 1px;
+}

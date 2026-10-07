@@ -1,0 +1,27 @@
+/*
+ * Lab scaffolding: an empty stretch above and below the section, so it is reached by scrolling the way
+ * it will be on the homepage, and the comparison table standing in the page as the stay page will set it.
+ */
+.spacer {
+  display: grid;
+  align-content: end;
+  min-height: 112vh;
+  min-height: 112svh;
+  background: var(--sand);
+}
+
+.spacerMark {
+  display: block;
+  height: var(--hairline);
+  background: var(--rule);
+}
+
+.inline {
+  padding-block: var(--section-y-tight) var(--section-y);
+  border-block-start: var(--hairline) solid var(--rule);
+}
+
+.inlineIntro {
+  margin-block: var(--s-3) var(--s-8);
+  color: var(--text-muted);
+}

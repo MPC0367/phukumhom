@@ -1,0 +1,108 @@
+/*
+ * GalleryReel — the frames of a drifting row.
+ *
+ * The reel itself (the drift, the copies, the native scroller underneath) is components/motion/DriftReel
+ * and the pressable photograph is components/ui/Lightbox: this file only gives the frames their size and
+ * shape, and makes the two agree about hover, focus and the pointer.
+ *
+ * Set per reel by GalleryReel.tsx, on .shell:
+ *   --gallery-reel-min     frame height on phones
+ *   --gallery-reel-max     frame height on wide screens
+ *   --gallery-reel-fluid   the same height as a share of the viewport width, used in between
+ * Component constants:
+ *   --gallery-reel-gap     space between frames
+ */
+.shell {
+  --gallery-reel-gap: var(--s-3);
+
+  min-width: 0;
+}
+
+/*
+ * The frame: one height for the whole row, a width from its own shape.
+ * On a narrow phone the height gives way (62vw) so that a 3:2 frame is never wider than the screen:
+ * resting on the gutter, every frame can be seen whole.
+ */
+.item {
+  --trigger-radius: var(--radius-lg);
+
+  height: min(clamp(var(--gallery-reel-min), var(--gallery-reel-fluid), var(--gallery-reel-max)), 62vw);
+}
+
+/* Frames wider than 3:2 are shown at 3:2 on phones, for the same reason; their own shape from 40rem. */
+.r21x9,
+.r2x1,
+.r16x9 {
+  aspect-ratio: 3 / 2;
+}
+
+.r3x2 {
+  aspect-ratio: 3 / 2;
+}
+
+.r4x3 {
+  aspect-ratio: 4 / 3;
+}
+
+.r1x1 {
+  aspect-ratio: 1 / 1;
+}
+
+.r4x5 {
+  aspect-ratio: 4 / 5;
+}
+
+.r3x4 {
+  aspect-ratio: 3 / 4;
+}
+
+/* The focus ring stays inside the reel's own breathing room, so the scroller never crops it. */
+.item > a:focus-visible,
+.item > button:focus-visible {
+  outline-offset: 2px;
+}
+
+/*
+ * A copy of a frame cannot be hovered (it is inert), so ReelAssist marks the one under the pointer and
+ * it answers here exactly as the original does in Lightbox.module.css: the photograph eases to 1.04 and
+ * the round badge arrives in its corner (the transitions are the original's own, which the copy keeps).
+ * The badge is the copy's one direct <span>.
+ */
+.item[data-hover] img {
+  transform: scale(1.04);
+}
+
+.item[data-hover] > span {
+  opacity: 1;
+  transform: none;
+}
+
+/* While the row can be dragged the whole of it shows the hand, originals and copies alike. */
+.reel[data-drift="on"] .item > a,
+.reel[data-drift="on"] .item > button {
+  cursor: inherit;
+}
+
+@media (min-width: 40rem) {
+  .shell {
+    --gallery-reel-gap: var(--s-4);
+  }
+
+  .r21x9 {
+    aspect-ratio: 21 / 9;
+  }
+
+  .r2x1 {
+    aspect-ratio: 2 / 1;
+  }
+
+  .r16x9 {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+@media (min-width: 64rem) {
+  .shell {
+    --gallery-reel-gap: var(--s-5);
+  }
+}

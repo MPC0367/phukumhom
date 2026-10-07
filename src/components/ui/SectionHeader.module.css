@@ -1,0 +1,53 @@
+/*
+ * SectionHeader — Horizon, then heading and lead.
+ * Component constants: the heading's measure (in its own em, so it tracks the fluid type scale).
+ */
+.header {
+  --header-measure: 13em;
+
+  display: grid;
+  row-gap: var(--s-6);
+}
+
+.header:lang(th) {
+  --header-measure: 17em;
+}
+
+.body {
+  display: grid;
+  row-gap: var(--s-4);
+}
+
+.header .heading {
+  max-inline-size: var(--header-measure);
+}
+
+.header .lead {
+  max-inline-size: var(--measure);
+}
+
+@media (min-width: 64rem) {
+  .header {
+    row-gap: var(--s-7);
+  }
+
+  .body {
+    row-gap: var(--s-5);
+  }
+
+  /* Heading on the left seven columns, lead on the right-hand five, first lines on one baseline. */
+  .split .body {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--col-gap);
+    align-items: baseline;
+  }
+
+  .split .heading {
+    grid-column: 1 / span 7;
+  }
+
+  .split .lead {
+    grid-column: 8 / -1;
+    max-inline-size: none;
+  }
+}

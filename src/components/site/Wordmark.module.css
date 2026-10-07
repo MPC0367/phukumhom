@@ -1,0 +1,96 @@
+/*
+ * Wordmark (ART-DIRECTION section 1): PHUKUMHOM in Noto Sans Thai 500, tracked 0.26em, with the small
+ * line beneath. It takes the colour of whatever it sits in (currentColor): forest on the paper header,
+ * paper over a photograph, paper on the forest footer and menu.
+ *
+ * Component constants:
+ *   --wordmark-fs   the size of the tracked name; small enough to share a 320px header with the
+ *                   language switch and the Menu button
+ *   --sub-line      the height of the second line, the same in both languages (see .sub)
+ * Optional hook read from the surroundings: --wordmark-max, a cap on the size of the name. The header
+ * sets it so the bar still fits a narrow phone when a guest has enlarged the text.
+ *
+ * The tracking adds a gap after the last letter; the negative margin takes it back so the word's right
+ * edge is its real edge, and a centred wordmark is centred on its letters.
+ *
+ * The wide-screen step (a larger name, and the second line in the header) is a container query: the
+ * wordmark sits in the header, the menu or the footer, all size containers, and follows their width in rem.
+ */
+.wordmark {
+  --wordmark-fs: 0.875rem;
+  --sub-line: 1.3125rem;
+
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.125rem;
+  min-height: var(--tap);
+  color: inherit;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (min-width: 23.4375rem) {
+  .wordmark {
+    --wordmark-fs: 0.9375rem;
+  }
+}
+
+@container (min-width: 72rem) {
+  .wordmark {
+    --wordmark-fs: 1.0625rem;
+  }
+}
+
+.name {
+  margin-inline-end: calc(-1 * var(--tracking-wordmark));
+  font-family: var(--font-sans);
+  font-size: min(var(--wordmark-fs), var(--wordmark-max, 100vw));
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: var(--tracking-wordmark);
+  white-space: nowrap;
+}
+
+/*
+ * One fixed line box in both languages (21px: tall enough for Thai marks at 14px), so the name above
+ * it stands at exactly the same height on a Thai page as on an English one and the mark does not
+ * jump when a guest switches language.
+ */
+.sub {
+  block-size: var(--sub-line);
+  /* The tracking adds a gap after the last letter here too. */
+  margin-inline-end: -0.24em;
+  font-size: 0.625rem;
+  font-weight: 500;
+  line-height: var(--sub-line);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 0.8;
+}
+
+/* Thai is never tracked and has no capitals. */
+.sub:lang(th) {
+  margin-inline-end: 0;
+  font-size: var(--fs-eyebrow);
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.subWide {
+  display: none;
+}
+
+@container (min-width: 72rem) {
+  .subWide {
+    display: block;
+  }
+}
+
+.wordmark:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: var(--s-1);
+  border-radius: var(--radius-sm);
+}

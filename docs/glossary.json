@@ -1,0 +1,440 @@
+{
+  "_meta": {
+    "purpose": "Canonical bilingual strings for Phukumhom Resort Khao Yai. Copy from here; do not retype or re-translate. Wording rules and reasoning are in docs/VOICE.md. Facts (address, phone, times, URLs) are NOT stored here: they live in src/content and are interpolated.",
+    "updated": "2026-10-07",
+    "conventions": [
+      "Every leaf is {en, th} except rooms.*.name (a proper name, identical in both languages) and keys beginning with an underscore (notes, never rendered).",
+      "Placeholders use {curlyNames}. The values come from src/content; never hard-code a fact into a string.",
+      "English labels and buttons are sentence case. Terms meant for running copy are lower case.",
+      "Thai strings carry no full stop, no polite particles and no letter-spacing. The repetition mark is attached to the word before it and followed by a space.",
+      "Dates are Gregorian in both languages: 7 October 2026 / 7 ตุลาคม 2026 (short: 7 Oct 2026 / 7 ต.ค. 2026). Times are 24-hour: 14:00 in English, 14:00 น. in Thai.",
+      "In Thai, the three room names stay in Latin script and follow the classifier: ห้อง Deluxe Balcony."
+    ]
+  },
+
+  "names": {
+    "resortFull": { "en": "Phukumhom Resort Khao Yai", "th": "ภูคำหอม รีสอร์ท เขาใหญ่" },
+    "resortShort": { "en": "Phukumhom", "th": "ภูคำหอม" },
+    "wangKatha": { "en": "Wang Katha", "th": "วังกะทะ" },
+    "wangKathaSubdistrict": { "en": "Wang Katha", "th": "ตำบลวังกะทะ" },
+    "pakChong": { "en": "Pak Chong", "th": "ปากช่อง" },
+    "pakChongDistrict": { "en": "Pak Chong", "th": "อำเภอปากช่อง" },
+    "nakhonRatchasima": { "en": "Nakhon Ratchasima", "th": "นครราชสีมา" },
+    "nakhonRatchasimaProvince": { "en": "Nakhon Ratchasima", "th": "จังหวัดนครราชสีมา" },
+    "khaoYai": { "en": "Khao Yai", "th": "เขาใหญ่" },
+    "khaoYaiArea": { "en": "the Khao Yai area", "th": "ย่านเขาใหญ่" },
+    "khaoYaiNationalPark": { "en": "Khao Yai National Park", "th": "อุทยานแห่งชาติเขาใหญ่" },
+    "localityCue": { "en": "Wang Katha · Khao Yai", "th": "วังกะทะ · เขาใหญ่" },
+    "thailand": { "en": "Thailand", "th": "ประเทศไทย" }
+  },
+
+  "nav": {
+    "home": { "en": "Home", "th": "หน้าแรก" },
+    "stay": { "en": "Stay", "th": "ห้องพัก" },
+    "dining": { "en": "Dining", "th": "ร้านอาหาร" },
+    "experiences": { "en": "Experiences", "th": "รอบรีสอร์ท" },
+    "location": { "en": "Location", "th": "ที่ตั้ง" },
+    "explore": { "en": "Explore", "th": "เพิ่มเติม" },
+    "gallery": { "en": "Gallery", "th": "ภาพบรรยากาศ" },
+    "story": { "en": "Our story", "th": "เกี่ยวกับภูคำหอม" },
+    "faq": { "en": "FAQ", "th": "คำถามที่พบบ่อย" },
+    "contact": { "en": "Contact", "th": "ติดต่อรีสอร์ท" },
+    "gatherings": { "en": "Gatherings", "th": "หมู่คณะและการจัดงาน" },
+    "offers": { "en": "Offers", "th": "ข้อเสนอพิเศษ" },
+    "privacy": { "en": "Privacy", "th": "นโยบายความเป็นส่วนตัว" },
+    "terms": { "en": "Terms", "th": "ข้อกำหนดและเงื่อนไข" }
+  },
+
+  "pageNames": {
+    "_note": "Plain page names for H1 and breadcrumbs where the nav label is too short to stand alone. The SEO author may extend them with the locality.",
+    "stay": { "en": "Rooms", "th": "ห้องพัก" },
+    "dining": { "en": "Restaurant and kitchen garden", "th": "ร้านอาหารและสวนครัว" },
+    "experiences": { "en": "Around the resort", "th": "รอบรีสอร์ท" },
+    "location": { "en": "Location and getting here", "th": "ที่ตั้งและการเดินทาง" },
+    "gallery": { "en": "Gallery", "th": "ภาพบรรยากาศ" },
+    "contact": { "en": "Contact the resort", "th": "ติดต่อรีสอร์ท" },
+    "faq": { "en": "Frequently asked questions", "th": "คำถามที่พบบ่อย" },
+    "privacy": { "en": "Privacy policy", "th": "นโยบายความเป็นส่วนตัว" },
+    "terms": { "en": "Website terms", "th": "ข้อกำหนดและเงื่อนไขการใช้เว็บไซต์" },
+    "gatherings": { "en": "Group stays and gatherings", "th": "เข้าพักเป็นหมู่คณะและการจัดงาน" },
+    "notFound": { "en": "Page not found", "th": "ไม่พบหน้าที่ต้องการ" }
+  },
+
+  "actions": {
+    "exploreRooms": { "en": "Explore rooms", "th": "ดูห้องพัก" },
+    "rooms": { "en": "Rooms", "th": "ห้องพัก" },
+    "allRooms": { "en": "All rooms", "th": "ห้องพักทั้งหมด" },
+    "checkAvailability": { "en": "Check availability", "th": "ตรวจสอบห้องว่าง" },
+    "checkResortAvailability": { "en": "Check resort availability", "th": "ตรวจสอบห้องว่างของรีสอร์ท" },
+    "checkRates": { "en": "Check rates for your dates", "th": "ดูราคาตามวันที่เข้าพัก" },
+    "continueToBooking": { "en": "Continue to the booking page", "th": "ไปที่หน้าจอง" },
+    "viewRoom": { "en": "View room", "th": "ดูรายละเอียดห้อง" },
+    "compareRooms": { "en": "Compare rooms", "th": "เปรียบเทียบห้องพัก" },
+    "askAboutRoom": { "en": "Ask about this room", "th": "สอบถามเกี่ยวกับห้องนี้" },
+    "askTheResort": { "en": "Ask the resort", "th": "สอบถามรีสอร์ท" },
+    "getDirections": { "en": "Get directions", "th": "ดูเส้นทาง" },
+    "openInMaps": { "en": "Open in Google Maps", "th": "เปิดใน Google Maps" },
+    "loadMap": { "en": "Load the map", "th": "โหลดแผนที่" },
+    "contactResort": { "en": "Contact the resort", "th": "ติดต่อรีสอร์ท" },
+    "callResort": { "en": "Call the resort", "th": "โทรหารีสอร์ท" },
+    "contactOnFacebook": { "en": "Contact on Facebook", "th": "ติดต่อทาง Facebook" },
+    "viewAllPhotos": { "en": "View all photos", "th": "ดูภาพทั้งหมด" },
+    "readReviews": { "en": "Read guest reviews", "th": "อ่านรีวิวจากผู้เข้าพัก" },
+    "copyEnquiry": { "en": "Copy enquiry", "th": "คัดลอกข้อความสอบถาม" },
+    "copyAddress": { "en": "Copy address", "th": "คัดลอกที่อยู่" },
+    "sendEnquiry": { "en": "Send enquiry", "th": "ส่งข้อความสอบถาม" },
+    "tryAgain": { "en": "Try again", "th": "ลองอีกครั้ง" },
+    "backToHome": { "en": "Back to the homepage", "th": "กลับหน้าแรก" },
+    "menu": { "en": "Menu", "th": "เมนู" },
+    "openMenu": { "en": "Open menu", "th": "เปิดเมนู" },
+    "closeMenu": { "en": "Close menu", "th": "ปิดเมนู" },
+    "close": { "en": "Close", "th": "ปิด" },
+    "back": { "en": "Back", "th": "ย้อนกลับ" },
+    "next": { "en": "Next", "th": "ถัดไป" },
+    "previous": { "en": "Previous", "th": "ก่อนหน้า" },
+    "skipToContent": { "en": "Skip to content", "th": "ข้ามไปยังเนื้อหา" },
+    "switchLanguage": { "en": "Switch language", "th": "เปลี่ยนภาษา" }
+  },
+
+  "rooms": {
+    "_note": "Names are proper names: Latin script in both languages, never translated or transliterated. gloss = the short description used once, on first mention on a page. distinction = the one sentence that tells this room from the other two. outdoors / bathing = the wording of the two ledger facts.",
+    "deluxe-balcony": {
+      "name": "Deluxe Balcony",
+      "mention": { "en": "Deluxe Balcony", "th": "ห้อง Deluxe Balcony" },
+      "gloss": {
+        "en": "room with a balcony and a private rooftop",
+        "th": "ห้องพักพร้อมระเบียงและดาดฟ้าส่วนตัว"
+      },
+      "distinction": {
+        "en": "The balcony and private rooftop that every room here has, with a shower room.",
+        "th": "มีระเบียงและดาดฟ้าส่วนตัวเหมือนห้องพักทุกแบบของที่นี่ พร้อมห้องอาบน้ำฝักบัว"
+      },
+      "outdoors": { "en": "Balcony and private rooftop", "th": "ระเบียงและดาดฟ้าส่วนตัว" },
+      "bathing": { "en": "Shower room", "th": "ห้องอาบน้ำฝักบัว" }
+    },
+    "deluxe-bathtub": {
+      "name": "Deluxe Bathtub",
+      "mention": { "en": "Deluxe Bathtub", "th": "ห้อง Deluxe Bathtub" },
+      "gloss": {
+        "en": "room with a bathtub",
+        "th": "ห้องพักพร้อมอ่างอาบน้ำ"
+      },
+      "distinction": {
+        "en": "The room to choose for a bath: a bathtub, along with the balcony and private rooftop.",
+        "th": "เลือกห้องนี้หากอยากมีอ่างอาบน้ำ พร้อมระเบียงและดาดฟ้าส่วนตัวเช่นเดียวกับห้องอื่น"
+      },
+      "outdoors": { "en": "Balcony and private rooftop", "th": "ระเบียงและดาดฟ้าส่วนตัว" },
+      "bathing": { "en": "Bathtub", "th": "อ่างอาบน้ำ" }
+    },
+    "executive-pool-spa": {
+      "name": "Executive Pool Spa",
+      "mention": { "en": "Executive Pool Spa", "th": "ห้อง Executive Pool Spa" },
+      "gloss": {
+        "en": "room with a circular spa tub on its private rooftop",
+        "th": "ห้องพักพร้อมอ่างแช่ตัวทรงกลมบนดาดฟ้าส่วนตัว"
+      },
+      "distinction": {
+        "en": "A circular spa tub on its private rooftop, for a soak in the open air; it is a tub, not a swimming pool.",
+        "th": "มีอ่างแช่ตัวทรงกลมบนดาดฟ้าส่วนตัว ไว้นอนแช่กลางแจ้ง เป็นอ่างแช่ตัว ไม่ใช่สระว่ายน้ำ"
+      },
+      "outdoors": { "en": "Balcony and private rooftop", "th": "ระเบียงและดาดฟ้าส่วนตัว" },
+      "bathing": { "en": "Circular spa tub on the rooftop", "th": "อ่างแช่ตัวทรงกลมบนดาดฟ้า" }
+    }
+  },
+
+  "amenities": {
+    "_note": "The only six in-room amenities the contract allows. Nothing is added to this list without a ledger entry.",
+    "airConditioning": { "en": "Air conditioning", "th": "เครื่องปรับอากาศ" },
+    "privateBathroom": { "en": "Private bathroom", "th": "ห้องน้ำในตัว" },
+    "refrigerator": { "en": "Refrigerator", "th": "ตู้เย็น" },
+    "television": { "en": "Television", "th": "โทรทัศน์" },
+    "hairdryer": { "en": "Hairdryer", "th": "ไดร์เป่าผม" },
+    "coffeeTea": { "en": "In-room coffee and tea", "th": "กาแฟและชาในห้องพัก" }
+  },
+
+  "terms": {
+    "privateRooftop": { "en": "private rooftop", "th": "ดาดฟ้าส่วนตัว" },
+    "balcony": { "en": "balcony", "th": "ระเบียง" },
+    "bathtub": { "en": "bathtub", "th": "อ่างอาบน้ำ" },
+    "spaTub": { "en": "spa tub", "th": "อ่างแช่ตัว" },
+    "circularSpaTub": { "en": "circular spa tub", "th": "อ่างแช่ตัวทรงกลม" },
+    "showerRoom": { "en": "shower room", "th": "ห้องอาบน้ำฝักบัว" },
+    "sharedPool": { "en": "shared pool", "th": "สระว่ายน้ำส่วนกลาง" },
+    "sharedOutdoorPool": { "en": "shared outdoor pool", "th": "สระว่ายน้ำกลางแจ้งส่วนกลาง" },
+    "kitchenGarden": { "en": "kitchen garden", "th": "สวนครัว" },
+    "seasonalProduce": { "en": "seasonal produce", "th": "ผักผลไม้ตามฤดูกาล" },
+    "homemadePreserves": { "en": "homemade preserves", "th": "แยมและผลไม้แปรรูปทำเอง" },
+    "welcomeDrink": { "en": "welcome drink", "th": "เครื่องดื่มต้อนรับ" },
+    "restaurant": { "en": "the resort’s restaurant", "th": "ร้านอาหารของรีสอร์ท" },
+    "garden": { "en": "garden", "th": "สวน" },
+    "grounds": { "en": "grounds", "th": "บริเวณรีสอร์ท" },
+    "pond": { "en": "pond", "th": "สระน้ำ" },
+    "pergola": { "en": "timber pergola", "th": "ซุ้มไม้" },
+    "theResort": { "en": "the resort", "th": "รีสอร์ท" },
+    "theTeam": { "en": "the team", "th": "ทีมงาน" },
+    "guest": { "en": "guest", "th": "ผู้เข้าพัก" },
+    "room": { "en": "room", "th": "ห้องพัก" },
+    "roomType": { "en": "room type", "th": "ประเภทห้องพัก" },
+    "rate": { "en": "rate", "th": "ราคาห้องพัก" },
+    "bookingPartner": { "en": "the resort’s booking partner", "th": "ผู้ให้บริการระบบจองของรีสอร์ท" },
+    "bookingPage": { "en": "the booking page", "th": "หน้าจอง" },
+    "bookingConfirmation": { "en": "booking confirmation", "th": "ใบยืนยันการจอง" },
+    "enquiry": { "en": "enquiry", "th": "ข้อความสอบถาม" },
+    "nearbyPlaces": { "en": "nearby places", "th": "สถานที่ใกล้เคียง" },
+    "checkIn": { "en": "Check-in", "th": "เช็กอิน" },
+    "checkOut": { "en": "Check-out", "th": "เช็กเอาต์" },
+    "arrival": { "en": "Arrival", "th": "วันเช็กอิน" },
+    "departure": { "en": "Departure", "th": "วันเช็กเอาต์" },
+    "guests": { "en": "Guests", "th": "ผู้เข้าพัก" },
+    "adults": { "en": "Adults", "th": "ผู้ใหญ่" },
+    "children": { "en": "Children", "th": "เด็ก" },
+    "atAGlance": { "en": "At a glance", "th": "สรุปสั้นๆ" },
+    "lastUpdated": { "en": "Last updated", "th": "ปรับปรุงข้อมูลล่าสุด" },
+    "byArrangement": { "en": "By arrangement", "th": "นัดล่วงหน้ากับทีมงาน" },
+    "onClearEvenings": { "en": "On clear evenings", "th": "ในคืนที่ฟ้าเปิด" },
+    "asCurrentlyListed": { "en": "as currently listed", "th": "ตามข้อมูลปัจจุบัน" },
+    "dependsOnRate": { "en": "depends on the rate you choose", "th": "ขึ้นอยู่กับราคาที่เลือก" },
+    "inSeason": { "en": "in season", "th": "ตามฤดูกาล" }
+  },
+
+  "labels": {
+    "address": { "en": "Address", "th": "ที่อยู่" },
+    "phone": { "en": "Phone", "th": "โทรศัพท์" },
+    "facebook": { "en": "Facebook", "th": "Facebook" },
+    "language": { "en": "Language", "th": "ภาษา" },
+    "languageThai": { "en": "ไทย", "th": "ไทย" },
+    "languageEnglish": { "en": "English", "th": "English" },
+    "day": { "en": "Day", "th": "กลางวัน" },
+    "evening": { "en": "Evening", "th": "ยามเย็น" },
+    "outdoors": { "en": "Outdoors", "th": "พื้นที่กลางแจ้ง" },
+    "bathing": { "en": "Bathing", "th": "อาบน้ำและแช่ตัว" },
+    "inTheRoom": { "en": "In the room", "th": "ภายในห้องพัก" },
+    "goodToKnow": { "en": "Good to know", "th": "ข้อควรทราบ" },
+    "room": { "en": "Room", "th": "ห้องพัก" },
+    "name": { "en": "Name", "th": "ชื่อ" },
+    "email": { "en": "Email", "th": "อีเมล" },
+    "message": { "en": "Message", "th": "ข้อความ" },
+    "enquiryType": { "en": "What is your enquiry about?", "th": "เรื่องที่ต้องการสอบถาม" },
+    "enquiryStay": { "en": "A stay", "th": "การเข้าพัก" },
+    "enquiryDining": { "en": "Dining", "th": "ร้านอาหาร" },
+    "enquiryGroup": { "en": "A group or gathering", "th": "หมู่คณะหรือการจัดงาน" },
+    "enquiryGeneral": { "en": "Something else", "th": "เรื่องอื่นๆ" },
+    "replyChannel": { "en": "How should the resort reply?", "th": "ช่องทางที่สะดวกให้ติดต่อกลับ" },
+    "optional": { "en": "optional", "th": "ไม่บังคับ" },
+    "required": { "en": "required", "th": "จำเป็น" },
+    "externalSite": { "en": "External site", "th": "เว็บไซต์ภายนอก" }
+  },
+
+  "gallery": {
+    "_note": "Filter labels. There is no Spa filter: the word would suggest a spa facility the resort is not known to have.",
+    "all": { "en": "All", "th": "ทั้งหมด" },
+    "rooms": { "en": "Rooms", "th": "ห้องพัก" },
+    "rooftops": { "en": "Rooftops", "th": "ดาดฟ้า" },
+    "gardens": { "en": "Gardens", "th": "สวน" },
+    "dining": { "en": "Dining", "th": "ร้านอาหาร" },
+    "grounds": { "en": "Around the resort", "th": "รอบรีสอร์ท" }
+  },
+
+  "home": {
+    "_note": "The recommended options from VOICE.md section 6. Each language was written natively; they are a pair, not a translation.",
+    "eyebrow": {
+      "en": "Phukumhom Resort Khao Yai · Wang Katha, Pak Chong",
+      "th": "ภูคำหอม รีสอร์ท เขาใหญ่ · วังกะทะ ปากช่อง"
+    },
+    "display": { "en": "A little closer to nature.", "th": "ใกล้ธรรมชาติขึ้นอีกนิด" },
+    "supporting": {
+      "en": "Garden stays and private rooftops in Wang Katha, on the quieter side of the Khao Yai area.",
+      "th": "ที่พักกลางสวนในวังกะทะ ฝั่งที่เงียบกว่าของย่านเขาใหญ่ ทุกห้องมีดาดฟ้าส่วนตัว"
+    },
+    "plannerHelp": {
+      "en": "Children are added on the booking page. Booking is completed with the resort’s booking partner.",
+      "th": "เพิ่มจำนวนเด็กได้ในหน้าจอง การจองทำผ่านผู้ให้บริการระบบจองของรีสอร์ท"
+    },
+    "sections": {
+      "setting": {
+        "label": { "en": "The setting", "th": "รู้จักภูคำหอม" },
+        "heading": { "en": "A garden, a pond and a great deal of sky", "th": "สวน สระน้ำ และท้องฟ้ากว้าง" }
+      },
+      "stay": {
+        "label": { "en": "Choose your stay", "th": "เลือกห้องพัก" },
+        "heading": { "en": "Three kinds of room, each with one clear difference", "th": "ห้องพักสามแบบ ต่างกันตรงไหน" }
+      },
+      "rooftop": {
+        "label": { "en": "The rooftop", "th": "ดาดฟ้าส่วนตัว" },
+        "heading": { "en": "A rooftop of your own", "th": "ยามเย็นบนดาดฟ้าส่วนตัว" }
+      },
+      "garden": {
+        "label": { "en": "Garden and table", "th": "สวนครัวและร้านอาหาร" },
+        "heading": { "en": "A small kitchen garden, and what the season brings", "th": "สวนครัวแปลงเล็ก กับผลผลิตตามฤดูกาล" }
+      },
+      "time": {
+        "label": { "en": "Time around the resort", "th": "ใช้เวลาในรีสอร์ท" },
+        "heading": { "en": "Unhurried hours in the grounds", "th": "เดินเล่นในสวน นั่งริมน้ำ ชมฟ้ายามเย็น" }
+      }
+    },
+    "journey": {
+      "label": { "en": "Plan the journey", "th": "วางแผนการเดินทาง" },
+      "heading": { "en": "Finding Phukumhom", "th": "เดินทางมาภูคำหอม" }
+    },
+    "closing": {
+      "en": "Pick your dates. The garden will be here.",
+      "th": "เลือกวันที่สะดวก แล้วมาพักกลางสวน"
+    }
+  },
+
+  "phrases": {
+    "_note": "Sentences that must read the same wherever they appear (home, room pages, FAQ, stay overview). The English breakfast, pets and locality lines are the contract’s own wording.",
+    "locality": {
+      "en": "In Wang Katha, on the quieter side of the Khao Yai area.",
+      "th": "อยู่ที่ตำบลวังกะทะ ฝั่งที่เงียบกว่าของย่านเขาใหญ่"
+    },
+    "notInPark": {
+      "en": "The resort is in the Khao Yai area, not inside the national park.",
+      "th": "รีสอร์ทอยู่ในย่านเขาใหญ่ ไม่ได้อยู่ในเขตอุทยานแห่งชาติเขาใหญ่"
+    },
+    "checkInOut": {
+      "en": "Check-in is from {checkIn} and check-out is until {checkOut}, as currently listed; your booking confirmation is the reference.",
+      "th": "เช็กอินได้ตั้งแต่ {checkIn} น. และเช็กเอาต์ภายใน {checkOut} น. ตามข้อมูลปัจจุบัน โดยให้ยึดเวลาในใบยืนยันการจองเป็นหลัก"
+    },
+    "breakfast": {
+      "en": "Whether breakfast is included depends on the rate you choose; each rate on the booking page says so.",
+      "th": "อาหารเช้าจะรวมอยู่ในค่าห้องหรือไม่ ขึ้นอยู่กับราคาที่เลือก โดยหน้าจองระบุไว้ในแต่ละราคา"
+    },
+    "pets": {
+      "en": "Current listings say pets are not accepted — please ask the resort before travelling with an animal.",
+      "th": "ข้อมูลปัจจุบันระบุว่ารีสอร์ทไม่รับสัตว์เลี้ยง หากจะพาสัตว์เลี้ยงมาด้วย กรุณาสอบถามรีสอร์ทก่อนเดินทาง"
+    },
+    "stargazing": {
+      "en": "On clear evenings, the rooftop is a good place to watch the stars come out.",
+      "th": "ในคืนที่ฟ้าเปิด ดาดฟ้าเป็นมุมที่เหมาะกับการนั่งดูดาว"
+    },
+    "poolSpaClarification": {
+      "en": "The room is called Executive Pool Spa. What is on its rooftop is a circular spa tub for soaking, not a swimming pool. The resort’s pool is a shared outdoor pool, set apart from the rooms.",
+      "th": "ห้องนี้ชื่อ Executive Pool Spa แต่สิ่งที่อยู่บนดาดฟ้าคืออ่างแช่ตัวทรงกลม ไม่ใช่สระว่ายน้ำ ส่วนสระว่ายน้ำของรีสอร์ทเป็นสระกลางแจ้งส่วนกลาง อยู่แยกจากห้องพัก"
+    },
+    "sharedPoolNote": {
+      "en": "The resort has a shared outdoor pool, set apart from the rooms.",
+      "th": "รีสอร์ทมีสระว่ายน้ำกลางแจ้งส่วนกลาง อยู่แยกจากห้องพัก"
+    },
+    "rooftopsAllRooms": {
+      "en": "All three room types have a private rooftop; the rooftop spa tub belongs to Executive Pool Spa.",
+      "th": "ห้องพักทั้งสามแบบมีดาดฟ้าส่วนตัว ส่วนอ่างแช่ตัวบนดาดฟ้ามีเฉพาะห้อง Executive Pool Spa"
+    },
+    "roomChosenOnBookingPage": {
+      "en": "You choose the room on the booking page.",
+      "th": "เลือกประเภทห้องพักได้ในหน้าจอง"
+    },
+    "childrenOnBookingPage": {
+      "en": "Children are added on the booking page.",
+      "th": "เพิ่มจำนวนเด็กได้ในหน้าจอง"
+    },
+    "occupancyOnBookingPage": {
+      "en": "The booking page shows how many guests each room takes for your dates.",
+      "th": "หน้าจองจะแสดงจำนวนผู้เข้าพักของแต่ละห้องตามวันที่เลือก"
+    },
+    "bookingPartnerNotice": {
+      "en": "Booking is completed on the page of the resort’s booking partner. Your browser’s back button brings you back here.",
+      "th": "การจองจะทำต่อในหน้าจองของผู้ให้บริการระบบจองของรีสอร์ท กดย้อนกลับเมื่อต้องการกลับมาหน้านี้"
+    },
+    "bookingLanguageNote": {
+      "en": "The booking page has its own language menu.",
+      "th": "หากหน้าจองแสดงเป็นภาษาอังกฤษ เปลี่ยนเป็นภาษาไทยได้จากเมนูภาษาในหน้านั้น"
+    },
+    "askBedsOccupancy": {
+      "en": "Ask about beds, occupancy and connecting rooms",
+      "th": "สอบถามเรื่องเตียง จำนวนผู้เข้าพัก และห้องที่เชื่อมถึงกัน"
+    },
+    "activitiesAsk": {
+      "en": "Ask the team what is running for your dates.",
+      "th": "สอบถามทีมงานได้ว่าช่วงที่เข้าพักมีอะไรเปิดให้บริการบ้าง"
+    },
+    "byArrangementAsk": {
+      "en": "By arrangement — ask the team.",
+      "th": "ต้องนัดล่วงหน้า สอบถามทีมงานได้"
+    },
+    "kitchenGardenSeasonal": {
+      "en": "The resort describes a small kitchen garden of its own. What it gives changes with the season, so no two stays find quite the same things.",
+      "th": "รีสอร์ทเล่าว่ามีสวนครัวแปลงเล็กของตัวเอง ผลผลิตเปลี่ยนไปตามฤดูกาล แต่ละช่วงที่เข้าพักจึงไม่เหมือนกัน"
+    },
+    "accessConversation": {
+      "en": "If steps, distances or getting around matter for your stay, contact the resort to talk it through privately before you book.",
+      "th": "หากมีข้อจำกัดเรื่องขั้นบันได ระยะทางเดิน หรือการเคลื่อนไหว ติดต่อรีสอร์ทเพื่อพูดคุยเป็นการส่วนตัวก่อนจองได้"
+    },
+    "enquiryNotReservation": {
+      "en": "An enquiry is a message to the resort, not a confirmed reservation.",
+      "th": "ข้อความสอบถามเป็นการติดต่อรีสอร์ท ยังไม่ใช่การยืนยันการจอง"
+    }
+  },
+
+  "messages": {
+    "addressCopied": { "en": "Address copied.", "th": "คัดลอกที่อยู่แล้ว" },
+    "enquiryCopied": {
+      "en": "Enquiry copied. Paste it into a message to the resort; nothing has been sent from this page.",
+      "th": "คัดลอกข้อความแล้ว นำไปวางในข้อความถึงรีสอร์ทได้ หน้านี้ยังไม่ได้ส่งข้อความใดๆ"
+    },
+    "enquirySent": {
+      "en": "Your enquiry has been sent. It is a message to the resort, not a confirmed reservation.",
+      "th": "ส่งข้อความถึงรีสอร์ทแล้ว ข้อความนี้เป็นการสอบถาม ยังไม่ใช่การยืนยันการจอง"
+    },
+    "enquiryFailed": {
+      "en": "Your enquiry could not be sent just now. What you wrote is still here. Try again, or call the resort on {phone}.",
+      "th": "ยังส่งข้อความไม่สำเร็จ ข้อความที่กรอกไว้ยังอยู่ครบ ลองส่งอีกครั้ง หรือโทรหารีสอร์ทที่ {phone}"
+    },
+    "tooManyAttempts": {
+      "en": "That was several attempts in a short time. Please wait a moment and try again, or call the resort on {phone}.",
+      "th": "ส่งหลายครั้งในเวลาสั้นๆ กรุณารอสักครู่แล้วลองอีกครั้ง หรือโทรหารีสอร์ทที่ {phone}"
+    },
+    "nameRequired": { "en": "Please enter your name.", "th": "กรุณากรอกชื่อ" },
+    "messageRequired": { "en": "Please write your message.", "th": "กรุณาเขียนข้อความ" },
+    "contactRequired": {
+      "en": "Please add an email address or a phone number so the resort can reply.",
+      "th": "กรุณากรอกอีเมลหรือหมายเลขโทรศัพท์ เพื่อให้รีสอร์ทติดต่อกลับได้"
+    },
+    "emailInvalid": {
+      "en": "That email address looks incomplete. Please check it.",
+      "th": "อีเมลนี้ดูไม่ครบถ้วน กรุณาตรวจสอบอีกครั้ง"
+    },
+    "phoneInvalid": {
+      "en": "That phone number looks incomplete. Include the country code if it is not a Thai number.",
+      "th": "หมายเลขโทรศัพท์นี้ดูไม่ครบถ้วน หากเป็นหมายเลขต่างประเทศ กรุณาใส่รหัสประเทศด้วย"
+    },
+    "departureAfterArrival": {
+      "en": "Departure needs to be after arrival.",
+      "th": "วันเช็กเอาต์ต้องอยู่หลังวันเช็กอิน"
+    },
+    "arrivalNotPast": {
+      "en": "Choose an arrival date from today onwards.",
+      "th": "กรุณาเลือกวันเช็กอินตั้งแต่วันนี้เป็นต้นไป"
+    },
+    "notFoundBody": {
+      "en": "The link may be old or mistyped. These pages are a good place to start again.",
+      "th": "ลิงก์อาจเก่าหรือพิมพ์ผิด ลองเริ่มใหม่จากหน้าเหล่านี้"
+    },
+    "photoFailed": { "en": "This photograph did not load.", "th": "โหลดภาพนี้ไม่สำเร็จ" }
+  },
+
+  "patterns": {
+    "lastUpdated": { "en": "Last updated {date}", "th": "ปรับปรุงข้อมูลล่าสุด {date}" },
+    "photoCount": { "en": "Photograph {current} of {total}", "th": "ภาพที่ {current} จาก {total}" },
+    "reviewFigure": {
+      "en": "Google {rating} / 5 from {count} reviews, checked {date}",
+      "th": "Google {rating} / 5 จาก {count} รีวิว ตรวจสอบเมื่อ {date}"
+    },
+    "callOn": { "en": "Call {phone}", "th": "โทร {phone}" },
+    "copyright": { "en": "© {year} Phukumhom Resort Khao Yai", "th": "© {year} ภูคำหอม รีสอร์ท เขาใหญ่" },
+    "horizonLabel": { "en": "{number} — {label}", "th": "{number} — {label}" },
+    "roomFirstMention": { "en": "{name}, the {gloss}", "th": "ห้อง {name} ({gloss})" }
+  },
+
+  "a11y": {
+    "mainNav": { "en": "Main", "th": "เมนูหลัก" },
+    "footerNav": { "en": "Footer", "th": "เมนูส่วนท้าย" },
+    "breadcrumb": { "en": "Breadcrumb", "th": "เส้นทางนำทาง" },
+    "languageSwitch": { "en": "Language", "th": "ภาษา" },
+    "stickyActions": { "en": "Quick actions", "th": "ทางลัด" },
+    "photoViewer": { "en": "Photograph viewer", "th": "หน้าต่างดูภาพ" },
+    "opensBookingPage": { "en": "opens the booking partner’s page", "th": "เปิดหน้าของผู้ให้บริการระบบจอง" },
+    "opensGoogleMaps": { "en": "opens Google Maps", "th": "เปิด Google Maps" },
+    "opensFacebook": { "en": "opens Facebook", "th": "เปิด Facebook" }
+  }
+}

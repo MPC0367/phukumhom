@@ -1,0 +1,162 @@
+{
+  "/th/index.php": {
+    "to": "/th",
+    "status": 308
+  },
+  "/th/about.php": {
+    "to": "/th#story",
+    "status": 308
+  },
+  "/th/howto-get-here.php": {
+    "to": "/th/location",
+    "status": 308
+  },
+  "/th/special-offer.php": {
+    "to": "/th/stay",
+    "status": 307
+  },
+  "/th/rate.php": {
+    "to": "/th/stay",
+    "status": 308
+  },
+  "/th/gallery.php": {
+    "to": "/th/gallery",
+    "status": 308
+  },
+  "/th/gall-poolspa.php": {
+    "to": "/th/gallery?filter=rooftops",
+    "status": 308
+  },
+  "/th/gall-roombalcony.php": {
+    "to": "/th/gallery?filter=rooms",
+    "status": 308
+  },
+  "/th/gall-roombathtub.php": {
+    "to": "/th/gallery?filter=rooms",
+    "status": 308
+  },
+  "/th/gall-facility.php": {
+    "to": "/th/gallery?filter=dining",
+    "status": 308
+  },
+  "/th/gall-activity.php": {
+    "to": "/th/gallery?filter=experiences",
+    "status": 308
+  },
+  "/th/gall-scenery.php": {
+    "to": "/th/gallery?filter=gardens",
+    "status": 308
+  },
+  "/th/gall-memory.php": {
+    "to": "/th/gallery",
+    "status": 308
+  },
+  "/th/contact.php": {
+    "to": "/th/contact",
+    "status": 308
+  },
+  "/th/gall-resortview.php": {
+    "to": "/th/gallery?filter=gardens",
+    "status": 308
+  },
+  "/th/gallery2.html": {
+    "to": "/th/gallery",
+    "status": 308
+  },
+  "/en/index.php": {
+    "to": "/en",
+    "status": 308
+  },
+  "/en/about.php": {
+    "to": "/en#story",
+    "status": 308
+  },
+  "/en/howto-get-here.php": {
+    "to": "/en/location",
+    "status": 308
+  },
+  "/en/special-offer.php": {
+    "to": "/en/stay",
+    "status": 307
+  },
+  "/en/rate.php": {
+    "to": "/en/stay",
+    "status": 308
+  },
+  "/en/gallery.php": {
+    "to": "/en/gallery",
+    "status": 308
+  },
+  "/en/gall-poolspa.php": {
+    "to": "/en/gallery?filter=rooftops",
+    "status": 308
+  },
+  "/en/gall-roombalcony.php": {
+    "to": "/en/gallery?filter=rooms",
+    "status": 308
+  },
+  "/en/gall-roombathtub.php": {
+    "to": "/en/gallery?filter=rooms",
+    "status": 308
+  },
+  "/en/gall-facility.php": {
+    "to": "/en/gallery?filter=dining",
+    "status": 308
+  },
+  "/en/gall-activity.php": {
+    "to": "/en/gallery?filter=experiences",
+    "status": 308
+  },
+  "/en/gall-scenery.php": {
+    "to": "/en/gallery?filter=gardens",
+    "status": 308
+  },
+  "/en/gall-memory.php": {
+    "to": "/en/gallery",
+    "status": 308
+  },
+  "/en/contact.php": {
+    "to": "/en/contact",
+    "status": 308
+  },
+  "/en/gall-resortview.php": {
+    "to": "/en/gallery?filter=gardens",
+    "status": 308
+  },
+  "/en/gallery2.html": {
+    "to": "/en/gallery",
+    "status": 308
+  },
+  "/index.html": {
+    "to": "/th",
+    "status": 308
+  },
+  "/send-email.php": {
+    "to": "/th/contact",
+    "status": 303
+  },
+  "/index.php": {
+    "to": "/th",
+    "status": 308
+  },
+  "/about.php": {
+    "to": "/th#story",
+    "status": 308
+  },
+  "/act-news.php": {
+    "to": "/th/experiences",
+    "status": 308
+  },
+  "/rate.php": {
+    "to": "/th/stay",
+    "status": 308
+  },
+  "/gallery.php": {
+    "to": "/th/gallery",
+    "status": 308
+  },
+  "/contact.php": {
+    "to": "/th/contact",
+    "status": 308
+  }
+}

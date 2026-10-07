@@ -1,0 +1,20 @@
+/*
+ * SplitReveal. No state is styled here: the block is ordinary text until script splits it.
+ *
+ * The only rule is for the masks SplitText wraps round each line while the reveal runs. A mask that
+ * clips at its own box slices letters: a display line set at 0.9 leading is shorter than its glyphs, so
+ * the tails of g and y and the overhang of an italic word would be cut off for the length of the
+ * animation. So the mask clips with a clip-path set a little OUTSIDE its box instead (negative insets),
+ * and its own overflow clipping is switched off by the component.
+ *
+ * A clip-path takes no room: unlike padding with a negative margin (adjacent negative margins collapse
+ * and leave the block a few pixels taller while it is split), the layout is identical before, during and
+ * after the reveal.
+ */
+.split :global(.pkh-line-mask) {
+  clip-path: inset(-0.2em -0.15em);
+}
+
+.split :global(.pkh-line) {
+  will-change: transform;
+}

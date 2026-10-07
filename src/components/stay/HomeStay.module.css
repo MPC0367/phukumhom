@@ -1,0 +1,9 @@
+/*
+ * Chapter 02's rail. <Chapter> takes its title and intro as nodes; here they are handed over inside the
+ * motion system's entrances, which need a box of their own to move: an inline <span> cannot be
+ * transformed, so each is set as a block inside the heading and the paragraph that <Chapter> writes.
+ */
+.railTitle,
+.railIntro {
+  display: block;
+}

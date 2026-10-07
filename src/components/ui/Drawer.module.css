@@ -1,0 +1,241 @@
+/*
+ * Drawer — the native <dialog> as a sliding panel.
+ *
+ *   bottom sheet   pinned to the bottom edge, rounded top, a handle mark, as tall as its content up to
+ *                  the screen height less 3.5rem; rises from below
+ *   right drawer   pinned to the right edge, full height, rounded on the inner side; slides in from the right
+ *
+ * The entrance and the exit are transitions between the closed and the [open] state. Where the browser
+ * supports @starting-style and discrete transitions the exit animates too; elsewhere the entrance is a
+ * keyframe animation and the exit is immediate. Reduced motion collapses --t-panel to 1ms.
+ *
+ * The scrim is a spread shadow on the dialog (see Dialog.module.css for why it is not ::backdrop); it
+ * fades with the panel. The light tokens are restated: a drawer is ink on white wherever it opens from.
+ *
+ * Component constants: --drawer-w, the panel width on wide screens; --drawer-from, where it comes from.
+ */
+.drawer {
+  --text: var(--ink);
+  --text-muted: var(--ink-muted);
+  --rule: var(--stone);
+  --accent: var(--forest);
+  --surface: var(--white);
+  --surface-raised: var(--white);
+  --focus: var(--focus-on-light);
+  --drawer-scrim: color-mix(in srgb, var(--twilight) 62%, transparent);
+  --drawer-w: 30rem;
+  --drawer-from: translateY(100%);
+
+  position: fixed;
+  inset: auto 0 0;
+  width: 100%;
+  max-width: none;
+  max-height: calc(100dvh - var(--s-8));
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-start-start-radius: var(--radius-xl);
+  border-start-end-radius: var(--radius-xl);
+  background: var(--white);
+  color: var(--ink);
+  box-shadow: 0 0 0 100vmax transparent;
+  transform: var(--drawer-from);
+  transition-property: transform, box-shadow, overlay, display;
+  transition-duration: var(--t-panel);
+  transition-timing-function: var(--ease-out);
+  transition-behavior: allow-discrete;
+}
+
+.drawer[open] {
+  box-shadow: 0 0 0 100vmax var(--drawer-scrim);
+  transform: none;
+}
+
+@starting-style {
+  .drawer[open] {
+    box-shadow: 0 0 0 100vmax transparent;
+    transform: var(--drawer-from);
+  }
+}
+
+@supports not (transition-behavior: allow-discrete) {
+  .drawer[open] {
+    animation: drawer-in var(--t-panel) var(--ease-out);
+  }
+}
+
+@keyframes drawer-in {
+  from {
+    box-shadow: 0 0 0 100vmax transparent;
+    transform: var(--drawer-from);
+  }
+}
+
+/* A drawer opened from inside a <Band> is its own ground: none of the band's halo. */
+.drawer,
+.drawer * {
+  text-shadow: none;
+}
+
+.drawer::backdrop {
+  background: transparent;
+}
+
+/* typography.css turns numerals clay-soft inside the dark helpers; in this light panel they are clay-deep. */
+dialog.drawer :global(.numeral) {
+  color: var(--clay-deep);
+}
+
+.panel {
+  position: relative;
+  display: flow-root;
+  max-height: calc(100dvh - var(--s-8));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.panel:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: -2px;
+}
+
+/* The mark of a sheet that can be put away. Decoration: Escape, the backdrop and the button close it. */
+.handle {
+  display: block;
+  width: var(--s-7);
+  height: var(--s-1);
+  margin: var(--s-3) auto 0;
+  border-radius: var(--radius-pill);
+  background: var(--stone);
+}
+
+.close {
+  position: absolute;
+  inset-block-start: var(--s-4);
+  inset-inline-end: var(--s-4);
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: var(--tap);
+  height: var(--tap);
+  padding: 0;
+  border: var(--hairline) solid var(--stone);
+  border-radius: var(--radius-pill);
+  background: var(--white);
+  color: var(--ink);
+  cursor: pointer;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color var(--t-hover) var(--ease),
+    border-color var(--t-hover) var(--ease),
+    color var(--t-hover) var(--ease),
+    transform var(--t-ui) var(--ease);
+}
+
+.close svg {
+  transition: transform var(--t-panel) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .close:hover {
+    border-color: var(--forest);
+    background: var(--forest);
+    color: var(--paper);
+  }
+
+  .close:hover svg {
+    transform: rotate(90deg);
+  }
+}
+
+.close:active {
+  transform: scale(0.94);
+}
+
+.close:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
+
+.body {
+  padding: var(--s-5) var(--s-5) calc(var(--s-7) + env(safe-area-inset-bottom, 0px));
+}
+
+/* The first thing in the drawer (its title) keeps clear of the close button beside it. */
+.close + .body > :first-child {
+  padding-inline-end: calc(var(--tap) + var(--s-3));
+}
+
+/* ── Right-hand drawer: side="right" always, side="auto" from 48rem ── */
+
+.right {
+  --drawer-from: translateX(100%);
+
+  inset: 0 0 0 auto;
+  width: min(var(--drawer-w), 100% - var(--s-7));
+  height: 100dvh;
+  max-height: none;
+  border-radius: var(--radius-xl) 0 0 var(--radius-xl);
+}
+
+.right .panel {
+  height: 100%;
+  max-height: none;
+}
+
+.right .handle {
+  display: none;
+}
+
+.right .body {
+  padding: var(--s-7) var(--s-6) calc(var(--s-8) + env(safe-area-inset-bottom, 0px));
+}
+
+@media (min-width: 48rem) {
+  .auto {
+    --drawer-from: translateX(100%);
+
+    inset: 0 0 0 auto;
+    width: min(var(--drawer-w), 100% - var(--s-7));
+    height: 100dvh;
+    max-height: none;
+    border-radius: var(--radius-xl) 0 0 var(--radius-xl);
+  }
+
+  .auto .panel {
+    height: 100%;
+    max-height: none;
+  }
+
+  .auto .handle {
+    display: none;
+  }
+
+  .auto .body {
+    padding: var(--s-7) var(--s-7) calc(var(--s-8) + env(safe-area-inset-bottom, 0px));
+  }
+
+  .right .body {
+    padding-inline: var(--s-7);
+  }
+
+  /* A sheet that stays a sheet on a wide screen: centred, capped. */
+  .bottom {
+    inset-inline: 0;
+    width: min(100% - 2 * var(--s-6), 44rem);
+    margin-inline: auto;
+  }
+
+  .bottom .body {
+    padding-inline: var(--s-7);
+  }
+}
+
+@media print {
+  .drawer {
+    display: none;
+  }
+}

@@ -1,0 +1,683 @@
+/*
+ * HomeHero: a full-bleed photograph sequence, the words over it, and (from 64rem) the planner dock
+ * that lies across its lower edge.
+ *
+ *   phones            one screen of photograph. Words fill the lower part, full width:
+ *                     name, place, the line on three lines, the sentence, three stacked pills,
+ *                     then the progress bars with pause, then place and time.
+ *   from 40rem        the pills sit in a row; the line is on two lines.
+ *   from 64rem        photograph + dock = one screen. Words bottom left; the slide control bottom right,
+ *                     its bars level with the meta strip; the dock half over the photograph.
+ *
+ * LAYERS (the section is its own stacking context)
+ *   .stage    z -1   the photographs, the grain and the scrims, clipped; it reaches below the section
+ *                    by --hero-dock-over so there is photograph behind the upper half of the dock
+ *   .inner           the words and controls, in the page container, wearing .on-photo
+ *   .dockZone        a sibling after the section, raised above the stage
+ *
+ * Component constants (everything else is a token):
+ *   --hero-dock-h      the dock's height as built (56px wells and its 12px padding): 5rem
+ *   --hero-dock-over   how much of it lies over the photograph: half
+ *   --hero-dock-foot   the help line under the dock and the air beneath it: 3rem
+ *                      section height from 64rem = one screen - dock - foot, so the planner is whole
+ *                      on the first screen. All three are 0 below 64rem, where there is no dock.
+ *   --hero-cap         the tallest the first screen is allowed to be: 75rem, or 62% of the width where
+ *                      that is more. A phone, a tablet held upright (up to 1200px tall) and a wide desktop
+ *                      monitor are filled; a monitor turned upright is not given a photograph twice as
+ *                      tall as it is wide
+ *   --hero-pool-*      the scrim behind the words (a warm shade multiplied into the photograph: see
+ *                      THE SCRIMS), strongest in the corner the words start from, gone before it
+ *                      reaches the open part of the photograph
+ *   --hero-cloud-*     a second, softer shade that is tied to the text block itself (see .text::before)
+ *   --hero-halo-*      the soft edge under every word (the recipe of ui/Band, see docs/contrast.md)
+ *   the display size   as large as the width allows AND as the height allows: on a short laptop
+ *                      screen the line gives way before anything is pushed under the header
+ */
+
+.hero {
+  --hero-dock-h: 0px;
+  --hero-dock-over: 0px;
+  --hero-dock-foot: 0px;
+  --hero-cap: max(75rem, 62vw);
+  --hero-cloud-1: color-mix(in srgb, var(--twilight) 38%, transparent);
+  --hero-cloud-2: color-mix(in srgb, var(--twilight) 26%, transparent);
+  --hero-halo-edge: color-mix(in srgb, var(--twilight) 90%, transparent);
+  --hero-halo-near: color-mix(in srgb, var(--twilight) 88%, transparent);
+  --hero-halo-far: color-mix(in srgb, var(--twilight) 72%, transparent);
+
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  /* The page scrolls up and down as ever; a sideways swipe is left to the slideshow. */
+  touch-action: pan-y pinch-zoom;
+  /* The words' cloud is wider than a phone; nothing may add a sideways scroll. (hidden is for engines without clip.) */
+  overflow-x: hidden;
+  overflow-x: clip;
+  min-height: max(40rem, min(100vh, var(--hero-cap)));
+  min-height: max(40rem, min(100svh, var(--hero-cap)));
+  color: var(--on-dark);
+}
+
+/*
+ * What the site header reads to know a photograph is behind it (see the component's note). It covers
+ * the hero from its top down to a little above the slide control, so the header turns to paper before
+ * the control reaches it. No box of its own to see or to press.
+ *   --hero-over-end   how far above the hero's lower edge it stops: the control's height and its
+ *                     distance from that edge, plus air for the header's 0.4s change. On phones and
+ *                     tablets the control is one row of bars; from 64rem it is the counter, the caption
+ *                     and the buttons.
+ */
+.overMark {
+  --hero-over-end: 8rem;
+
+  position: absolute;
+  inset: 0 0 var(--hero-over-end) 0;
+  z-index: -2;
+  pointer-events: none;
+}
+
+@media (min-width: 64rem) {
+  .overMark {
+    --hero-over-end: 11rem;
+  }
+}
+
+/* ───────────── The photographs ───────────── */
+
+.stage {
+  position: absolute;
+  inset: 0 0 calc(-1 * var(--hero-dock-over)) 0;
+  z-index: -1;
+  overflow: hidden;
+  background: var(--twilight);
+}
+
+/* No `display` here on purpose: the three later slides carry `hidden` until script shows them. */
+.slide {
+  position: absolute;
+  inset: 0;
+}
+
+/* What the slow zoom moves. It turns about the frame's catalogued focal point. */
+.mover {
+  position: absolute;
+  inset: 0;
+  transform-origin: var(--fx, 50%) var(--fy, 50%);
+}
+
+.scrimTop,
+.scrimPool,
+.scrimBottom,
+.grain {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+/*
+ * THE SCRIMS are MULTIPLIED into the photograph, in a warm shade, instead of being laid over it in the
+ * cold twilight colour. A wash laid over a picture greys it: the clay walls went brown and the haze
+ * went slate. Multiplied, the same darkening keeps each photograph's own colour (shadows go deeper,
+ * pink stays pink, a blue sky stays blue), which is the difference between a frame that is merely
+ * dimmed and one that still glows behind the words.
+ *
+ * Legibility is not traded for it. For one strength and one colour a multiplied shade is never lighter
+ * than the same shade laid over (img x (1 - a + a c) <= img (1 - a) + a c for img <= 1), and every
+ * strength below is raised far enough above the one it replaces to make up for the shade being a
+ * little lighter than the twilight it replaces: over a white sky each layer comes out as dark as
+ * before or darker, and everywhere else darker still. The halo under the words and the cloud that
+ * travels with them are unchanged.
+ *
+ *   --hero-shade   the scrim colour: twilight warmed with the fired-clay of the buildings
+ */
+.hero {
+  --hero-shade: color-mix(in srgb, var(--terracotta-deep) 30%, var(--twilight));
+}
+
+.scrimTop,
+.scrimPool,
+.scrimBottom {
+  mix-blend-mode: multiply;
+}
+
+.scrimTop {
+  inset-block-end: auto;
+  height: min(100%, 11rem);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--hero-shade) 74%, transparent) 0%,
+    color-mix(in srgb, var(--hero-shade) 28%, transparent) 55%,
+    transparent 100%
+  );
+}
+
+.scrimBottom {
+  background: linear-gradient(
+    0deg,
+    color-mix(in srgb, var(--hero-shade) 88%, transparent) 0%,
+    color-mix(in srgb, var(--hero-shade) 52%, transparent) 38%,
+    transparent 78%
+  );
+}
+
+/* Phones: the words run the full width and most of the height, so the pool is a tall even wash. */
+.scrimPool {
+  --hero-pool-1: color-mix(in srgb, var(--hero-shade) 80%, transparent);
+  --hero-pool-2: color-mix(in srgb, var(--hero-shade) 62%, transparent);
+  --hero-pool-3: color-mix(in srgb, var(--hero-shade) 38%, transparent);
+  --hero-pool-4: color-mix(in srgb, var(--hero-shade) 18%, transparent);
+
+  background: linear-gradient(
+    0deg,
+    var(--hero-pool-1) 0%,
+    var(--hero-pool-2) 42%,
+    var(--hero-pool-3) 66%,
+    var(--hero-pool-4) 84%,
+    transparent 100%
+  );
+}
+
+/* Static fine grain, multiplied into the photograph. It suits the enlarged frames. Wide screens only. */
+.grain {
+  display: none;
+}
+
+@media (min-width: 48rem) {
+  .grain {
+    display: block;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 220px 220px;
+    mix-blend-mode: multiply;
+    opacity: 0.06;
+  }
+
+  /* The words keep to the left: darken that corner and leave the rest of the photograph its light. */
+  .scrimPool {
+    --hero-pool-1: color-mix(in srgb, var(--hero-shade) 72%, transparent);
+    --hero-pool-2: color-mix(in srgb, var(--hero-shade) 52%, transparent);
+    --hero-pool-3: color-mix(in srgb, var(--hero-shade) 32%, transparent);
+    --hero-pool-far: color-mix(in srgb, var(--hero-shade) 56%, transparent);
+
+    /* Two pools: the large one behind the words, a small one in the opposite corner behind the slide control. */
+    background:
+      radial-gradient(ellipse 34% 46% at 100% 100%, var(--hero-pool-far) 0%, transparent 100%),
+      radial-gradient(ellipse 88% 128% at 0% 100%, var(--hero-pool-1) 0%, var(--hero-pool-2) 34%, var(--hero-pool-3) 64%, transparent 92%);
+  }
+}
+
+/* ───────────── The words ───────────── */
+
+/* Two classes: the element is also the global .container. */
+.hero .inner {
+  /* Display type and reading text: an edge, a close glow, a wide soft one. */
+  --hero-halo-display: 0 0 1px var(--hero-halo-edge), 0 0 min(0.25em, 5px) var(--hero-halo-near), 0 0 min(0.9em, 28px) var(--hero-halo-far);
+  /* Small labels have thin strokes and nothing else to stand on: the same halo, drawn tighter and in more layers. */
+  --hero-halo-label:
+    0 0 1px var(--hero-halo-edge), 0 0 0.16em var(--hero-halo-edge), 0 0 0.16em var(--hero-halo-edge), 0 0 0.3em var(--hero-halo-edge),
+    0 0 0.5em var(--hero-halo-near), 0 0 0.9em var(--hero-halo-near), 0 0 1.8em var(--hero-halo-far);
+  --hero-halo: var(--hero-halo-display);
+
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: minmax(0, 1fr) auto auto auto;
+  column-gap: var(--s-5);
+  padding-block: calc(var(--header-h) + var(--s-3)) var(--s-5);
+}
+
+/*
+ * A halo in the scrim colour under every word over the photograph: a one-pixel edge, a close glow and a
+ * wide soft one, sized in the element's own em and capped, so a label gets a halo that is large for its
+ * size and the display line one that is small for its. Zero specificity: pills switch it off themselves.
+ */
+:where(.inner) * {
+  text-shadow: var(--hero-halo);
+}
+
+.text {
+  position: relative;
+  grid-area: 2 / 1 / 3 / 3;
+  min-width: 0;
+}
+
+/*
+ * A soft cloud of the scrim colour that travels with the words. The pools above are fixed to the frame;
+ * the words are not (they sit higher on a short screen, lower on a tall one), and the kicker is the
+ * smallest text and the highest. This keeps a floor of shade under it wherever the block lands. It fades
+ * with the words on scroll.
+ */
+.text::before {
+  content: "";
+  position: absolute;
+  /* Larger than the words on every side it can be, and the gradient is spent before it reaches the box's edge. */
+  inset: -9rem -40% 28% -40%;
+  z-index: -1;
+  background: radial-gradient(ellipse closest-side, var(--hero-cloud-1) 0%, var(--hero-cloud-2) 52%, transparent 100%);
+  pointer-events: none;
+}
+
+/* The <h1>: the resort and where it is, as a kicker. Two groups that never break inside themselves. */
+.text .title {
+  --hero-halo: var(--hero-halo-label);
+
+  color: var(--on-dark);
+}
+
+.titlePart {
+  white-space: nowrap;
+}
+
+.titlePlace {
+  display: block;
+  margin-block-start: 0.3em;
+}
+
+.title .titleRule {
+  display: none;
+}
+
+/* The display line. Each row is a block of its own, so the line breaks where it was written to. */
+.text .line {
+  margin-block-start: var(--s-3);
+  color: var(--on-dark);
+  font-size: clamp(3.5rem, 21.6vw, 6.25rem);
+}
+
+.text .line:lang(th) {
+  /* Room above for the tall vowels (ใ ไ โ) and stacked tone marks, which rise out of the line box. */
+  margin-block-start: var(--s-5);
+  font-size: clamp(2.5rem, 15.6vw, 4.75rem);
+  line-height: 1.32;
+}
+
+.lineRow {
+  display: block;
+}
+
+/* English only: the two rows of the display line sit a little closer than the type scale sets a paragraph. */
+.text .line:lang(en) {
+  line-height: 0.86;
+}
+
+.text .sentence {
+  max-width: 42ch;
+  margin-block-start: var(--s-4);
+  color: var(--on-dark);
+  font-weight: 400;
+}
+
+.text .sentence:lang(th) {
+  max-width: 27em;
+}
+
+/* A Thai phrase is never broken inside (see phrases() in HomeHero.tsx). */
+.phrase {
+  white-space: nowrap;
+}
+
+/* ── Actions ── */
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  margin-block-start: var(--s-5);
+}
+
+/* Two classes, to outrank the Button's own size whatever order the stylesheets load in. */
+.actions .cta {
+  --button-h: 3.25rem;
+
+  display: flex;
+  width: 100%;
+}
+
+/* The dock's stand-in below 64rem: a white pill that opens the planner. */
+.plan {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  min-height: 3.5rem;
+  padding: var(--s-2) var(--s-5) var(--s-2) var(--s-2);
+  border-radius: var(--radius-pill);
+  background: var(--white);
+  box-shadow: var(--shadow-float);
+  color: var(--ink);
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color var(--t-hover) var(--ease),
+    transform var(--t-ui) var(--ease);
+}
+
+.plan,
+.plan * {
+  text-shadow: none;
+}
+
+.plan:active {
+  transform: scale(0.98);
+}
+
+.plan:focus-visible {
+  outline: 2px solid var(--focus-on-dark);
+  outline-offset: 3px;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--twilight) 78%, transparent);
+}
+
+.planIcon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: var(--action);
+  color: var(--on-action);
+}
+
+.planText {
+  display: grid;
+  flex: 1;
+  min-width: 0;
+  line-height: 1.3;
+}
+
+.planText:lang(th) {
+  line-height: 1.5;
+}
+
+.planLabel {
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+.planLabel:lang(th) {
+  font-size: 1rem;
+}
+
+.planHint {
+  color: var(--ink-muted);
+  font-size: var(--fs-small);
+}
+
+.planArrow {
+  flex: none;
+  transition: transform var(--t-hover) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .plan:hover {
+    background: var(--paper);
+  }
+
+  .plan:hover .planArrow {
+    transform: translateX(4px);
+  }
+}
+
+/* ── The slide control: on phones a row of its own, bars and pause ── */
+
+.hero .control {
+  grid-area: 3 / 1 / 4 / 3;
+  margin-block-start: var(--s-4);
+}
+
+/* ── The foot: the meta strip and the scroll cue ── */
+
+.foot {
+  grid-area: 4 / 1 / 5 / 3;
+  min-width: 0;
+  margin-block-start: var(--s-1);
+  /* Room for the scroll cue, which hangs under the pause button. */
+  padding-inline-end: var(--tap);
+}
+
+.foot .meta {
+  --hero-halo: var(--hero-halo-label);
+
+  min-width: 0;
+  color: var(--on-dark);
+  white-space: nowrap;
+}
+
+.metaItem {
+  display: inline-block;
+}
+
+/* The clock and the sunset need script. Until they have a value their place is kept and nothing shows: no orphan rule. */
+.metaItem:has(:global([data-live="false"])) {
+  visibility: hidden;
+}
+
+.metaWide,
+.meta .metaSunset {
+  display: none;
+}
+
+/*
+ * The scroll cue: a hairline that runs off the photograph's lower edge, with a stroke travelling down it.
+ * Phones: under the pause button. From 64rem: in the right-hand gutter, beside the end of the dock.
+ */
+.cue {
+  position: absolute;
+  inset-block-end: calc(-1 * var(--hero-dock-over));
+  inset-inline-end: calc(var(--gutter) + var(--tap) / 2);
+  width: var(--hairline);
+  height: 2.25rem;
+  color: var(--on-dark);
+  pointer-events: none;
+}
+
+.cueTrack {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: color-mix(in srgb, currentColor 30%, transparent);
+}
+
+.cueLine {
+  position: absolute;
+  inset: 0;
+  background: currentColor;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .cueLine {
+    animation: cue 2.4s var(--ease-in-out) infinite;
+  }
+}
+
+@keyframes cue {
+  from {
+    transform: translateY(-101%);
+  }
+
+  to {
+    transform: translateY(101%);
+  }
+}
+
+/* ───────────── The dock: absent below 64rem ───────────── */
+
+.dockZone {
+  display: none;
+}
+
+/*
+ * A short phone (an iPhone SE, a phone with its toolbars showing). The white pill and the outlined pill
+ * open the same planner there, so the outlined one steps aside and the line gives a little: the bars and
+ * the meta strip stay on the first screen.
+ */
+@media (max-width: 39.99rem) and (max-height: 44rem) {
+  .text .line {
+    font-size: clamp(3.25rem, min(21.6vw, 10.2vh), 6.25rem);
+    font-size: clamp(3.25rem, min(21.6vw, 10.2svh), 6.25rem);
+  }
+
+  .text .line:lang(th) {
+    margin-block-start: var(--s-4);
+    font-size: clamp(2.5rem, min(15.6vw, 8.4vh), 4.75rem);
+    font-size: clamp(2.5rem, min(15.6vw, 8.4svh), 4.75rem);
+  }
+
+  .text .sentence {
+    margin-block-start: var(--s-3);
+  }
+
+  .actions {
+    margin-block-start: var(--s-4);
+  }
+
+  .actions .ctaGhost {
+    display: none;
+  }
+}
+
+/* ───────────── From 40rem: pills in a row, the line on two lines ───────────── */
+
+@media (min-width: 40rem) {
+  .titlePlace {
+    display: inline;
+    margin-block-start: 0;
+  }
+
+  .title .titleRule {
+    display: inline-block;
+  }
+
+  .text .line {
+    margin-block-start: var(--s-4);
+    font-size: clamp(5.5rem, 13.6vw, 8.5rem);
+  }
+
+  .text .line:lang(th) {
+    font-size: clamp(3.75rem, 9.4vw, 5.75rem);
+  }
+
+  .lineRow {
+    white-space: nowrap;
+  }
+
+  .actions {
+    flex-flow: row wrap;
+    align-items: center;
+  }
+
+  .actions .cta {
+    --button-h: 3.5rem;
+
+    display: inline-flex;
+    width: auto;
+  }
+
+  .plan {
+    min-width: 17rem;
+  }
+
+  .metaWide {
+    display: inline;
+  }
+
+  .hero .inner {
+    padding-block-end: var(--s-6);
+  }
+}
+
+/* ───────────── From 64rem: the composed first screen ───────────── */
+
+@media (min-width: 64rem) {
+  .hero {
+    --hero-dock-h: 5rem;
+    --hero-dock-over: 2.5rem;
+    --hero-dock-foot: 3rem;
+
+    /* The stage reaches below the section here, so only clip may be used: hidden would cut it off. */
+    overflow-x: visible;
+    overflow-x: clip;
+
+    min-height: max(40rem - var(--hero-dock-over), min(100vh, var(--hero-cap)) - var(--hero-dock-h) - var(--hero-dock-foot));
+    min-height: max(40rem - var(--hero-dock-over), min(100svh, var(--hero-cap)) - var(--hero-dock-h) - var(--hero-dock-foot));
+  }
+
+  .hero .inner {
+    grid-template-rows: minmax(0, 1fr) auto auto;
+    column-gap: var(--s-8);
+    padding-block: calc(var(--header-h) + var(--s-3)) var(--s-6);
+  }
+
+  .text .title {
+    margin-block-start: 0;
+  }
+
+  /* The words keep to the left two thirds here. */
+  .text::before {
+    inset: -9rem 22% 26% -32%;
+  }
+
+  /* As large as the width allows, and no larger than the height can hold above the dock. */
+  .text .line {
+    margin-block-start: var(--s-4);
+    font-size: min(1.6rem + 10.4vw, 11.5rem, max(8rem, 55.5vh - 17.1rem));
+    font-size: min(1.6rem + 10.4vw, 11.5rem, max(8rem, 55.5svh - 17.1rem));
+  }
+
+  .text .line:lang(th) {
+    font-size: min(var(--fs-hero), max(4.9rem, 37.8vh - 12.4rem));
+    font-size: min(var(--fs-hero), max(4.9rem, 37.8svh - 12.4rem));
+  }
+
+  .text .sentence {
+    margin-block-start: var(--s-4);
+  }
+
+  .actions {
+    margin-block-start: var(--s-5);
+  }
+
+  .plan {
+    display: none;
+  }
+
+  .foot {
+    grid-area: 3 / 1 / 4 / 2;
+    margin-block-start: var(--s-6);
+    padding-inline-end: 0;
+  }
+
+  .cue {
+    inset-inline-end: calc(var(--gutter) / 2);
+    height: 5.5rem;
+  }
+
+  /* Bottom right, beside the pills and the meta strip. */
+  .hero .control {
+    grid-area: 2 / 2 / 4 / 3;
+    align-self: end;
+    margin-block-start: 0;
+  }
+
+  .dockZone {
+    position: relative;
+    z-index: 1;
+    display: block;
+  }
+}
+
+@media (min-width: 80rem) {
+  .meta .metaSunset {
+    display: inline-block;
+  }
+}
+
+@media print {
+  .scrimTop,
+  .scrimPool,
+  .scrimBottom,
+  .grain,
+  .cue {
+    display: none;
+  }
+}

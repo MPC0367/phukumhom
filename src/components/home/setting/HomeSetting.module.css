@@ -1,0 +1,241 @@
+/*
+ * Chapter 01, the content column: a statement, the tile strip, two photographs.
+ *
+ *   ┌ statement ───────────────────────────────────────────┐
+ *   │ A garden, a pond and a great deal of sky. …           │
+ *   └───────────────────────────────────────────────────────┘
+ *   ┌ 3 ─────────────┬ 14:00 ─────────┬ 12:00 ─────────┐
+ *   └────────────────┴────────────────┴────────────────┘
+ *   ┌ wide (the garden) ─────────────────────┐
+ *   │                                         │
+ *   │                              ┌ tall ────┼────┐
+ *   └──────────────────────────────┤ (balcony)     │
+ *    caption                       │               │
+ *                                  └───────────────┘
+ *                                   caption
+ *
+ * Component constants:
+ *   --duo-ring     the paper edge round the portrait where it lies over the wide frame
+ *   --duo-wide     how many of the 12 columns the wide frame takes (all of them on a phone)
+ *   --duo-drop     how far down the portrait hangs: a share of the composition's own width (cqi), so
+ *                  the overlap keeps its proportion at every size
+ */
+
+/* ── Statement ── */
+
+.statement {
+  max-width: 21em;
+}
+
+/* Thai: "pretty" has no spaces to work with; "balance" evens the lines so none ends on a stranded word. */
+.statement:lang(th) {
+  max-width: 24em;
+  text-wrap: balance;
+}
+
+/* ── Tiles ── */
+
+.facts {
+  margin-block-start: var(--s-8);
+}
+
+.reference {
+  margin-block-start: var(--s-3);
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+  color: var(--text-muted);
+}
+
+/* ── Two photographs ── */
+
+.duo {
+  --duo-ring: var(--s-2);
+  --duo-drop: 52cqi;
+
+  container-type: inline-size;
+  margin-block-start: var(--s-8);
+}
+
+/* The grid is a child of the container, so its tracks can be measured in cqi. */
+.duoGrid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--col-gap);
+  align-items: start;
+}
+
+.wide,
+.tallFigure {
+  margin: 0;
+}
+
+.wide {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  min-width: 0;
+}
+
+.tall {
+  position: relative;
+  z-index: 1;
+  grid-column: 6 / -1;
+  grid-row: 1;
+  min-width: 0;
+  margin-block-start: var(--duo-drop);
+}
+
+/* The frame holds the shape; the trigger around it only carries the focus ring and the badge. */
+.wideFrame {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  border-radius: var(--radius-lg);
+}
+
+/* The wide frame's lower right corner lies under the portrait: its badge moves to the upper corner. */
+.wideTrigger > span {
+  inset-block: var(--s-3) auto;
+}
+
+/* The portrait carries a paper edge inside its own mask, so the edge unveils with the photograph. */
+.tallTrigger {
+  --trigger-radius: calc(var(--radius-lg) + var(--duo-ring));
+
+  margin: calc(-1 * var(--duo-ring));
+}
+
+.tallFrame {
+  padding: var(--duo-ring);
+  border-radius: calc(var(--radius-lg) + var(--duo-ring));
+  background: var(--surface);
+}
+
+.tallInner {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  isolation: isolate;
+}
+
+/* A Parallax frame that fills the box around it. */
+.fill {
+  position: absolute;
+  inset: 0;
+}
+
+/* ── Captions ── */
+
+.caption {
+  margin-block-start: var(--s-3);
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+  color: var(--text-muted);
+  text-wrap: pretty;
+}
+
+/* On a phone the portrait lies over the right half of the row below the wide frame: its caption keeps left of it. */
+.wide .caption {
+  max-width: 38%;
+}
+
+.tallFigure .caption {
+  margin-block-start: calc(var(--s-3) + var(--duo-ring));
+}
+
+.caption:lang(th) {
+  text-wrap: balance;
+}
+
+/* The room type a photograph belongs to, on a line of its own above what the frame shows. */
+.captionRoom,
+.captionText {
+  display: block;
+}
+
+.captionRoom {
+  font-weight: 500;
+  color: var(--text);
+}
+
+@container (min-width: 36rem) {
+  .wide {
+    grid-column: 1 / span 9;
+  }
+
+  /* The portrait spans both rows, so the note below the wide frame can never run into the frame's caption. */
+  .tall {
+    grid-column: 8 / -1;
+    grid-row: 1 / span 2;
+    /* The wide frame is three quarters of the row and two thirds as tall as it is wide: the portrait starts just under half way down it. */
+    margin-block-start: 22cqi;
+  }
+
+  .wide .caption {
+    max-width: 62%;
+  }
+}
+
+@media (min-width: 64rem) {
+  .facts {
+    margin-block-start: var(--s-9);
+  }
+
+  .duo {
+    margin-block-start: var(--s-9);
+  }
+}
+
+/* ── The note beside the photographs ──
+   Phone: under both photographs. Wide: in the open corner the portrait leaves, lower left, resting on the
+   same line as the portrait's foot. */
+
+.note {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  display: grid;
+  justify-items: start;
+  row-gap: var(--s-2);
+  margin-block-start: var(--s-7);
+  padding-block-start: var(--s-5);
+  border-block-start: var(--hairline) solid var(--rule);
+}
+
+.noteText {
+  max-width: 26em;
+  font-size: var(--fs-lead);
+  font-weight: 300;
+  line-height: var(--lh-lead);
+  color: var(--text);
+  text-wrap: pretty;
+}
+
+.noteText:lang(th) {
+  max-width: 19em;
+  text-wrap: balance;
+}
+
+@container (min-width: 36rem) {
+  .note {
+    grid-column: 1 / span 6;
+    align-self: end;
+  }
+}
+
+/* ── The rail ──
+   <Chapter> takes its title and intro as nodes; they are handed over inside the motion system's
+   entrances, which need a box of their own to move (an inline <span> cannot be transformed). */
+
+.railTitle,
+.railIntro {
+  display: block;
+}
+
+/* ── Figures ──
+   Digits are the same in both languages, so they are set in the same face in both: the English display
+   serif. (On a Thai page .figure switches to the Thai serif, whose numerals are a good deal heavier.) */
+
+.digits {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-variant-numeric: lining-nums tabular-nums;
+}

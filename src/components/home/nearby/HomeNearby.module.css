@@ -1,0 +1,22 @@
+/*
+ * Chapter 06. The only thing set here is the size of its two-word English title.
+ *
+ * A chapter title is normally one word and is sized by Chapter.tsx so that its longest word fits the
+ * rail. "Around Khao Yai" breaks after "Around", and "Khao Yai" is a name that must not be split, so the
+ * unit that has to fit is eight letters and a space wide. One step down from the chapter scale holds it
+ * inside the four-column rail at every width from 64rem up (the rail is about 3.9 of these ems wide at
+ * its narrowest). Thai keeps the shared scale: รอบเขาใหญ่ is a single word and Chapter.tsx already fits it.
+ */
+.chapter:lang(en) {
+  --fs-chapter: clamp(2.75rem, 1.5rem + 4.4vw, 5.75rem);
+}
+
+.keep {
+  white-space: nowrap;
+}
+
+/* The motion wrappers inside the rail's <h2> and intro are spans (valid inside both); they lay out as blocks. */
+.railTitle,
+.railIntro {
+  display: block;
+}

@@ -1,0 +1,87 @@
+/*
+ * The comparison drawer: <Drawer>, widened. Three room types side by side need more than the planner's
+ * 30rem, so from 48rem (where the drawer is a right-hand panel) it takes up to 60rem and always leaves a
+ * strip of the page showing beside it. Below 48rem it is the bottom sheet, untouched.
+ *
+ * Two classes: <Drawer> sets --drawer-w with one, and this must win whatever order the sheets load in.
+ */
+.drawer.drawer {
+  --drawer-w: 60rem;
+}
+
+.head {
+  display: grid;
+  row-gap: var(--s-2);
+  margin-block-end: var(--s-6);
+}
+
+.head .title {
+  color: var(--accent);
+}
+
+.intro {
+  max-width: 34em;
+  font-size: var(--fs-lead);
+  font-weight: 300;
+  line-height: var(--lh-lead);
+  color: var(--text-muted);
+}
+
+@media (min-width: 48rem) {
+  .head {
+    margin-block-end: var(--s-7);
+  }
+}
+
+/*
+ * The comparison arrives with the drawer: the title, then the table's rows (or the stacked groups), each a
+ * beat after the last. These run only inside the open drawer, which only script can open, and every
+ * element ends in its natural state; the comparison standing in a page is never animated from here.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .drawer[open] .head,
+  .drawer[open] thead tr,
+  .drawer[open] tbody tr,
+  .drawer[open] tfoot tr,
+  .drawer[open] section {
+    animation: compare-in 640ms var(--ease-out) both;
+  }
+
+  .drawer[open] .head {
+    animation-delay: 120ms;
+  }
+
+  .drawer[open] thead tr,
+  .drawer[open] section:nth-of-type(1) {
+    animation-delay: 200ms;
+  }
+
+  .drawer[open] tbody tr:nth-child(1),
+  .drawer[open] section:nth-of-type(2) {
+    animation-delay: 280ms;
+  }
+
+  .drawer[open] tbody tr:nth-child(2),
+  .drawer[open] section:nth-of-type(3) {
+    animation-delay: 350ms;
+  }
+
+  .drawer[open] tbody tr:nth-child(3) {
+    animation-delay: 420ms;
+  }
+
+  .drawer[open] tbody tr:nth-child(n + 4) {
+    animation-delay: 490ms;
+  }
+
+  .drawer[open] tfoot tr {
+    animation-delay: 560ms;
+  }
+}
+
+@keyframes compare-in {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+}

@@ -1,0 +1,24 @@
+/*
+ * CountUp. The element's own text is the final value and reserves the width. Only while script is
+ * counting (data-counting is present) is that text faded out and the running figure painted over
+ * it. `content: … / ""` keeps the running figure out of the accessibility tree where that syntax is
+ * supported; the plain declaration before it is the fallback.
+ */
+.count {
+  position: relative;
+  display: inline-block;
+  font-variant-numeric: tabular-nums lining-nums;
+  white-space: nowrap;
+}
+
+.count[data-counting] .value {
+  opacity: 0;
+}
+
+.count[data-counting]::after {
+  content: attr(data-counting);
+  content: attr(data-counting) / "";
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+}

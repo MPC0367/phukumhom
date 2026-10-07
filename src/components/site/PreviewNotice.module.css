@@ -1,0 +1,12 @@
+/* The concept-preview notice (PreviewNotice.tsx): one quiet, fully legible sentence above the studio credit. */
+.notice {
+  max-width: 44rem;
+  margin: 0;
+  margin-inline: auto;
+  margin-block-start: var(--s-6);
+  color: var(--text-muted);
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+  text-align: center;
+  text-wrap: balance;
+}

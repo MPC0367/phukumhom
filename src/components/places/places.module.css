@@ -1,0 +1,346 @@
+/*
+ * Places — filter chips, a count, and one row a place.
+ *
+ *   [All] [Vineyards] [Temples] [Nature] [Cafés]                          5 places
+ *   ────────────────────────────────────────────────────────────────────────────
+ *   VINEYARD     Alcidini Winery                                            (↗)
+ *                A vineyard and winery in Wang Katha that …
+ *                Website ↗
+ *   ────────────────────────────────────────────────────────────────────────────
+ *
+ * The block is a size container, so the same markup is right in the homepage's content column and in
+ * whatever column the Location page gives it: under 36rem of its own width a row stacks (kind and badge
+ * on one line, the words beneath), from 36rem it is three columns.
+ *
+ * Every colour is a surface token, so the list also reads on sand, twilight and forest.
+ *
+ * Component constants:
+ *   --places-kind    width of the kind column
+ *   --places-badge   the round arrow at the end of a row: one comfortable tap target (48px)
+ *   --places-draw    how long the terracotta line takes to cross a row on hover
+ *   --places-nudge   how far the name moves toward the arrow on hover
+ */
+.places {
+  --places-kind: 8.5rem;
+  --places-badge: 3rem;
+  --places-draw: 640ms;
+  --places-nudge: 0.5rem;
+
+  container-type: inline-size;
+  min-width: 0;
+}
+
+/* ── Toolbar: chips, then the count ── */
+
+.toolbar {
+  display: grid;
+  gap: var(--s-4);
+  margin-block-end: var(--s-5);
+}
+
+/* A filter that cannot filter is not shown. The <noscript> rule in PlacesList.tsx covers older browsers. */
+@media (scripting: none) {
+  .toolbar {
+    display: none;
+  }
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+
+/* The entrance moves this wrapper, never the chip: a chip has its own transform (the press) and a transition on it. */
+.chipSlot {
+  display: inline-flex;
+}
+
+.count {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4em;
+  justify-self: start;
+  font-size: var(--fs-small);
+  line-height: 1;
+  color: var(--text-muted);
+}
+
+/* The figure rolls over inside this mask when the filter changes. The mask is padded and pulled back by
+   the same amount, so it clips a little outside the figure's box (the top of a Thai-face numeral is
+   never cut) and takes no extra room. */
+.countMask {
+  display: inline-block;
+  overflow: hidden;
+  overflow: clip;
+  margin-block: -0.12em;
+  padding-block: 0.12em;
+}
+
+.count .countFigure {
+  display: inline-block;
+  min-width: 1ch;
+  font-size: clamp(2rem, 1.7rem + 1vw, 2.75rem);
+  color: var(--accent);
+  text-align: end;
+}
+
+.countWord {
+  white-space: nowrap;
+}
+
+@container (min-width: 36rem) {
+  .toolbar {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    column-gap: var(--s-5);
+    margin-block-end: var(--s-6);
+  }
+
+  .count {
+    justify-self: end;
+  }
+}
+
+/* ── The list ── */
+
+.list {
+  /* Rows on their way out are lifted out of the flow and placed against this box. */
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* A row carries the ground it sits on: while the filter moves the rows, one that slides past another
+   covers it cleanly instead of the two sets of words showing through each other. */
+.row {
+  position: relative;
+  background: var(--surface);
+}
+
+/* base.css hides [hidden] with one attribute selector; a class that sets `display` would outrank it. */
+.row[hidden] {
+  display: none;
+}
+
+/* The hairline above each row, and the one that closes the list. Elements, so the entrance can draw them. */
+.line,
+.accent {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: 0;
+  height: var(--hairline);
+  pointer-events: none;
+}
+
+.line,
+.endLine {
+  background: var(--rule);
+}
+
+.endLine {
+  display: block;
+  height: var(--hairline);
+}
+
+/* The terracotta line: drawn from the left when the row is hovered or its link has focus, and let go to
+   the right when the pointer leaves. */
+.accent {
+  background: var(--action);
+  transform: scaleX(0);
+  transform-origin: 100% 50%;
+  transition: transform var(--places-draw) var(--ease-out);
+}
+
+/* Positioned: the link's press area (.link::after) is placed against this box, which fills the row.
+   The entrance moves this box with a transform, and a transformed box becomes the containing block of
+   what is positioned inside it; were the press area placed against the row instead, it would jump from
+   one box to the other when the transform is cleared, which browsers count as a layout shift. */
+.body {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "kind badge"
+    "main main";
+  align-items: center;
+  gap: var(--s-3) var(--s-4);
+  padding-block: var(--s-5) var(--s-6);
+}
+
+.kind {
+  grid-area: kind;
+}
+
+.main {
+  grid-area: main;
+  min-width: 0;
+}
+
+.row .name {
+  font-size: clamp(1.75rem, 1.3rem + 1.7vw, 2.75rem);
+  line-height: 1.04;
+  letter-spacing: -0.012em;
+  text-wrap: balance;
+  transition: transform var(--t-panel) var(--ease-out);
+}
+
+.row .name:lang(th) {
+  font-size: clamp(1.4375rem, 1.2rem + 0.95vw, 2rem);
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+
+/* A Latin name inside a Thai heading: the English display face, enlarged to stand level with the Thai letters. */
+.name .latin {
+  font-family: var(--font-display);
+  font-size: 1.16em;
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+.blurb {
+  max-width: 56ch;
+  margin-block-start: var(--s-3);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--text-muted);
+  text-wrap: pretty;
+}
+
+.blurb:lang(th) {
+  max-width: 32em;
+}
+
+/* Two classes: it outranks TextLink's own size, whichever stylesheet loads last. */
+.main .link {
+  margin-block-start: var(--s-2);
+  font-size: 0.9375rem;
+}
+
+.main .link:lang(th) {
+  font-size: 1rem;
+}
+
+/* The link is the whole row: the name, the blurb and the arrow all take the press. */
+.link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.badge {
+  grid-area: badge;
+  display: grid;
+  place-items: center;
+  width: var(--places-badge);
+  height: var(--places-badge);
+  border: var(--hairline) solid var(--border-control);
+  border-radius: var(--radius-pill);
+  color: var(--text);
+  transition:
+    background-color var(--t-hover) var(--ease),
+    border-color var(--t-hover) var(--ease),
+    color var(--t-hover) var(--ease),
+    transform var(--t-ui) var(--ease);
+}
+
+.badgeIcon {
+  transition: transform var(--t-hover) var(--ease-out);
+}
+
+@container (min-width: 36rem) {
+  .body {
+    grid-template-columns: var(--places-kind) minmax(0, 1fr) auto;
+    grid-template-areas: "kind main badge";
+    align-items: start;
+    gap: var(--s-4) var(--col-gap);
+    padding-block: var(--s-7);
+  }
+
+  /* The label hangs level with the capitals of the name beside it. */
+  .kind {
+    padding-block-start: 0.95rem;
+  }
+
+  .kind:lang(th) {
+    padding-block-start: 0.7rem;
+  }
+
+  .badge {
+    margin-block-start: var(--s-1);
+  }
+}
+
+/* ── Hover, focus, press ── */
+
+@media (hover: hover) {
+  .row:hover .accent {
+    transform: scaleX(1);
+    transform-origin: 0% 50%;
+  }
+
+  .row:hover .name {
+    transform: translateX(var(--places-nudge));
+  }
+
+  .row:hover .badge {
+    border-color: var(--action);
+    background: var(--action);
+    color: var(--on-action);
+  }
+
+  .row:hover .badgeIcon {
+    transform: translate(2px, -2px);
+  }
+}
+
+.row:has(.link:focus-visible) .accent {
+  transform: scaleX(1);
+  transform-origin: 0% 50%;
+}
+
+.row:has(.link:focus-visible) .badge {
+  border-color: var(--action);
+  background: var(--action);
+  color: var(--on-action);
+}
+
+.row:active .badge {
+  transform: scale(0.94);
+}
+
+/* ── The note under the list ── */
+
+.note {
+  max-width: var(--measure);
+  margin-block-start: var(--s-5);
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+  color: var(--text-muted);
+}
+
+/* On the dark grounds the control line of the badge is the text colour at half strength, as for chips. */
+:global(.on-twilight) .badge,
+:global(.on-forest) .badge {
+  border-color: color-mix(in srgb, var(--on-dark) 58%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .places {
+    --places-draw: 1ms;
+    --places-nudge: 0px;
+  }
+}
+
+/* Paper shows the whole list, whatever was filtered on screen. */
+@media print {
+  .toolbar {
+    display: none;
+  }
+
+  .row[hidden] {
+    display: block;
+  }
+}

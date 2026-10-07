@@ -1,0 +1,487 @@
+/*
+ * Footer, direction 2: forest. Colours come from the surface tokens that .on-forest sets (--text,
+ * --text-muted, --accent, --rule, --focus), so nothing here names a ground colour directly.
+ *
+ *   the giant wordmark, the full width of the container
+ *
+ *   from 64rem   address, phone and Facebook (columns 1 to 4)  ·  the three link columns (6 to 12),
+ *                with language and the sky (local time, sunset, moon) on a rule beneath them
+ *   40 to 64rem  address beside phone; the three link columns; language and the sky two to a row
+ *   below        one block under another; the link columns two to a row, each as wide as its longest link
+ *
+ *   © year · the legal pages · Back to top
+ *
+ * Those widths are the footer's own (it is a size container), in rem that follow the guest's text
+ * size, as in the header.
+ *
+ * The link columns are as wide as their longest link and no link is ever broken: a Thai link split
+ * into syllables, or left with one orphaned syllable, reads as two links. What is left over goes
+ * between the columns. Only when there is no room for even two (text enlarged far past its default)
+ * do the columns stack and the links wrap.
+ *
+ * Component constants:
+ *   --footer-fs   link size, as the header's navigation labels
+ *   the wordmark's colour: the soft clay of the buildings on the forest ground (6.3:1)
+ */
+.footer {
+  --footer-fs: 0.9375rem;
+
+  container-type: inline-size;
+  padding-block: var(--s-9) var(--s-6);
+  font-size: var(--footer-fs);
+  line-height: 1.5;
+}
+
+.footer:lang(th) {
+  --footer-fs: 1rem;
+
+  line-height: 1.7;
+}
+
+/* ── The giant wordmark ── */
+
+/* The mask the word rises out of. `clip` rather than `hidden`: it must not become a scroll container. */
+.wordmark {
+  overflow: hidden;
+  overflow: visible clip;
+  margin-block-end: var(--s-8);
+  color: var(--clay-soft);
+}
+
+.wordmarkSvg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  fill: currentColor;
+  font-family: var(--font-sans);
+  font-weight: 500;
+}
+
+/* ── The blocks ── */
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-8);
+}
+
+/* <address> is the contact record for the whole site; it is information, not an italic aside. */
+.contact {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-7);
+  align-content: start;
+  font-style: normal;
+}
+
+.block {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: start;
+  align-content: start;
+  gap: var(--s-1);
+}
+
+/* A block's label takes the same 44px line as a link column's head, so labels across the footer share a baseline. */
+.block > :global(.eyebrow):first-child {
+  display: flex;
+  align-items: center;
+  min-height: var(--tap);
+}
+
+.address {
+  max-width: 24em;
+  color: var(--text);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  text-wrap: balance;
+}
+
+.address:lang(th) {
+  line-height: 1.8;
+}
+
+.block .textLink {
+  font-size: var(--footer-fs);
+}
+
+/* The one phone number, set as a figure to tap. */
+.phone {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  color: var(--text);
+  font-family: var(--font-display);
+  /* Capped by the footer's own width, so the number stays on one line when a guest has enlarged the text. */
+  font-size: min(clamp(2rem, 1.6rem + 1.9vw, 2.75rem), 10.5cqi);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  text-decoration-line: underline;
+  text-decoration-thickness: var(--hairline);
+  text-decoration-color: transparent;
+  text-underline-offset: 0.16em;
+  white-space: nowrap;
+  transition: text-decoration-color var(--t-hover) var(--ease);
+}
+
+.channel {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-3);
+  min-height: var(--tap);
+  color: var(--text);
+  text-decoration: none;
+}
+
+.channelIcon {
+  flex: none;
+  color: var(--clay-soft);
+}
+
+.channelText {
+  text-decoration-line: underline;
+  text-decoration-thickness: var(--hairline);
+  text-decoration-color: color-mix(in srgb, currentColor 55%, transparent);
+  text-underline-offset: 0.36em;
+  transition: text-decoration-color var(--t-hover) var(--ease);
+}
+
+.channelText:lang(th) {
+  text-underline-offset: 0.5em;
+}
+
+@media (hover: hover) {
+  .phone:hover {
+    text-decoration-color: var(--clay-soft);
+  }
+
+  .channel:hover .channelText {
+    text-decoration-color: currentColor;
+  }
+}
+
+.phone:focus-visible,
+.channel:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: var(--s-1);
+  border-radius: var(--radius-sm);
+}
+
+/* ── Page links ── */
+
+.pages {
+  display: grid;
+  gap: var(--s-8);
+  min-width: 0;
+}
+
+.nav {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-7) var(--s-5);
+  align-items: start;
+  justify-content: space-between;
+}
+
+.column {
+  display: grid;
+  align-content: start;
+  justify-items: start;
+  margin: 0;
+  list-style: none;
+}
+
+.list {
+  display: grid;
+  justify-items: start;
+  margin: 0;
+  list-style: none;
+}
+
+/* A column's label. "Stay" is one too, and a link: 44px to the touch like the links beneath it. */
+.head {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+}
+
+.headLink {
+  min-width: var(--tap);
+  text-decoration-line: underline;
+  text-decoration-thickness: var(--hairline);
+  text-decoration-color: transparent;
+  text-underline-offset: 0.45em;
+  transition: text-decoration-color var(--t-hover) var(--ease);
+}
+
+/* 44px to the touch in both directions: a short word ("FAQ") is narrower than that by itself. */
+.link {
+  display: inline-flex;
+  align-items: center;
+  min-width: var(--tap);
+  min-height: var(--tap);
+  color: var(--text);
+  text-decoration-line: underline;
+  text-decoration-thickness: var(--hairline);
+  text-decoration-color: transparent;
+  text-underline-offset: 0.36em;
+  transition:
+    text-decoration-color var(--t-hover) var(--ease),
+    transform var(--t-hover) var(--ease-out);
+}
+
+.link:lang(th),
+.headLink:lang(th) {
+  text-underline-offset: 0.5em;
+}
+
+.link[aria-current],
+.headLink[aria-current] {
+  text-decoration-color: var(--clay-soft);
+}
+
+@media (hover: hover) {
+  .link:hover,
+  .headLink:hover {
+    text-decoration-color: color-mix(in srgb, currentColor 70%, transparent);
+  }
+
+  /* A link gives a little toward the reader: transform only, so nothing beside it moves. */
+  .link:hover {
+    transform: translateX(var(--s-1));
+  }
+}
+
+.link:focus-visible,
+.headLink:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* ── Language and the resort's sky: local time, today's sunset, tonight's moon ── */
+
+.aside {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-5) var(--s-6);
+  align-items: start;
+  justify-content: space-between;
+  padding-block-start: var(--s-5);
+  border-block-start: var(--hairline) solid var(--rule);
+}
+
+/* The codes carry their own side padding: pull the switch out so "TH" starts on the column's edge. */
+.block .lang {
+  margin-inline-start: calc(-1 * var(--s-2));
+  font-size: var(--footer-fs);
+}
+
+/* A time, a phase of the moon: set in the display serif, with Thai words in its Thai companion. */
+.figure {
+  display: flex;
+  align-items: center;
+  min-height: var(--tap);
+  font-family: var(--font-cormorant), var(--font-noto-serif-thai), serif;
+  font-size: min(clamp(1.5rem, 1.25rem + 1.1vw, 2rem), 8cqi);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.005em;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+/* Thai words in a serif are sturdier than the figures beside them, and need their own line height. */
+.figure:lang(th) {
+  font-size: min(clamp(1.3125rem, 1.15rem + 0.8vw, 1.625rem), 7cqi);
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+/*
+ * None of the three has a value until script supplies one. A label would then stand over nothing, so
+ * the block keeps its place but stays out of sight until it is live.
+ */
+.live:has([data-live="false"]) {
+  visibility: hidden;
+}
+
+/* ── The last row ── */
+
+.base {
+  display: grid;
+  gap: var(--s-2);
+  margin-block-start: var(--s-8);
+  padding-block-start: var(--s-4);
+  border-block-start: var(--hairline) solid var(--rule);
+  color: var(--text-muted);
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+}
+
+.copyright {
+  display: flex;
+  align-items: center;
+  min-height: var(--tap);
+}
+
+.legal {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 var(--s-5);
+  margin: 0;
+  list-style: none;
+}
+
+.legalLink,
+.cookie,
+.top {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  min-width: var(--tap);
+  min-height: var(--tap);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--text-muted);
+  font-size: var(--fs-small);
+  text-decoration-line: underline;
+  text-decoration-thickness: var(--hairline);
+  text-decoration-color: transparent;
+  text-underline-offset: 0.36em;
+  white-space: nowrap;
+  transition:
+    color var(--t-hover) var(--ease),
+    text-decoration-color var(--t-hover) var(--ease);
+}
+
+.legalLink:lang(th),
+.cookie:lang(th),
+.top:lang(th) {
+  text-underline-offset: 0.5em;
+}
+
+.legalLink[aria-current] {
+  color: var(--text);
+  text-decoration-color: var(--clay-soft);
+}
+
+.top {
+  color: var(--text);
+  font-weight: 500;
+}
+
+/* The shared arrow points right; here it points up, and lifts under the pointer. */
+.topIcon {
+  flex: none;
+  transform: rotate(-90deg);
+  transition: transform var(--t-hover) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .legalLink:hover,
+  .cookie:hover,
+  .top:hover {
+    color: var(--text);
+    text-decoration-color: color-mix(in srgb, currentColor 70%, transparent);
+  }
+
+  .top:hover .topIcon {
+    transform: rotate(-90deg) translateX(3px);
+  }
+}
+
+.legalLink:focus-visible,
+.cookie:focus-visible,
+.top:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* ── Widths ── */
+
+/* Every phone at its default text size: two link columns side by side, each as wide as its longest link. */
+@container (min-width: 20rem) {
+  .nav {
+    grid-template-columns: repeat(2, max-content);
+  }
+
+  .aside {
+    grid-template-columns: repeat(2, minmax(0, max-content));
+  }
+
+  /* On a phone the first row is language beside the clock; the sunset and the moon each take a row. */
+  .wide {
+    grid-column: 1 / -1;
+  }
+
+  .link,
+  .headLink {
+    white-space: nowrap;
+  }
+}
+
+@container (min-width: 30rem) {
+  .wide {
+    grid-column: auto;
+  }
+}
+
+@container (min-width: 40rem) {
+  .wordmark {
+    margin-block-end: var(--s-9);
+  }
+
+  .contact {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--col-gap);
+  }
+
+  .nav {
+    grid-template-columns: repeat(3, max-content);
+  }
+
+  .base {
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    column-gap: var(--s-6);
+  }
+}
+
+@container (min-width: 64rem) {
+  .grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--col-gap);
+  }
+
+  .contact {
+    grid-column: 1 / span 4;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pages {
+    grid-column: 6 / -1;
+  }
+}
+
+/* The footer cannot be restyled by a query on itself, so its own padding steps with the screen. */
+@media (min-width: 64rem) {
+  .footer {
+    padding-block: var(--s-11) var(--s-7);
+  }
+}
+
+@media print {
+  .wordmark,
+  .pages,
+  .legalNav,
+  .top {
+    display: none;
+  }
+}

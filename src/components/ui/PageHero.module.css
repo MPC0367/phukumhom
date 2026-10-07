@@ -1,0 +1,37 @@
+/*
+ * PageHero — the words over the band, and the breadcrumb strip beneath it.
+ * Component constant: the title's measure, in its own em so it follows the fluid type scale.
+ */
+.text {
+  display: grid;
+  justify-items: start;
+  max-width: 100%;
+}
+
+.text .kicker {
+  margin-block-end: var(--s-3);
+}
+
+.text .title {
+  max-width: 14em;
+  /* Optical: a large serif capital stands a little inside its box. */
+  margin-inline-start: -0.03em;
+}
+
+.text .title:lang(th) {
+  max-width: 17em;
+  margin-inline-start: 0;
+}
+
+.text .lead {
+  max-width: 40ch;
+  margin-block-start: var(--s-4);
+}
+
+.text .lead:lang(th) {
+  max-width: 26em;
+}
+
+.strip {
+  border-block-end: var(--hairline) solid var(--rule);
+}

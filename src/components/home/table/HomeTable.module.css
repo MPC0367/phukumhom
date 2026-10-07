@@ -1,0 +1,238 @@
+/*
+ * HomeTable — chapter 04's content column.
+ *
+ *   statement
+ *   ┌───────────────────────────────────────────┐
+ *   │ (caption tag)      pavilion at dusk       │
+ *   │      ┌───────────────────────────────┐    │
+ *   └──────│ IN THE GARDEN │ BY THE SEASON │────┘   the dock: a white bar, half on the photograph
+ *          └───────────────────────────────┘
+ *   PLATES AND GARDEN BEDS                ← DRAG →
+ *   [ frame ][ frame ][ frame ][ fra…                the reel runs off the right edge of the screen
+ *
+ * Component constants:
+ *   --table-bleed   from the content column's right edge to the edge of the screen
+ *   --table-fade    the strip, in the gap beside the rail, where frames leaving to the left dissolve
+ *   --dock-over     how much of the dock lies on the photograph
+ */
+
+/* The reel leaves the column to the right. clip (not hidden): the rail must stay sticky. */
+.chapter {
+  overflow-x: clip;
+}
+
+.statement {
+  max-width: 21em;
+}
+
+/* Thai has no spaces for 'pretty' to work with; 'balance' keeps a single word from standing alone. */
+.statement:lang(th) {
+  max-width: 24em;
+  text-wrap: balance;
+}
+
+.phrase {
+  display: inline-block;
+}
+
+/* ── The pavilion ── */
+
+.photo {
+  aspect-ratio: 4 / 3;
+  margin-block-start: var(--s-8);
+  border-radius: var(--radius-lg);
+  /* Its own stacking context, so the settling picture cannot escape the corners in WebKit. */
+  isolation: isolate;
+}
+
+.drift {
+  position: absolute;
+  inset: 0;
+}
+
+/* The caption: a paper tag on the photograph. Solid ground, so it reads over any part of the frame. */
+.tag {
+  position: absolute;
+  inset-block-start: var(--s-3);
+  inset-inline-start: var(--s-3);
+  max-width: calc(100% - 2 * var(--s-3));
+  padding: 0.4375rem 0.875rem;
+  border-radius: var(--radius-pill);
+  background: var(--paper);
+  color: var(--ink);
+  font-size: var(--fs-small);
+  line-height: 1.35;
+}
+
+.tag:lang(th) {
+  line-height: 1.6;
+}
+
+/* ── The dock ── */
+
+.dockWrap {
+  --dock-over: var(--s-8);
+
+  position: relative;
+  z-index: 1;
+  margin-block-start: calc(-1 * var(--dock-over));
+  margin-inline: var(--s-3);
+}
+
+.dockWrap .dock {
+  display: grid;
+  gap: var(--s-5);
+}
+
+.note {
+  min-width: 0;
+}
+
+.note + .note {
+  padding-block-start: var(--s-5);
+  border-block-start: var(--hairline) solid var(--rule);
+}
+
+.note .noteLabel {
+  margin-block-end: var(--s-2);
+  color: var(--clay-deep);
+}
+
+.noteText {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+.noteText:lang(th) {
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+/* ── The reel ── */
+
+.reelHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-5);
+  margin-block: var(--s-9) var(--s-4);
+}
+
+/* Only where it is true: a touch screen, or a pointer once the row can be dragged. */
+.hint {
+  display: none;
+  align-items: center;
+  gap: var(--s-2);
+  white-space: nowrap;
+}
+
+@media (hover: none) {
+  .hint {
+    display: inline-flex;
+  }
+}
+
+.chapter:has([data-drift="on"]) .hint {
+  display: inline-flex;
+}
+
+/* With the pointer on the row, the cue's two arrows part a little: the row is ready to be pulled. */
+.hint svg {
+  transition: transform var(--t-hover) var(--ease-out);
+}
+
+.chapter:has([data-drift="on"]:hover) .hint svg:first-child {
+  transform: translateX(calc(-1 * var(--s-1)));
+}
+
+.chapter:has([data-drift="on"]:hover) .hint svg:last-child {
+  transform: translateX(var(--s-1));
+}
+
+.window {
+  --table-bleed: calc(var(--gutter) + max(0px, (100vw - var(--container) - 2 * var(--gutter)) / 2));
+
+  margin-inline: calc(-1 * var(--gutter));
+}
+
+.reel {
+  --reel-inset: var(--gutter);
+}
+
+.reelNote {
+  margin-block-start: var(--s-4);
+}
+
+@media (min-width: 40rem) {
+  .photo {
+    aspect-ratio: 16 / 9;
+  }
+
+  .tag {
+    inset-block-start: var(--s-4);
+    inset-inline-start: var(--s-4);
+  }
+
+  .dockWrap {
+    --dock-over: var(--s-9);
+
+    margin-inline: var(--s-6);
+  }
+}
+
+@media (min-width: 48rem) {
+  .dockWrap .dock {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0;
+  }
+
+  .note:first-child {
+    padding-inline-end: var(--s-6);
+  }
+
+  .note + .note {
+    padding-block-start: 0;
+    padding-inline-start: var(--s-6);
+    border-block-start: 0;
+    border-inline-start: var(--hairline) solid var(--rule);
+  }
+}
+
+@media (min-width: 64rem) {
+  .photo {
+    margin-block-start: var(--s-9);
+  }
+
+  .reelHead {
+    margin-block-start: var(--s-10);
+  }
+
+  /*
+   * Beside the rail the row cannot run to the left edge of the screen. It ends in the gap between the
+   * rail and the column, and frames leaving that way dissolve there instead of being sliced.
+   * The padding (taken back by the margin) is room for a focus ring inside the mask.
+   */
+  .window {
+    --table-fade: calc(var(--col-gap) + var(--s-4));
+
+    margin-block: calc(-1 * var(--s-2));
+    margin-inline: calc(-1 * var(--table-fade)) calc(-1 * var(--table-bleed));
+    padding-block: var(--s-2);
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, var(--ink) var(--table-fade));
+    mask-image: linear-gradient(90deg, transparent 0, var(--ink) var(--table-fade));
+  }
+
+  .reel {
+    --reel-inset: var(--table-fade);
+  }
+}
+
+/* ── The rail ──
+   <Chapter> takes its title and intro as nodes; they are handed over inside the motion system's
+   entrances, which need a box of their own to move (an inline <span> cannot be transformed). */
+
+.railTitle,
+.railIntro {
+  display: block;
+}

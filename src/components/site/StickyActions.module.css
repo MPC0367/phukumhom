@@ -1,0 +1,175 @@
+/*
+ * The phone action bar: a white pill-shaped dock floating above the bottom edge, with the one shadow.
+ * Call and Rooms are quiet words parted by a short hairline; "Check availability" is the terracotta pill.
+ * Hidden by default (and without script); <StickyBar> sets data-state="shown" when there is room.
+ *
+ * The <nav> is the fixed element and a size container; the dock is its one child, .row. That lets the
+ * row answer to the bar's own width in rem (rem that follow the guest's text size, as in the header):
+ *   from 48rem   of screen (46.5rem of the bar's own box) not displayed: the header carries the booking
+ *                pill from exactly this width
+ *   below 22rem  the word "Call" gives way to its icon (the link keeps its accessible name)
+ *   below 17rem  not displayed: the three actions no longer fit on one line (text enlarged on a
+ *                narrow phone), and a bar that wraps would cover the page it sits on
+ * <StickyBar> reads the same fact from the row instead of repeating any number.
+ *
+ * Component constants: --bar-fs, the label size (as the Button label); the dock stands --s-3 clear of the
+ * screen's edges, plus the bottom safe-area inset.
+ */
+.bar {
+  --bar-fs: 0.9375rem;
+
+  position: fixed;
+  inset-inline: 0;
+  inset-block-end: 0;
+  z-index: var(--z-sticky-actions);
+  container-type: inline-size;
+  padding: 0 max(var(--s-3), env(safe-area-inset-left, 0px)) calc(var(--s-3) + env(safe-area-inset-bottom, 0px))
+    max(var(--s-3), env(safe-area-inset-right, 0px));
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(calc(100% + var(--s-4)));
+  transition:
+    transform var(--t-panel) var(--ease-out),
+    visibility 0s linear var(--t-panel);
+}
+
+.bar:lang(th) {
+  --bar-fs: 1rem;
+}
+
+.bar[data-state="shown"] {
+  visibility: visible;
+  transform: none;
+  transition:
+    transform var(--t-panel) var(--ease-out),
+    visibility 0s linear 0s;
+}
+
+.row {
+  display: flex;
+  align-items: stretch;
+  height: var(--sticky-actions-h);
+  padding: var(--s-1);
+  border: var(--hairline) solid var(--stone);
+  border-radius: var(--radius-pill);
+  background: var(--white);
+  box-shadow: var(--shadow-float);
+  color: var(--ink);
+  pointer-events: auto;
+}
+
+/* Call and Rooms: words on the dock, each at least 44px to the touch. */
+.action {
+  position: relative;
+  display: inline-flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+  min-width: var(--tap);
+  padding-inline: var(--s-3);
+  border-radius: var(--radius-pill);
+  color: var(--forest);
+  font-size: var(--bar-fs);
+  font-weight: 500;
+  line-height: 1.3;
+  text-decoration: none;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color var(--t-ui) var(--ease);
+}
+
+.action:lang(th) {
+  line-height: 1.5;
+}
+
+/* The short hairline between two quiet actions. */
+.action + .action::before {
+  content: "";
+  position: absolute;
+  inset-block: 28%;
+  inset-inline-start: 0;
+  width: var(--hairline);
+  background: var(--stone);
+}
+
+.action:active {
+  background: var(--sand);
+}
+
+.icon {
+  flex: none;
+}
+
+/* The booking pill takes what is left and never breaks its label. */
+.book {
+  display: inline-flex;
+  flex: 1.6 0 auto;
+  align-items: center;
+  justify-content: center;
+  margin-inline-start: var(--s-1);
+  padding-inline: var(--s-4);
+  border-radius: var(--radius-pill);
+  background: var(--action);
+  color: var(--on-action);
+  font-size: var(--bar-fs);
+  font-weight: 500;
+  line-height: 1.3;
+  text-decoration: none;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color var(--t-hover) var(--ease),
+    transform var(--t-ui) var(--ease);
+}
+
+.book:lang(th) {
+  line-height: 1.5;
+}
+
+.book:active {
+  background: var(--action-hover);
+  transform: scale(0.98);
+}
+
+.action:focus-visible,
+.book:focus-visible {
+  outline: 2px solid var(--focus-on-light);
+  outline-offset: 2px;
+}
+
+@container (width < 22rem) {
+  .callWord {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .action {
+    padding-inline: var(--s-2);
+  }
+
+  .book {
+    padding-inline: var(--s-3);
+  }
+}
+
+@container (width < 17rem) {
+  .row {
+    display: none;
+  }
+}
+
+/*
+ * The container is the bar's content box: the screen less the --s-3 the dock keeps clear on each side.
+ * So the header's 48rem (measured on the full width) is 46.5rem here. Asked at 48rem, the bar stayed
+ * up between 768 and 791px, beside the header's own booking pill and under the Back to top button.
+ */
+@container (min-width: 46.5rem) {
+  .row {
+    display: none;
+  }
+}

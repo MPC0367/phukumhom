@@ -1,0 +1,8 @@
+/* Blank screens round the section under test, so its entrances and its sticky rail can be judged. */
+.before {
+  height: 115vh;
+}
+
+.after {
+  height: 100vh;
+}

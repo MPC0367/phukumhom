@@ -1,0 +1,82 @@
+/*
+ * Panel — a rounded surface. White and sand restate the light tokens (a panel is ink on light wherever it
+ * sits); outline has no ground of its own.
+ */
+.panel {
+  display: block;
+  min-width: 0;
+  border-radius: var(--radius-lg);
+}
+
+:where(.panel) {
+  margin: 0;
+}
+
+.md {
+  padding: var(--s-5);
+}
+
+.lg {
+  padding: var(--s-6) var(--s-5);
+}
+
+@media (min-width: 40rem) {
+  .md {
+    padding: var(--s-6);
+  }
+
+  .lg {
+    padding: var(--s-8);
+  }
+}
+
+.white,
+.sand {
+  --text: var(--ink);
+  --text-muted: var(--ink-muted);
+  --rule: var(--stone);
+  --accent: var(--forest);
+  --focus: var(--focus-on-light);
+
+  color: var(--ink);
+}
+
+/* Light panels are their own ground: no halo from a <Band> they float over. */
+.white,
+.white *,
+.sand,
+.sand * {
+  text-shadow: none;
+}
+
+.white {
+  --surface: var(--white);
+  --surface-raised: var(--white);
+
+  border: var(--hairline) solid var(--stone);
+  background: var(--white);
+}
+
+.sand {
+  --surface: var(--sand);
+  --surface-raised: var(--paper);
+
+  background: var(--sand);
+}
+
+/* typography.css turns numerals clay-soft inside the dark helpers; in a light panel they are clay-deep again. */
+.white.white :global(.numeral),
+.sand.sand :global(.numeral) {
+  color: var(--clay-deep);
+}
+
+.outline {
+  border: var(--hairline) solid var(--rule);
+  background: transparent;
+}
+
+.float {
+  border-color: transparent;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-float);
+}

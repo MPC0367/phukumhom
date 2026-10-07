@@ -1,0 +1,56 @@
+/*
+ * FactList — rows on hairlines. Stacked by default (and always below 30rem); the ledger variant aligns
+ * terms and values in two columns that every row shares through a subgrid.
+ */
+.list {
+  display: grid;
+  margin: 0;
+  border-block-end: var(--hairline) solid var(--rule);
+}
+
+.row {
+  display: grid;
+  row-gap: var(--s-1);
+  padding-block: var(--s-3);
+  border-block-start: var(--hairline) solid var(--rule);
+}
+
+.term {
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+  color: var(--text-muted);
+}
+
+.value {
+  margin: 0;
+  font-size: var(--fs-body);
+  line-height: 1.5;
+  color: var(--text);
+  font-variant-numeric: tabular-nums lining-nums;
+  text-wrap: pretty;
+}
+
+.value:lang(th) {
+  line-height: 1.75;
+}
+
+@media (min-width: 30rem) {
+  .ledger {
+    grid-template-columns: fit-content(42%) minmax(0, 1fr);
+    column-gap: var(--s-6);
+  }
+
+  .ledger .row {
+    grid-column: 1 / -1;
+    grid-template-columns: subgrid;
+    align-items: baseline;
+  }
+
+  /* Browsers without subgrid: a fixed split keeps the columns aligned. */
+  @supports not (grid-template-columns: subgrid) {
+    .ledger .row {
+      grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+      column-gap: var(--s-6);
+    }
+  }
+}

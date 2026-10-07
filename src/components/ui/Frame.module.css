@@ -1,0 +1,108 @@
+/*
+ * Frame — a rounded photograph, then a quiet caption.
+ * --frame-max is set per frame by Frame.tsx (the same cap as the picture inside).
+ *
+ * Component constants: the linked frame's badge is one tap target across (44px) and sits 12px in from
+ * the corner; it travels 8px as it arrives.
+ */
+.frame {
+  --frame-radius: var(--radius-lg);
+
+  display: block;
+  width: 100%;
+  max-width: var(--frame-max);
+  margin: 0;
+}
+
+.md {
+  --frame-radius: var(--radius-md);
+}
+
+.none {
+  --frame-radius: 0px;
+}
+
+.end {
+  margin-inline-start: auto;
+}
+
+/* The clip: rounded, and its own stacking context so a scaled image cannot escape the corners in WebKit. */
+.media {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: var(--frame-radius);
+  isolation: isolate;
+}
+
+/* ── Linked frame ── */
+
+.link {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.link img {
+  transition: transform var(--t-plate-hover) var(--ease-out);
+}
+
+.badge {
+  position: absolute;
+  inset-block-end: var(--s-3);
+  inset-inline-end: var(--s-3);
+  display: grid;
+  place-items: center;
+  width: var(--tap);
+  height: var(--tap);
+  border-radius: var(--radius-pill);
+  background: var(--paper);
+  color: var(--ink);
+  transition:
+    opacity var(--t-hover) var(--ease),
+    transform var(--t-panel) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .badge {
+    opacity: 0;
+    transform: translate(-8px, 8px);
+  }
+
+  .link:hover img {
+    transform: scale(1.04);
+  }
+
+  .link:hover .badge {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
+
+.link:focus-visible img {
+  transform: scale(1.04);
+}
+
+.link:focus-visible .badge {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── Caption ── */
+
+.caption {
+  max-width: var(--measure);
+  margin-block-start: var(--s-3);
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+  color: var(--text-muted);
+  text-wrap: pretty;
+}
+
+.room {
+  font-weight: 500;
+  color: var(--text);
+}

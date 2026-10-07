@@ -1,0 +1,29 @@
+/node_modules
+/.next/
+/out/
+/build
+.DS_Store
+*.pem
+npm-debug.log*
+.env*
+!.env.example
+*.tsbuildinfo
+next-env.d.ts
+
+# QA: keep the tools, never the captures.
+/_qa/*
+!/_qa/*.mjs
+
+# This repository holds the website's code and the photographs it serves (public/media) — nothing else.
+#
+# Not here on purpose:
+#   _src/            the raw 2015 originals, the 4K masters and the per-frame reviews the image pipeline
+#                    reads. They belong to the resort and are kept by the studio, not published in bulk.
+#   docs/ (most)     the studio's working documents: facts ledger, build contract, art direction,
+#                    keyword map, redirect manifest, voice guide, the brief. Kept in the studio vault.
+/_src/
+/docs/*
+!/docs/INTEGRATIONS.md
+!/docs/NEXT16-NOTES.md
+!/docs/contrast.md
+!/docs/glossary.json

@@ -1,0 +1,12 @@
+/*
+ * MediaReveal. The frame clips what is inside it, always: while the photograph settles from 118% it is
+ * larger than the frame, and nothing may spill. No state is hidden here; the mask is written by script.
+ *
+ * :where() gives these defaults no specificity, so the class a page passes in always wins, whatever
+ * order the stylesheets happen to load in.
+ */
+:where(.media) {
+  position: relative;
+  display: block;
+  overflow: hidden;
+}

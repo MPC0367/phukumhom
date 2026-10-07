@@ -1,0 +1,145 @@
+/*
+ * Chip — a pill with a hairline outline. A fact chip is quiet (stone line, 32px); an interactive chip has
+ * a control-strength line, is 44px tall and fills with the accent when selected.
+ *
+ * Component constants:
+ *   --chip-inverse   the label colour on a filled chip: the ground (--surface), or ink over a photograph
+ *   --chip-line      the outline of an interactive chip. On light grounds it is --border-control (3:1 or
+ *                    better against paper, sand and white); on the dark helpers it is the text colour at
+ *                    half strength, which --border-control cannot give.
+ */
+.chip {
+  --chip-inverse: var(--surface);
+  --chip-line: var(--border-control);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--s-6);
+  padding: var(--s-1) 0.875rem;
+  border: var(--hairline) solid var(--rule);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: var(--fs-small);
+  font-weight: 400;
+  line-height: 1.3;
+  text-align: center;
+  text-decoration: none;
+}
+
+.chip:lang(th) {
+  line-height: 1.5;
+}
+
+:where(.chip) {
+  margin: 0;
+}
+
+/* A chip has its own ground: no halo from a <Band>. */
+.chip,
+.chip * {
+  text-shadow: none;
+}
+
+.label {
+  min-width: 0;
+}
+
+.interactive {
+  min-height: var(--tap);
+  padding-inline: 1.125rem;
+  border-color: var(--chip-line);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color var(--t-hover) var(--ease),
+    border-color var(--t-hover) var(--ease),
+    color var(--t-hover) var(--ease),
+    transform var(--t-ui) var(--ease);
+}
+
+.interactive:lang(th) {
+  font-size: 1rem;
+}
+
+.selected {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--chip-inverse);
+}
+
+@media (hover: hover) {
+  .interactive:hover {
+    border-color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 9%, transparent);
+  }
+
+  .interactive.selected:hover {
+    background: var(--accent);
+  }
+}
+
+.interactive:active {
+  transform: scale(0.97);
+}
+
+.interactive:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
+
+.interactive:disabled,
+.interactive[aria-disabled="true"] {
+  border-color: var(--rule);
+  color: var(--text-muted);
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ── Dark grounds: the control line is the text colour at half strength ── */
+
+:global(.on-twilight) .chip,
+:global(.on-forest) .chip,
+:global(.on-photo) .chip {
+  --chip-line: color-mix(in srgb, var(--on-dark) 58%, transparent);
+}
+
+:global(.on-photo) .chip {
+  --chip-inverse: var(--ink);
+}
+
+/* A fact chip over a photograph needs more than a hairline to hold its words: a veil of the scrim colour. */
+:global(.on-photo) .chip:not(.selected) {
+  border-color: color-mix(in srgb, var(--on-dark) 58%, transparent);
+  background: color-mix(in srgb, var(--twilight) 38%, transparent);
+}
+
+:global(.on-photo) .interactive:focus-visible {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--twilight) 78%, transparent);
+}
+
+/* A light panel inside a dark band is light again. */
+:global(.on-twilight) :global([data-ground="light"]) .chip,
+:global(.on-forest) :global([data-ground="light"]) .chip,
+:global(.on-photo) :global([data-ground="light"]) .chip {
+  --chip-line: var(--border-control);
+  --chip-inverse: var(--surface);
+}
+
+:global(.on-photo) :global([data-ground="light"]) .chip:not(.selected) {
+  border-color: var(--rule);
+  background: transparent;
+}
+
+:global(.on-photo) :global([data-ground="light"]) .interactive:not(.selected) {
+  border-color: var(--chip-line);
+}
+
+:global(.on-photo) :global([data-ground="light"]) .interactive:focus-visible {
+  box-shadow: none;
+}

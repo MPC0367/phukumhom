@@ -1,0 +1,704 @@
+/*
+ * Layout for the style guide page only: a specimen book. Nothing here restyles a primitive; these rules
+ * arrange primitives the way a page author would (the mock hero, the frame pair, the reel), and lay out
+ * the labelled specimen rows.
+ */
+
+/* ───────────── Intro strip ───────────── */
+
+.intro {
+  display: grid;
+  row-gap: var(--s-7);
+}
+
+.intro .introStatement {
+  max-width: 21em;
+}
+
+.jump {
+  display: grid;
+  justify-items: start;
+  row-gap: var(--s-3);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+
+.note {
+  padding-block: var(--s-4) 0;
+}
+
+.note p {
+  max-width: var(--measure);
+}
+
+/* ───────────── Mock hero: how a page lays words over a full-screen Band ───────────── */
+
+.heroText {
+  display: grid;
+  justify-items: start;
+  min-width: 0;
+}
+
+.heroText .heroEyebrow {
+  margin-block-end: var(--s-4);
+}
+
+/* Thai display type carries marks above its line box: the eyebrow stands a little further off. */
+.heroText .heroEyebrow:lang(th) {
+  margin-block-end: var(--s-5);
+}
+
+.heroEyebrowRule {
+  display: none;
+}
+
+.heroEyebrowPlace {
+  display: block;
+}
+
+@media (min-width: 40rem) {
+  .heroEyebrowRule,
+  .heroEyebrowPlace {
+    display: inline;
+  }
+}
+
+.heroText .heroLine {
+  max-width: 100%;
+  /* A large serif capital stands a little inside its box: pull it back to the eyebrow's edge. */
+  margin-inline-start: -0.04em;
+}
+
+.heroText .heroLine:lang(th) {
+  max-width: 11em;
+  margin-inline-start: 0;
+}
+
+.heroText .heroLead {
+  max-width: 34ch;
+  margin-block-start: var(--s-5);
+  font-weight: 400;
+}
+
+.heroText .heroLead:lang(th) {
+  max-width: 22em;
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+  width: 100%;
+  margin-block-start: var(--s-6);
+}
+
+.heroActions > * {
+  flex: 1 1 100%;
+}
+
+/* Three classes, to outrank the Band rule that sets eyebrows over photographs to full paper. */
+.hero .heroText ~ .heroMeta {
+  margin-block-start: var(--s-7);
+  color: color-mix(in srgb, var(--on-dark) 86%, transparent);
+}
+
+/* Phones keep the locality; the rest of the strip joins from 48rem. */
+.heroMetaWide {
+  display: none;
+}
+
+@media (min-width: 40rem) {
+  .heroActions > * {
+    flex: 0 0 auto;
+  }
+}
+
+@media (min-width: 48rem) {
+  .heroMetaWide {
+    display: inline;
+  }
+}
+
+@media (min-width: 64rem) {
+  .heroText .heroLead {
+    margin-block-start: var(--s-6);
+  }
+
+  .heroActions {
+    margin-block-start: var(--s-7);
+  }
+
+  .hero .heroText ~ .heroMeta {
+    margin-block-start: var(--s-9);
+  }
+}
+
+/* ───────────── The chapter specimen ───────────── */
+
+.chapterStatement {
+  max-width: 17em;
+}
+
+.chapterTiles {
+  margin-block-start: var(--s-8);
+}
+
+.chapterNote {
+  max-width: var(--measure);
+  margin-block-start: var(--s-7);
+}
+
+/* One wide frame, one portrait that overlaps its lower corner. Never two equal halves. */
+.pair {
+  display: grid;
+  margin-block-start: var(--s-8);
+}
+
+.pairDetail {
+  position: relative;
+  z-index: 1;
+  width: 56%;
+  margin-block-start: calc(-1 * var(--s-9));
+  margin-inline-start: auto;
+}
+
+/* On a phone the portrait overlaps the wide frame's lower right: the wide caption keeps to the left of it. */
+.pairWide figcaption {
+  max-width: 40%;
+}
+
+/* A margin of the ground around the overlapping photograph, so the two never touch. */
+.pairDetail > :first-child {
+  outline: var(--s-2) solid var(--surface);
+}
+
+@media (min-width: 64rem) {
+  .pair {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--col-gap);
+    align-items: start;
+  }
+
+  .pairWide {
+    grid-column: 1 / span 9;
+    grid-row: 1;
+  }
+
+  .pairWide figcaption {
+    max-width: var(--measure);
+  }
+
+  .pairDetail {
+    grid-column: 9 / -1;
+    grid-row: 1;
+    width: auto;
+    margin-block-start: 42%;
+    margin-inline-start: 0;
+  }
+}
+
+/* ───────────── Specimen rows ───────────── */
+
+.specs {
+  display: grid;
+  min-width: 0;
+}
+
+.spec {
+  display: grid;
+  row-gap: var(--s-4);
+  min-width: 0;
+  padding-block: var(--s-6);
+  border-block-start: var(--hairline) solid var(--rule);
+}
+
+.specs > .spec:first-child {
+  padding-block-start: 0;
+  border-block-start: 0;
+}
+
+.specLabel {
+  display: grid;
+  row-gap: var(--s-1);
+  align-content: start;
+}
+
+.specName {
+  font-size: var(--fs-small);
+  font-weight: 500;
+  line-height: var(--lh-small);
+  color: var(--text);
+}
+
+.specNote {
+  max-width: 30em;
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+  color: var(--text-muted);
+  text-wrap: pretty;
+}
+
+.specBody {
+  min-width: 0;
+}
+
+@media (min-width: 80rem) {
+  .spec {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 8fr);
+    column-gap: var(--s-7);
+    padding-block: var(--s-7);
+  }
+
+  .specWide {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: var(--s-6);
+  }
+}
+
+/* ───────────── Arrangements inside a specimen ───────────── */
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-4);
+}
+
+.stack {
+  display: grid;
+  row-gap: var(--s-7);
+}
+
+.stackTight {
+  display: grid;
+  justify-items: start;
+  row-gap: var(--s-4);
+}
+
+/* One item of a meta row: it wraps as a whole, never in the middle of "Check-in 14:00". */
+.item {
+  white-space: nowrap;
+}
+
+.panels {
+  display: grid;
+  gap: var(--s-4);
+}
+
+.panelBody {
+  display: grid;
+  justify-items: start;
+  row-gap: var(--s-3);
+}
+
+@media (min-width: 40rem) {
+  .panels {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* The focus ring, drawn permanently so it can be judged against each ground in a screenshot. */
+.focusRow {
+  gap: var(--s-6);
+  padding: var(--s-2);
+}
+
+.focusPill {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
+
+.focusText {
+  outline: 2px solid var(--focus);
+  outline-offset: var(--s-1);
+  border-radius: var(--radius-sm);
+}
+
+:global(.on-photo) .focusPill {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--twilight) 78%, transparent);
+}
+
+/* ───────────── The photograph surface: a rail and a column over a Band ───────────── */
+
+/* The kit is a tall block of small text, so the band takes a flat veil of the scrim colour under its scrim. */
+.photoBand::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: color-mix(in srgb, var(--twilight) 66%, transparent);
+}
+
+.photoGrid {
+  display: grid;
+  row-gap: var(--s-8);
+  padding-block: var(--s-8);
+}
+
+.photoRail {
+  container-type: inline-size;
+  display: grid;
+  justify-items: start;
+  align-content: start;
+  row-gap: var(--s-3);
+}
+
+.photoRail .photoTitle {
+  margin-inline-start: -0.035em;
+  font-size: min(var(--fs-chapter), 20cqi);
+}
+
+.photoRail .photoTitle:lang(th) {
+  margin-inline-start: 0;
+}
+
+.photoIntro {
+  max-width: var(--measure-narrow);
+  margin-block-start: var(--s-2);
+  color: var(--text-muted);
+}
+
+.photoContent {
+  min-width: 0;
+}
+
+@media (min-width: 64rem) {
+  .photoGrid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--col-gap);
+  }
+
+  .photoRail {
+    grid-column: 1 / span 4;
+  }
+
+  .photoContent {
+    grid-column: 5 / -1;
+  }
+}
+
+/* ───────────── Colour ───────────── */
+
+.swatches {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-6) var(--col-gap);
+}
+
+.swatch {
+  display: grid;
+  align-content: start;
+}
+
+/* An explicit width: a grid item with an aspect ratio is not stretched by default (WebKit sizes it otherwise). */
+.swatchChip {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  margin-block-end: var(--s-3);
+  border: var(--hairline) solid var(--rule);
+  border-radius: var(--radius-md);
+  background: var(--chip);
+}
+
+.swatchName {
+  font-size: var(--fs-small);
+  font-weight: 500;
+  line-height: var(--lh-small);
+  color: var(--text);
+}
+
+.swatchRole {
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+  color: var(--text-muted);
+}
+
+@media (min-width: 40rem) {
+  .swatches {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 80rem) {
+  .swatches {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+/* ───────────── Type specimen ───────────── */
+
+.display {
+  display: grid;
+  row-gap: var(--s-4);
+  min-width: 0;
+  margin-block-start: var(--s-8);
+  padding-block-start: var(--s-5);
+  border-block-start: var(--hairline) solid var(--rule);
+}
+
+.titleGap {
+  display: inline-block;
+  width: 0.5em;
+}
+
+.type {
+  margin-block-start: var(--s-8);
+  border-block-end: var(--hairline) solid var(--rule);
+}
+
+.typeRow {
+  display: grid;
+  row-gap: var(--s-4);
+  min-width: 0;
+  padding-block: var(--s-5);
+  border-block-start: var(--hairline) solid var(--rule);
+}
+
+.typeHead {
+  display: none;
+}
+
+.typeName {
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+  color: var(--text-muted);
+}
+
+.typeNote {
+  max-width: var(--measure);
+  margin-block-start: var(--s-5);
+}
+
+.typeNoteName {
+  font-weight: 500;
+  color: var(--text);
+}
+
+@media (min-width: 64rem) {
+  .typeRow {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--col-gap);
+    align-items: baseline;
+    padding-block: var(--s-6);
+  }
+
+  .typeRow > :nth-child(1) {
+    grid-column: 1 / span 2;
+  }
+
+  .typeRow > :nth-child(2) {
+    grid-column: 3 / span 5;
+  }
+
+  .typeRow > :nth-child(3) {
+    grid-column: 8 / span 5;
+  }
+
+  .typeHead {
+    display: grid;
+    padding-block: var(--s-3);
+  }
+}
+
+/*
+ * The English scale, restated. typography.css sets the Thai scale on every :lang(th) element, including
+ * <html> on a Thai page, so an English specimen there would inherit Thai sizes with no token left to
+ * reach the English ones. These values mirror the :root block of tokens.css and exist only so the two
+ * scales can be compared side by side on this page. On an English page they change nothing.
+ */
+.latin {
+  --fs-hero: clamp(3.5rem, 1.6rem + 9.6vw, 11.5rem);
+  --fs-chapter: clamp(3rem, 1.9rem + 5.4vw, 7rem);
+  --fs-statement: clamp(1.75rem, 1.15rem + 2.5vw, 3.25rem);
+  --fs-h1: clamp(2.75rem, 1.8rem + 4.2vw, 5.5rem);
+  --fs-h2: clamp(2rem, 1.45rem + 2.4vw, 3.5rem);
+  --fs-h3: clamp(1.5rem, 1.25rem + 1vw, 2.125rem);
+  --fs-eyebrow: 0.78125rem;
+  --lh-hero: 0.9;
+  --lh-chapter: 0.95;
+  --lh-statement: 1.12;
+  --lh-h1: 1;
+  --lh-h2: 1.06;
+  --lh-h3: 1.16;
+  --lh-lead: 1.55;
+  --lh-body: 1.65;
+  --lh-small: 1.5;
+  --tracking-hero: -0.025em;
+  --tracking-display: -0.015em;
+  --tracking-eyebrow: 0.16em;
+  --measure: 62ch;
+}
+
+/* A box exactly as tall as its lines that clips: a tone mark or vowel outside the line box is cut here. */
+.clip {
+  overflow: hidden;
+  background: color-mix(in srgb, var(--sand) 70%, transparent);
+}
+
+/* ───────────── Forms ───────────── */
+
+.formGrid {
+  display: grid;
+  gap: var(--s-5);
+  align-items: start;
+}
+
+/* The form is a size container: its pairs sit side by side only where the FORM is wide enough for two
+   date fields to show their whole value, whatever the screen is. */
+.form {
+  container-type: inline-size;
+  display: grid;
+  row-gap: var(--s-4);
+  min-width: 0;
+}
+
+.formPair {
+  display: grid;
+  gap: var(--s-4);
+}
+
+@container (min-width: 24rem) {
+  .formPair {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 80rem) {
+  .formGrid {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  }
+}
+
+/* ───────────── Photographs ───────────── */
+
+.crops {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-6) var(--col-gap);
+  align-items: end;
+}
+
+.crop {
+  display: grid;
+  row-gap: var(--s-2);
+}
+
+.cropName {
+  font-size: var(--fs-small);
+  font-variant-numeric: tabular-nums lining-nums;
+  color: var(--text-muted);
+}
+
+.linked {
+  max-width: 24rem;
+}
+
+/* A tile the layout sizes; <Picture fill> covers it. The words sit on --scrim-bottom. */
+.fillTile {
+  position: relative;
+  isolation: isolate;
+  width: min(100%, 22rem);
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+}
+
+.fillScrim {
+  position: absolute;
+  inset: 0;
+  background: var(--scrim-bottom);
+}
+
+.fillLabel {
+  position: absolute;
+  inset: auto var(--s-5) var(--s-5);
+  display: grid;
+  row-gap: var(--s-1);
+}
+
+@media (min-width: 40rem) {
+  .crops {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.bandLine {
+  max-width: 19em;
+}
+
+.bandMeta {
+  margin-block-start: var(--s-4);
+}
+
+/* ───────────── Overlays ───────────── */
+
+.overlayBody {
+  display: grid;
+  justify-items: start;
+  row-gap: var(--s-5);
+  margin-block-start: var(--s-5);
+}
+
+.overlayBody > form,
+.overlayBody > dl {
+  width: 100%;
+}
+
+.dialogBody {
+  display: grid;
+  justify-items: start;
+  row-gap: var(--s-4);
+}
+
+/* A row of photographs of one height and mixed widths; it scrolls sideways on its own. */
+.reel {
+  display: flex;
+  gap: var(--s-4);
+  margin: 0;
+  /* Room for the triggers' focus rings inside the scroller. */
+  padding: var(--s-2);
+  overflow-x: auto;
+  list-style: none;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+}
+
+.reelItem {
+  flex: none;
+  height: clamp(12rem, 9rem + 12vw, 19rem);
+  aspect-ratio: var(--reel-ratio, 4 / 3);
+  scroll-snap-align: start;
+}
+
+.reelTrigger {
+  height: 100%;
+}
+
+/* ───────────── Lists and small parts ───────────── */
+
+.factTitle {
+  margin-block-end: var(--s-4);
+}
+
+.icons {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+  gap: var(--s-5) var(--s-4);
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  color: var(--text);
+}
+
+.iconName {
+  font-size: var(--fs-small);
+  color: var(--text-muted);
+}

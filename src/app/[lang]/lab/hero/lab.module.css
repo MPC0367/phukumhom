@@ -1,0 +1,56 @@
+/*
+ * Lab scaffolding under the hero: grey blocks in the shape of a chapter (a rail and a content column),
+ * tall enough to scroll the hero away. It carries no words: only the spacing after the dock is judged.
+ */
+.next {
+  min-height: 160vh;
+  min-height: 160svh;
+  padding-block: var(--section-y);
+  background: var(--paper);
+}
+
+.next .nextInner {
+  display: grid;
+  gap: var(--s-8) var(--col-gap);
+}
+
+.rail,
+.column {
+  display: grid;
+  align-content: start;
+  gap: var(--s-5);
+}
+
+.block,
+.blockWide,
+.blockTall,
+.blockPhoto {
+  display: block;
+  border-radius: var(--radius-md);
+  background: var(--sand);
+}
+
+.block {
+  width: 6rem;
+  height: 1rem;
+}
+
+.blockWide {
+  width: min(100%, 18rem);
+  height: 5rem;
+}
+
+.blockTall {
+  height: 9rem;
+}
+
+.blockPhoto {
+  aspect-ratio: 3 / 2;
+  border-radius: var(--radius-lg);
+}
+
+@media (min-width: 64rem) {
+  .next .nextInner {
+    grid-template-columns: 4fr 8fr;
+  }
+}

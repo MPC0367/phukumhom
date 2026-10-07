@@ -1,0 +1,352 @@
+/*
+ * CompareTable — the room types side by side.
+ *
+ *   wide (the component is 46rem or more): a table
+ *   ┌───────────┬ 01 ──────────────┬ 02 ──────────────┬ 03 ──────────────┐
+ *   │           │ [photograph]     │ [photograph]     │ [photograph]     │
+ *   │           │ Deluxe Balcony   │ Deluxe Bathtub   │ Executive Pool…  │
+ *   ├───────────┼──────────────────┴──────────────────┴──────────────────┤
+ *   │ OUTDOORS  │ All three room types   Balcony and private rooftop     │
+ *   ├───────────┼──────────────────┬──────────────────┬──────────────────┤
+ *   │ BATHING   │ Private bathroom │ ● Bathtub        │ ● Circular spa…  │
+ *   └───────────┴──────────────────┴──────────────────┴──────────────────┘
+ *
+ *   narrow: one group per room type; the labels of every group share one column (--compare-label),
+ *   so the values line up down the page
+ *
+ * The root is a size container: the drawer, the stay page's column and a phone each get the layout that
+ * fits the room they give it. Both layouts are in the HTML; the one not in use is display: none.
+ *
+ * Component constants:
+ *   --compare-label   the column that holds the row labels
+ *   46rem             the width from which the table is shown
+ */
+.root {
+  --compare-label: 7.5rem;
+
+  container-type: inline-size;
+}
+
+.wideView {
+  display: none;
+}
+
+.stackView {
+  display: grid;
+  row-gap: var(--s-6);
+}
+
+/* ───────────── Shared pieces ───────────── */
+
+.thumb {
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  isolation: isolate;
+}
+
+.colGloss {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: var(--fs-small);
+  font-weight: 400;
+  line-height: var(--lh-small);
+  letter-spacing: 0;
+  color: var(--text-muted);
+  text-wrap: pretty;
+}
+
+.colGloss::first-letter {
+  text-transform: uppercase;
+}
+
+/* The Latin room name inside a Thai heading keeps the English display face (see RoomStage.module.css). */
+.colName:lang(th) span:lang(en),
+.groupName:lang(th) span:lang(en) {
+  font-family: var(--font-display);
+  font-size: 1.16em;
+  letter-spacing: -0.01em;
+}
+
+/* The clay mark: the fact that sets a room type apart. */
+.mark {
+  flex: none;
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: var(--radius-pill);
+  background: var(--action);
+}
+
+.marked {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.4375rem 0.875rem 0.5rem 0.75rem;
+  border: var(--hairline) solid color-mix(in srgb, var(--clay) 46%, transparent);
+  border-radius: var(--radius-md);
+  background: var(--clay-wash);
+  font-weight: 500;
+  color: var(--text);
+}
+
+.marked .mark {
+  transform: translateY(-0.08em);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.notes,
+.sharedList {
+  display: grid;
+  row-gap: var(--s-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+  color: var(--text-muted);
+}
+
+/* Each note stands on a hairline at its left: a list without typed bullets. */
+.notes li,
+.sharedList li {
+  padding-inline-start: 0.875rem;
+  border-inline-start: var(--hairline) solid var(--border-control);
+  text-wrap: pretty;
+}
+
+.links {
+  display: grid;
+  justify-items: start;
+}
+
+/* ───────────── Narrow: groups ───────────── */
+
+.group {
+  display: grid;
+  row-gap: var(--s-4);
+  padding: var(--s-5);
+  border: var(--hairline) solid var(--rule);
+  border-radius: var(--radius-lg);
+}
+
+.groupHead {
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr);
+  column-gap: var(--s-4);
+  align-items: center;
+}
+
+.groupTitles {
+  display: grid;
+  row-gap: 0.125rem;
+  min-width: 0;
+}
+
+.group .groupName {
+  color: var(--accent);
+}
+
+.groupFacts {
+  display: grid;
+  margin: 0;
+}
+
+.groupRow {
+  display: grid;
+  grid-template-columns: var(--compare-label) minmax(0, 1fr);
+  column-gap: var(--s-4);
+  align-items: baseline;
+  padding-block: var(--s-3);
+  border-block-start: var(--hairline) solid var(--rule);
+}
+
+.groupRow dd {
+  min-width: 0;
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.groupRow dd:lang(th) {
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+/* On the narrowest screens a label sits above its value rather than squeezing it. */
+@container (max-width: 24rem) {
+  .groupRow {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: var(--s-1);
+  }
+}
+
+/* ───────────── Legend and foot ───────────── */
+
+.legend {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-block-start: var(--s-5);
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+  color: var(--text-muted);
+}
+
+.legend .mark {
+  transform: translateY(-0.08em);
+}
+
+.foot {
+  display: grid;
+  row-gap: var(--s-6);
+  margin-block-start: var(--s-6);
+  padding: var(--s-5);
+  border-radius: var(--radius-lg);
+  background: var(--sand);
+}
+
+.shared {
+  display: grid;
+  justify-items: start;
+  row-gap: var(--s-3);
+  min-width: 0;
+}
+
+.sharedList {
+  color: var(--text);
+}
+
+.book {
+  display: grid;
+  justify-items: start;
+  row-gap: var(--s-2);
+  min-width: 0;
+}
+
+.chosen {
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+  color: var(--text-muted);
+}
+
+/* ───────────── Wide: the table ───────────── */
+
+@container (min-width: 46rem) {
+  .wideView {
+    display: block;
+  }
+
+  .stackView {
+    display: none;
+  }
+
+  .table {
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  .corner {
+    width: var(--compare-label);
+    padding: 0;
+  }
+
+  .colHead {
+    padding: 0 0 var(--s-5) var(--s-5);
+    font-weight: 400;
+    text-align: start;
+    vertical-align: top;
+  }
+
+  .colHead .thumb {
+    margin-block-end: var(--s-4);
+  }
+
+  .colNumeral {
+    display: block;
+    margin-block-end: var(--s-1);
+  }
+
+  .colHead .colName {
+    display: block;
+    margin-block-end: var(--s-1);
+    color: var(--accent);
+  }
+
+  .rowHead {
+    padding: var(--s-5) 0;
+    border-block-start: var(--hairline) solid var(--rule);
+    text-align: start;
+    vertical-align: top;
+  }
+
+  /* The label rides a little lower so it stands on the first line of the value beside it. */
+  .rowHead > span {
+    display: block;
+    padding-block-start: 0.2em;
+  }
+
+  .cell {
+    padding: var(--s-5) 0 var(--s-5) var(--s-5);
+    border-block-start: var(--hairline) solid var(--rule);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    text-align: start;
+    vertical-align: top;
+  }
+
+  .cell:lang(th) {
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  /* A value shared by every room type: said once, across the columns. */
+  .sameValue {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--s-2) var(--s-5);
+  }
+
+  .sameTag {
+    flex: none;
+    padding: 0.1875rem 0.75rem 0.25rem;
+    border-radius: var(--radius-pill);
+    background: var(--sand);
+    font-size: var(--fs-small);
+    line-height: 1.5;
+    color: var(--text-muted);
+  }
+
+  .sameNode {
+    flex: 1 1 16rem;
+    min-width: 0;
+    font-weight: 500;
+  }
+
+  .foot {
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    column-gap: var(--s-8);
+    align-items: end;
+    padding: var(--s-6) var(--s-7);
+  }
+
+  .book {
+    justify-items: end;
+    text-align: end;
+  }
+}
+
+@media print {
+  .foot {
+    background: none;
+    border: var(--hairline) solid var(--rule);
+  }
+}
