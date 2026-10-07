@@ -1,0 +1,161 @@
+/*
+ * LegalPage — a header of words, then a rail and an article.
+ *
+ *   ┌ rail (1–4) ───────────┐ ┌ article (6–12) ─────────────────────────┐
+ *   │ AT A GLANCE            │ │ Who this policy is from                  │
+ *   │ ─ …                    │ │ …                                        │
+ *   │ ON THIS PAGE           │ │ When you read the website                │
+ *   │ 1 Who this policy …    │ │ …                                        │
+ *   └────────────────────────┘ └──────────────────────────────────────────┘
+ *
+ * The rail sticks under the header from 64rem (not on a short window, where it would be taller than the
+ * screen). Below 64rem it stacks above the article.
+ */
+
+/* The header has no photograph: a hairline closes it, as the breadcrumb strip closes a page hero. */
+.head {
+  border-block-end: var(--hairline) solid var(--rule);
+}
+
+.headInner {
+  display: grid;
+  gap: var(--s-7);
+}
+
+.title {
+  display: grid;
+  gap: var(--s-4);
+  justify-items: start;
+}
+
+.title .h1 {
+  max-width: 18em;
+  font-size: clamp(2.25rem, 1.5rem + 3.2vw, 4.25rem);
+  line-height: 1.04;
+  text-wrap: balance;
+}
+
+.title .h1:lang(th) {
+  max-width: 20em;
+  font-size: clamp(1.875rem, 1.35rem + 2.2vw, 3.25rem);
+  line-height: 1.32;
+}
+
+.intro {
+  max-width: var(--measure);
+}
+
+.body {
+  display: grid;
+  gap: var(--s-9);
+}
+
+.rail {
+  display: grid;
+  gap: var(--s-6);
+  align-content: start;
+  min-width: 0;
+}
+
+.contents {
+  display: grid;
+  gap: var(--s-3);
+}
+
+.contents .contentsTitle {
+  color: var(--clay-deep);
+}
+
+.contentsList {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: section;
+  border-block-start: var(--hairline) solid var(--rule);
+}
+
+.contentsLink {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  align-items: baseline;
+  min-height: var(--tap);
+  padding-block: var(--s-3);
+  border-block-end: var(--hairline) solid var(--rule);
+  color: var(--text);
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  text-decoration: none;
+  counter-increment: section;
+  transition:
+    color var(--t-hover) var(--ease),
+    padding var(--t-hover) var(--ease-out);
+}
+
+.contentsLink:lang(th) {
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.contentsLink::before {
+  content: counter(section, decimal-leading-zero);
+  color: var(--clay-deep);
+  font-size: var(--fs-small);
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+@media (hover: hover) {
+  .contentsLink:hover {
+    padding-inline-start: var(--s-2);
+    color: var(--action);
+  }
+}
+
+.contentsLink:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.article {
+  display: grid;
+  gap: var(--s-9);
+  min-width: 0;
+}
+
+.section {
+  /* A link from the contents lands with the heading clear of the fixed header. */
+  scroll-margin-block-start: calc(var(--header-h) + var(--s-6));
+}
+
+.heading {
+  margin-block-end: var(--s-4);
+  color: var(--forest);
+}
+
+.address {
+  font-style: normal;
+}
+
+@media (min-width: 64rem) {
+  .body {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--col-gap);
+    align-items: start;
+  }
+
+  .rail {
+    grid-column: 1 / span 4;
+    position: sticky;
+    inset-block-start: calc(var(--header-h) + var(--s-6));
+  }
+
+  .article {
+    grid-column: 6 / -1;
+  }
+}
+
+@media (min-width: 64rem) and (max-height: 56rem) {
+  .rail {
+    position: static;
+  }
+}

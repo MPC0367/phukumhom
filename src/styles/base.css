@@ -123,6 +123,11 @@ table {
   border: 0;
 }
 
+/* A name or compound that must not break across lines (Thai place names: components/ui/keep-thai.tsx). */
+.nowrap {
+  white-space: nowrap;
+}
+
 .container {
   width: 100%;
   max-width: calc(var(--container) + 2 * var(--gutter));

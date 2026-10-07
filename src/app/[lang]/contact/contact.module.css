@@ -1,0 +1,14 @@
+/* The Contact page: the white panel that holds the enquiry form keeps a readable measure. */
+.panel {
+  max-width: 46rem;
+  border: var(--hairline) solid var(--rule);
+}
+
+/* The slot the form sits in: named so the no-JavaScript rule on the page can hide it. */
+.formSlot {
+  min-width: 0;
+}
+
+.noScriptActions {
+  margin-block-start: var(--s-5);
+}

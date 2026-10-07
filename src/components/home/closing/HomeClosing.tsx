@@ -42,7 +42,16 @@ import styles from "./HomeClosing.module.css";
  * THE DISC on the bottom edge is decoration: a low sun on the line where this band meets the footer.
  * It states nothing (it is not tonight's sunset or moon; those are computed elsewhere, with their caveats).
  */
-export function HomeClosing({ lang }: { lang: Locale }) {
+export interface HomeClosingProps {
+  lang: Locale;
+  /**
+   * The second pill. The homepage offers the rooms; a page that is already about the rooms (Stay, a
+   * room) offers another next step instead. Internal destinations only, built with `href()`.
+   */
+  secondary?: { href: string; label: string };
+}
+
+export function HomeClosing({ lang, secondary }: HomeClosingProps) {
   const c = copy[lang];
   const headingId = useId();
 
@@ -87,8 +96,8 @@ export function HomeClosing({ lang }: { lang: Locale }) {
               <BookingLink lang={lang} placement="closing" planner size="lg" className={styles.pill}>
                 {c.availability}
               </BookingLink>
-              <Button href={href(lang, "stay")} variant="ghost" size="lg" icon="arrow-right" className={styles.pill}>
-                {c.rooms}
+              <Button href={secondary?.href ?? href(lang, "stay")} variant="ghost" size="lg" icon="arrow-right" className={styles.pill}>
+                {secondary?.label ?? c.rooms}
               </Button>
             </Reveal>
             <Reveal as="p" variant="fade" delay={0.35} className={styles.note}>

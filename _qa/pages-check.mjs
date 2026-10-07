@@ -80,6 +80,36 @@ for (const lang of ["th", "en"]) {
   await v.context.close();
 }
 
+// 2b. Every inner page loads cleanly in both languages.
+const INNER = ["stay", "stay/deluxe-balcony", "stay/deluxe-bathtub", "stay/executive-pool-spa", "dining", "experiences", "gallery", "location", "contact", "faq", "privacy", "terms"];
+for (const lang of ["th", "en"]) {
+  const problems = [];
+  for (const path of INNER) {
+    const v = await visit(`/${lang}/${path}/`);
+    const info = await v.page.evaluate(() => ({
+      lang: document.documentElement.lang,
+      h1: document.querySelectorAll("h1").length,
+      broken: [...document.images].filter((i) => i.complete && i.naturalWidth === 0).length,
+      robots: document.querySelector('meta[name="robots"]')?.getAttribute("content") ?? "",
+      overflow: document.documentElement.scrollWidth > window.innerWidth + 1,
+      hrefs: [...document.querySelectorAll("a[href]")].map((a) => a.getAttribute("href")),
+    }));
+    const bad = [];
+    if (v.status !== 200) bad.push(`status ${v.status}`);
+    if (v.failed.length) bad.push(`failed ${v.failed.slice(0, 2).join(", ")}`);
+    if (v.errors.length) bad.push(`console ${v.errors[0]}`);
+    if (info.lang !== lang) bad.push(`lang ${info.lang}`);
+    if (info.h1 !== 1) bad.push(`h1 x${info.h1}`);
+    if (info.broken) bad.push(`${info.broken} broken images`);
+    if (!/noindex/.test(info.robots)) bad.push("indexable");
+    if (info.overflow) bad.push("overflow");
+    if (bad.length) problems.push(`${path}: ${bad.join("; ")}`);
+    for (const h of info.hrefs) if (h && h.startsWith("/")) links.add(h.split("#")[0].split("?")[0]);
+    await v.context.close();
+  }
+  note(`/${lang}/ the ${INNER.length} inner pages load cleanly`, problems.length === 0, problems.slice(0, 4).join(" | "));
+}
+
 // 3. Every internal link resolves.
 const dead = [];
 for (const href of links) {

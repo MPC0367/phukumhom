@@ -54,7 +54,7 @@ const freeWifi = pub(propertyFacts.wifi);
 const petsAnswer: L =
   petsAccepted === false
     ? {
-        en: "Current listings say pets are not accepted — please ask the resort before travelling with an animal.",
+        en: "Current listings say pets are not accepted. Please ask the resort before travelling with an animal.",
         th: "ข้อมูลปัจจุบันระบุว่ารีสอร์ทไม่รับสัตว์เลี้ยง หากจะพาสัตว์เลี้ยงมาด้วย กรุณาสอบถามรีสอร์ทก่อนเดินทาง",
       }
     : {

@@ -1,0 +1,243 @@
+/*
+ * A room page.
+ *
+ *   ┌ main (1–7) ───────────────────────┐ ┌ aside (8–12) ───────┐
+ *   │ the distinction, set large         │ │ PLAN A STAY          │
+ *   │ the summary                        │ │ Deluxe Balcony       │
+ *   │ WHAT THIS ROOM TYPE HAS            │ │ [Check resort avail.]│   sticky from 64rem
+ *   │ Outdoors │ Balcony and rooftop     │ │ [Ask about this room]│
+ *   │ Bathing  │ …                       │ │ times                │
+ *   └────────────────────────────────────┘ └──────────────────────┘
+ *
+ * Component constants:
+ *   --mosaic-gap   the gutter of the photograph mosaic, both ways
+ */
+
+/* ── Lead ── */
+
+.lead {
+  display: grid;
+  gap: var(--s-8);
+}
+
+.main {
+  min-width: 0;
+}
+
+.statement {
+  max-width: 19em;
+}
+
+.statement:lang(th) {
+  max-width: 22em;
+  text-wrap: balance;
+}
+
+.summary {
+  max-width: var(--measure);
+  margin-block-start: var(--s-6);
+}
+
+.facts {
+  margin-block-start: var(--s-8);
+}
+
+.facts .factsHeading {
+  margin-block-end: var(--s-4);
+  color: var(--clay-deep);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.callout {
+  margin-block-start: var(--s-8);
+}
+
+/* ── The booking panel ── */
+
+.aside {
+  min-width: 0;
+}
+
+.aside .panel {
+  display: grid;
+  gap: var(--s-4);
+  border: var(--hairline) solid var(--rule);
+}
+
+.panelName {
+  margin-block-end: var(--s-2);
+}
+
+.panelActions {
+  display: grid;
+  gap: var(--s-3);
+}
+
+.panelNote {
+  margin-block-end: var(--s-2);
+}
+
+.times {
+  display: grid;
+  gap: var(--s-3);
+  margin-block-start: var(--s-3);
+  padding-block-start: var(--s-5);
+  border-block-start: var(--hairline) solid var(--rule);
+}
+
+.times .timesHeading {
+  color: var(--clay-deep);
+}
+
+.timesList {
+  display: grid;
+  gap: var(--s-2);
+  margin: 0;
+}
+
+.time {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-4);
+}
+
+.time dd {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.375rem;
+  line-height: 1.2;
+}
+
+.time dd:lang(th) {
+  font-family: var(--font-display-th);
+  font-size: 1.125rem;
+  line-height: 1.5;
+}
+
+@media (min-width: 64rem) {
+  .lead {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    column-gap: var(--s-10);
+    align-items: start;
+  }
+
+  .aside {
+    position: sticky;
+    inset-block-start: calc(var(--header-h) + var(--s-6));
+  }
+}
+
+/* A short window (or 200% zoom): a panel taller than the screen must not stick with its foot out of reach. */
+@media (min-width: 64rem) and (max-height: 48rem) {
+  .aside {
+    position: static;
+  }
+}
+
+/* ── The mosaic ── */
+
+.mosaic {
+  --mosaic-gap: var(--s-4);
+
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  columns: 2;
+  column-gap: var(--mosaic-gap);
+}
+
+.cell {
+  margin-block-end: var(--mosaic-gap);
+  break-inside: avoid;
+}
+
+/* The picture's own cap would leave a narrow frame short of its column: in a mosaic the column is the box. */
+.cell :global(picture) {
+  max-width: none;
+}
+
+.cellCaption {
+  margin-block-start: var(--s-2);
+  color: var(--text-muted);
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+  text-wrap: pretty;
+}
+
+.cellCaption:lang(th) {
+  line-height: 1.7;
+}
+
+.photoNote {
+  margin-block-start: var(--s-5);
+}
+
+@media (max-width: 29.99rem) {
+  .mosaic {
+    columns: 1;
+  }
+}
+
+@media (min-width: 64rem) {
+  .mosaic {
+    --mosaic-gap: var(--s-5);
+  }
+}
+
+/* ── The other two room types ── */
+
+.others {
+  display: grid;
+  gap: var(--s-8);
+}
+
+.othersHead {
+  display: grid;
+  gap: var(--s-3);
+  justify-items: start;
+}
+
+.othersLead {
+  max-width: var(--measure);
+}
+
+.othersList {
+  display: grid;
+  gap: var(--s-8);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.other {
+  display: grid;
+  gap: var(--s-3);
+  align-content: start;
+  justify-items: start;
+  min-width: 0;
+}
+
+.other > :first-child {
+  width: 100%;
+}
+
+.otherText {
+  max-width: 34rem;
+  text-wrap: pretty;
+}
+
+@media (min-width: 48rem) {
+  .othersList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--s-8);
+  }
+}

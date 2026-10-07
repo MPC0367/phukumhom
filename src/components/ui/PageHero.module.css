@@ -23,6 +23,20 @@
   margin-inline-start: 0;
 }
 
+/* A title that is a phrase: one step down the scale, a wider measure, lines that balance. */
+.text .long {
+  max-width: 19em;
+  font-size: clamp(2.125rem, 1.45rem + 2.9vw, 4rem);
+  line-height: 1.04;
+  text-wrap: balance;
+}
+
+.text .long:lang(th) {
+  max-width: 21em;
+  font-size: clamp(1.75rem, 1.3rem + 2vw, 3.125rem);
+  line-height: 1.32;
+}
+
 .text .lead {
   max-width: 40ch;
   margin-block-start: var(--s-4);

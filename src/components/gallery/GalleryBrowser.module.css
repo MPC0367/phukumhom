@@ -1,0 +1,131 @@
+/*
+ * GalleryBrowser — the filter bar and the wall of photographs.
+ *
+ * The wall is CSS columns, so every frame keeps its own shape and nothing is cropped: two columns on a
+ * phone, three from 48rem, four from 80rem.
+ *
+ * Component constants:
+ *   --wall-gap   the gutter between frames, both ways
+ *   --i          set per cell: its place in the wall, capped, which staggers the settle
+ */
+.browser {
+  display: grid;
+  gap: var(--s-7);
+}
+
+/* ── The filter bar: it stays under the header while the wall scrolls ── */
+
+.bar {
+  position: sticky;
+  inset-block-start: var(--header-h);
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3) var(--s-6);
+  margin-inline: calc(-1 * var(--s-3));
+  padding: var(--s-3);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--surface, var(--paper)) 92%, transparent);
+  backdrop-filter: blur(10px);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+
+.chipCount {
+  margin-inline-start: var(--s-2);
+  font-size: var(--fs-small);
+  opacity: 0.7;
+}
+
+.count {
+  white-space: nowrap;
+}
+
+/* ── The wall ── */
+
+.wall {
+  --wall-gap: var(--s-3);
+
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  columns: 2;
+  column-gap: var(--wall-gap);
+}
+
+.cell {
+  margin-block-end: var(--s-5);
+  break-inside: avoid;
+}
+
+/* A filtered wall is a new list: its frames settle in one after another. The unfiltered first view does not move. */
+.wall[data-filtered] .cell {
+  animation: settle 700ms var(--ease-out) both;
+  animation-delay: calc(var(--i) * 45ms);
+}
+
+@keyframes settle {
+  from {
+    opacity: 0;
+    transform: translateY(1.25rem) scale(0.98);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wall[data-filtered] .cell {
+    animation: none;
+  }
+}
+
+.cell .trigger {
+  --trigger-radius: var(--radius-md);
+}
+
+.picture {
+  display: block;
+  width: 100%;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.caption {
+  margin-block-start: var(--s-2);
+  color: var(--text-muted);
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+  text-wrap: pretty;
+}
+
+.caption:lang(th) {
+  line-height: 1.7;
+}
+
+@media (min-width: 48rem) {
+  .wall {
+    --wall-gap: var(--s-4);
+
+    columns: 3;
+  }
+
+  .cell {
+    margin-block-end: var(--s-6);
+  }
+}
+
+@media (min-width: 80rem) {
+  .wall {
+    --wall-gap: var(--s-5);
+
+    columns: 4;
+  }
+}

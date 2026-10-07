@@ -1,21 +1,14 @@
-import { useId } from "react";
-import { pub, type Locale } from "@/content/schema";
-import { site } from "@/content/site";
+import type { Locale } from "@/content/schema";
 import { getAsset } from "@/content/assets";
 import { RECEPTION_ASSET, copy } from "@/content/pages/home/arrive";
-import { Clock, MediaReveal, Parallax, Reveal, SplitReveal } from "@/components/motion";
+import { MediaReveal, Parallax, Reveal, SplitReveal } from "@/components/motion";
 import { Phrases } from "@/components/places/Phrases";
-import { AddressText } from "@/components/site";
-import { Button } from "@/components/ui/Button";
 import { Chapter } from "@/components/ui/Chapter";
 import { Icon } from "@/components/ui/Icon";
 import { Panel } from "@/components/ui/Panel";
 import { Picture } from "@/components/ui/Picture";
-import { TextLink } from "@/components/ui/TextLink";
 import { cx } from "@/components/ui/cx";
-import { formatPhone, telHref } from "@/lib/format";
-import { href } from "@/lib/routes";
-import { AddressActions } from "./AddressActions";
+import { ArrivePanels } from "./ArrivePanels";
 import styles from "./HomeArrive.module.css";
 
 /**
@@ -46,16 +39,7 @@ import styles from "./HomeArrive.module.css";
  */
 export function HomeArrive({ lang }: { lang: Locale }) {
   const c = copy[lang];
-  const addressHeadingId = useId();
-  const addressTextId = useId();
-  const talkHeadingId = useId();
 
-  const address = pub(site.address);
-  const map = pub(site.maps.listingUrl);
-  const phone = pub(site.phone);
-  const tel = telHref(phone);
-  const number = formatPhone(phone, lang);
-  const facebook = pub(site.social.facebook);
   const photo = getAsset(RECEPTION_ASSET);
 
   return (
@@ -76,97 +60,7 @@ export function HomeArrive({ lang }: { lang: Locale }) {
       }
     >
       <div className={styles.arrive}>
-        <Reveal stagger={0.12} className={styles.panels}>
-          {address ? (
-            <Panel as="section" tone="white" labelledBy={addressHeadingId} className={styles.panel}>
-              <div className={styles.head}>
-                <h3 id={addressHeadingId} className="eyebrow">
-                  {c.address.label}
-                </h3>
-                <span aria-hidden="true" className={styles.mark}>
-                  <Icon name="pin" size={20} />
-                </span>
-              </div>
-
-              <address id={addressTextId} className={cx("h3", styles.address)}>
-                <AddressText lang={lang} />
-              </address>
-
-              <div className={styles.foot}>
-                <AddressActions
-                  address={address[lang]}
-                  addressId={addressTextId}
-                  mapUrl={map}
-                  shareTitle={site.name[lang]}
-                  labels={{
-                    copy: c.address.copy,
-                    copied: c.address.copied,
-                    copiedToast: c.address.copiedToast,
-                    share: c.address.share,
-                    linkCopiedToast: c.address.linkCopiedToast,
-                  }}
-                />
-                {/* Copy and share need script. Without it they are not shown; the address and the map link remain. */}
-                <noscript>
-                  <style dangerouslySetInnerHTML={{ __html: `[class~="${styles.actions}"]{display:none}` }} />
-                </noscript>
-
-                {map ? (
-                  <div className={styles.mapRow}>
-                    <TextLink href={map} external variant="arrow" data-analytics="map_click" data-placement="journey">
-                      {c.address.openInMaps}
-                      <span className="vh"> ({c.address.opensMaps})</span>
-                    </TextLink>
-                    <p className={styles.note}>
-                      <Phrases lang={lang} text={c.address.mapsNote} />
-                    </p>
-                  </div>
-                ) : null}
-              </div>
-            </Panel>
-          ) : null}
-
-          <Panel as="section" tone="outline" labelledBy={talkHeadingId} className={cx("on-forest", styles.panel, styles.talk)}>
-            <div className={styles.head}>
-              <h3 id={talkHeadingId} className="eyebrow">
-                {c.talk.label}
-              </h3>
-              <span aria-hidden="true" className={styles.mark}>
-                <Icon name="phone" size={20} />
-              </span>
-            </div>
-
-            {tel && number ? (
-              <p className={styles.phoneLine}>
-                <a href={tel} className={cx("figure", styles.phone)} data-analytics="call_click" data-placement="journey">
-                  <span className="vh">{c.talk.call} </span>
-                  <span className={styles.phoneDigits}>{number}</span>
-                </a>
-              </p>
-            ) : null}
-            <p className={styles.now}>
-              <Icon name="clock" size={16} className={styles.nowIcon} />
-              <Clock lang={lang} label="visible" className={styles.clock} />
-            </p>
-
-            <div className={styles.foot}>
-              <div className={styles.contact}>
-                {facebook ? (
-                  <Button href={facebook} external variant="ghost" icon="arrow-up-right" data-analytics="social_contact_click" data-network="facebook" data-placement="journey">
-                    {c.talk.facebook}
-                    <span className="vh"> ({c.talk.opensFacebook})</span>
-                  </Button>
-                ) : null}
-                <Button href={href(lang, "contact")} variant="ghost" icon="arrow-right">
-                  {c.talk.enquiry}
-                </Button>
-              </div>
-              <p className={styles.note}>
-                <Phrases lang={lang} text={c.talk.enquiryNote} />
-              </p>
-            </div>
-          </Panel>
-        </Reveal>
+        <ArrivePanels lang={lang} />
 
         <div className={styles.stage}>
           <figure className={styles.photo}>

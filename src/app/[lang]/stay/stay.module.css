@@ -1,0 +1,10 @@
+/* The Stay page: only the practical chapter's content column needs laying out. */
+.details {
+  display: grid;
+  gap: var(--s-8);
+  justify-items: start;
+}
+
+.details > * {
+  width: 100%;
+}

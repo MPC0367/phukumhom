@@ -1,0 +1,369 @@
+/*
+ * The inner pages' shared compositions: the lead under the page hero, the photograph-and-words feature,
+ * the notes list, the callout and the onward links. Tokens only; every block follows the surface it is on.
+ *
+ * Component constants:
+ *   --feature-ratio   the photograph's box in a feature (set inline from the `ratio` prop)
+ *   --feature-gap     the space between two features in a stack
+ */
+
+/* ── PageLead: statement and body on the left, the short answer on the right ── */
+
+.leadGrid {
+  display: grid;
+  gap: var(--s-8);
+}
+
+.leadMain {
+  min-width: 0;
+}
+
+.leadStatement {
+  max-width: 19em;
+}
+
+.leadStatement:lang(th) {
+  max-width: 22em;
+  text-wrap: balance;
+}
+
+.leadBody {
+  max-width: var(--measure);
+  margin-block-start: var(--s-6);
+}
+
+.leadActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3) var(--s-5);
+  margin-block-start: var(--s-7);
+}
+
+.leadAside {
+  display: grid;
+  gap: var(--s-4);
+  min-width: 0;
+}
+
+@media (min-width: 64rem) {
+  .leadGrid {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    column-gap: var(--s-10);
+    align-items: start;
+  }
+
+  .leadAside {
+    position: sticky;
+    inset-block-start: calc(var(--header-h) + var(--s-6));
+  }
+}
+
+/* ── Feature: a photograph beside its words ── */
+
+.features {
+  --feature-gap: var(--s-10);
+
+  display: grid;
+  gap: var(--feature-gap);
+}
+
+.feature {
+  display: grid;
+  gap: var(--s-6);
+  align-items: center;
+  /* A link to a feature's id lands with it clear of the fixed header. */
+  scroll-margin-block-start: calc(var(--header-h) + var(--s-6));
+}
+
+.featureMedia {
+  min-width: 0;
+  margin: 0;
+}
+
+.featureFrame {
+  aspect-ratio: var(--feature-ratio, 4 / 3);
+  border-radius: var(--radius-lg);
+  /* Its own stacking context, so the settling picture cannot escape the corners in WebKit. */
+  isolation: isolate;
+}
+
+.featureDrift {
+  position: absolute;
+  inset: 0;
+}
+
+.featureCaption {
+  margin-block-start: var(--s-3);
+  color: var(--text-muted);
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+}
+
+.featureCaption:lang(th) {
+  line-height: 1.7;
+}
+
+.featureText {
+  min-width: 0;
+}
+
+.featureText .featureKicker {
+  margin-block-end: var(--s-3);
+}
+
+.featureTitle {
+  margin-block-end: var(--s-4);
+  text-wrap: balance;
+}
+
+.featureBody {
+  max-width: 34rem;
+}
+
+.featureActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2) var(--s-5);
+  margin-block-start: var(--s-5);
+}
+
+@media (min-width: 48rem) {
+  .feature {
+    grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+    column-gap: var(--s-8);
+  }
+
+  .flip .featureMedia {
+    order: 2;
+  }
+
+  .flip {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  }
+}
+
+/* ── Notes: plain practical lines, each with a small mark ── */
+
+.notes {
+  display: grid;
+  gap: var(--s-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.note {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--s-3);
+  align-items: start;
+  max-width: var(--measure);
+  text-wrap: pretty;
+}
+
+.noteMark {
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  /* Optical: centres the disc on the first line of text. */
+  margin-block-start: 0.0625rem;
+  border-radius: var(--radius-pill);
+  background: var(--clay-wash);
+  color: var(--clay-deep);
+}
+
+.ruled .note {
+  padding-block-end: var(--s-4);
+  border-block-end: var(--hairline) solid var(--rule);
+}
+
+.ruled .note:last-child {
+  padding-block-end: 0;
+  border-block-end: 0;
+}
+
+/* ── Callout: the one thing a guest must not misread ── */
+
+.callout {
+  display: grid;
+  gap: var(--s-3);
+  padding: var(--s-6);
+  border-inline-start: 0.1875rem solid var(--action);
+  border-radius: var(--radius-md);
+  background: var(--sand);
+}
+
+.callout .calloutLabel {
+  color: var(--clay-deep);
+}
+
+.calloutText {
+  max-width: var(--measure);
+  font-size: var(--fs-lead);
+  line-height: var(--lh-lead);
+  text-wrap: pretty;
+}
+
+.calloutText:lang(th) {
+  line-height: 1.85;
+}
+
+/* ── Onward: where to go next ── */
+
+.onward {
+  display: grid;
+  gap: var(--s-5);
+}
+
+.onwardList {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-block-start: var(--hairline) solid var(--rule);
+}
+
+.onwardItem {
+  border-block-end: var(--hairline) solid var(--rule);
+}
+
+.onwardLink {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--s-4);
+  align-items: center;
+  min-height: 4rem;
+  padding-block: var(--s-3);
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  line-height: var(--lh-h3);
+  text-decoration: none;
+  transition:
+    color var(--t-hover) var(--ease),
+    padding var(--t-hover) var(--ease-out);
+}
+
+.onwardLink:lang(th) {
+  font-family: var(--font-display-th);
+  font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem);
+  line-height: 1.5;
+}
+
+.onwardArrow {
+  display: grid;
+  place-items: center;
+  width: var(--tap);
+  height: var(--tap);
+  border: var(--hairline) solid var(--border-control);
+  border-radius: var(--radius-pill);
+  transition:
+    background-color var(--t-hover) var(--ease),
+    border-color var(--t-hover) var(--ease),
+    color var(--t-hover) var(--ease),
+    transform var(--t-hover) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .onwardLink:hover {
+    padding-inline-start: var(--s-3);
+    color: var(--action);
+  }
+
+  .onwardLink:hover .onwardArrow {
+    border-color: var(--action);
+    background: var(--action);
+    color: var(--on-action);
+    transform: translateX(0.25rem);
+  }
+}
+
+.onwardLink:focus-visible .onwardArrow {
+  border-color: var(--action);
+  background: var(--action);
+  color: var(--on-action);
+}
+
+@media (min-width: 48rem) {
+  .onwardList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--s-8);
+  }
+}
+
+/* ── PhotoMosaic: photographs in two columns at their own shapes, each opening the viewer ── */
+
+.mosaic {
+  --mosaic-gap: var(--s-4);
+
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  columns: 2;
+  column-gap: var(--mosaic-gap);
+}
+
+.mosaicThree {
+  columns: 2;
+}
+
+.mosaicCell {
+  margin-block-end: var(--mosaic-gap);
+  break-inside: avoid;
+}
+
+/* The picture's own cap would leave a narrow frame short of its column: in a mosaic the column is the box. */
+.mosaicCell :global(picture) {
+  max-width: none;
+}
+
+.mosaicCaption {
+  margin-block-start: var(--s-2);
+  color: var(--text-muted);
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+  text-wrap: pretty;
+}
+
+.mosaicCaption:lang(th) {
+  line-height: 1.7;
+}
+
+@media (max-width: 29.99rem) {
+  .mosaic {
+    columns: 1;
+  }
+}
+
+@media (min-width: 64rem) {
+  .mosaic {
+    --mosaic-gap: var(--s-5);
+  }
+
+  .mosaicThree {
+    columns: 3;
+  }
+}
+
+/* ── Stack: the usual rhythm between the blocks of a chapter's content column ── */
+
+.stack {
+  display: grid;
+  gap: var(--s-8);
+  min-width: 0;
+}
+
+.stack > * {
+  min-width: 0;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3) var(--s-5);
+}

@@ -1,0 +1,32 @@
+/* The FAQ page: the "ask the resort" band under the questions. Words on the left, actions on the right. */
+.ask {
+  display: grid;
+  gap: var(--s-6);
+}
+
+.askWords {
+  display: grid;
+  gap: var(--s-3);
+  justify-items: start;
+  min-width: 0;
+}
+
+.askLead {
+  max-width: var(--measure);
+}
+
+.askActions {
+  display: grid;
+  gap: var(--s-3);
+  justify-items: start;
+  align-content: end;
+  min-width: 0;
+}
+
+@media (min-width: 64rem) {
+  .ask {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    column-gap: var(--s-10);
+    align-items: end;
+  }
+}

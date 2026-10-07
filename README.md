@@ -19,8 +19,11 @@ resort's own published images, used here for design evaluation only. Every page 
 - Motion with GSAP and Lenis, all of it optional: the pages read the same with JavaScript off and under
   `prefers-reduced-motion`.
 
-The inner pages (Stay, rooms, Dining, Experiences, Gallery, Location, Contact, FAQ, policies) are still being
-built. Until each exists, links to it lead to the matching chapter of the homepage.
+- The inner pages: Stay with a room comparison, a page for each of the three room types, Dining, Around the
+  resort, a filterable Gallery, Location, Contact, FAQ with a live search, Privacy and Terms.
+- An enquiry form that does only what is true: no delivery service is connected, so it checks what was typed,
+  composes a message and copies it for the visitor to send. It never says "sent".
+- A group-stays page that is built but switched off (it answers 404) until the resort confirms what it hosts.
 
 ## Run it
 
@@ -39,6 +42,7 @@ npm run dev        # http://127.0.0.1:8352
 | `npm run pages:serve` | A local stand-in for GitHub Pages on port 8353, to check the export |
 | `npm run typecheck` / `npm run lint` | TypeScript and ESLint |
 | `npm run check:content` | Crawls the running site and checks titles, descriptions, links, alt text, JSON-LD |
+| `npm run routes` | Re-reads which pages exist (run after adding or removing a page) |
 
 ## The GitHub Pages preview
 
@@ -59,6 +63,9 @@ One-time setup: **Settings → Pages → Build and deployment → Source: GitHub
 | `src/components/motion` | The motion system (reveals, loader, reel, clock, sunset and moon) |
 | `src/components/site` | Header, footer, menus, stay planner, booking link |
 | `src/components/home`, `stay`, `media`, `places` | Homepage chapters and the modules they share |
+| `src/components/page`, `room`, `gallery`, `faq`, `contact` | The inner pages' shared compositions and their interactive parts |
+| `src/content/pages` | Page wording, Thai and English side by side |
+| `src/app/api/enquiry` | The enquiry endpoint: answers "not configured" until a delivery service is set up |
 | `src/styles` | Design tokens and the type system |
 | `public/media` | The photographs as served: WebP and JPEG at fixed widths, each under 200 KB |
 | `docs/INTEGRATIONS.md` | Environment variables and the honest status of every integration |

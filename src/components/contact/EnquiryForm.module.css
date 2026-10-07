@@ -1,0 +1,120 @@
+/*
+ * EnquiryForm — one column of fields on a white panel (the panel is the page's; this is what is inside).
+ * Pairs of short fields sit side by side from 34rem of the form's own width.
+ */
+.form {
+  container-type: inline-size;
+  display: grid;
+  gap: var(--s-5);
+  min-width: 0;
+}
+
+.heading {
+  margin-block-end: var(--s-2);
+}
+
+.reply {
+  display: grid;
+  gap: var(--s-4);
+}
+
+.group {
+  display: grid;
+  gap: var(--s-4);
+  min-width: 0;
+  margin: 0;
+  padding: var(--s-5);
+  border: var(--hairline) solid var(--rule);
+  border-radius: var(--radius-md);
+}
+
+.group .legend {
+  padding-inline: var(--s-2);
+  color: var(--clay-deep);
+}
+
+.pair {
+  display: grid;
+  gap: var(--s-4);
+}
+
+@container (min-width: 34rem) {
+  .pair {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Off screen, out of the tab order, hidden from assistive technology: only a script finds it. */
+.trap {
+  position: absolute;
+  inset-inline-start: -200vw;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.foot {
+  display: grid;
+  gap: var(--s-4);
+  justify-items: start;
+  margin-block-start: var(--s-2);
+}
+
+.notes {
+  display: grid;
+  gap: var(--s-2);
+  max-width: var(--measure);
+}
+
+.statusSlot:empty {
+  display: none;
+}
+
+.status {
+  display: grid;
+  gap: var(--s-4);
+  padding: var(--s-6);
+  border: var(--hairline) solid var(--rule);
+  border-inline-start: 0.1875rem solid var(--border-control);
+  border-radius: var(--radius-md);
+  background: var(--paper);
+}
+
+.done {
+  border-inline-start-color: var(--forest);
+}
+
+.problem {
+  border-inline-start-color: var(--error);
+  background: var(--error-wash);
+}
+
+.statusHeading {
+  color: var(--forest);
+}
+
+.draft {
+  width: 100%;
+  padding: var(--s-4);
+  border: var(--hairline) solid var(--border-control);
+  border-radius: var(--radius-sm);
+  background: var(--white);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  resize: vertical;
+}
+
+.draft:focus-visible {
+  border-color: var(--forest);
+  box-shadow: 0 0 0 1px var(--forest);
+  outline: none;
+}
+
+.next {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3) var(--s-5);
+}

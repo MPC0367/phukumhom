@@ -72,6 +72,15 @@ rm("src", "app", "[lang]", "[...rest]");
 rm("src", "app", "[lang]", "lab");
 rm("src", "app", "[lang]", "styleguide");
 rm("src", "app", "api");
+// A page behind a switched-off flag answers 404 on a server; a static host would serve its not-found
+// HTML with status 200. So a flagged-off page is not exported at all.
+{
+  const flagsSource = fs.readFileSync(path.join(tree, "src", "content", "site-public.ts"), "utf8");
+  for (const flagged of ["gatherings", "offers"]) {
+    // The flags are a plain object literal in that file ("gatherings: false,"): on only when it says true.
+    if (!new RegExp(String.raw`\b${flagged}:\s*true\b`).test(flagsSource)) rm("src", "app", "[lang]", flagged);
+  }
+}
 
 // The not-found page as a real, exportable route. It becomes /404.html below.
 const NOT_FOUND_ROUTE = "page-not-found";

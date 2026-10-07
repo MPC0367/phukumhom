@@ -1,0 +1,250 @@
+/*
+ * FaqBrowser — the search and the group links in a rail, the questions beside it.
+ *
+ *   ┌ rail (1–4) ───────────┐ ┌ groups (5–12) ──────────────────────────┐
+ *   │ SEARCH THE QUESTIONS   │ │ Your stay                                │
+ *   │ [ 🔍               x ] │ │ ─ What time are check-in and …        +  │
+ *   │ 16 questions           │ │ ─ Can I bring a pet?                  +  │
+ *   │ Your stay           2  │ │ Rooms                                    │
+ *   │ Rooms               3  │ │ …                                        │
+ *   └────────────────────────┘ └──────────────────────────────────────────┘
+ *
+ * The rail sticks under the header from 64rem. Below that it stacks above the groups and the group
+ * links become a wrapping row of pills.
+ *
+ * Component constants:
+ *   --faq-field   the search field's height (56px, as the form fields)
+ */
+.browser {
+  --faq-field: 3.5rem;
+
+  display: grid;
+  gap: var(--s-8);
+}
+
+.rail {
+  display: grid;
+  gap: var(--s-6);
+  align-content: start;
+  min-width: 0;
+}
+
+/* ── Search ── */
+
+.search {
+  display: grid;
+  gap: var(--s-3);
+}
+
+.search .searchLabel {
+  color: var(--clay-deep);
+}
+
+.field {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.searchIcon {
+  position: absolute;
+  inset-inline-start: var(--s-4);
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.input {
+  width: 100%;
+  height: var(--faq-field);
+  padding-inline: calc(var(--s-4) + 1.75rem) var(--s-9);
+  border: var(--hairline) solid var(--border-control);
+  border-radius: var(--radius-pill);
+  background: var(--white);
+  color: var(--ink);
+  font: inherit;
+  appearance: none;
+  transition:
+    border-color var(--t-ui) var(--ease),
+    box-shadow var(--t-ui) var(--ease);
+}
+
+/* The browser's own clear button would double ours. */
+.input::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+.input:focus-visible {
+  border-color: var(--forest);
+  box-shadow: 0 0 0 1px var(--forest);
+  outline: none;
+}
+
+.clear {
+  position: absolute;
+  inset-inline-end: var(--s-2);
+  display: grid;
+  place-items: center;
+  width: var(--tap);
+  height: var(--tap);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition:
+    background-color var(--t-ui) var(--ease),
+    color var(--t-ui) var(--ease);
+}
+
+.clear:hover {
+  background: var(--sand);
+  color: var(--ink);
+}
+
+.clear:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.count {
+  min-height: 1.5em;
+}
+
+/* ── Group links ── */
+
+.jumpList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.jumpLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-3);
+  min-height: var(--tap);
+  padding-inline: var(--s-4);
+  border: var(--hairline) solid var(--border-control);
+  border-radius: var(--radius-pill);
+  color: var(--text);
+  font-size: 0.9375rem;
+  text-decoration: none;
+  transition:
+    background-color var(--t-hover) var(--ease),
+    border-color var(--t-hover) var(--ease),
+    color var(--t-hover) var(--ease);
+}
+
+.jumpCount {
+  color: var(--text-muted);
+  font-size: var(--fs-small);
+  transition: color var(--t-hover) var(--ease);
+}
+
+@media (hover: hover) {
+  .jumpLink:hover {
+    border-color: var(--forest);
+    background: var(--forest);
+    color: var(--paper);
+  }
+
+  .jumpLink:hover .jumpCount {
+    color: var(--paper);
+  }
+}
+
+.jumpLink:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* ── Groups ── */
+
+.groups {
+  display: grid;
+  gap: var(--s-9);
+  min-width: 0;
+}
+
+.group {
+  /* A group link lands with the group's title clear of the fixed header. */
+  scroll-margin-block-start: calc(var(--header-h) + var(--s-6));
+}
+
+/* An answer opened from a link (/faq#pets) lands clear of the header too. */
+.group :global(details) {
+  scroll-margin-block-start: calc(var(--header-h) + var(--s-6));
+}
+
+.groupTitle {
+  margin-block-end: var(--s-4);
+  color: var(--forest);
+}
+
+.none {
+  max-width: var(--measure);
+}
+
+@media (min-width: 64rem) {
+  .browser {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--col-gap);
+    align-items: start;
+  }
+
+  .rail {
+    grid-column: 1 / span 4;
+    position: sticky;
+    inset-block-start: calc(var(--header-h) + var(--s-7));
+    padding-inline-end: var(--s-7);
+  }
+
+  .groups {
+    grid-column: 5 / -1;
+  }
+
+  /* In the rail the group links are a ruled list: a name on the left, its count on the right. */
+  .jumpList {
+    display: grid;
+    gap: 0;
+    border-block-start: var(--hairline) solid var(--rule);
+  }
+
+  .jumpLink {
+    display: flex;
+    justify-content: space-between;
+    min-height: 3.25rem;
+    padding-inline: 0;
+    border: 0;
+    border-block-end: var(--hairline) solid var(--rule);
+    border-radius: 0;
+    font-size: 1rem;
+    transition:
+      color var(--t-hover) var(--ease),
+      padding var(--t-hover) var(--ease-out);
+  }
+}
+
+@media (min-width: 64rem) and (hover: hover) {
+  .jumpLink:hover {
+    padding-inline-start: var(--s-3);
+    border-color: var(--rule);
+    background: transparent;
+    color: var(--action);
+  }
+
+  .jumpLink:hover .jumpCount {
+    color: var(--action);
+  }
+}
+
+/* A short window (or 200% zoom): a rail taller than the screen must not stick. */
+@media (min-width: 64rem) and (max-height: 45rem) {
+  .rail {
+    position: static;
+  }
+}

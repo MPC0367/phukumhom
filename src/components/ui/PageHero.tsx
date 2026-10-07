@@ -3,6 +3,7 @@ import type { AssetId, Locale } from "@/content/schema";
 import { Band } from "./Band";
 import { Breadcrumbs, type Crumb } from "./Breadcrumbs";
 import { cx } from "./cx";
+import { keepThai } from "./keep-thai";
 import { Kicker } from "./Kicker";
 import { Picture } from "./Picture";
 import styles from "./PageHero.module.css";
@@ -23,6 +24,9 @@ import styles from "./PageHero.module.css";
  * - The photograph is described by its catalogued alt text. Words over it are checked for 4.5:1 against
  *   the lightest pixels behind them (docs/contrast.md): the hero scrim is always on.
  * - `titleAs="p"` is for the style guide only, where a second <h1> would be wrong.
+ * - `long` sets a title that is a whole phrase ("Khao Yai rooms with a private rooftop: three types
+ *   compared") one step smaller and on a wider measure, so the page topic in plain words still fits the
+ *   band in three lines. A short page name ("Rooms") keeps the full size.
  */
 
 export interface PageHeroProps {
@@ -37,10 +41,12 @@ export interface PageHeroProps {
   /** id for the heading. */
   titleId?: string;
   titleAs?: "h1" | "p";
+  /** The title is a phrase rather than a page name: one step smaller, wider measure. */
+  long?: boolean;
   className?: string;
 }
 
-export function PageHero({ lang, kicker, title, lead, asset, breadcrumbs, priority = true, titleId, titleAs: Title = "h1", className }: PageHeroProps) {
+export function PageHero({ lang, kicker, title, lead, asset, breadcrumbs, priority = true, titleId, titleAs: Title = "h1", long = false, className }: PageHeroProps) {
   return (
     <>
       <Band
@@ -53,8 +59,9 @@ export function PageHero({ lang, kicker, title, lead, asset, breadcrumbs, priori
       >
         <div className={styles.text}>
           <Kicker className={styles.kicker}>{kicker}</Kicker>
-          <Title id={titleId} className={cx("h1", styles.title)}>
-            {title}
+          <Title id={titleId} className={cx("h1", styles.title, long && styles.long)}>
+            {/* A Thai title given as plain text keeps its place names whole when the line wraps. */}
+            {lang === "th" && typeof title === "string" ? keepThai(title) : title}
           </Title>
           {lead ? <p className={cx("lead", styles.lead)}>{lead}</p> : null}
         </div>
