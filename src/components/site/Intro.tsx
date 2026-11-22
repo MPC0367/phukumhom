@@ -41,15 +41,22 @@ setTimeout(function(){d.removeAttribute("data-intro");},2700);
 
 /*
  * Drawing units for the lockup. Each line is anchored at the middle and tracked with letter-spacing, as
- * the logo is (0.26em for the name, 0.24em beneath). Not textLength: Safari ignores textLength once a
- * line is split into one <tspan> per letter, and the words then sat about 30 px left of centre on iPhones.
- * letter-spacing also follows the last letter, so each line is moved right by half of it to sit centred.
+ * the logo is (0.26em for the name, 0.24em beneath).
+ *
+ * Centring, measured on the pixels (_qa/intro-center.mjs):
+ * - Not textLength: Safari ignores it once a line is split into one <tspan> per letter (the words sat
+ *   about 30 px left of centre on iPhones).
+ * - The last letter of each line carries no letter-spacing. Chrome counts the spacing after the last letter
+ *   when it centres a line and Safari does not, so with it the name sat 5 px right of centre on iPhones;
+ *   without it both engines centre the same letters the same way.
+ * - RESORT KHAO YAI then still sat about 1.2 drawing units right in both engines: the R carries more side
+ *   bearing on its left than the I does on its right. `optical` moves that line back by exactly that.
  */
 const VIEW_W = 900;
 const VIEW_H = 190;
 const NAME = { y: 104, size: 100, track: 0.26 };
-const SUB = { y: 172, size: 40, track: 0.24 };
-const centreX = (line: { size: number; track: number }) => VIEW_W / 2 + (line.size * line.track) / 2;
+const SUB = { y: 172, size: 40, track: 0.24, optical: -1.2 };
+const CENTRE_X = VIEW_W / 2;
 
 /*
  * The pen. Letters are written left to right, each starting before the one before it has finished, the way
@@ -64,6 +71,7 @@ const PEN = {
 
 function Written({ text, pen }: { text: string; pen: (typeof PEN)["name"] }) {
   let at = pen.start;
+  const lastLetter = text.trimEnd().length - 1;
   return (
     <>
       {Array.from(text).map((letter, i) => {
@@ -73,6 +81,7 @@ function Written({ text, pen }: { text: string; pen: (typeof PEN)["name"] }) {
         }
         const write = WIDE.has(letter) ? pen.wide : pen.narrow;
         const style = {
+          ...(i === lastLetter ? { letterSpacing: 0 } : {}),
           animationDelay: `${at.toFixed(3)}s, ${(at + write * 0.55).toFixed(3)}s`,
           animationDuration: `${write.toFixed(3)}s, ${(write * 0.9 + pen.ink).toFixed(3)}s`,
         };
@@ -98,10 +107,10 @@ export function Intro({ lang }: { lang: Locale }) {
     <>
       <div className={styles.intro} aria-hidden="true">
         <svg className={styles.lockup} viewBox={`0 0 ${VIEW_W} ${VIEW_H}`} focusable="false">
-          <text className={styles.name} x={centreX(NAME)} y={NAME.y} fontSize={NAME.size} textAnchor="middle" style={{ letterSpacing: `${NAME.track}em` }}>
+          <text className={styles.name} x={CENTRE_X} y={NAME.y} fontSize={NAME.size} textAnchor="middle" style={{ letterSpacing: `${NAME.track}em` }}>
             <Written text={name} pen={PEN.name} />
           </text>
-          <text className={styles.sub} x={centreX(SUB)} y={SUB.y} fontSize={SUB.size} textAnchor="middle" style={{ letterSpacing: `${SUB.track}em` }}>
+          <text className={styles.sub} x={CENTRE_X + SUB.optical} y={SUB.y} fontSize={SUB.size} textAnchor="middle" style={{ letterSpacing: `${SUB.track}em` }}>
             <Written text={sub} pen={PEN.sub} />
           </text>
         </svg>
