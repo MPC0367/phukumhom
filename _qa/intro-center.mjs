@@ -2,7 +2,7 @@
 //
 // Photographs the opening (its still, reduced-motion form: the same layout, every letter fully inked) in
 // Chromium and WebKit at several phone and desktop widths, then scans the pixels for the dark green logo on
-// the paper: for each line (the mountains, PHUKUMHOM, KHAO YAI) it finds the first and last columns that hold
+// the paper: for each line (PHUKUMHOM, KHAO YAI) it finds the first and last columns that hold
 // ink and compares the empty space on the left with the empty space on the right.
 //
 //   node _qa/intro-center.mjs [--out | url]     default: --out (the static export in out/, no server)
@@ -112,7 +112,7 @@ for (const [engineName, engine] of [
         const right = (info.width - 1 - last) / DPR;
         const offset = (left - right) / 2; // positive: the letters sit to the right of centre
         return {
-          line: ["mountains", "name", "place"][line] ?? String(line),
+          line: ["name", "place"][line] ?? String(line),
           first,
           left: left.toFixed(1),
           right: right.toFixed(1),
