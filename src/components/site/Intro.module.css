@@ -1,12 +1,15 @@
 /*
- * The opening (Intro.tsx): just text. Hidden unless html[data-intro] is set by its script. Every timing
- * here is CSS, so the panel is gone on time whatever the page's script is doing:
+ * The opening (Intro.tsx): the logo's text, written. Hidden unless html[data-intro] is set by its script.
+ * Every timing here is CSS, so the panel is gone on time whatever the page's script is doing:
  *
- *   0.08 to about 1.4 s   "Phukumhom Resort Khao Yai" forms letter by letter, each rising out of a soft blur
- *   1.45 to 2.1 s         the panel lifts away upward, the words a little faster than the panel
+ *   0.1 to 1.3 s     PHUKUMHOM is written left to right: a fine line traces each letter, starting before
+ *                    the one before has finished, and each letter inks in just behind its line
+ *   0.9 to 1.75 s    RESORT KHAO YAI follows the same way, quicker and smaller
+ *   1.95 to 2.6 s    the panel lifts away upward, the words a little faster than the panel
  *
- * Under prefers-reduced-motion nothing moves: the words are simply there and the panel fades out over the
- * same span instead of lifting.
+ * Each letter's start and length are set inline by Intro.tsx (the pen); only the motions live here.
+ *
+ * Under prefers-reduced-motion nothing is drawn or moved: the logo is simply there and the panel fades out.
  */
 
 .intro {
@@ -25,39 +28,63 @@
     var(--forest);
   color: var(--on-dark);
   pointer-events: none;
-  animation: lift 0.65s cubic-bezier(0.76, 0, 0.24, 1) 1.45s both;
+  animation: lift 0.65s cubic-bezier(0.76, 0, 0.24, 1) 1.95s both;
   will-change: transform;
 }
 
-.text {
-  margin: 0;
-  max-width: 14ch;
-  font-family: var(--font-display);
-  font-size: clamp(2.75rem, 1.6rem + 5.2vw, 5.5rem);
+.lockup {
+  display: block;
+  width: min(88vw, 40rem);
+  height: auto;
+  overflow: visible;
+  animation: text-lift 0.65s cubic-bezier(0.76, 0, 0.24, 1) 1.95s both;
+}
+
+/* The logo's type: Noto Sans Thai 500. The line beneath is a little lighter, as in the logo. */
+.name,
+.sub {
+  font-family: var(--font-sans);
   font-weight: 500;
-  line-height: 1.02;
-  letter-spacing: -0.01em;
-  text-align: center;
-  text-wrap: balance;
-  animation: text-lift 0.65s cubic-bezier(0.76, 0, 0.24, 1) 1.45s both;
+  fill: currentColor;
+  fill-opacity: 0;
+  stroke: currentColor;
+  stroke-linejoin: round;
+  stroke-linecap: round;
 }
 
-/* A word never breaks inside itself; lines break only between words. */
-.word {
-  display: inline-block;
-  white-space: nowrap;
+/* Dash lengths are longer than any one letter's outline, so every outline starts hidden and is fully drawn. */
+.name {
+  stroke-width: 1.4;
+  stroke-dasharray: 640;
+  stroke-dashoffset: 640;
 }
 
-.letter {
-  display: inline-block;
-  animation: letter-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+.sub {
+  opacity: 0.82;
+  stroke-width: 0.9;
+  stroke-dasharray: 260;
+  stroke-dashoffset: 260;
 }
 
-@keyframes letter-in {
-  from {
-    opacity: 0;
-    transform: translateY(0.35em);
-    filter: blur(8px);
+/* One letter, written: the line is drawn (a pen speeding up, then easing off), then the ink settles in. */
+.name tspan,
+.sub tspan {
+  animation-name: write, ink;
+  animation-timing-function: cubic-bezier(0.55, 0.08, 0.32, 1), ease-out;
+  animation-fill-mode: both;
+}
+
+@keyframes write {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* The ink settles: the letters fill in and the tracing line softens into them. */
+@keyframes ink {
+  to {
+    fill-opacity: 1;
+    stroke-opacity: 0;
   }
 }
 
@@ -74,15 +101,22 @@
   }
 }
 
-/* Reduced motion: the still version. The words are there from the start and the panel only fades. */
+/* Reduced motion: the still version. The logo is there from the start and the panel only fades. */
 @media (prefers-reduced-motion: reduce) {
   :global(html[data-intro]) .intro {
     animation: fade-out 0.65s ease 1.45s both;
   }
 
-  .text,
-  .letter {
+  .lockup,
+  .name tspan,
+  .sub tspan {
     animation: none;
+  }
+
+  .name,
+  .sub {
+    fill-opacity: 1;
+    stroke: none;
   }
 }
 

@@ -4,8 +4,10 @@ import { IntroScript } from "./IntroScript";
 import styles from "./Intro.module.css";
 
 /**
- * The opening: just text. "Phukumhom Resort Khao Yai" forms letter by letter over the forest-green panel
- * (the studio's choice, 22 Nov 2026), then the panel lifts away. About 2 seconds from first paint to gone.
+ * The opening: just the logo's text, "PHUKUMHOM / RESORT KHAO YAI", written over the forest-green panel as a
+ * hand would write it: a fine line traces each letter left to right, overlapping the next, and each letter
+ * inks in just behind it (the studio, 22 Nov 2026: "make it feel as if it is naturally written"). Then the
+ * panel lifts away. About 2.6 seconds from first paint to gone.
  *
  * WHY IT DOES NOT HOLD THE PAGE (audit of 8 Oct 2026, finding E removed a loading screen that did):
  * - The page underneath is the normal page, loading at full speed. Nothing waits on the intro: it is not
@@ -22,7 +24,7 @@ import styles from "./Intro.module.css";
  * first document only, never created again by React in the browser) runs before
  * anything below it is painted and sets html[data-intro="on"], which shows it. At 0.85 s it switches to
  * "lift" and fires `phk:intro-done`, so the homepage hero's entrance (loader-bus.ts) plays as the panel
- * rises (at 1.45 s); at 2.2 s the attribute goes and the overlay is display: none again.
+ * rises (at 1.95 s); at 2.7 s the attribute goes and the overlay is display: none again.
  *
  * Decorative: aria-hidden. The page's own content is in the document from the start for every reader.
  */
@@ -33,38 +35,81 @@ var n=w.performance&&performance.getEntriesByType?performance.getEntriesByType("
 if(n&&n.type==="back_forward")return;
 if(document.referrer){try{if(new URL(document.referrer).origin===location.origin)return;}catch(e){}}
 d.setAttribute("data-intro","on");
-setTimeout(function(){d.setAttribute("data-intro","lift");try{w.dispatchEvent(new Event("phk:intro-done"));}catch(e){}},1450);
-setTimeout(function(){d.removeAttribute("data-intro");},2200);
+setTimeout(function(){d.setAttribute("data-intro","lift");try{w.dispatchEvent(new Event("phk:intro-done"));}catch(e){}},1950);
+setTimeout(function(){d.removeAttribute("data-intro");},2700);
 }catch(e){}})();`;
 
-/** Seconds between one letter starting to form and the next. */
-const STEP = 0.042;
+/*
+ * Drawing units for the lockup. The name and the line beneath are fitted to fixed widths with
+ * lengthAdjust="spacing" (as GiantWordmark does), which gives the logo's wide tracking in every browser
+ * without relying on letter-spacing inside SVG.
+ */
+const VIEW_W = 900;
+const VIEW_H = 190;
+const NAME = { y: 104, size: 100, width: 820 };
+const SUB = { y: 172, size: 40, width: 500 };
+
+/*
+ * The pen. Letters are written left to right, each starting before the one before it has finished, the way
+ * a hand moves on: wide letters take a little longer than narrow ones, and each letter inks in just behind
+ * its outline. The line beneath follows, quicker and smaller, as the name is finishing.
+ */
+const WIDE = new Set(["M", "W", "H", "U", "O", "K", "A", "N", "Q", "G", "C", "D"]);
+const PEN = {
+  name: { start: 0.1, step: 0.085, wide: 0.5, narrow: 0.38, ink: 0.24 },
+  sub: { start: 0.9, step: 0.034, wide: 0.34, narrow: 0.27, ink: 0.16 },
+};
+
+function Written({ text, pen }: { text: string; pen: (typeof PEN)["name"] }) {
+  let at = pen.start;
+  return (
+    <>
+      {Array.from(text).map((letter, i) => {
+        if (letter === " ") {
+          at += pen.step;
+          return " ";
+        }
+        const write = WIDE.has(letter) ? pen.wide : pen.narrow;
+        const style = {
+          animationDelay: `${at.toFixed(3)}s, ${(at + write * 0.55).toFixed(3)}s`,
+          animationDuration: `${write.toFixed(3)}s, ${(write * 0.9 + pen.ink).toFixed(3)}s`,
+        };
+        at += pen.step;
+        return (
+          <tspan key={i} style={style}>
+            {letter}
+          </tspan>
+        );
+      })}
+    </>
+  );
+}
 
 export function Intro({ lang }: { lang: Locale }) {
-  // The resort's English name in both languages, as the studio asked: "Phukumhom Resort Khao Yai".
+  // The resort's English name in both languages, set as the site's logo is set (Wordmark.tsx): the name
+  // large and tracked, "Resort Khao Yai" small and tracked beneath it, both Noto Sans Thai 500 in capitals.
   void lang;
-  const words = site.name.en.split(" ");
-  let index = 0;
+  const [first, ...rest] = site.name.en.split(" ");
+  const name = first.toUpperCase();
+  const sub = rest.join(" ").toUpperCase();
   return (
     <>
       <div className={styles.intro} aria-hidden="true">
-        <p className={styles.text}>
-          {words.map((word, w) => (
-            <span key={w}>
-              {w > 0 ? " " : null}
-              <span className={styles.word}>
-                {Array.from(word).map((letter) => {
-                  const delay = 0.08 + index++ * STEP;
-                  return (
-                    <span key={index} className={styles.letter} style={{ animationDelay: `${delay.toFixed(3)}s` }}>
-                      {letter}
-                    </span>
-                  );
-                })}
-              </span>
-            </span>
-          ))}
-        </p>
+        <svg className={styles.lockup} viewBox={`0 0 ${VIEW_W} ${VIEW_H}`} focusable="false">
+          <text
+            className={styles.name}
+            x={(VIEW_W - NAME.width) / 2}
+            y={NAME.y}
+            fontSize={NAME.size}
+            textLength={NAME.width}
+            lengthAdjust="spacing"
+          >
+            <Written text={name} pen={PEN.name} />
+          </text>
+          <text className={styles.sub} x={(VIEW_W - SUB.width) / 2} y={SUB.y} fontSize={SUB.size} textLength={SUB.width} lengthAdjust="spacing">
+            <Written text={sub} pen={PEN.sub} />
+          </text>
+        </svg>
       </div>
       <IntroScript code={SCRIPT} />
     </>

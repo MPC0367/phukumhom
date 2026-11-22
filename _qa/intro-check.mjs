@@ -3,6 +3,8 @@
 //
 //   node _qa/intro-check.mjs                                  against http://127.0.0.1:8352
 //   node _qa/intro-check.mjs http://127.0.0.1:8353/phukumhom  against the built site
+//   node _qa/intro-check.mjs --out                            against out/ directly, no server
+//   node _qa/intro-check.mjs --out                            against out/ directly, no server
 //   node _qa/intro-check.mjs --frames                         also saves frames to _qa/shots/intro-*.png
 //
 // Checks: it shows on arrival and again on reload; it is gone within about 2 s; the heading is in the
@@ -10,10 +12,12 @@
 // motion a still version plays (nothing moves, it fades); nothing is written to browser storage; no
 // console errors.
 
+import { ORIGIN, serveOut } from "./out-route.mjs";
 import { chromium, webkit } from "playwright";
 
 const argv = process.argv.slice(2);
-const BASE = (argv.find((a) => !a.startsWith("--")) ?? "http://127.0.0.1:8352").replace(/\/+$/, "");
+const USE_OUT = argv.includes("--out");
+const BASE = USE_OUT ? ORIGIN + "/phukumhom" : (argv.find((a) => !a.startsWith("--")) ?? "http://127.0.0.1:8352").replace(/\/+$/, "");
 const FRAMES = argv.includes("--frames");
 const results = [];
 const note = (name, ok, detail = "") => {
@@ -44,6 +48,7 @@ for (const [engineName, engine] of [
   // Arrival from outside: plays, then is gone.
   {
     const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
+    if (USE_OUT) await serveOut(context);
     const page = await context.newPage();
     const errors = [];
     page.on("console", (m) => m.type() === "error" && errors.push(m.text()));
@@ -75,7 +80,7 @@ for (const [engineName, engine] of [
       }
       return 9999;
     });
-    note(`${engineName}: off the screen within about 2.4 s`, goneAfter <= 2400, `${goneAfter} ms after it was first seen`);
+    note(`${engineName}: off the screen within about 3 s`, goneAfter <= 3000, `${goneAfter} ms after it was first seen`);
     await page.waitForTimeout(600);
     note(`${engineName}: its marker is cleared afterwards`, (await state(page)).attr === null);
     note(`${engineName}: no console errors on arrival`, errors.length === 0, errors.slice(0, 3).join(" | "));
@@ -87,7 +92,7 @@ for (const [engineName, engine] of [
     await page.waitForSelector("h1", { state: "attached" });
     const reloaded = await state(page);
     note(`${engineName}: plays again on reload`, reloaded.shown && reloaded.attr !== null, `attr=${reloaded.attr}`);
-    await page.waitForTimeout(2600);
+    await page.waitForTimeout(3100);
 
     // A full load arriving from another page of the site: no replay. (Playwright's forged Referer header
     // makes WebKit refuse the page's own background fetches, so console errors are not counted after this.)
@@ -102,6 +107,7 @@ for (const [engineName, engine] of [
   // Reduced motion: never.
   {
     const context = await browser.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: "reduce" });
+    if (USE_OUT) await serveOut(context);
     const page = await context.newPage();
     await page.goto(BASE + "/en/", { waitUntil: "commit" });
     await page.waitForSelector("h1", { state: "attached" });
@@ -119,7 +125,7 @@ for (const [engineName, engine] of [
       }
       return { moved, goneAfter: 9999 };
     });
-    note(`${engineName}: reduced motion gets a still version`, s.shown && !still.moved && still.goneAfter <= 2400, `shown=${s.shown} moved=${still.moved} gone after ${still.goneAfter} ms`);
+    note(`${engineName}: reduced motion gets a still version`, s.shown && !still.moved && still.goneAfter <= 3000, `shown=${s.shown} moved=${still.moved} gone after ${still.goneAfter} ms`);
     await context.close();
   }
 
