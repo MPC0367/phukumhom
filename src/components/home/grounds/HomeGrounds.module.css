@@ -81,7 +81,8 @@
   inset: 0;
 }
 
-.media img {
+.media img,
+.media .art {
   transition: transform var(--t-plate-hover) var(--ease-out);
 }
 
@@ -172,7 +173,8 @@
 
 /* The photograph answers the pointer in both forms. */
 @media (hover: hover) {
-  .tile:hover .media img {
+  .tile:hover .media img,
+  .tile:hover .media .art {
     transform: scale(1.04);
   }
 
@@ -186,7 +188,8 @@
   }
 }
 
-.tile:focus-within .media img {
+.tile:focus-within .media img,
+.tile:focus-within .media .art {
   transform: scale(1.04);
 }
 

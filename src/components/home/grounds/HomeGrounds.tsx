@@ -1,11 +1,11 @@
 import { Fragment, type ReactNode } from "react";
 import Link from "next/link";
 import { experiences } from "@/content/experiences";
-import { copy, TILE_IDS, type TileId } from "@/content/pages/home/grounds";
+import { copy, DRAWN_TILES, TILE_IDS, type TileId } from "@/content/pages/home/grounds";
 import { pub, type Locale } from "@/content/schema";
 import { t } from "@/i18n/ui";
 import { href } from "@/lib/routes";
-import { MediaReveal, Parallax, Reveal, SplitReveal } from "@/components/motion";
+import { MediaReveal, NightSky, Parallax, Reveal, SplitReveal } from "@/components/motion";
 import { Button, Chapter, Icon, Picture, TextLink, cx, type PictureRatio } from "@/components/ui";
 import s from "./HomeGrounds.module.css";
 
@@ -19,6 +19,8 @@ import s from "./HomeGrounds.module.css";
  * pond, the private rooftop, the shared pool, stargazing. Name, photograph and
  * facts are read from there; the one sentence a tile prints is an excerpt of the entry's description,
  * checked here character for character (see content/pages/home/grounds.ts).
+ *
+ * A tile listed in DRAWN_TILES shows a drawn night sky in place of its photograph (no real one exists yet).
  *
  * A tile is a rounded photograph, a name, one sentence, and a link to that entry on the Experiences
  * page. It has two forms and the stylesheet chooses between them:
@@ -104,7 +106,11 @@ export function HomeGrounds({ lang }: { lang: Locale }) {
                   <MediaReveal className={s.media} delay={index % 2 === 1 ? 0.12 : 0}>
                     {/* The tall tiles drift a little further than the wide ones, so the four never move as one sheet. */}
                     <Parallax speed={index % 3 === 0 ? 0.08 : 0.05} className={s.drift}>
-                      <Picture asset={tile.asset} lang={lang} fill ratio={FETCH[tile.id]} sizes="(min-width: 64rem) 27rem, (min-width: 40rem) 46vw, 88vw" />
+                      {DRAWN_TILES.includes(tile.id) ? (
+                        <NightSky className={s.art} />
+                      ) : (
+                        <Picture asset={tile.asset} lang={lang} fill ratio={FETCH[tile.id]} sizes="(min-width: 64rem) 27rem, (min-width: 40rem) 46vw, 88vw" />
+                      )}
                     </Parallax>
                     {/* The whole photograph is the link; the name below it (or on the sheet) is its name. */}
                     <Link href={href(lang, "experiences", { hash: tile.id })} className={s.go} aria-labelledby={nameId}>

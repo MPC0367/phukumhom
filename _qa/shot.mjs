@@ -7,6 +7,7 @@
 //   node _qa/shot.mjs /th --w 1440 --sel "#rooms"           (capture one element)
 //   node _qa/shot.mjs /th --w 390 --reduced                 (prefers-reduced-motion)
 //   node _qa/shot.mjs /th --w 1440 --nojs                   (JavaScript disabled)
+//   node _qa/shot.mjs /th --w 390 --intro                   (keep the arrival opening; skipped by default)
 //
 // Prints one JSON line: status, console errors, failed requests, broken images, horizontal overflow, page height.
 // The dev server must already be running (preview_start "phukumhom", http://127.0.0.1:8352).
@@ -56,7 +57,8 @@ page.on("response", (r) => { if (r.status() >= 400) failed.push(`${r.status()} $
 
 let status = 0;
 try {
-  const res = await page.goto(url, { waitUntil: "load", timeout: 90000 });
+  // A same-site referrer skips the opening (site/Intro.tsx), so captures show the page; --intro keeps it.
+  const res = await page.goto(url, { waitUntil: "load", timeout: 90000, ...(flag("intro") ? {} : { referer: new URL(url).origin + "/" }) });
   status = res?.status() ?? 0;
 } catch (e) {
   consoleErrors.push(`goto: ${String(e.message).split("\n")[0]}`);

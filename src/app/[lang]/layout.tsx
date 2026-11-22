@@ -5,6 +5,7 @@ import { AnalyticsRoot, ConsentBanner } from "@/components/analytics";
 import { MotionProvider, ScrollProgress } from "@/components/motion";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { BackToTop, ChapterIndex, Footer, Header, MAIN_ID, PlannerDrawer, SkipLink, StickyActions, TOP_ID } from "@/components/site";
+import { Intro } from "@/components/site/Intro";
 import shell from "@/components/site/Shell.module.css";
 import { ToastRegion } from "@/components/ui/ToastRegion";
 import { LOCALES, LOCALE_TAG, isLocale } from "@/i18n/config";
@@ -73,8 +74,11 @@ export default async function LangLayout({ children, params }: Props) {
   if (!isLocale(lang)) notFound();
   const ui = t(lang);
   return (
-    <html lang={LOCALE_TAG[lang]} className={fontVariables} data-scroll-behavior="smooth">
+    // suppressHydrationWarning: the opening's script may set data-intro on <html> before React hydrates.
+    <html lang={LOCALE_TAG[lang]} className={fontVariables} data-scroll-behavior="smooth" suppressHydrationWarning>
       <body className={shell.body}>
+        {/* First in <body>: its script must run before anything below is painted (Intro.tsx). */}
+        <Intro lang={lang} />
         <MotionProvider>
           <span id={TOP_ID} className={shell.top} aria-hidden="true" />
           <ScrollProgress />

@@ -177,7 +177,9 @@ const future = (days) => {
   const early = await page.evaluate(() => {
     const h1 = document.querySelector("h1");
     const rect = h1?.getBoundingClientRect();
-    const covering = [...document.querySelectorAll("body *")].filter((el) => {
+    // The short opening (Intro.tsx, added 22 Nov 2026 at the studio's request) is allowed and is
+    // checked on its own by _qa/intro-check.mjs: it lifts on a CSS timer and never takes a pointer.
+    const covering = [...document.querySelectorAll("body *")].filter((el) => !String(el.className).includes("Intro-module")).filter((el) => {
       const cs = getComputedStyle(el);
       const r = el.getBoundingClientRect();
       return cs.position === "fixed" && r.width >= innerWidth && r.height >= innerHeight && cs.visibility !== "hidden" && cs.display !== "none" && Number(cs.opacity) > 0 && cs.pointerEvents !== "none";
@@ -185,7 +187,7 @@ const future = (days) => {
     return { h1Visible: Boolean(rect && rect.height > 0 && getComputedStyle(h1).visibility !== "hidden" && Number(getComputedStyle(h1).opacity) > 0), covering };
   });
   note("loading: the heading is visible as soon as the document is parsed", early.h1Visible);
-  note("loading: nothing covers the page while it loads", early.covering === 0, `${early.covering} full-screen fixed layers`);
+  note("loading: nothing but the short opening covers the page while it loads", early.covering === 0, `${early.covering} other full-screen fixed layers`);
   await page.waitForLoadState("load");
   await page.waitForTimeout(1200);
   const html = await page.evaluate(() => ({ cls: document.documentElement.className, storage: Object.keys(sessionStorage) }));

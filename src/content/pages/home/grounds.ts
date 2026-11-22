@@ -25,6 +25,14 @@ import type { L } from "@/content/schema";
 export const TILE_IDS = ["gardens-and-pond", "private-rooftop", "shared-pool", "stargazing"] as const;
 export type TileId = (typeof TILE_IDS)[number];
 
+/**
+ * Tiles that show a drawn night sky (components/motion NightSky) instead of their photograph. The
+ * resort's photographs hold no real starry sky (01_11, the lane at dusk with a few stars, is the closest),
+ * so stargazing is drawn, plainly as an illustration, until the owner sends night photographs of their
+ * own (asked 22 Nov 2026). Remove the id from this list when a real photograph is in the manifest.
+ */
+export const DRAWN_TILES: readonly TileId[] = ["stargazing"];
+
 export interface GroundsCopy {
   /** Rail kicker: glossary home.sections.time.label. */
   kicker: string;

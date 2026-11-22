@@ -60,7 +60,7 @@ One-time setup: **Settings → Pages → Build and deployment → Source: GitHub
 | `src/app/[lang]` | Routes. There is no `app/layout.tsx`: each language tree owns its `<html lang>` |
 | `src/content` | The content model: site settings, rooms, experiences, dining, FAQ, places, SEO, the photograph catalogue |
 | `src/components/ui` | Design-system primitives |
-| `src/components/motion` | The motion system (reveals, reel, clock, sunset and moon). No loading screen, no scroll library |
+| `src/components/motion` | The motion system (reveals, reel, clock, sunset and moon). No loading screen (a 1.4 s opening on arrival lifts on its own, see site/Intro.tsx), no scroll library |
 | `src/components/site` | Header, footer, menus, stay planner, booking link |
 | `src/components/home`, `stay`, `media`, `places` | Homepage chapters and the modules they share |
 | `src/components/page`, `room`, `gallery`, `faq`, `contact` | The inner pages' shared compositions and their interactive parts |

@@ -46,6 +46,7 @@ export { DriftReel, type DriftReelProps } from "./DriftReel";
 export { CountUp, type CountUpProps } from "./CountUp";
 export { PageTransition } from "./PageTransition";
 export { Stars, type StarsProps } from "./Stars";
+export { NightSky, type NightSkyProps } from "./NightSky";
 export type { EntranceTrigger } from "./useEntrance";
 
 export { useResortNow } from "./useResortNow";

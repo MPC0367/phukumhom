@@ -1,0 +1,69 @@
+/*
+ * NightSky: a drawn night sky that fills its box. Back to front: the drawing (sky, Milky Way, stars), the
+ * twinkling canvas, the moon, the ridges. Nothing in it takes a pointer.
+ */
+
+.sky {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #0c1428;
+  color: #f6f1e8;
+  pointer-events: none;
+}
+
+.drawing {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.band {
+  transition: opacity 1.2s ease;
+}
+
+.twinkle {
+  position: absolute;
+  inset: 0;
+  color: #fffaf2;
+}
+
+/* Tonight's moon, high on the left, away from the band, with a halo. Hidden until it is known. */
+.moon {
+  position: absolute;
+  top: 10%;
+  left: 12%;
+  width: 19%;
+  min-width: 2.75rem;
+  max-width: 5.5rem;
+  aspect-ratio: 1;
+  color: #f7f2e9;
+  filter: drop-shadow(0 0 0.9rem rgb(247 242 233 / 0.5)) drop-shadow(0 0 2.5rem rgb(247 242 233 / 0.18));
+}
+
+.moon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.moon[data-live="false"] {
+  visibility: hidden;
+}
+
+.hills {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  width: 100%;
+  height: 28%;
+}
+
+.far {
+  fill: #111a30;
+}
+
+.near {
+  fill: #070c18;
+}

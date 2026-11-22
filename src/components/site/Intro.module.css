@@ -1,0 +1,153 @@
+/*
+ * The opening (Intro.tsx). Hidden unless html[data-intro] is set by its script. Every timing here is CSS,
+ * so the panel is gone on time whatever the page's script is doing:
+ *
+ *   0.06 to 0.75 s   the letters rise out of a soft blur, one after another
+ *   0.15 to 0.75 s   the horizon line draws out from the centre; a small sun rises behind it
+ *   0.35 to 0.75 s   "Resort Khao Yai" fades in
+ *   0.85 to 1.45 s   the panel lifts away upward, its contents a little faster than the panel
+ */
+
+.intro {
+  display: none;
+}
+
+:global(html[data-intro]) .intro {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(120% 70% at 50% 115%, color-mix(in srgb, var(--clay) 30%, transparent), transparent 62%),
+    var(--forest);
+  color: var(--on-dark);
+  pointer-events: none;
+  animation: lift 0.6s cubic-bezier(0.76, 0, 0.24, 1) 0.85s both;
+  will-change: transform;
+}
+
+.inner {
+  display: grid;
+  justify-items: center;
+  gap: 0.9rem;
+  padding-inline: 1rem;
+  animation: inner-lift 0.6s cubic-bezier(0.76, 0, 0.24, 1) 0.85s both;
+}
+
+.name {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: clamp(1.75rem, 1rem + 4.5vw, 4rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.3em;
+  /* The tracking also follows the last letter; pull it back so the word sits truly centred. */
+  margin-inline-end: -0.3em;
+  white-space: nowrap;
+}
+
+.letter {
+  display: inline-block;
+  animation: letter-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* The horizon: a clay line drawn from the centre, with a small sun rising from behind it. */
+.horizon {
+  position: relative;
+  width: min(15rem, 52vw);
+  height: 1.6rem;
+  overflow: hidden;
+}
+
+.line {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--clay-soft);
+  transform-origin: 50% 50%;
+  animation: line-in 0.6s cubic-bezier(0.65, 0, 0.35, 1) 0.15s both;
+}
+
+.sun {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 1.6rem;
+  aspect-ratio: 1;
+  margin-left: -0.8rem;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 40%, #f4d3b6, var(--clay-soft) 70%);
+  box-shadow: 0 0 1.25rem color-mix(in srgb, var(--clay-soft) 55%, transparent);
+  animation: sun-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+}
+
+.sub {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  margin-inline-end: -0.32em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--on-dark) 78%, transparent);
+  animation: fade-in 0.4s ease-out 0.35s both;
+}
+
+/* Thai is never letter-spaced or set in capitals: the vowels and tone marks would drift off their letters. */
+.sub:lang(th) {
+  font-size: 0.875rem;
+  letter-spacing: 0.02em;
+  margin-inline-end: 0;
+  text-transform: none;
+}
+
+@keyframes letter-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.45em);
+    filter: blur(6px);
+  }
+}
+
+@keyframes line-in {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes sun-rise {
+  from {
+    transform: translateY(110%);
+  }
+  to {
+    transform: translateY(45%);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes lift {
+  to {
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes inner-lift {
+  to {
+    transform: translateY(-18vh);
+    opacity: 0;
+  }
+}
+
+/* Belt and braces: the script already skips the intro when motion is reduced. */
+@media (prefers-reduced-motion: reduce) {
+  :global(html[data-intro]) .intro {
+    display: none;
+  }
+}
