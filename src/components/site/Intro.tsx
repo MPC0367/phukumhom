@@ -1,13 +1,20 @@
+import { preload } from "react-dom";
+import type { CSSProperties } from "react";
 import type { Locale } from "@/content/schema";
-import { site } from "@/content/site";
+import { withBase } from "@/lib/base-path";
 import { IntroScript } from "./IntroScript";
 import styles from "./Intro.module.css";
 
 /**
- * The opening: just the logo's text, "PHUKUMHOM / RESORT KHAO YAI", written over the forest-green panel as a
- * hand would write it: a fine line traces each letter left to right, overlapping the next, and each letter
- * inks in just behind it (the studio, 22 Nov 2026: "make it feel as if it is naturally written"). Then the
- * panel lifts away. About 2.6 seconds from first paint to gone.
+ * The opening: the mountain logo (three mountain lines over PHUKUMHOM / KHAO YAI, supplied by the studio on
+ * 22 Nov 2026) written onto the paper-coloured panel: the mountains first, left to right, then the name,
+ * then KHAO YAI, each line uncovered behind a soft edge as if it were being written. Then the panel lifts.
+ * About 2.6 seconds from first paint to gone. Used here only, not in the header or footer (the studio's call).
+ *
+ * The logo is public/brand/phukumhom-logo.png: the supplied artwork cut out of its white ground by
+ * _qa/logo-prep.mjs, in its own green (rgb 51 68 41), 984 x 331, the artwork centred in the file. It is shown
+ * as three horizontal bands of the same image, stacked, so each line can be written on its own; together
+ * they are the logo exactly as drawn.
  *
  * WHY IT DOES NOT HOLD THE PAGE (audit of 8 Oct 2026, finding E removed a loading screen that did):
  * - The page underneath is the normal page, loading at full speed. Nothing waits on the intro: it is not
@@ -17,14 +24,13 @@ import styles from "./Intro.module.css";
  * - It plays when a page is opened or reloaded. It does not play on Back or Forward, when coming from
  *   another page of this site, or without JavaScript. Under prefers-reduced-motion a still version plays:
  *   nothing moves, the panel simply fades. Nothing is stored in the browser to decide any of this (the
- *   privacy page promises only the language cookie). (Changed 22 Nov 2026: the studio could not see it
- *   when it skipped reloads and reduced motion.)
+ *   privacy page promises only the language cookie).
  *
  * HOW. The overlay is in the server's HTML, display: none. The tiny script right after it (IntroScript: in the
- * first document only, never created again by React in the browser) runs before
- * anything below it is painted and sets html[data-intro="on"], which shows it. At 0.85 s it switches to
- * "lift" and fires `phk:intro-done`, so the homepage hero's entrance (loader-bus.ts) plays as the panel
- * rises (at 1.95 s); at 2.7 s the attribute goes and the overlay is display: none again.
+ * first document only, never created again by React in the browser) runs before anything below it is
+ * painted and sets html[data-intro="on"], which shows it. At 1.95 s it switches to "lift" and fires
+ * `phk:intro-done`, so the homepage hero's entrance (loader-bus.ts) plays as the panel rises; at 2.7 s the
+ * attribute goes and the overlay is display: none again.
  *
  * Decorative: aria-hidden. The page's own content is in the document from the start for every reader.
  */
@@ -39,81 +45,40 @@ setTimeout(function(){d.setAttribute("data-intro","lift");try{w.dispatchEvent(ne
 setTimeout(function(){d.removeAttribute("data-intro");},2700);
 }catch(e){}})();`;
 
-/*
- * Drawing units for the lockup. Each line is anchored at the middle and tracked with letter-spacing, as
- * the logo is (0.26em for the name, 0.24em beneath).
- *
- * Centring, measured on the pixels (_qa/intro-center.mjs):
- * - Not textLength: Safari ignores it once a line is split into one <tspan> per letter (the words sat
- *   about 30 px left of centre on iPhones).
- * - The last letter of each line carries no letter-spacing. Chrome counts the spacing after the last letter
- *   when it centres a line and Safari does not, so with it the name sat 5 px right of centre on iPhones;
- *   without it both engines centre the same letters the same way.
- * - RESORT KHAO YAI then still sat about 1.2 drawing units right in both engines: the R carries more side
- *   bearing on its left than the I does on its right. `optical` moves that line back by exactly that.
- */
-const VIEW_W = 900;
-const VIEW_H = 190;
-const NAME = { y: 104, size: 100, track: 0.26 };
-const SUB = { y: 172, size: 40, track: 0.24, optical: -1.2 };
-const CENTRE_X = VIEW_W / 2;
+const LOGO = { src: "/brand/phukumhom-logo.png", width: 984, height: 331 };
 
-/*
- * The pen. Letters are written left to right, each starting before the one before it has finished, the way
- * a hand moves on: wide letters take a little longer than narrow ones, and each letter inks in just behind
- * its outline. The line beneath follows, quicker and smaller, as the name is finishing.
+/**
+ * The three lines of the logo as rows of the image, split in the empty space between them (the artwork's
+ * rows: mountains 4 to 148, PHUKUMHOM 188 to 256, KHAO YAI 296 to 326). Each band is written in turn.
  */
-const WIDE = new Set(["M", "W", "H", "U", "O", "K", "A", "N", "Q", "G", "C", "D"]);
-const PEN = {
-  name: { start: 0.1, step: 0.085, wide: 0.5, narrow: 0.38, ink: 0.24 },
-  sub: { start: 0.9, step: 0.034, wide: 0.34, narrow: 0.27, ink: 0.16 },
-};
-
-function Written({ text, pen }: { text: string; pen: (typeof PEN)["name"] }) {
-  let at = pen.start;
-  const lastLetter = text.trimEnd().length - 1;
-  return (
-    <>
-      {Array.from(text).map((letter, i) => {
-        if (letter === " ") {
-          at += pen.step;
-          return " ";
-        }
-        const write = WIDE.has(letter) ? pen.wide : pen.narrow;
-        const style = {
-          ...(i === lastLetter ? { letterSpacing: 0 } : {}),
-          animationDelay: `${at.toFixed(3)}s, ${(at + write * 0.55).toFixed(3)}s`,
-          animationDuration: `${write.toFixed(3)}s, ${(write * 0.9 + pen.ink).toFixed(3)}s`,
-        };
-        at += pen.step;
-        return (
-          <tspan key={i} style={style}>
-            {letter}
-          </tspan>
-        );
-      })}
-    </>
-  );
-}
+const BANDS = [
+  { name: "mountains", top: 0, bottom: 168 },
+  { name: "name", top: 168, bottom: 276 },
+  { name: "place", top: 276, bottom: LOGO.height },
+] as const;
 
 export function Intro({ lang }: { lang: Locale }) {
-  // The resort's English name in both languages, set as the site's logo is set (Wordmark.tsx): the name
-  // large and tracked, "Resort Khao Yai" small and tracked beneath it, both Noto Sans Thai 500 in capitals.
-  void lang;
-  const [first, ...rest] = site.name.en.split(" ");
-  const name = first.toUpperCase();
-  const sub = rest.join(" ").toUpperCase();
+  void lang; // the logo is the same in both languages
+  const src = withBase(LOGO.src);
+  // Fetched at once with the page, so the logo is there when the writing starts.
+  preload(src, { as: "image", fetchPriority: "high" });
   return (
     <>
       <div className={styles.intro} aria-hidden="true">
-        <svg className={styles.lockup} viewBox={`0 0 ${VIEW_W} ${VIEW_H}`} focusable="false">
-          <text className={styles.name} x={CENTRE_X} y={NAME.y} fontSize={NAME.size} textAnchor="middle" style={{ letterSpacing: `${NAME.track}em` }}>
-            <Written text={name} pen={PEN.name} />
-          </text>
-          <text className={styles.sub} x={CENTRE_X + SUB.optical} y={SUB.y} fontSize={SUB.size} textAnchor="middle" style={{ letterSpacing: `${SUB.track}em` }}>
-            <Written text={sub} pen={PEN.sub} />
-          </text>
-        </svg>
+        <div className={styles.logo}>
+          {BANDS.map((band) => {
+            const height = band.bottom - band.top;
+            // The band shows its own rows of the full image: background-size is the image at the band's width,
+            // and the vertical position puts row `top` at the band's top edge.
+            const spare = LOGO.height - height;
+            const style: CSSProperties = {
+              aspectRatio: `${LOGO.width} / ${height}`,
+              backgroundImage: `url(${src})`,
+              backgroundPosition: `0 ${spare > 0 ? ((band.top / spare) * 100).toFixed(4) : 0}%`,
+            };
+            return <div key={band.name} data-band={band.name} className={styles.band} style={style} />;
+          })}
+        </div>
       </div>
       <IntroScript code={SCRIPT} />
     </>
