@@ -3753,5 +3753,69 @@
         "bytesJpg": 112365
       }
     ]
+  },
+  "milky-way-over-rooftop-pergolas": {
+    "master": "original",
+    "width": 864,
+    "height": 1080,
+    "dominant": "#342e2a",
+    "variants": [
+      {
+        "width": 360,
+        "height": 450,
+        "webp": "/media/milky-way-over-rooftop-pergolas-360.webp",
+        "jpg": "/media/milky-way-over-rooftop-pergolas-360.jpg",
+        "bytesWebp": 18616,
+        "bytesJpg": 20880
+      },
+      {
+        "width": 600,
+        "height": 750,
+        "webp": "/media/milky-way-over-rooftop-pergolas-600.webp",
+        "jpg": "/media/milky-way-over-rooftop-pergolas-600.jpg",
+        "bytesWebp": 50980,
+        "bytesJpg": 59164
+      },
+      {
+        "width": 864,
+        "height": 1080,
+        "webp": "/media/milky-way-over-rooftop-pergolas-864.webp",
+        "jpg": "/media/milky-way-over-rooftop-pergolas-864.jpg",
+        "bytesWebp": 102038,
+        "bytesJpg": 117557
+      }
+    ]
+  },
+  "milky-way-over-lane-palm-rooftops": {
+    "master": "original",
+    "width": 864,
+    "height": 1080,
+    "dominant": "#302e2d",
+    "variants": [
+      {
+        "width": 360,
+        "height": 450,
+        "webp": "/media/milky-way-over-lane-palm-rooftops-360.webp",
+        "jpg": "/media/milky-way-over-lane-palm-rooftops-360.jpg",
+        "bytesWebp": 20652,
+        "bytesJpg": 22082
+      },
+      {
+        "width": 600,
+        "height": 750,
+        "webp": "/media/milky-way-over-lane-palm-rooftops-600.webp",
+        "jpg": "/media/milky-way-over-lane-palm-rooftops-600.jpg",
+        "bytesWebp": 55916,
+        "bytesJpg": 62489
+      },
+      {
+        "width": 864,
+        "height": 1080,
+        "webp": "/media/milky-way-over-lane-palm-rooftops-864.webp",
+        "jpg": "/media/milky-way-over-lane-palm-rooftops-864.jpg",
+        "bytesWebp": 109668,
+        "bytesJpg": 124084
+      }
+    ]
   }
 }

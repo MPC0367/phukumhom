@@ -5,9 +5,10 @@
 //   node _qa/intro-check.mjs http://127.0.0.1:8353/phukumhom  against the built site
 //   node _qa/intro-check.mjs --frames                         also saves frames to _qa/shots/intro-*.png
 //
-// Checks: it shows on arrival; it is gone within 1.6 s; the heading is in the document from the start;
-// nothing stays over the page; it does not play on reload, under reduced motion, or when arriving from
-// another page of the site; nothing is written to browser storage; no console errors.
+// Checks: it shows on arrival and again on reload; it is gone within about 2 s; the heading is in the
+// document from the start; it does not play when arriving from another page of the site; under reduced
+// motion a still version plays (nothing moves, it fades); nothing is written to browser storage; no
+// console errors.
 
 import { chromium, webkit } from "playwright";
 
@@ -28,7 +29,7 @@ const state = (page) =>
     return {
       attr: document.documentElement.getAttribute("data-intro"),
       // On screen: displayed and not yet lifted off the top. (The attribute is only tidied up afterwards.)
-      shown: Boolean(cs && cs.display !== "none" && r && r.bottom > 1),
+      shown: Boolean(cs && cs.display !== "none" && cs.visibility !== "hidden" && Number(cs.opacity) > 0.01 && r && r.bottom > 1),
       h1: Boolean(document.querySelector("h1")?.textContent?.trim()),
       storage: Object.keys(sessionStorage).length + Object.keys(localStorage).length,
     };
@@ -62,30 +63,31 @@ for (const [engineName, engine] of [
       }
     }
     // Watch what the visitor sees, frame by frame inside the page: the panel must be off the screen within
-    // 1.6 s. (Polling from outside lets headless WebKit stop producing frames, which freezes CSS animations
+    // about 2 s. (Polling from outside lets headless WebKit stop producing frames, which freezes CSS animations
     // in a way a visible Safari tab never does.)
     const goneAfter = await page.evaluate(async () => {
       const el = document.querySelector('[class*="Intro-module"][class*="intro"]');
       const t0 = performance.now();
       while (performance.now() - t0 < 3000) {
         const cs = getComputedStyle(el);
-        if (cs.display === "none" || el.getBoundingClientRect().bottom <= 1) return Math.round(performance.now() - t0);
+        if (cs.display === "none" || cs.visibility === "hidden" || Number(cs.opacity) <= 0.01 || el.getBoundingClientRect().bottom <= 1) return Math.round(performance.now() - t0);
         await new Promise((res) => requestAnimationFrame(res));
       }
       return 9999;
     });
-    note(`${engineName}: off the screen within 1.6 s`, goneAfter <= 1600, `${goneAfter} ms after it was first seen`);
+    note(`${engineName}: off the screen within about 2 s`, goneAfter <= 2100, `${goneAfter} ms after it was first seen`);
     await page.waitForTimeout(600);
     note(`${engineName}: its marker is cleared afterwards`, (await state(page)).attr === null);
     note(`${engineName}: no console errors on arrival`, errors.length === 0, errors.slice(0, 3).join(" | "));
     const after = await state(page);
     note(`${engineName}: nothing written to browser storage`, after.storage === 0, String(after.storage));
 
-    // Reload: no replay.
+    // Reload: it plays again (the studio reloads to look at changes).
     await page.reload({ waitUntil: "commit" });
     await page.waitForSelector("h1", { state: "attached" });
     const reloaded = await state(page);
-    note(`${engineName}: not replayed on reload`, !reloaded.shown && reloaded.attr === null, `attr=${reloaded.attr}`);
+    note(`${engineName}: plays again on reload`, reloaded.shown && reloaded.attr !== null, `attr=${reloaded.attr}`);
+    await page.waitForTimeout(2300);
 
     // A full load arriving from another page of the site: no replay. (Playwright's forged Referer header
     // makes WebKit refuse the page's own background fetches, so console errors are not counted after this.)
@@ -104,7 +106,20 @@ for (const [engineName, engine] of [
     await page.goto(BASE + "/en/", { waitUntil: "commit" });
     await page.waitForSelector("h1", { state: "attached" });
     const s = await state(page);
-    note(`${engineName}: skipped under reduced motion`, !s.shown && s.attr === null, `attr=${s.attr}`);
+    // The still version: shown, never moved, then faded away.
+    const still = await page.evaluate(async () => {
+      const el = document.querySelector('[class*="Intro-module"][class*="intro"]');
+      const t0 = performance.now();
+      let moved = false;
+      while (performance.now() - t0 < 3000) {
+        const cs = getComputedStyle(el);
+        if (cs.transform !== "none" && cs.transform !== "matrix(1, 0, 0, 1, 0, 0)") moved = true;
+        if (cs.display === "none" || cs.visibility === "hidden" || Number(cs.opacity) <= 0.01) return { moved, goneAfter: Math.round(performance.now() - t0) };
+        await new Promise((res) => requestAnimationFrame(res));
+      }
+      return { moved, goneAfter: 9999 };
+    });
+    note(`${engineName}: reduced motion gets a still version`, s.shown && !still.moved && still.goneAfter <= 2100, `shown=${s.shown} moved=${still.moved} gone after ${still.goneAfter} ms`);
     await context.close();
   }
 

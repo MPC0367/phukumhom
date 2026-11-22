@@ -123,7 +123,8 @@ for (const e of entries) {
     id: e.slug,
     legacyId: e.id,
     source: e.source,
-    sourceUrl: `https://www.phukumhom.com/images/g-picture/${e.id}.jpg`,
+    // Legacy frames come from the old website; later frames (the resort's own social posts) carry their URL.
+    sourceUrl: e.sourceUrl ?? `https://www.phukumhom.com/images/g-picture/${e.id}.jpg`,
     rights: "preview-only",
     captured: null,
     currentCondition: "unverified",

@@ -93,7 +93,7 @@ export const experiences: Experience[] = [
       en: "Phukumhom is a dark sky protection area, and there is stargazing at the resort all year round. How much of the sky you see depends on the clouds on the night, so ask the team about stargazing for your dates.",
       th: "ภูคำหอมเป็นเขตอนุรักษ์ท้องฟ้ามืด และมีกิจกรรมดูดาวตลอดทั้งปี ดาวจะชัดแค่ไหนขึ้นอยู่กับเมฆในคืนนั้น สอบถามทีมงานเรื่องกิจกรรมดูดาวในช่วงที่เข้าพักได้",
     },
-    asset: "garden-lane-standing-stone-stars-blue-hour", // 01_11, the lane at blue hour with a few stars out
+    asset: "milky-way-over-rooftop-pergolas", // IG_02: the resort's own Instagram post of 8 Sep 2026
     where: "resort",
     availability: fact<L>(
       { en: "All year round", th: "ตลอดทั้งปี" },

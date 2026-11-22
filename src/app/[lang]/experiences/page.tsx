@@ -7,7 +7,7 @@ import { Phrases } from "@/components/places/Phrases";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { Button, Chapter, Chip, PageHero, Section, TextLink, cx } from "@/components/ui";
 import { experiences } from "@/content/experiences";
-import { EXPERIENCES_HERO, GARDEN_MOSAIC, POOL_MOSAIC, ROOFTOP_BAND, copy } from "@/content/pages/experiences";
+import { EXPERIENCES_HERO, GARDEN_MOSAIC, POOL_MOSAIC, ROOFTOP_BAND, STARS_MOSAIC, copy } from "@/content/pages/experiences";
 import { pub, type Experience } from "@/content/schema";
 import { getSeo } from "@/content/seo";
 import { isLocale } from "@/i18n/config";
@@ -227,6 +227,7 @@ export default async function ExperiencesPage({ params }: Props) {
               <p>{stars.description[lang]}</p>
             </Feature>
           ) : null}
+          <PhotoMosaic lang={lang} assets={STARS_MOSAIC} open={c.open} label={c.stars.mosaicLabel} />
           <Reveal variant="fade" className={s.planner}>
             <h3 className={cx("h3", s.plannerHeading)}>{c.stars.plannerHeading}</h3>
             <StarNights lang={lang} />

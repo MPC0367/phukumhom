@@ -5,7 +5,10 @@
  *   0.06 to 0.75 s   the letters rise out of a soft blur, one after another
  *   0.15 to 0.75 s   the horizon line draws out from the centre; a small sun rises behind it
  *   0.35 to 0.75 s   "Resort Khao Yai" fades in
- *   0.85 to 1.45 s   the panel lifts away upward, its contents a little faster than the panel
+ *   1.15 to 1.8 s    the panel lifts away upward, its contents a little faster than the panel
+ *
+ * Under prefers-reduced-motion nothing moves: the letters, line, sun and words are simply there, and the
+ * panel fades out over the same span instead of lifting.
  */
 
 .intro {
@@ -23,7 +26,7 @@
     var(--forest);
   color: var(--on-dark);
   pointer-events: none;
-  animation: lift 0.6s cubic-bezier(0.76, 0, 0.24, 1) 0.85s both;
+  animation: lift 0.65s cubic-bezier(0.76, 0, 0.24, 1) 1.15s both;
   will-change: transform;
 }
 
@@ -32,7 +35,7 @@
   justify-items: center;
   gap: 0.9rem;
   padding-inline: 1rem;
-  animation: inner-lift 0.6s cubic-bezier(0.76, 0, 0.24, 1) 0.85s both;
+  animation: inner-lift 0.65s cubic-bezier(0.76, 0, 0.24, 1) 1.15s both;
 }
 
 .name {
@@ -145,9 +148,28 @@
   }
 }
 
-/* Belt and braces: the script already skips the intro when motion is reduced. */
+/* Reduced motion: the still version. Everything is in place from the start and the panel only fades. */
 @media (prefers-reduced-motion: reduce) {
   :global(html[data-intro]) .intro {
-    display: none;
+    animation: fade-out 0.65s ease 1.15s both;
+  }
+
+  .inner,
+  .letter,
+  .line,
+  .sub {
+    animation: none;
+  }
+
+  .sun {
+    animation: none;
+    transform: translateY(45%);
+  }
+}
+
+@keyframes fade-out {
+  to {
+    opacity: 0;
+    visibility: hidden;
   }
 }

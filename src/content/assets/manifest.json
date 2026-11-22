@@ -6977,5 +6977,94 @@
     ],
     "excluded": "",
     "dated": ""
+  },
+  {
+    "id": "milky-way-over-rooftop-pergolas",
+    "legacyId": "IG_02",
+    "source": "ig-DdDCy8OATNd-2.jpg",
+    "sourceUrl": "https://www.instagram.com/p/DdDCy8OATNd/",
+    "rights": "preview-only",
+    "captured": null,
+    "currentCondition": "unverified",
+    "subject": "The Milky Way over the clay buildings and rooftop pergolas",
+    "description": "Night, long exposure: a dense star field with the Milky Way's core running across the sky above a terrace of clay-coloured buildings with timber rooftop pergolas; trees on the left, a dark lawn in front, a room number sign by a doorway. Taken at the resort and posted by the resort.",
+    "category": "grounds",
+    "rooms": [],
+    "timeOfDay": "night",
+    "people": "none",
+    "quality": 5,
+    "hdr": "none",
+    "grade": "calm",
+    "showsSteps": false,
+    "width": 864,
+    "height": 1080,
+    "orientation": "portrait",
+    "focal": {
+      "x": 0.55,
+      "y": 0.45
+    },
+    "mobileCrop": "4:5",
+    "alt": {
+      "en": "The Milky Way over the resort's clay buildings and their rooftop pergolas, with trees on the left.",
+      "th": "ทางช้างเผือกเหนืออาคารสีดินเผาและซุ้มระแนงบนดาดฟ้าของรีสอร์ท มีต้นไม้อยู่ทางซ้าย"
+    },
+    "caption": {
+      "en": "The Milky Way over the rooftops, as posted by the resort in September 2026",
+      "th": "ทางช้างเผือกเหนือดาดฟ้าของรีสอร์ท จากโพสต์ของรีสอร์ทเมื่อกันยายน 2026"
+    },
+    "uses": [
+      "experiences",
+      "gallery",
+      "story"
+    ],
+    "gallery": [
+      "gardens"
+    ],
+    "excluded": "",
+    "dated": ""
+  },
+  {
+    "id": "milky-way-over-lane-palm-rooftops",
+    "legacyId": "IG_03",
+    "source": "ig-DdDCy8OATNd-3.jpg",
+    "sourceUrl": "https://www.instagram.com/p/DdDCy8OATNd/",
+    "rights": "preview-only",
+    "captured": null,
+    "currentCondition": "unverified",
+    "subject": "The Milky Way over the lane, a palm and the rooftops",
+    "description": "Night, long exposure: a star field with the Milky Way low on the right, over a curving lane, a tall palm, a building with rooftop pergolas on the left and a tiered roof on the right. Taken at the resort and posted by the resort.",
+    "category": "grounds",
+    "rooms": [],
+    "timeOfDay": "night",
+    "people": "none",
+    "quality": 5,
+    "hdr": "none",
+    "grade": "calm",
+    "showsSteps": false,
+    "width": 864,
+    "height": 1080,
+    "orientation": "portrait",
+    "focal": {
+      "x": 0.5,
+      "y": 0.45
+    },
+    "mobileCrop": "4:5",
+    "alt": {
+      "en": "The Milky Way over a lane, a tall palm and the resort's rooftops at night.",
+      "th": "ทางช้างเผือกเหนือถนนภายในรีสอร์ท ต้นปาล์มสูง และหลังคาอาคารยามค่ำคืน"
+    },
+    "caption": {
+      "en": "Stars over the lane and the palm, as posted by the resort in September 2026",
+      "th": "ดาวเหนือถนนและต้นปาล์มในรีสอร์ท จากโพสต์ของรีสอร์ทเมื่อกันยายน 2026"
+    },
+    "uses": [
+      "experiences",
+      "gallery"
+    ],
+    "gallery": [
+      "gardens"
+    ],
+    "excluded": "",
+    "dated": ""
   }
 ]

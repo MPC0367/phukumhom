@@ -31,7 +31,8 @@ export type TileId = (typeof TILE_IDS)[number];
  * so stargazing is drawn, plainly as an illustration, until the owner sends night photographs of their
  * own (asked 22 Nov 2026). Remove the id from this list when a real photograph is in the manifest.
  */
-export const DRAWN_TILES: readonly TileId[] = ["stargazing"];
+// Empty since the resort's own Milky Way photographs were found (Instagram, 8 Sep 2026; IG_02 in the manifest).
+export const DRAWN_TILES: readonly TileId[] = [];
 
 export interface GroundsCopy {
   /** Rail kicker: glossary home.sections.time.label. */

@@ -31,6 +31,12 @@ export const GARDEN_MOSAIC: AssetId[] = [
   "gourds-hanging-from-garden-trellis", // 07_12
 ];
 
+/** Night at the resort, beside the stargazing entry's own frame (IG_02): the resort's Milky Way post and 01_11 at blue hour. */
+export const STARS_MOSAIC: AssetId[] = [
+  "milky-way-over-lane-palm-rooftops", // IG_03
+  "garden-lane-standing-stone-stars-blue-hour", // 01_11
+];
+
 /** The shared pool, beside the entry's own frame (05_45). */
 export const POOL_MOSAIC: AssetId[] = [
   "shared-pool-open-pavilion-blue-sky", // 05_41
@@ -47,7 +53,7 @@ export interface ExperiencesPageCopy {
   gardens: { kicker: string; title: string; intro: string; mosaicLabel: string; diningLink: string };
   band: { kicker: string; line: string };
   rooftop: { kicker: string; title: string; intro: string; roomLink: string };
-  stars: { kicker: string; title: string; intro: string; plannerHeading: string; askLink: string };
+  stars: { kicker: string; title: string; intro: string; plannerHeading: string; askLink: string; mosaicLabel: string };
   pool: { kicker: string; title: string; intro: string; mosaicLabel: string };
   plan: { label: string; text: string };
   open: string;
@@ -93,6 +99,7 @@ export const copy = {
       intro: "Stargazing all year round, and the moon for the next thirty nights.",
       plannerHeading: "Night by night",
       askLink: "Ask about stargazing",
+      mosaicLabel: "Photographs of the night sky at the resort",
     },
     pool: {
       kicker: "Shared facilities",
@@ -145,6 +152,7 @@ export const copy = {
       intro: "ดูดาวได้ตลอดทั้งปี พร้อมดูดวงจันทร์ล่วงหน้าสามสิบคืน",
       plannerHeading: "ท้องฟ้าแต่ละคืน",
       askLink: "สอบถามเรื่องกิจกรรมดูดาว",
+      mosaicLabel: "ภาพท้องฟ้ายามค่ำคืนที่รีสอร์ท",
     },
     pool: {
       kicker: "ส่วนกลาง",
