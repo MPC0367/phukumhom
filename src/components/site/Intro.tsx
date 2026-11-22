@@ -40,14 +40,16 @@ setTimeout(function(){d.removeAttribute("data-intro");},2700);
 }catch(e){}})();`;
 
 /*
- * Drawing units for the lockup. The name and the line beneath are fitted to fixed widths with
- * lengthAdjust="spacing" (as GiantWordmark does), which gives the logo's wide tracking in every browser
- * without relying on letter-spacing inside SVG.
+ * Drawing units for the lockup. Each line is anchored at the middle and tracked with letter-spacing, as
+ * the logo is (0.26em for the name, 0.24em beneath). Not textLength: Safari ignores textLength once a
+ * line is split into one <tspan> per letter, and the words then sat about 30 px left of centre on iPhones.
+ * letter-spacing also follows the last letter, so each line is moved right by half of it to sit centred.
  */
 const VIEW_W = 900;
 const VIEW_H = 190;
-const NAME = { y: 104, size: 100, width: 820 };
-const SUB = { y: 172, size: 40, width: 500 };
+const NAME = { y: 104, size: 100, track: 0.26 };
+const SUB = { y: 172, size: 40, track: 0.24 };
+const centreX = (line: { size: number; track: number }) => VIEW_W / 2 + (line.size * line.track) / 2;
 
 /*
  * The pen. Letters are written left to right, each starting before the one before it has finished, the way
@@ -96,17 +98,10 @@ export function Intro({ lang }: { lang: Locale }) {
     <>
       <div className={styles.intro} aria-hidden="true">
         <svg className={styles.lockup} viewBox={`0 0 ${VIEW_W} ${VIEW_H}`} focusable="false">
-          <text
-            className={styles.name}
-            x={(VIEW_W - NAME.width) / 2}
-            y={NAME.y}
-            fontSize={NAME.size}
-            textLength={NAME.width}
-            lengthAdjust="spacing"
-          >
+          <text className={styles.name} x={centreX(NAME)} y={NAME.y} fontSize={NAME.size} textAnchor="middle" style={{ letterSpacing: `${NAME.track}em` }}>
             <Written text={name} pen={PEN.name} />
           </text>
-          <text className={styles.sub} x={(VIEW_W - SUB.width) / 2} y={SUB.y} fontSize={SUB.size} textLength={SUB.width} lengthAdjust="spacing">
+          <text className={styles.sub} x={centreX(SUB)} y={SUB.y} fontSize={SUB.size} textAnchor="middle" style={{ letterSpacing: `${SUB.track}em` }}>
             <Written text={sub} pen={PEN.sub} />
           </text>
         </svg>
