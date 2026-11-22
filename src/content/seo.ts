@@ -112,7 +112,7 @@ export const seo: Record<SeoKey, L<PageSeo>> = {
     en: {
       h1: "Restaurant and kitchen garden at Phukumhom Resort Khao Yai",
       title: "Restaurant and kitchen garden in Khao Yai | Phukumhom Resort", // 60
-      description: "The restaurant at Phukumhom Resort Khao Yai, and the kitchen garden the resort describes. Breakfast depends on the rate you choose. Ask the team for details.", // 157
+      description: "The restaurant at Phukumhom Resort Khao Yai and its small kitchen garden. Breakfast depends on the rate you choose. Ask the team about meals and the menu.", // 154
     },
     th: {
       h1: "ร้านอาหารและสวนครัวของภูคำหอม รีสอร์ท เขาใหญ่",
@@ -122,14 +122,14 @@ export const seo: Record<SeoKey, L<PageSeo>> = {
   },
   experiences: {
     en: {
-      h1: "Around the grounds of a Khao Yai garden resort",
-      title: "Khao Yai garden resort: pond and rooftops | Phukumhom Resort", // 60
-      description: "Walk the gardens, sit by the pond, swim in the shared pool and watch the sky from your rooftop on a clear evening. Ask the team what is running for your dates.", // 159
+      h1: "Stargazing and gardens at a Khao Yai garden resort",
+      title: "Khao Yai stargazing and gardens | Phukumhom Resort", // 50
+      description: "A dark sky protection area in Khao Yai, with stargazing all year round, gardens, a pond, a shared pool and private rooftops. Ask the team about your dates.", // 155
     },
     th: {
-      h1: "รอบรีสอร์ท ที่พักเขาใหญ่ใกล้ชิดธรรมชาติ กับสวน สระน้ำ และดาดฟ้า",
-      title: "ที่พักเขาใหญ่ใกล้ชิดธรรมชาติ สวนและดาดฟ้า | ภูคำหอม รีสอร์ท", // 59
-      description: "วันสบายๆ ที่ภูคำหอม เดินเล่นในสวน นั่งริมน้ำ ลงสระว่ายน้ำส่วนกลาง แล้วขึ้นดาดฟ้าดูดาวในคืนที่ฟ้าเปิด สอบถามทีมงานได้ว่าช่วงที่เข้าพักมีอะไรเปิดให้บริการบ้าง", // 156
+      h1: "รอบรีสอร์ท ที่พักเขาใหญ่ดูดาวในเขตอนุรักษ์ท้องฟ้ามืด กับสวนและดาดฟ้า",
+      title: "ที่พักเขาใหญ่ ดูดาวในเขตท้องฟ้ามืด | ภูคำหอม รีสอร์ท", // 52
+      description: "ภูคำหอม รีสอร์ท เขาใหญ่ เป็นเขตอนุรักษ์ท้องฟ้ามืด มีกิจกรรมดูดาวตลอดทั้งปี พร้อมสวน สระน้ำ สระว่ายน้ำส่วนกลาง และดาดฟ้าส่วนตัว สอบถามทีมงานได้เลย", // 145
     },
   },
   gallery: {
@@ -159,13 +159,13 @@ export const seo: Record<SeoKey, L<PageSeo>> = {
   contact: {
     en: {
       h1: "Contact Phukumhom Resort Khao Yai",
-      title: "Contact the resort: phone and Facebook | Phukumhom Resort", // 57
-      description: "Call Phukumhom Resort Khao Yai or contact the team on Facebook with questions about rooms, dates or practical needs. Get in touch before you book your stay.", // 156
+      title: "Contact the resort: phone and LINE | Phukumhom Resort", // 53
+      description: "Call Phukumhom Resort Khao Yai or chat with the team on LINE or Facebook about rooms, dates or practical needs. Get in touch before you book your stay.", // 151
     },
     th: {
       h1: "ติดต่อภูคำหอม รีสอร์ท เขาใหญ่",
-      title: "ติดต่อและสอบถามห้องพัก โทรศัพท์ Facebook | ภูคำหอม รีสอร์ท", // 58
-      description: "โทรหาภูคำหอม รีสอร์ท เขาใหญ่ หรือติดต่อทาง Facebook เพื่อสอบถามเรื่องห้องพัก วันที่เข้าพัก หรือเรื่องที่อยากให้ทีมงานช่วยดูแล ติดต่อรีสอร์ทได้ก่อนตัดสินใจจอง", // 157
+      title: "ติดต่อและสอบถามห้องพัก โทรศัพท์ LINE | ภูคำหอม รีสอร์ท", // 54
+      description: "โทรหาภูคำหอม รีสอร์ท เขาใหญ่ หรือแชตทาง LINE และ Facebook เพื่อสอบถามเรื่องห้องพัก วันที่เข้าพัก หรือเรื่องที่อยากให้ทีมงานช่วยดูแล ติดต่อได้ก่อนตัดสินใจจอง", // 156
     },
   },
   faq: {
@@ -313,7 +313,7 @@ export const internalLinks: Record<SeoKey, InternalLink[]> = {
     { to: { id: "faq" }, anchor: { en: "answers to common questions", th: "คำตอบของคำถามที่พบบ่อย" } },
     { to: { id: "location" }, anchor: { en: "the address and map", th: "ที่อยู่และแผนที่" } },
     { to: { id: "stay" }, anchor: { en: "the room you are asking about", th: "ห้องพักที่คุณสนใจ" } },
-    { to: { id: "privacy" }, anchor: { en: "how the resort handles the details you send", th: "รีสอร์ทดูแลข้อมูลที่คุณส่งมาอย่างไร" } },
+    { to: { id: "privacy" }, anchor: { en: "how this website handles what you type", th: "เว็บไซต์นี้ดูแลข้อมูลที่คุณพิมพ์อย่างไร" } },
   ],
   faq: [
     { to: { id: "stay" }, anchor: { en: "the differences between the room types", th: "ความต่างของห้องพักแต่ละแบบ" } },
@@ -323,7 +323,7 @@ export const internalLinks: Record<SeoKey, InternalLink[]> = {
     { to: { id: "contact" }, anchor: { en: "ask the resort directly", th: "ถามรีสอร์ทโดยตรง" } },
   ],
   privacy: [
-    { to: { id: "contact" }, anchor: { en: "contact the resort about your data", th: "ติดต่อรีสอร์ทเรื่องข้อมูลของคุณ" } },
+    { to: { id: "contact" }, anchor: { en: "ways to contact the resort", th: "ช่องทางติดต่อรีสอร์ท" } },
     { to: { id: "terms" }, anchor: { en: "the website terms", th: "ข้อกำหนดและเงื่อนไขการใช้เว็บไซต์" } },
     { to: { id: "faq" }, anchor: { en: "common questions before a stay", th: "คำถามที่ผู้เข้าพักถามบ่อย" } },
   ],

@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { site } from "@/content/site";
+import { flag, site } from "@/content/site";
 import { getSeo, noindex as NOINDEX_KEYS, notFoundSeo, seoKey } from "@/content/seo";
 import { getRoom } from "@/content/rooms";
 import { getAsset, getDerivative, hasAsset, largest } from "@/content/assets";
 import { pub, type AssetId, type FaqItem, type Locale, type RoomId } from "@/content/schema";
 import { DEFAULT_LOCALE, LOCALES, LOCALE_TAG, OG_LOCALE, otherLocale } from "@/i18n/config";
 import { ROUTES, href, isRouteEnabled, publishedPaths, relativePath, type RouteId } from "@/lib/routes";
+import { createSiteUrls, type SiteUrls } from "@/lib/site-url";
 
 /**
  * Search and sharing metadata, and structured data.
@@ -14,8 +15,10 @@ import { ROUTES, href, isRouteEnabled, publishedPaths, relativePath, type RouteI
  * (`alternates`, `openGraph`) rather than merging them — a page that set half of one would drop the
  * other half. Titles are complete strings from src/content/seo.ts; there is no title template.
  *
- * Every absolute URL — canonicals, hreflang, Open Graph, the sitemap, JSON-LD — is built from
- * SITE_ORIGIN and nowhere else, so an environment can never canonicalise to a made-up host.
+ * Every absolute URL (canonicals, hreflang, Open Graph, the social image, the sitemap, JSON-LD ids and
+ * breadcrumbs) is built by SITE_URLS and nowhere else: one origin, one base path, one trailing-slash
+ * convention (src/lib/site-url.ts). A page address goes through `pageUrl()`, a file through
+ * `absoluteUrl()`. Nothing here joins an origin and a path by hand.
  *
  * Structured data states only what the site publishes: values pass through `pub()`, and anything
  * the ledger has not cleared (coordinates, ratings, prices, room sizes, beds, occupancy) has no key
@@ -27,37 +30,56 @@ import { ROUTES, href, isRouteEnabled, publishedPaths, relativePath, type RouteI
 /** Only a deployment that sets SITE_ENV=production is the public site. Everything else is a private preview. */
 export const IS_PUBLIC_SITE: boolean = process.env.SITE_ENV === "production";
 
-function originOf(value: string | undefined | null): string | null {
-  if (!value) return null;
-  try {
-    const url = new URL(value.trim());
-    return url.protocol === "http:" || url.protocol === "https:" ? url.origin : null;
-  } catch {
-    return null;
+/**
+ * The deployment's URL builder.
+ *
+ *   origin         public site → `site.origin.production`
+ *                  preview     → NEXT_PUBLIC_SITE_ORIGIN when it is a valid http(s) address, else `site.origin.preview`
+ *   basePath       NEXT_PUBLIC_BASE_PATH ("/phukumhom" on the GitHub Pages preview, "" on a domain root)
+ *   trailingSlash  NEXT_PUBLIC_TRAILING_SLASH === "1" (the static export: every route is a folder)
+ *
+ * next.config.ts publishes the last two from the same values it gives Next itself (`basePath`,
+ * `trailingSlash`), so the addresses printed in metadata always match the addresses the site is served at.
+ */
+const DEPLOYMENT = {
+  basePath: process.env.NEXT_PUBLIC_BASE_PATH ?? "",
+  trailingSlash: process.env.NEXT_PUBLIC_TRAILING_SLASH === "1",
+};
+
+function siteUrls(): SiteUrls {
+  const candidates = IS_PUBLIC_SITE ? [site.origin.production] : [process.env.NEXT_PUBLIC_SITE_ORIGIN, site.origin.preview];
+  for (const origin of candidates) {
+    const urls = createSiteUrls({ origin, ...DEPLOYMENT });
+    if (urls) return urls;
   }
+  throw new Error("No usable site origin: check site.origin in src/content/site.ts and NEXT_PUBLIC_SITE_ORIGIN.");
 }
 
-/**
- * The canonical origin, without a trailing slash.
- *   public site → `site.origin.production`
- *   preview     → NEXT_PUBLIC_SITE_ORIGIN when it is a valid http(s) origin, else `site.origin.preview`
- */
-export const SITE_ORIGIN: string = IS_PUBLIC_SITE
-  ? (originOf(site.origin.production) ?? site.origin.production)
-  : (originOf(process.env.NEXT_PUBLIC_SITE_ORIGIN) ?? originOf(site.origin.preview) ?? site.origin.preview);
+export const SITE_URLS: SiteUrls = siteUrls();
 
-/** An absolute URL on the canonical origin for a root-relative path. */
+/** The scheme and host only, without the base path. For `metadataBase`; never for building an address by hand. */
+export const SITE_ORIGIN: string = SITE_URLS.origin;
+
+/** Origin plus base path, no trailing slash: the prefix of every address on this deployment. */
+export const SITE_ROOT: string = SITE_URLS.root;
+
+/** The absolute address of a file ("/og/card.jpg", "/sitemap.xml"). The base path is added once, never twice. */
 export function absoluteUrl(path: string): string {
-  return `${SITE_ORIGIN}${path.startsWith("/") ? path : `/${path}`}`;
+  return SITE_URLS.asset(path);
+}
+
+/** The absolute address of a page from its root-relative path ("/en/stay"), in the deployment's slash convention. */
+export function pageUrl(path: string): string {
+  return SITE_URLS.page(path);
 }
 
 export interface PageRef {
   room?: RoomId;
 }
 
-/** The one canonical address of a page: absolute, no query string, no fragment, no trailing slash. */
+/** The one canonical address of a page: absolute, under the base path, no query string, no fragment. */
 export function canonicalUrl(lang: Locale, id: RouteId, opts: PageRef = {}): string {
-  return absoluteUrl(href(lang, id, { room: opts.room }));
+  return pageUrl(href(lang, id, { room: opts.room }));
 }
 
 /** Every language version of a page plus `x-default` (the Thai page), for hreflang and the sitemap. */
@@ -167,7 +189,8 @@ export function pageMetadata(lang: Locale, id: RouteId, opts: PageMetadataOption
   const image = ogImage(lang, opts.ogAsset);
 
   return {
-    metadataBase: new URL(SITE_ORIGIN),
+    // With its trailing slash: a relative metadata URL resolved against it keeps the base path.
+    metadataBase: new URL(`${SITE_ROOT}/`),
     // `absolute` ignores any title template a parent segment might ever declare.
     title: { absolute: seo.title },
     description: seo.description,
@@ -201,7 +224,8 @@ export function pageMetadata(lang: Locale, id: RouteId, opts: PageMetadataOption
 export function notFoundMetadata(lang: Locale): Metadata {
   const seo = notFoundSeo[lang];
   return {
-    metadataBase: new URL(SITE_ORIGIN),
+    // With its trailing slash: a relative metadata URL resolved against it keeps the base path.
+    metadataBase: new URL(`${SITE_ROOT}/`),
     title: { absolute: seo.title },
     robots: { index: false, follow: IS_PUBLIC_SITE },
     formatDetection: { telephone: false, address: false, email: false },
@@ -216,8 +240,8 @@ const SCHEMA_ORG = "https://schema.org";
 const RESORT_TYPE = ["Resort", "LodgingBusiness"] as const;
 
 /** Stable node ids so the resort, the website and each page refer to one another instead of repeating facts. */
-export const RESORT_ID = `${SITE_ORIGIN}/#resort`;
-export const WEBSITE_ID = `${SITE_ORIGIN}/#website`;
+export const RESORT_ID = `${SITE_ROOT}/#resort`;
+export const WEBSITE_ID = `${SITE_ROOT}/#website`;
 
 /** "14:00" → "14:00:00+07:00" (schema.org Time, in the resort's own zone). Anything else → `null`. */
 function schemaTime(clock: string | null): string | null {
@@ -250,6 +274,8 @@ function resortRef(lang: Locale): JsonLdNode {
 export function lodgingJsonLd(lang: Locale): JsonLdNode {
   const phone = pub(site.phone);
   const facebook = pub(site.social.facebook);
+  const line = flag("line") ? pub(site.social.line) : null;
+  const profiles = [facebook, line?.url].filter((u): u is string => Boolean(u));
   const map = pub(site.maps.listingUrl);
   const address = postalAddress(lang);
   const checkin = schemaTime(pub(site.checkIn));
@@ -267,7 +293,7 @@ export function lodgingJsonLd(lang: Locale): JsonLdNode {
     image: images,
     ...(address ? { address } : {}),
     ...(phone ? { telephone: phone.international } : {}),
-    ...(facebook ? { sameAs: [facebook] } : {}),
+    ...(profiles.length ? { sameAs: profiles } : {}),
     ...(checkin ? { checkinTime: checkin } : {}),
     ...(checkout ? { checkoutTime: checkout } : {}),
     ...(map ? { hasMap: map } : {}),
@@ -317,7 +343,7 @@ export interface BreadcrumbStep {
 
 function stepUrl(lang: Locale, step: BreadcrumbStep): string | null {
   if (step.route) return canonicalUrl(lang, step.route, { room: step.room });
-  if (step.href) return absoluteUrl(step.href.replace(/[?#].*$/, ""));
+  if (step.href) return pageUrl(step.href);
   return null;
 }
 

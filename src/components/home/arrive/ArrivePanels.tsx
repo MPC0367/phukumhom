@@ -1,6 +1,6 @@
 import { useId } from "react";
 import { pub, type Locale } from "@/content/schema";
-import { site } from "@/content/site";
+import { flag, site } from "@/content/site";
 import { copy } from "@/content/pages/home/arrive";
 import { Clock, Reveal } from "@/components/motion";
 import { Phrases } from "@/components/places/Phrases";
@@ -10,6 +10,7 @@ import { Icon } from "@/components/ui/Icon";
 import { Panel } from "@/components/ui/Panel";
 import { TextLink } from "@/components/ui/TextLink";
 import { cx } from "@/components/ui/cx";
+import { fill, t } from "@/i18n/ui";
 import type { AnalyticsPlacement } from "@/lib/analytics";
 import { formatPhone, telHref } from "@/lib/format";
 import { href } from "@/lib/routes";
@@ -23,17 +24,19 @@ import styles from "./HomeArrive.module.css";
  *   ADDRESS (white)              the ruled address in the display face, inside <address>;
  *                                Copy address (turns into a tick, with a toast) and Share location;
  *                                Open in Google Maps, with one line saying what that link is
- *   TALK TO THE RESORT (forest)  the one phone number as a large figure that dials; the time at the
- *                                resort right now, so a caller knows; Contact on Facebook; Send an enquiry
+ *   TALK TO THE RESORT (forest)  the main phone number as a large figure that dials, the second number
+ *                                small beneath it; the time at the resort right now, so a caller knows;
+ *                                LINE and the account id; Contact on Facebook; Prepare an enquiry
+ *                                (it reads "Send an enquiry" only once a delivery service is configured)
  *
  * FACTS. Every one is read through pub() from src/content/site.ts, and a withheld fact leaves no trace:
  * no address means no address panel, no number means no figure. The map link is the resort's own Google
- * Maps listing and is labelled as that: never the entrance, no coordinates, no distance. One phone
- * number and no email.
+ * Maps listing and is labelled as that: never the entrance, no coordinates, no distance. The main number
+ * dials; the second is printed (and dials too) but never gets a button of its own. No email.
  *
  *   placement     the analytics placement written on the links (default "journey")
  *   headingLevel  3 (default, under a chapter's <h2>) or 2
- *   enquiryHref   where "Send an enquiry" leads; the contact page by default. The Contact page passes
+ *   enquiryHref   where the enquiry link leads; the contact page by default. The Contact page passes
  *                 its own form's fragment.
  *
  * <ArrivePanels> is the bare pair and must sit inside an element wearing the block's size container
@@ -60,6 +63,11 @@ export function ArrivePanels({ lang, placement = "journey", headingLevel = 3, en
   const tel = telHref(phone);
   const number = formatPhone(phone, lang);
   const facebook = pub(site.social.facebook);
+  const alt = pub(site.phoneAlt);
+  const altTel = telHref(alt);
+  const altNumber = formatPhone(alt, lang);
+  const line = flag("line") ? pub(site.social.line) : null;
+  const ui = t(lang);
 
   return (
     <Reveal stagger={0.12} className={styles.panels}>
@@ -130,6 +138,13 @@ export function ArrivePanels({ lang, placement = "journey", headingLevel = 3, en
             </a>
           </p>
         ) : null}
+        {altTel && altNumber && altNumber !== number ? (
+          <p className={styles.altPhone}>
+            <a href={altTel} className="tabular" data-analytics="call_click" data-placement={placement}>
+              {fill(ui.patterns.secondNumber, { phone: altNumber })}
+            </a>
+          </p>
+        ) : null}
         <p className={styles.now}>
           <Icon name="clock" size={16} className={styles.nowIcon} />
           <Clock lang={lang} label="visible" className={styles.clock} />
@@ -137,6 +152,12 @@ export function ArrivePanels({ lang, placement = "journey", headingLevel = 3, en
 
         <div className={styles.foot}>
           <div className={styles.contact}>
+            {line ? (
+              <Button href={line.url} external variant="ghost" icon="arrow-up-right" data-analytics="social_contact_click" data-network="line" data-placement={placement}>
+                {ui.labels.line} <span className={cx("tabular", styles.lineId)}>{line.id}</span>
+                <span className="vh"> ({ui.actions.chatOnLine}, {ui.a11y.opensLine})</span>
+              </Button>
+            ) : null}
             {facebook ? (
               <Button href={facebook} external variant="ghost" icon="arrow-up-right" data-analytics="social_contact_click" data-network="facebook" data-placement={placement}>
                 {c.talk.facebook}
@@ -144,7 +165,7 @@ export function ArrivePanels({ lang, placement = "journey", headingLevel = 3, en
               </Button>
             ) : null}
             <Button href={enquiryHref ?? href(lang, "contact")} variant="ghost" icon="arrow-right">
-              {c.talk.enquiry}
+              {flag("enquiryDelivery") ? c.talk.enquirySend : c.talk.enquiry}
             </Button>
           </div>
           <p className={styles.note}>

@@ -1,0 +1,260 @@
+/*
+ * StarNights: the row of evenings and the chosen night, on the twilight ground the parent supplies
+ * (.on-twilight). The star field sits behind everything and never takes a pointer.
+ *
+ * Until the date is known (data-live="false": the server's HTML) the block keeps its height and shows
+ * nothing. Without script it is not shown at all.
+ */
+
+.planner {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  gap: var(--s-6);
+  min-height: 30rem;
+  min-width: 0;
+}
+
+.planner[data-live="false"] > :not(.stars) {
+  visibility: hidden;
+}
+
+@media (scripting: none) {
+  .planner {
+    display: none;
+  }
+}
+
+/* Kept inside the block: a canvas that reaches past it widens the page on a phone (WebKit). */
+.stars {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  color: var(--text);
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+/* ── The row of evenings ── */
+
+.row {
+  display: flex;
+  gap: var(--s-2);
+  margin-inline: calc(-1 * var(--s-2));
+  padding: var(--s-2);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--text) 30%, transparent) transparent;
+}
+
+.night {
+  flex: none;
+  display: grid;
+  justify-items: center;
+  gap: var(--s-1);
+  width: 4.25rem;
+  min-height: var(--tap);
+  padding: var(--s-3) var(--s-1) var(--s-2);
+  border: var(--hairline) solid color-mix(in srgb, var(--text) 22%, transparent);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--text) 4%, transparent);
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+  scroll-snap-align: start;
+  transition:
+    background-color var(--t-enter) var(--ease-out),
+    border-color var(--t-enter) var(--ease-out),
+    transform var(--t-enter) var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (hover: hover) {
+  .night:hover {
+    border-color: color-mix(in srgb, var(--text) 55%, transparent);
+    transform: translateY(-2px);
+  }
+}
+
+.night:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.chosen,
+.chosen:hover {
+  border-color: var(--text);
+  background: color-mix(in srgb, var(--text) 16%, transparent);
+}
+
+.weekday {
+  font-size: var(--fs-eyebrow);
+  line-height: 1.2;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  white-space: nowrap;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chosen .weekday {
+  color: var(--text);
+}
+
+.day {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.chipMoon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.mark {
+  display: grid;
+  place-items: center;
+  height: 0.875rem;
+  color: var(--clay-soft);
+}
+
+/* ── The chosen night ── */
+
+.detail {
+  display: grid;
+  gap: var(--s-6);
+  align-items: center;
+  min-width: 0;
+}
+
+@media (min-width: 40rem) {
+  .detail {
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--s-8);
+  }
+}
+
+.moonBig {
+  justify-self: center;
+  width: clamp(7rem, 22vw, 10rem);
+  aspect-ratio: 1;
+  color: var(--text);
+  filter: drop-shadow(0 0 1.5rem color-mix(in srgb, var(--text) 28%, transparent));
+  animation: moon-in var(--t-enter, 0.5s) var(--ease-out, ease-out) both;
+}
+
+.moonBig svg {
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes moon-in {
+  from {
+    opacity: 0;
+    transform: scale(0.94) rotate(-6deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .moonBig {
+    animation: none;
+  }
+
+  .night {
+    transition: none;
+  }
+}
+
+.facts {
+  display: grid;
+  gap: var(--s-3);
+  min-width: 0;
+}
+
+.date {
+  color: var(--text);
+}
+
+.phase {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2) var(--s-4);
+  color: var(--text);
+}
+
+.light {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+  padding: 0.2em 0.75em;
+  border: var(--hairline) solid color-mix(in srgb, var(--text) 35%, transparent);
+  border-radius: var(--radius-pill);
+  font-size: var(--fs-small);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.lightDark {
+  border-color: var(--clay-soft);
+  color: var(--text);
+}
+
+.lightDark svg {
+  color: var(--clay-soft);
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
+  gap: var(--s-4) var(--s-6);
+  margin-block-start: var(--s-2);
+}
+
+.item {
+  display: grid;
+  gap: var(--s-1);
+}
+
+.item dd {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 0.35em;
+  color: var(--text);
+}
+
+.words {
+  font-size: var(--fs-small);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.figure {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+.actions {
+  margin-block-start: var(--s-3);
+}
+
+.notes {
+  display: grid;
+  gap: var(--s-1);
+  color: var(--text);
+}
+
+.legendStar {
+  display: inline-block;
+  vertical-align: -0.1em;
+  color: var(--clay-soft);
+}

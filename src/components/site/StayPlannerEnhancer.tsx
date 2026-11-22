@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { flushSync } from "react-dom";
 import type { Locale } from "@/content/schema";
 import { Chip } from "@/components/ui/Chip";
-import { addDays, isIsoDate, stayError, todayInBangkok } from "@/lib/booking";
+import { addDays, isIsoDate, nightsBetween, stayError, todayInBangkok } from "@/lib/booking";
 import { formatDate } from "@/lib/format";
 
 /**
@@ -29,6 +29,9 @@ import { formatDate } from "@/lib/format";
  *                       longer after it, departure (which does not have focus) moves to arrival + 1
  *   a field loses focus limits are brought up to date, and a complete but impossible date is marked
  *                       with its message, without moving focus
+ *   always              the form carries data-dates="none" while both date fields are empty and "some"
+ *                       otherwise; the stylesheet swaps the button's words on it ("Browse rooms and
+ *                       rates" with no dates, "Check availability" with dates)
  *   on submit           a search without dates goes through (the empty date fields are left out of the
  *                       URL); a partly typed date or an impossible range is stopped, the field is marked
  *                       `aria-invalid`, described by the message, and given focus
@@ -88,12 +91,6 @@ const LENGTHS = [1, 2, 3];
 
 const subscribeNever = () => () => {};
 
-function nightsBetween(from: string, to: string): number {
-  const [fy, fm, fd] = from.split("-").map(Number);
-  const [ty, tm, td] = to.split("-").map(Number);
-  return Math.round((Date.UTC(ty, tm - 1, td) - Date.UTC(fy, fm - 1, fd)) / 86_400_000);
-}
-
 export function StayPlannerEnhancer({ errorId, className, fields, messages, nights }: StayPlannerEnhancerProps) {
   const line = useRef<HTMLParagraphElement>(null);
   /** Set by the effect: how a chip reaches the form. */
@@ -138,8 +135,19 @@ export function StayPlannerEnhancer({ errorId, className, fields, messages, nigh
       setMin(departure, addDays(arrivalIsUsable(today) ? arrival.value : today, 1));
     };
 
+    /**
+     * Says on the form whether any date has been entered. With none, the button reads "Browse rooms and
+     * rates": a click with empty fields opens the booking page on its own date picker, and must not look
+     * like a check of dates that were never chosen. Only an attribute is written, never a field.
+     */
+    const markDates = () => {
+      const some = arrival.value !== "" || departure.value !== "" || arrival.validity.badInput || departure.validity.badInput;
+      form.dataset.dates = some ? "some" : "none";
+    };
+
     /** Reads the two fields and publishes the stay they describe, or none. Reading never disturbs typing. */
     const readStay = () => {
+      markDates();
       const usable = arrivalIsUsable(todayInBangkok()) && isIsoDate(departure.value) && departure.value > arrival.value;
       const next: Stay | null = usable ? { from: arrival.value, to: departure.value, nights: nightsBetween(arrival.value, departure.value) } : null;
       setStay((current) => (current?.from === next?.from && current?.to === next?.to ? current : next));
@@ -174,8 +182,11 @@ export function StayPlannerEnhancer({ errorId, className, fields, messages, nigh
       }
     };
 
-    // Typing: an old message goes, and nothing else is touched.
-    const onInput = () => clear();
+    // Typing: an old message goes and the button's wording follows; no field is touched.
+    const onInput = () => {
+      clear();
+      markDates();
+    };
 
     const onArrivalChange = () => {
       clear();
@@ -194,16 +205,25 @@ export function StayPlannerEnhancer({ errorId, className, fields, messages, nigh
       readStay();
     };
 
-    const onArrivalBlur = () => {
+    /**
+     * Focus is leaving for the form's own button: the guest is pressing it. Marking the field now would
+     * put the message line on the page between the press and the release, move the button from under
+     * the pointer and lose the click. The submit that follows does the marking, and moves focus too.
+     */
+    const pressingSubmit = (event: FocusEvent) => event.relatedTarget instanceof HTMLElement && form.contains(event.relatedTarget) && event.relatedTarget.closest('button[type="submit"]') !== null;
+
+    const onArrivalBlur = (event: FocusEvent) => {
       syncLimits();
       readStay();
+      if (pressingSubmit(event)) return;
       if (arrival.validity.badInput || !isIsoDate(arrival.value)) return;
       if (arrival.value < todayInBangkok()) refuse(arrival, arrivalNotPast, false);
     };
 
-    const onDepartureBlur = () => {
+    const onDepartureBlur = (event: FocusEvent) => {
       syncLimits();
       readStay();
+      if (pressingSubmit(event)) return;
       if (departure.validity.badInput || !isIsoDate(departure.value) || !arrivalIsUsable(todayInBangkok())) return;
       if (departure.value <= arrival.value) refuse(departure, departureAfterArrival, false);
     };
@@ -281,6 +301,7 @@ export function StayPlannerEnhancer({ errorId, className, fields, messages, nigh
     window.addEventListener("pageshow", onPageShow);
 
     return () => {
+      delete form.dataset.dates;
       pick.current = null;
       window.cancelAnimationFrame(settle);
       arrival.removeEventListener("input", onInput);

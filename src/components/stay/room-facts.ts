@@ -2,6 +2,7 @@ import type { AmenityId, AssetId, Locale, Room, RoomId } from "@/content/schema"
 import { pub } from "@/content/schema";
 import { getAsset, isUsable } from "@/content/assets";
 import { amenities, rooms } from "@/content/rooms";
+import { fill, t } from "@/i18n/ui";
 
 /**
  * What the room stage and the comparison read from src/content/rooms.ts, in one place, so the two can
@@ -25,6 +26,47 @@ export function roomNumeral(room: Room): string {
 /** "Balcony and private rooftop", only while both features are publishable facts for this room type. */
 export function outdoorsFact(room: Room, lang: Locale): string | null {
   return pub(room.features.balcony) === true && pub(room.features.privateRooftop) === true ? room.outdoors[lang] : null;
+}
+
+/**
+ * "40 sq m": the size the booking page lists for the room type, only while that figure is a publishable
+ * fact. It is the provider's listing and is always shown with the line that says so (listedNote).
+ */
+export function sizeFact(room: Room, lang: Locale): string | null {
+  const sqm = pub(room.area.listedSqm);
+  return sqm === null ? null : fill(t(lang).patterns.squareMetres, { n: sqm });
+}
+
+/**
+ * "Up to 3 adults": the adult limit the booking page lists per room. Never combined with the child
+ * figure (separate maxima do not make a party of four), and it says nothing about beds.
+ */
+export function guestsFact(room: Room, lang: Locale): string | null {
+  const adults = pub(room.occupancy.maxAdults);
+  return adults === null ? null : fill(t(lang).patterns.upToAdults, { n: adults });
+}
+
+/** The date the listed size and adult limit were last read on the booking page: the older of the two. */
+export function listedFactsChecked(room: Room): string | null {
+  const dates = [room.area.listedSqm, room.occupancy.maxAdults].filter((f) => pub(f) !== null).map((f) => f.verified);
+  return dates.length > 0 ? dates.sort()[0] : null;
+}
+
+/**
+ * The name the booking page gives this room type, when it is not the name printed here ("Deluxe with
+ * Bathtub" for Deluxe Bathtub). Shown once beside the booking action, so a guest recognises the room
+ * after the handoff. `null` when the two names agree.
+ */
+export function bookingPageName(room: Room): string | null {
+  return room.provider.providerName !== room.name ? room.provider.providerName : null;
+}
+
+/**
+ * The photograph of where a guest sleeps: the first frame of the room's own set that is catalogued as a
+ * room interior. A rooftop is what sets these rooms apart, but a guest also needs to see the bedroom.
+ */
+export function bedroomFor(room: Room): AssetId | null {
+  return room.media.gallery.find((id) => getAsset(id).category === "room-interior" && isUsable(getAsset(id))) ?? null;
 }
 
 /** The bathing fact is a restatement of published features and always printable (rooms.ts). */

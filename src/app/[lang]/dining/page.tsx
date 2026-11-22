@@ -49,7 +49,8 @@ export default async function DiningPage({ params }: Props) {
 
   const breakfast = pub(dining.breakfast)?.[lang] ?? null;
   const garden = isPublishable(dining.kitchenGarden.status) ? dining.kitchenGarden.points[lang] : [];
-  const [gardenOpening, gardenGrows, gardenMade, gardenDrink, gardenSeason] = garden;
+  // Four points, in reading order: the garden, what grows, what is made from it, and the season.
+  const [gardenOpening, gardenGrows, gardenMade, gardenSeason] = garden;
 
   const glance = [c.glance.restaurant, breakfast, garden.length > 0 ? c.glance.garden : null, c.glance.ask].filter((item): item is string => Boolean(item));
   const askHref = href(lang, "contact", { query: { type: "dining" } });
@@ -118,7 +119,7 @@ export default async function DiningPage({ params }: Props) {
                 ))}
               </Feature>
               <Feature lang={lang} asset={GARDEN_FRAMES.season} title={c.garden.seasonTitle} flip ratio="4/5">
-                {[gardenMade, gardenDrink].filter(Boolean).map((text) => (
+                {[gardenMade].filter(Boolean).map((text) => (
                   <p key={text}>{text}</p>
                 ))}
               </Feature>
@@ -181,7 +182,7 @@ export default async function DiningPage({ params }: Props) {
       >
         <div className={pageLayout.stack}>
           <Notes items={[breakfast, ...c.meals.notes].filter((item): item is string => Boolean(item))} ruled />
-          <ContactActions lang={lang} include={["call", "facebook", "contact"]} placement="dining" />
+          <ContactActions lang={lang} include={["call", "line", "contact"]} placement="dining" />
         </div>
       </Chapter>
 

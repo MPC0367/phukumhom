@@ -104,7 +104,7 @@ export default async function FaqPage({ params }: Props) {
             <p className={cx("lead", s.askLead)}>{c.ask.lead}</p>
           </Reveal>
           <Reveal delay={0.15} className={s.askActions}>
-            <ContactActions lang={lang} include={["call", "facebook"]} placement="faq" />
+            <ContactActions lang={lang} include={["call", "line", "facebook"]} placement="faq" />
             <TextLink variant="arrow" href={href(lang, "contact")}>
               {ui.actions.contactResort}
             </TextLink>

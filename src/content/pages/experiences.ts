@@ -1,16 +1,18 @@
 import type { AssetId, L } from "@/content/schema";
 
 /**
- * The Experiences page, "Around the resort" (brief section 12): the wording around the four editorial
- * entries in src/content/experiences.ts.
+ * The Experiences page, "Around the resort" (brief section 12): the wording around the entries in
+ * src/content/experiences.ts.
  *
- * Nothing here is a bookable activity and nothing names one. The legacy activity list (cycling,
+ * STARGAZING is the one activity named, because the resort named it (22 Nov 2026, source S-40): a dark sky
+ * protection area with stargazing all year round. Its times, charge and how to join are unknown, so the page
+ * says "ask the team"; the night planner says the clouds decide. Nothing else is a bookable activity. The legacy activity list (cycling,
  * kayaking, archery, pedal boats, petanque, campfire, barbecue, pony rides) is unconfirmed and is not
  * mentioned, pictured or hinted at. Each entry's name and description are printed from the content
  * file; this file adds the chapter words, the "before you plan" note and the frames beside the entries.
  *
  * Kept (BUILD-CONTRACT sections 2 and 8): the shared pool is always told apart from the Executive
- * rooftop spa tub; no pool hours, cart or lifeguard language; stargazing is "on clear evenings" only;
+ * rooftop spa tub; no pool hours, cart or lifeguard language; a clear sky is never promised;
  * no spa or wellness treatment is implied by a room's name; a frame is captioned as what it shows.
  * Glossary sentences used word for word: phrases.stargazing (the band), phrases.rooftopsAllRooms,
  * phrases.sharedPoolNote, phrases.activitiesAsk. Third person. No middle dots and no dashes.
@@ -40,11 +42,12 @@ export interface ExperiencesPageCopy {
   statement: string;
   accent: string;
   body: string[];
-  glance: { grounds: string; pool: string; rooftops: string; ask: string };
+  glance: { grounds: string; stars: string; pool: string; rooftops: string; ask: string };
   askTeam: string;
   gardens: { kicker: string; title: string; intro: string; mosaicLabel: string; diningLink: string };
   band: { kicker: string; line: string };
-  rooftop: { kicker: string; title: string; intro: string; skyHeading: string; roomLink: string };
+  rooftop: { kicker: string; title: string; intro: string; roomLink: string };
+  stars: { kicker: string; title: string; intro: string; plannerHeading: string; askLink: string };
   pool: { kicker: string; title: string; intro: string; mosaicLabel: string };
   plan: { label: string; text: string };
   open: string;
@@ -53,14 +56,15 @@ export interface ExperiencesPageCopy {
 export const copy = {
   en: {
     heroKicker: "Around the resort",
-    statement: "Gardens to walk, a pond to sit by, and a rooftop for the evening sky.",
+    statement: "Gardens to walk, a pond to sit by, and a dark sky for the stars.",
     accent: "sky",
     body: [
-      "Most of what there is to do at Phukumhom is unhurried. The gardens run between the clay-coloured buildings, there is a pond on the grounds and a shared outdoor pool set apart from the rooms, and every room type has a private rooftop.",
+      "Most of what there is to do at Phukumhom is unhurried. The gardens run between the clay-coloured buildings, there is a pond on the grounds and a shared outdoor pool set apart from the rooms, and every room type has a private rooftop. The resort is a dark sky protection area, with stargazing all year round.",
       "Before you plan around an activity, ask the team what is running for your dates.",
     ],
     glance: {
       grounds: "Landscaped gardens, mature trees and a pond are part of the grounds.",
+      stars: "Phukumhom is a dark sky protection area, with stargazing all year round.",
       pool: "The resort has a shared outdoor pool, set apart from the rooms.",
       rooftops: "All three room types have a private rooftop; the rooftop spa tub belongs to Executive Pool Spa.",
       ask: "Ask the team what is running for your dates.",
@@ -69,7 +73,7 @@ export const copy = {
     gardens: {
       kicker: "Around the gardens",
       title: "Gardens",
-      intro: "Hedges, lawns, old trees, a pond, and a small kitchen garden the resort tells of.",
+      intro: "Hedges, lawns, old trees, a pond and a small kitchen garden.",
       mosaicLabel: "Photographs of the gardens and the pond",
       diningLink: "The kitchen garden and the restaurant",
     },
@@ -80,9 +84,15 @@ export const copy = {
     rooftop: {
       kicker: "Rooftop mornings and evenings",
       title: "Rooftop",
-      intro: "The room’s own piece of open sky, and what the sky is doing tonight.",
-      skyHeading: "The sky tonight",
+      intro: "The room’s own piece of open sky, morning and evening.",
       roomLink: "The room with a spa tub on its rooftop",
+    },
+    stars: {
+      kicker: "Dark sky",
+      title: "Stars",
+      intro: "Stargazing all year round, and the moon for the next thirty nights.",
+      plannerHeading: "Night by night",
+      askLink: "Ask about stargazing",
     },
     pool: {
       kicker: "Shared facilities",
@@ -92,20 +102,21 @@ export const copy = {
     },
     plan: {
       label: "Before you plan",
-      text: "Evenings on the rooftop and time in the gardens depend on the weather. Before you plan around an activity, ask the team what is running for your dates.",
+      text: "Stargazing, evenings on the rooftop and time in the gardens depend on the weather. Before you plan around an activity, ask the team what is running for your dates.",
     },
     open: "Open photograph: {caption}",
   },
   th: {
     heroKicker: "รอบรีสอร์ท",
-    statement: "มีสวนให้เดินเล่น มีสระน้ำให้นั่งพัก และมีดาดฟ้าไว้ดูฟ้ายามเย็น",
+    statement: "มีสวนให้เดินเล่น มีสระน้ำให้นั่งพัก และมีท้องฟ้ามืดไว้ดูดาว",
     accent: "",
     body: [
-      "การใช้เวลาที่ภูคำหอมส่วนใหญ่เป็นแบบไม่ต้องรีบ สวนแทรกอยู่ระหว่างอาคารสีดินเผา ในบริเวณรีสอร์ทมีสระน้ำ มีสระว่ายน้ำกลางแจ้งส่วนกลางซึ่งอยู่แยกจากห้องพัก และห้องพักทุกแบบมีดาดฟ้าส่วนตัว",
+      "การใช้เวลาที่ภูคำหอมส่วนใหญ่เป็นแบบไม่ต้องรีบ สวนแทรกอยู่ระหว่างอาคารสีดินเผา ในบริเวณรีสอร์ทมีสระน้ำ มีสระว่ายน้ำกลางแจ้งส่วนกลางซึ่งอยู่แยกจากห้องพัก และห้องพักทุกแบบมีดาดฟ้าส่วนตัว รีสอร์ทเป็นเขตอนุรักษ์ท้องฟ้ามืด และมีกิจกรรมดูดาวตลอดทั้งปี",
       "ก่อนวางแผนทำกิจกรรมใด สอบถามทีมงานก่อนว่าช่วงที่เข้าพักมีอะไรเปิดให้บริการบ้าง",
     ],
     glance: {
       grounds: "ในบริเวณรีสอร์ทมีสวนจัดแต่ง ต้นไม้ใหญ่ และสระน้ำ",
+      stars: "ภูคำหอมเป็นเขตอนุรักษ์ท้องฟ้ามืด มีกิจกรรมดูดาวตลอดทั้งปี",
       pool: "รีสอร์ทมีสระว่ายน้ำกลางแจ้งส่วนกลาง อยู่แยกจากห้องพัก",
       rooftops: "ห้องพักทั้งสามแบบมีดาดฟ้าส่วนตัว ส่วนอ่างแช่ตัวบนดาดฟ้ามีเฉพาะห้อง Executive Pool Spa",
       ask: "สอบถามทีมงานได้ว่าช่วงที่เข้าพักมีอะไรเปิดให้บริการบ้าง",
@@ -114,7 +125,7 @@ export const copy = {
     gardens: {
       kicker: "รอบสวน",
       title: "สวน",
-      intro: "แนวพุ่มไม้ สนามหญ้า ต้นไม้ใหญ่ สระน้ำ และสวนครัวแปลงเล็กที่รีสอร์ทเล่าถึง",
+      intro: "แนวพุ่มไม้ สนามหญ้า ต้นไม้ใหญ่ สระน้ำ และสวนครัวแปลงเล็ก",
       mosaicLabel: "ภาพถ่ายสวนและสระน้ำ",
       diningLink: "สวนครัวและร้านอาหาร",
     },
@@ -125,9 +136,15 @@ export const copy = {
     rooftop: {
       kicker: "เช้าและเย็นบนดาดฟ้า",
       title: "ดาดฟ้า",
-      intro: "พื้นที่กลางแจ้งของห้องเอง และท้องฟ้าของคืนนี้",
-      skyHeading: "ท้องฟ้าคืนนี้",
+      intro: "พื้นที่กลางแจ้งของห้องเอง ทั้งยามเช้าและยามเย็น",
       roomLink: "ห้องที่มีอ่างแช่ตัวบนดาดฟ้า",
+    },
+    stars: {
+      kicker: "เขตอนุรักษ์ท้องฟ้ามืด",
+      title: "ดูดาว",
+      intro: "ดูดาวได้ตลอดทั้งปี พร้อมดูดวงจันทร์ล่วงหน้าสามสิบคืน",
+      plannerHeading: "ท้องฟ้าแต่ละคืน",
+      askLink: "สอบถามเรื่องกิจกรรมดูดาว",
     },
     pool: {
       kicker: "ส่วนกลาง",
@@ -137,7 +154,7 @@ export const copy = {
     },
     plan: {
       label: "ก่อนวางแผน",
-      text: "ยามเย็นบนดาดฟ้าและการเดินเล่นในสวนขึ้นอยู่กับสภาพอากาศ ก่อนวางแผนทำกิจกรรมใด สอบถามทีมงานก่อนว่าช่วงที่เข้าพักมีอะไรเปิดให้บริการบ้าง",
+      text: "การดูดาว ยามเย็นบนดาดฟ้า และการเดินเล่นในสวนขึ้นอยู่กับสภาพอากาศ ก่อนวางแผนทำกิจกรรมใด สอบถามทีมงานก่อนว่าช่วงที่เข้าพักมีอะไรเปิดให้บริการบ้าง",
     },
     open: "เปิดดูภาพ {caption}",
   },

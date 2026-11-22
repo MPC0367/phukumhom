@@ -1,6 +1,6 @@
 import { pub, type Locale } from "@/content/schema";
 import { copy as skyCopy } from "@/content/pages/sky";
-import { site } from "@/content/site";
+import { flag, site } from "@/content/site";
 import { ConsentSettingsLink } from "@/components/analytics";
 import { Clock, MoonTonight, Reveal, SunsetTime } from "@/components/motion";
 import { Icon } from "@/components/ui/Icon";
@@ -56,6 +56,10 @@ export function Footer({ lang }: { lang: Locale }) {
   const tel = telHref(phone);
   const facebook = pub(site.social.facebook);
   const number = formatPhone(phone, lang);
+  const alt = pub(site.phoneAlt);
+  const altTel = telHref(alt);
+  const altNumber = formatPhone(alt, lang);
+  const line = flag("line") ? pub(site.social.line) : null;
   const ids = { resort: "footer-resort", practical: "footer-practical" };
 
   return (
@@ -80,7 +84,7 @@ export function Footer({ lang }: { lang: Locale }) {
               </div>
             ) : null}
 
-            {tel || facebook ? (
+            {tel || line || facebook ? (
               <div className={styles.block}>
                 <p className="eyebrow">{ui.footer.talk}</p>
                 {tel && number ? (
@@ -92,6 +96,20 @@ export function Footer({ lang }: { lang: Locale }) {
                     data-placement="footer"
                   >
                     {number}
+                  </a>
+                ) : null}
+                {altTel && altNumber && altNumber !== number ? (
+                  <a href={altTel} className={cx("tabular", styles.altPhone)} data-analytics="call_click" data-placement="footer">
+                    {fill(ui.patterns.secondNumber, { phone: altNumber })}
+                  </a>
+                ) : null}
+                {line ? (
+                  <a href={line.url} className={styles.channel} data-analytics="social_contact_click" data-network="line" data-placement="footer">
+                    <Icon name="chat" size={18} className={styles.channelIcon} />
+                    <span className={styles.channelText}>
+                      {ui.labels.line} <span className="tabular">{line.id}</span>
+                    </span>
+                    <VisuallyHidden> ({ui.a11y.opensLine})</VisuallyHidden>
                   </a>
                 ) : null}
                 {facebook ? (

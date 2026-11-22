@@ -59,13 +59,13 @@ export const copy = {
     statement: "Three kinds of room, each with a balcony and a rooftop of its own.",
     accent: "rooftop",
     body: [
-      "What separates them is how you would like to bathe. Deluxe Balcony has a private bathroom, Deluxe Bathtub has a bathtub, and Executive Pool Spa has a circular spa tub on its rooftop, which is a tub for soaking and not a swimming pool.",
-      "Rates change with the dates, so none are printed here. Choose your dates and the booking page shows the rooms and the rates for them.",
+      "What separates them is size and how you would like to bathe. Deluxe Balcony has a private bathroom, Deluxe Bathtub a bathtub, and Executive Pool Spa a circular spa tub on its rooftop.",
+      "Rates depend on your dates. Choose them, and the booking page shows the rooms and rates.",
     ],
     glance: {
       types: "There are three room types: Deluxe Balcony, Deluxe Bathtub and Executive Pool Spa.",
       rooftops: "All three room types have a private rooftop; the rooftop spa tub belongs to Executive Pool Spa.",
-      times: "Check-in is from {checkIn} and check-out is until {checkOut}, as currently listed.",
+      times: "Check-in is from {checkIn} and check-out is until {checkOut}.",
       chosen: "You choose the room on the booking page.",
     },
     rooms: {
@@ -77,15 +77,15 @@ export const copy = {
     compare: {
       kicker: "Side by side",
       title: "Compare",
-      intro: "What is the same in every room type is said once. The clay mark shows what differs.",
+      intro: "Find the room that suits your stay. Compare the size, the number of guests and the bathing features below.",
     },
     practical: {
       kicker: "Before you book",
       title: "Details",
       intro: "The few things worth knowing before choosing dates.",
-      checkIn: "Check-in",
-      checkOut: "Check-out",
-      listed: "as currently listed",
+      checkIn: "Check-in from",
+      checkOut: "Check-out until",
+      listed: "Your booking confirmation has the times for your stay.",
       tilesLabel: "Arrival and departure times",
       notes: [
         "Whether breakfast is included depends on the rate you choose; each rate on the booking page says so.",
@@ -103,13 +103,13 @@ export const copy = {
     statement: "ห้องพักสามแบบ ทุกแบบมีระเบียง และดาดฟ้าส่วนตัว",
     accent: "",
     body: [
-      "สิ่งที่ต่างกันคือเรื่องอาบน้ำและแช่ตัว ห้อง Deluxe Balcony มีห้องน้ำในตัว ห้อง Deluxe Bathtub มีอ่างอาบน้ำ ส่วนห้อง Executive Pool Spa มีอ่างแช่ตัวทรงกลมบนดาดฟ้า ซึ่งเป็นอ่างแช่ตัว ไม่ใช่สระว่ายน้ำ",
-      "ราคาห้องพักเปลี่ยนไปตามวันที่เข้าพัก หน้านี้จึงไม่ได้ระบุราคาไว้ เลือกวันที่ แล้วหน้าจองจะแสดงห้องพักและราคาของช่วงวันนั้น",
+      "สิ่งที่ต่างกันคือขนาดห้องและเรื่องอาบน้ำแช่ตัว ห้อง Deluxe Balcony มีห้องน้ำในตัว ห้อง Deluxe Bathtub มีอ่างอาบน้ำ ส่วนห้อง Executive Pool Spa มีอ่างแช่ตัวทรงกลมบนดาดฟ้า",
+      "ราคาห้องพักขึ้นอยู่กับวันที่เข้าพัก เลือกวันที่ แล้วหน้าจองจะแสดงห้องพักและราคา",
     ],
     glance: {
       types: "ห้องพักมีสามแบบ คือห้อง Deluxe Balcony ห้อง Deluxe Bathtub และห้อง Executive Pool Spa",
       rooftops: "ห้องพักทั้งสามแบบมีดาดฟ้าส่วนตัว ส่วนอ่างแช่ตัวบนดาดฟ้ามีเฉพาะห้อง Executive Pool Spa",
-      times: "เช็กอินได้ตั้งแต่ {checkIn} น. และเช็กเอาต์ภายใน {checkOut} น. ตามข้อมูลปัจจุบัน",
+      times: "เช็กอินได้ตั้งแต่ {checkIn} น. และเช็กเอาต์ภายใน {checkOut} น.",
       chosen: "เลือกประเภทห้องพักได้ในหน้าจอง",
     },
     rooms: {
@@ -121,15 +121,15 @@ export const copy = {
     compare: {
       kicker: "เทียบกันทีละข้อ",
       title: "เปรียบเทียบ",
-      intro: "สิ่งที่เหมือนกันทุกแบบจะบอกไว้ครั้งเดียว ส่วนจุดสีอิฐบอกสิ่งที่ต่างกัน",
+      intro: "เลือกห้องที่เหมาะกับการเข้าพักของคุณ เทียบขนาดห้อง จำนวนผู้เข้าพัก และเรื่องอาบน้ำแช่ตัวได้ด้านล่าง",
     },
     practical: {
       kicker: "ก่อนจองห้องพัก",
       title: "ข้อควรทราบ",
       intro: "เรื่องที่ควรรู้ก่อนเลือกวันที่เข้าพัก",
-      checkIn: "เช็กอิน",
-      checkOut: "เช็กเอาต์",
-      listed: "ตามข้อมูลปัจจุบัน",
+      checkIn: "เช็กอินได้ตั้งแต่",
+      checkOut: "เช็กเอาต์ภายใน",
+      listed: "เวลาของการเข้าพักแต่ละครั้งระบุไว้ในใบยืนยันการจอง",
       tilesLabel: "เวลาเช็กอินและเช็กเอาต์",
       notes: [
         "อาหารเช้าจะรวมอยู่ในค่าห้องหรือไม่ ขึ้นอยู่กับราคาที่เลือก โดยหน้าจองระบุไว้ในแต่ละราคา",

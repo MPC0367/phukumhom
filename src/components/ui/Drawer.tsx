@@ -85,7 +85,7 @@ export function Drawer({ open, onClose, side = "auto", label, labelledBy, closeL
       aria-label={labelledBy ? undefined : label}
       {...dialogProps}
     >
-      <div className={styles.panel} data-lenis-prevent>
+      <div className={styles.panel}>
         <span className={styles.handle} aria-hidden="true" />
         {closeLabel ? (
           <button type="button" className={styles.close} onClick={onClose} aria-label={closeLabel}>

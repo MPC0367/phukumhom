@@ -7,7 +7,7 @@ import { Phrases } from "@/components/places/Phrases";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { BookingLink } from "@/components/site";
 import { CompareTable, RoomStage } from "@/components/stay";
-import { Button, Chapter, PageHero, TextLink, Tile, TileRow } from "@/components/ui";
+import { Button, Chapter, PageHero, TextLink, Tile, TileRow, cx } from "@/components/ui";
 import { STAY_BAND, STAY_HERO, copy } from "@/content/pages/stay";
 import { pub } from "@/content/schema";
 import { getSeo } from "@/content/seo";
@@ -165,9 +165,10 @@ export default async function StayPage({ params }: Props) {
           {checkIn && checkOut ? (
             <Reveal variant="scale">
               <TileRow label={c.practical.tilesLabel}>
-                <Tile figure={checkIn} unit={unit} label={c.practical.checkIn} note={c.practical.listed} />
-                <Tile figure={checkOut} unit={unit} label={c.practical.checkOut} note={c.practical.listed} />
+                <Tile figure={checkIn} unit={unit} label={c.practical.checkIn} />
+                <Tile figure={checkOut} unit={unit} label={c.practical.checkOut} />
               </TileRow>
+              <p className={cx("small", "muted", s.times)}>{c.practical.listed}</p>
             </Reveal>
           ) : null}
           <Notes items={c.practical.notes} ruled />

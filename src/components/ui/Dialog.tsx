@@ -79,7 +79,7 @@ export function Dialog({ open, onClose, labelledBy, label, variant = "sheet", cl
       aria-label={labelledBy ? undefined : label}
       {...dialogProps}
     >
-      <div className={styles.panel} data-lenis-prevent>
+      <div className={styles.panel}>
         {children}
       </div>
     </dialog>

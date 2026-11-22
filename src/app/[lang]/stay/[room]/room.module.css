@@ -38,6 +38,25 @@
   margin-block-start: var(--s-6);
 }
 
+/* The two listed figures, close under the summary: what a guest decides on first. */
+.figures {
+  margin-block-start: var(--s-7);
+}
+
+.listed {
+  margin-block-start: var(--s-3);
+}
+
+.figures .factsHeading {
+  margin-block-end: var(--s-4);
+  color: var(--clay-deep);
+}
+
+/* Where a guest sleeps, straight after the figures. */
+.bedroom {
+  margin-block-start: var(--s-7);
+}
+
 .facts {
   margin-block-start: var(--s-8);
 }
@@ -175,10 +194,6 @@
 
 .cellCaption:lang(th) {
   line-height: 1.7;
-}
-
-.photoNote {
-  margin-block-start: var(--s-5);
 }
 
 @media (max-width: 29.99rem) {

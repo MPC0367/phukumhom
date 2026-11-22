@@ -16,7 +16,7 @@ resort's own published images, used here for design evaluation only. Every page 
   and a publication status; only confirmed and source-listed facts are rendered.
 - A stay planner that hands over to the resort's existing booking partner with a plain GET form, so it works
   without JavaScript. No prices, availability or reservations are handled by this site.
-- Motion with GSAP and Lenis, all of it optional: the pages read the same with JavaScript off and under
+- Motion with GSAP over the browser's own scrolling, all of it optional: the pages read the same with JavaScript off and under
   `prefers-reduced-motion`.
 
 - The inner pages: Stay with a room comparison, a page for each of the three room types, Dining, Around the
@@ -60,7 +60,7 @@ One-time setup: **Settings → Pages → Build and deployment → Source: GitHub
 | `src/app/[lang]` | Routes. There is no `app/layout.tsx`: each language tree owns its `<html lang>` |
 | `src/content` | The content model: site settings, rooms, experiences, dining, FAQ, places, SEO, the photograph catalogue |
 | `src/components/ui` | Design-system primitives |
-| `src/components/motion` | The motion system (reveals, loader, reel, clock, sunset and moon) |
+| `src/components/motion` | The motion system (reveals, reel, clock, sunset and moon). No loading screen, no scroll library |
 | `src/components/site` | Header, footer, menus, stay planner, booking link |
 | `src/components/home`, `stay`, `media`, `places` | Homepage chapters and the modules they share |
 | `src/components/page`, `room`, `gallery`, `faq`, `contact` | The inner pages' shared compositions and their interactive parts |

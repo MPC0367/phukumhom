@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { notFound } from "next/navigation";
 import { isLocale } from "@/i18n/config";
-import { Loader, MotionProvider, ScrollProgress } from "@/components/motion";
+import { MotionProvider, ScrollProgress } from "@/components/motion";
 import { MotionState } from "./LabProbes";
 
 /**
@@ -25,7 +25,6 @@ export default async function MotionLabLayout({ children, params }: { children: 
   if (!isLocale(lang)) notFound();
   return (
     <>
-      <Loader wordmark="PHUKUMHOM" sub={lang === "th" ? "รีสอร์ท เขาใหญ่" : "Resort Khao Yai"} label={lang === "th" ? "กำลังโหลด" : "Loading"} />
       <MotionProvider>
         <ScrollProgress />
         <MotionState />

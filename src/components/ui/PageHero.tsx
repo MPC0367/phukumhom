@@ -55,7 +55,9 @@ export function PageHero({ lang, kicker, title, lead, asset, breadcrumbs, priori
         height="half"
         scrim="hero"
         className={className}
-        media={<Picture asset={asset} lang={lang} fill priority={priority} />}
+        // The band is the half-height one (Band.module.css .half): say so, or a phone is offered the
+        // file a full-screen hero would need.
+        media={<Picture asset={asset} lang={lang} fill boxHeight="max(22rem, 62vh)" priority={priority} />}
       >
         <div className={styles.text}>
           <Kicker className={styles.kicker}>{kicker}</Kicker>

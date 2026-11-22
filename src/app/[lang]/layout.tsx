@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import "../globals.css";
 import { AnalyticsRoot, ConsentBanner } from "@/components/analytics";
-import { Loader, MotionProvider, ScrollProgress } from "@/components/motion";
+import { MotionProvider, ScrollProgress } from "@/components/motion";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { BackToTop, ChapterIndex, Footer, Header, MAIN_ID, PlannerDrawer, SkipLink, StickyActions, TOP_ID } from "@/components/site";
 import shell from "@/components/site/Shell.module.css";
@@ -17,8 +17,8 @@ import { fontVariables } from "@/styles/fonts";
  * <html lang>, and this file is the whole site shell (direction 2, ART-DIRECTION sections 5 to 7).
  *
  *   <body>
- *     Loader                 first: its boot script shows it before the first paint, and never without script
- *     MotionProvider         smooth scrolling for a mouse, ScrollTrigger kept measured, nothing rendered
+ *     MotionProvider         registers the motion plugins and keeps scroll triggers measured; renders nothing.
+ *                            There is no loading screen and scrolling is the browser's own.
  *       #top mark · ScrollProgress · SkipLink · ConsentBanner
  *       Header               fixed; transparent over a `data-header-over` hero, paper elsewhere
  *       <main id="main">     each page, wrapped by template.tsx (the page transition)
@@ -75,7 +75,6 @@ export default async function LangLayout({ children, params }: Props) {
   return (
     <html lang={LOCALE_TAG[lang]} className={fontVariables} data-scroll-behavior="smooth">
       <body className={shell.body}>
-        <Loader wordmark={ui.wordmark.name} sub={ui.wordmark.sub} label={ui.loader.label} />
         <MotionProvider>
           <span id={TOP_ID} className={shell.top} aria-hidden="true" />
           <ScrollProgress />

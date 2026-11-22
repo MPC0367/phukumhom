@@ -30,6 +30,8 @@ export const ICON_NAMES = [
   "phone",
   "pin",
   "facebook",
+  "chat",
+  "star",
   "calendar",
   "clock",
   "sun",
@@ -187,6 +189,14 @@ const SHAPES: Record<IconName, ReactNode> = {
       <path {...line} d="M8 21h8" />
     </>
   ),
+  /* A speech bubble: LINE and other chat links. Generic on purpose, never a network logo. */
+  chat: (
+    <>
+      <path {...line} d="M12 4c4.97 0 9 3.13 9 7s-4.03 7-9 7c-.83 0-1.63-.09-2.38-.25L5.5 20v-3.6C4 15.1 3 13.15 3 11c0-3.87 4.03-7 9-7z" />
+      <path {...line} d="M8.5 11h.01M12 11h.01M15.5 11h.01" />
+    </>
+  ),
+  star: <path {...line} d="M12 3.5l2.6 5.3 5.9.86-4.25 4.14 1 5.85L12 16.9l-5.25 2.75 1-5.85L3.5 9.66l5.9-.86z" />,
   moon: <path {...line} d="M20.5 13.4A8.5 8.5 0 1 1 10.6 3.5a7 7 0 0 0 9.9 9.9z" />,
   /* A full disc with the terminator drawn inside it: the outline the sky panel fills by phase. */
   "moon-outline": (

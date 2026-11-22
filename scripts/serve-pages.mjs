@@ -6,9 +6,12 @@
 // It behaves like Pages where it matters: the site lives under a path prefix, a folder URL serves its
 // index.html (and a folder without a trailing slash redirects to the slash), paths are case-sensitive,
 // and anything unknown gets 404.html with status 404. No rewrites, no headers, no server logic.
+// Text files (HTML, CSS, script, JSON, XML, SVG) are sent gzip-compressed when the browser accepts it,
+// as the real host does: without that a speed measurement here is far slower than the published site.
 import fs from "node:fs";
 import http from "node:http";
 import path from "node:path";
+import zlib from "node:zlib";
 import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -49,13 +52,27 @@ function existsExact(file) {
   return fs.existsSync(current);
 }
 
+const COMPRESSED = new Set([".html", ".js", ".css", ".json", ".txt", ".xml", ".svg", ".map"]);
+/** Compressed bodies by path and modified time, so a file is compressed once per build. */
+const gzipped = new Map();
+
 function send(res, status, file) {
-  res.writeHead(status, {
-    "Content-Type": TYPES[path.extname(file)] ?? "application/octet-stream",
-    "Content-Length": fs.statSync(file).size,
-    "Cache-Control": "no-cache",
-  });
-  // A HEAD request gets the headers only, as on the real host.
+  const ext = path.extname(file);
+  const type = TYPES[ext] ?? "application/octet-stream";
+  const stat = fs.statSync(file);
+  const accepts = /gzip/.test(String(res.req.headers["accept-encoding"] ?? ""));
+  if (accepts && COMPRESSED.has(ext)) {
+    const key = `${file}:${stat.mtimeMs}`;
+    let body = gzipped.get(key);
+    if (!body) {
+      body = zlib.gzipSync(fs.readFileSync(file));
+      gzipped.set(key, body);
+    }
+    res.writeHead(status, { "Content-Type": type, "Content-Encoding": "gzip", "Content-Length": body.length, Vary: "Accept-Encoding", "Cache-Control": "no-cache" });
+    // A HEAD request gets the headers only, as on the real host.
+    return res.req.method === "HEAD" ? res.end() : res.end(body);
+  }
+  res.writeHead(status, { "Content-Type": type, "Content-Length": stat.size, "Cache-Control": "no-cache" });
   if (res.req.method === "HEAD") return res.end();
   fs.createReadStream(file).pipe(res);
 }

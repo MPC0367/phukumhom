@@ -20,6 +20,7 @@ export { Onward, type OnwardProps } from "./Onward";
 export { PageLead, type PageLeadProps } from "./PageLead";
 export { PhotoMosaic, type PhotoMosaicProps } from "./PhotoMosaic";
 export { ReelBand, type ReelBandProps, type ReelFrame } from "./ReelBand";
+export { StarNights, type StarNightsProps } from "./StarNights";
 export { StatementBand, type StatementBandProps } from "./StatementBand";
 export { pageLayout } from "./layout";
 export { withAccent } from "./text";

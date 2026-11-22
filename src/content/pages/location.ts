@@ -55,8 +55,8 @@ export const copy = {
     statement: "In Wang Katha, on the quieter side of the Khao Yai area.",
     accent: "quieter",
     body: [
-      "The resort is in the Khao Yai area, not inside the national park. Its address is in Wang Katha, a sub-district of Pak Chong in Nakhon Ratchasima province.",
-      "Copy the address, open the map listing or call the resort from this page. If the journey raises a question, the team is the one to ask.",
+      "Find the resort in Wang Katha, a sub-district of Pak Chong in Nakhon Ratchasima province. It is in the Khao Yai area, not inside the national park.",
+      "Open the map for directions, or call the resort if you need help planning your arrival.",
     ],
     glance: {
       address: "The address is {address}.",
@@ -74,7 +74,10 @@ export const copy = {
       title: "Arrival",
       intro: "The reception building, and the questions guests ask about getting here.",
       receptionTitle: "Reception",
-      receptionBody: ["The photograph shows the reception building at dusk, with its lamps lit.", "Arriving later than you planned? Call the resort so the team knows when to expect you."],
+      receptionBody: [
+        "The reception building, with its lamps lit at dusk.",
+        "Arriving later than you planned? Call the resort so the team knows when to expect you.",
+      ],
       questionsHeading: "Arrival questions",
     },
   },
@@ -83,8 +86,8 @@ export const copy = {
     statement: "อยู่ที่ตำบลวังกะทะ ฝั่งที่เงียบกว่าของย่านเขาใหญ่",
     accent: "",
     body: [
-      "รีสอร์ทอยู่ในย่านเขาใหญ่ ไม่ได้อยู่ในเขตอุทยานแห่งชาติเขาใหญ่ ที่อยู่ของรีสอร์ทคือตำบลวังกะทะ อำเภอปากช่อง จังหวัดนครราชสีมา",
-      "คัดลอกที่อยู่ เปิดแผนที่ หรือโทรหารีสอร์ทได้จากหน้านี้ มีคำถามเรื่องเส้นทาง สอบถามทีมงานได้โดยตรง",
+      "รีสอร์ทอยู่ที่ตำบลวังกะทะ อำเภอปากช่อง จังหวัดนครราชสีมา อยู่ในย่านเขาใหญ่ ไม่ได้อยู่ในเขตอุทยานแห่งชาติเขาใหญ่",
+      "เปิดแผนที่เพื่อดูเส้นทาง หรือโทรหารีสอร์ทหากต้องการคำแนะนำเรื่องการเดินทาง",
     ],
     glance: {
       address: "ที่อยู่ของรีสอร์ทคือ {address}",
@@ -102,7 +105,10 @@ export const copy = {
       title: "เมื่อมาถึง",
       intro: "อาคารต้อนรับ และคำถามที่ผู้เข้าพักมักถามเรื่องการเดินทาง",
       receptionTitle: "อาคารต้อนรับ",
-      receptionBody: ["ภาพนี้คืออาคารต้อนรับยามพลบค่ำ ช่วงที่โคมไฟเปิดแล้ว", "หากจะมาถึงช้ากว่าที่วางแผนไว้ โทรแจ้งรีสอร์ทได้ เพื่อให้ทีมงานทราบเวลาที่จะมาถึง"],
+      receptionBody: [
+        "อาคารต้อนรับยามพลบค่ำ ช่วงที่โคมไฟเปิดแล้ว",
+        "หากจะมาถึงช้ากว่าที่วางแผนไว้ โทรแจ้งรีสอร์ทได้ เพื่อให้ทีมงานทราบเวลาที่จะมาถึง",
+      ],
       questionsHeading: "คำถามเรื่องการเดินทาง",
     },
   },

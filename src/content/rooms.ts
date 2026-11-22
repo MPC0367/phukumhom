@@ -37,9 +37,9 @@ const SIX_AMENITIES: AmenityId[] = ["air-conditioning", "private-bathroom", "ref
 const OUTDOORS: L = { en: "Balcony and private rooftop", th: "ระเบียงและดาดฟ้าส่วนตัว" };
 
 /** glossary.json → phrases.sharedPoolNote */
-const POOL_NOTE: L = {
-  en: "The resort has a shared outdoor pool, set apart from the rooms.",
-  th: "รีสอร์ทมีสระว่ายน้ำกลางแจ้งส่วนกลาง อยู่แยกจากห้องพัก",
+export const POOL_NOTE: L = {
+  en: "The resort’s swimming pool is shared and set apart from the rooms.",
+  th: "สระว่ายน้ำของรีสอร์ทเป็นสระส่วนกลาง อยู่แยกจากห้องพัก",
 };
 
 /**
@@ -49,8 +49,8 @@ const POOL_NOTE: L = {
  * shared-pool line, so Executive Pool Spa's `goodToKnow` opens with this instead of POOL_NOTE.
  */
 export const POOL_SPA_CLARIFICATION: L = {
-  en: "The room is called Executive Pool Spa. What is on its rooftop is a circular spa tub for soaking, not a swimming pool. The resort’s pool is a shared outdoor pool, set apart from the rooms.",
-  th: "ห้องนี้ชื่อ Executive Pool Spa แต่สิ่งที่อยู่บนดาดฟ้าคืออ่างแช่ตัวทรงกลม ไม่ใช่สระว่ายน้ำ ส่วนสระว่ายน้ำของรีสอร์ทเป็นสระกลางแจ้งส่วนกลาง อยู่แยกจากห้องพัก",
+  en: "Executive Pool Spa has a circular spa tub on its private rooftop, for soaking. The resort’s swimming pool is shared and separate from the rooms.",
+  th: "ห้อง Executive Pool Spa มีอ่างแช่ตัวทรงกลมบนดาดฟ้าส่วนตัว ส่วนสระว่ายน้ำของรีสอร์ทเป็นสระส่วนกลาง อยู่แยกจากห้องพัก",
 };
 
 /** The Executive rooftop tub's details (volume, heating, jets) are withheld (RM-11, RM-12): a route to ask. */
@@ -67,8 +67,8 @@ const BREAKFAST_NOTE: L = {
 
 /** VOICE.md §4 → "Ask the resort (beds, occupancy, connecting rooms)" */
 const ASK_BEDS_NOTE: L = {
-  en: "If beds, occupancy or connecting rooms matter for your stay, ask the resort about your dates before you book.",
-  th: "เรื่องเตียง จำนวนผู้เข้าพัก และห้องที่เชื่อมถึงกัน สอบถามรีสอร์ทก่อนจองได้ โดยแจ้งวันที่ต้องการเข้าพักไปด้วย",
+  en: "For bed arrangements, a child’s place or connecting rooms, ask the resort about your dates before you book.",
+  th: "เรื่องเตียง ที่นอนสำหรับเด็ก และห้องที่เชื่อมถึงกัน สอบถามรีสอร์ทก่อนจองได้ โดยแจ้งวันที่ต้องการเข้าพักไปด้วย",
 };
 
 /** glossary.json → phrases.accessConversation */
@@ -85,12 +85,12 @@ const ACCESS_NOTE: L = {
  * on the terrace itself (04_17).
  */
 const STEPS_TO_ROOFTOP_NOTE: L = {
-  en: "The photographs of this room show steps up to the rooftop terrace. If steps matter for your stay, contact the resort to talk it through privately before you book.",
-  th: "ในภาพถ่ายของห้องนี้จะเห็นบันไดขึ้นไปยังดาดฟ้า หากมีข้อจำกัดเรื่องขั้นบันไดหรือการเคลื่อนไหว ติดต่อรีสอร์ทเพื่อพูดคุยเป็นการส่วนตัวก่อนจองได้",
+  en: "In the photographs, steps lead up to the rooftop terrace. If steps matter for your stay, talk it through with the resort before you book.",
+  th: "ในภาพถ่ายจะเห็นบันไดขึ้นไปยังดาดฟ้า หากมีข้อจำกัดเรื่องขั้นบันไดหรือการเคลื่อนไหว พูดคุยกับรีสอร์ทก่อนจองได้",
 };
 const STEPS_ON_ROOFTOP_NOTE: L = {
-  en: "The photographs of this room show steps on the rooftop terrace. If steps matter for your stay, contact the resort to talk it through privately before you book.",
-  th: "ในภาพถ่ายของห้องนี้จะเห็นขั้นบันไดบนดาดฟ้า หากมีข้อจำกัดเรื่องขั้นบันไดหรือการเคลื่อนไหว ติดต่อรีสอร์ทเพื่อพูดคุยเป็นการส่วนตัวก่อนจองได้",
+  en: "In the photographs, there are steps on the rooftop terrace. If steps matter for your stay, talk it through with the resort before you book.",
+  th: "ในภาพถ่ายจะเห็นขั้นบันไดบนดาดฟ้า หากมีข้อจำกัดเรื่องขั้นบันไดหรือการเคลื่อนไหว พูดคุยกับรีสอร์ทก่อนจองได้",
 };
 
 /* ───────────── Facts shared by all three categories ───────────── */
@@ -128,11 +128,20 @@ const view = (): Fact<L> =>
 
 // RM-18
 const occupancy = (): Room["occupancy"] => ({
-  maxAdults: unknown<number>(
-    "Candidate: 3. The booking engine shows 'Max Adults: 3' for all three categories (7 Oct 2026); no second source. '2 Adults' is only its default search. Owner question Q-16.",
+  // Published since the audit of 8 Oct 2026 as "up to 3 adults, as listed on the booking page": the
+  // resort's own live booking page shows "Max Adults: 3" for every category (read again on 8 Oct 2026,
+  // and a 3-adult search returned every category). It is the provider's listing, not the owner's
+  // statement: owner question Q-16 stays open.
+  maxAdults: fact<number>(
+    3,
+    "source-listed",
     ["S-03"],
+    "The booking page lists 'Max Adults: 3' per room for all three categories (7 and 8 Oct 2026). Print it with its source. It says nothing about beds, and it must never be added to the child figure: 'sleeps four' is not established.",
+    "2026-10-08",
   ),
-  maxChildren: unknown<number>("Candidate: 1. The booking engine shows 'Max Child: 1' for all three categories (7 Oct 2026); no second source. Owner question Q-16.", ["S-03"]),
+  // NOT published: the booking page shows 'Max Child: 1' beside 'Max Adults: 3', but separate maxima do
+  // not establish that three adults and a child may share a room, nor the bedding or any charge.
+  maxChildren: unknown<number>("Candidate: 1. The booking page shows 'Max Child: 1' for all three categories (7 and 8 Oct 2026). Which adult and child combinations are allowed is not stated. Owner question Q-16.", ["S-03"]),
   maxTotal: unknown<number>("No source states a combined maximum. Owner questions Q-12, Q-16.", ["S-03"]),
   childRule: unknown<L>(
     "Sources disagree and none is the resort's own statement. Trip.com: all ages welcome, cots on request, a charged extra bed (ledger PO-07, PO-08). Booking engine: one child per room. Our report S-27: 12 and over charged as adults. Owner question Q-12.",
@@ -161,12 +170,12 @@ export const rooms: Room[] = [
     // and "every room type", as the Thai says: the ledger lists a private rooftop per category (RM-04 to RM-06),
     // not for every individual room (owner question Q-18 is open).
     distinction: {
-      en: "The balcony and private rooftop that every room type here has, with a private bathroom.",
-      th: "มีระเบียงและดาดฟ้าส่วนตัวเหมือนห้องพักทุกแบบของที่นี่ พร้อมห้องน้ำในตัว",
+      en: "A balcony, a private rooftop and a private bathroom: the simplest of the three room types.",
+      th: "มีระเบียง ดาดฟ้าส่วนตัว และห้องน้ำในตัว เป็นห้องแบบที่เรียบง่ายที่สุดในสามแบบ",
     },
     summary: {
-      en: "Deluxe Balcony has a balcony and a private rooftop of its own. It is the simplest of the three room types: the same two outdoor spaces as the others, with a private bathroom. On clear evenings, the rooftop is a good place to watch the stars come out.",
-      th: "ห้อง Deluxe Balcony มีระเบียงและดาดฟ้าส่วนตัวเป็นของห้องเอง เป็นแบบที่เรียบง่ายกว่าอีกสองแบบ มีพื้นที่กลางแจ้งสองส่วนเหมือนกัน พร้อมห้องน้ำในตัว ในคืนที่ฟ้าเปิด ดาดฟ้าเป็นมุมที่เหมาะกับการนั่งดูดาว",
+      en: "Deluxe Balcony is a bedroom with a private bathroom, a balcony, and a rooftop terrace of its own. On clear evenings, the rooftop is a good place to watch the stars come out.",
+      th: "ห้อง Deluxe Balcony เป็นห้องนอนพร้อมห้องน้ำในตัว มีระเบียง และมีดาดฟ้าส่วนตัวเป็นของห้องเอง ในคืนที่ฟ้าเปิด ดาดฟ้าเป็นมุมที่เหมาะกับการนั่งดูดาว",
     },
     outdoors: OUTDOORS,
     bathing: { en: "Private bathroom", th: "ห้องน้ำในตัว" },
@@ -175,6 +184,9 @@ export const rooms: Room[] = [
     lastVerified: "2026-10-07",
 
     area: {
+      // The booking page's own figure for the category, read on 8 Oct 2026. Printed only as "as listed on
+      // the booking page": older sources give other figures on other bases (see the notes below).
+      listedSqm: fact<number>(40, "source-listed", ["S-03"], "The live booking page lists '40 sq m' for Deluxe Balcony (7 and 8 Oct 2026). Basis not stated (room alone, or with outdoor space). Owner question Q-17.", "2026-10-08"),
       indoorSqm: unknown<number>(
         "Sources conflict (RESEARCH §4.3). Legacy room page: 30 m² ground floor. Thai About: about 50 m² 'usable area'. Booking engine and Trip.com: 40 m², no basis stated. Owner question Q-17.",
         SIZE_SOURCES,
@@ -240,8 +252,8 @@ export const rooms: Room[] = [
       th: "เลือกห้องนี้หากอยากมีอ่างอาบน้ำ พร้อมระเบียงและดาดฟ้าส่วนตัวเช่นเดียวกับห้องอื่น",
     },
     summary: {
-      en: "Deluxe Bathtub is the room to choose if a bath matters to you. It has a bathtub, along with the balcony and private rooftop that every room type here has. In the photographs, the tub sits beside a window that looks onto trees.",
-      th: "ห้อง Deluxe Bathtub เหมาะกับคนที่อยากนอนแช่น้ำในอ่าง ห้องนี้มีอ่างอาบน้ำ พร้อมระเบียงและดาดฟ้าส่วนตัวเช่นเดียวกับห้องพักทุกแบบของที่นี่ ในภาพถ่าย อ่างตั้งอยู่ริมช่องหน้าต่างที่มองออกไปเห็นต้นไม้",
+      en: "Deluxe Bathtub is the room to choose if a bath matters to you. Its bathtub, as photographed, sits beside a window that looks onto trees, and the room has the balcony and private rooftop that every room type here has.",
+      th: "ห้อง Deluxe Bathtub เหมาะกับคนที่อยากนอนแช่น้ำในอ่าง อ่างอาบน้ำในภาพถ่ายตั้งอยู่ริมหน้าต่างที่มองออกไปเห็นต้นไม้ และห้องนี้มีระเบียงกับดาดฟ้าส่วนตัวเช่นเดียวกับห้องพักทุกแบบของที่นี่",
     },
     outdoors: OUTDOORS,
     bathing: { en: "Bathtub", th: "อ่างอาบน้ำ" },
@@ -250,6 +262,9 @@ export const rooms: Room[] = [
     lastVerified: "2026-10-07",
 
     area: {
+      // The booking page's own figure for the category, read on 8 Oct 2026. Printed only as "as listed on
+      // the booking page": older sources give other figures on other bases (see the notes below).
+      listedSqm: fact<number>(40, "source-listed", ["S-03"], "The live booking page lists '40 sq m' for Deluxe with Bathtub (7 and 8 Oct 2026). Basis not stated (room alone, or with outdoor space). Owner question Q-17.", "2026-10-08"),
       indoorSqm: unknown<number>(
         "Sources conflict (RESEARCH §4.3). Legacy room page: 30 m² ground floor. Thai About: about 50 m² 'usable area'. Booking engine: 40 m², no basis stated. Trip.com shows a 30 m² 'Balcony And Bathtub' product with no counterpart on a resort channel. Owner question Q-17.",
         SIZE_SOURCES,
@@ -304,12 +319,12 @@ export const rooms: Room[] = [
     name: "Executive Pool Spa",
     gloss: { en: "room with a circular spa tub on its private rooftop", th: "ห้องพักพร้อมอ่างแช่ตัวทรงกลมบนดาดฟ้าส่วนตัว" },
     distinction: {
-      en: "A circular spa tub on its private rooftop, for a soak in the open air; it is a tub, not a swimming pool.",
-      th: "มีอ่างแช่ตัวทรงกลมบนดาดฟ้าส่วนตัว ไว้นอนแช่กลางแจ้ง เป็นอ่างแช่ตัว ไม่ใช่สระว่ายน้ำ",
+      en: "A circular spa tub on the private rooftop, for a soak in the open air.",
+      th: "มีอ่างแช่ตัวทรงกลมบนดาดฟ้าส่วนตัว ไว้นอนแช่กลางแจ้ง",
     },
     summary: {
-      en: "Executive Pool Spa has a circular spa tub on its private rooftop; in the photographs it sits under a timber pergola. It is a tub for soaking in the open air, not a swimming pool. The room also has a balcony, as every room type here does.",
-      th: "ห้อง Executive Pool Spa มีอ่างแช่ตัวทรงกลมบนดาดฟ้าส่วนตัว ในภาพถ่าย อ่างตั้งอยู่ใต้ซุ้มไม้ เป็นอ่างสำหรับนอนแช่กลางแจ้ง ไม่ใช่สระว่ายน้ำ ห้องนี้มีระเบียงเช่นเดียวกับห้องพักทุกแบบของที่นี่",
+      en: "Executive Pool Spa is the room type the booking page lists as the largest. Its private rooftop has a circular spa tub, set under a timber pergola as photographed, and the room has a balcony as every room type here does.",
+      th: "ห้อง Executive Pool Spa เป็นห้องแบบที่หน้าจองระบุขนาดไว้ใหญ่ที่สุด บนดาดฟ้าส่วนตัวมีอ่างแช่ตัวทรงกลม ซึ่งในภาพถ่ายตั้งอยู่ใต้ซุ้มไม้ และห้องนี้มีระเบียงเช่นเดียวกับห้องพักทุกแบบของที่นี่",
     },
     outdoors: OUTDOORS,
     bathing: { en: "Circular spa tub on the rooftop", th: "อ่างแช่ตัวทรงกลมบนดาดฟ้า" },
@@ -318,6 +333,9 @@ export const rooms: Room[] = [
     lastVerified: "2026-10-07",
 
     area: {
+      // The booking page's own figure for the category, read on 8 Oct 2026. Printed only as "as listed on
+      // the booking page": older sources give other figures on other bases (see the notes below).
+      listedSqm: fact<number>(50, "source-listed", ["S-03"], "The live booking page lists '50 sq m' for Executive Pool Spa (7 and 8 Oct 2026). Basis not stated (room alone, or with outdoor space). Owner question Q-17.", "2026-10-08"),
       indoorSqm: unknown<number>(
         "Sources conflict (RESEARCH §4.3). Legacy room page: 50 m² ground floor. Thai About: 60 m² plus a 30 m² 'mid-sized hall'. Booking engine: 50 m², no basis stated. Owner question Q-17.",
         SIZE_SOURCES,
@@ -354,10 +372,11 @@ export const rooms: Room[] = [
     access: access("2015 photographs 04_17 and 04_23 show steps on the rooftop terrace; usable only as a line about the photographs (contract §8)."),
     view: view(),
     amenities: SIX_AMENITIES,
-    // Opens with the pool / spa-tub clarification, which carries the shared-pool sentence the other two rooms open with.
+    // Opens with the shared-pool sentence, as the other two do, so the comparison can say it once for all
+    // three. This room's own page says it in the callout instead (POOL_SPA_CLARIFICATION) and drops the note.
     goodToKnow: {
-      en: [POOL_SPA_CLARIFICATION.en, SPA_TUB_ASK_NOTE.en, BREAKFAST_NOTE.en, ASK_BEDS_NOTE.en, STEPS_ON_ROOFTOP_NOTE.en],
-      th: [POOL_SPA_CLARIFICATION.th, SPA_TUB_ASK_NOTE.th, BREAKFAST_NOTE.th, ASK_BEDS_NOTE.th, STEPS_ON_ROOFTOP_NOTE.th],
+      en: [POOL_NOTE.en, SPA_TUB_ASK_NOTE.en, BREAKFAST_NOTE.en, ASK_BEDS_NOTE.en, STEPS_ON_ROOFTOP_NOTE.en],
+      th: [POOL_NOTE.th, SPA_TUB_ASK_NOTE.th, BREAKFAST_NOTE.th, ASK_BEDS_NOTE.th, STEPS_ON_ROOFTOP_NOTE.th],
     },
     media: {
       lead: "rooftop-spa-tub-pergola-hill-view", // 04_24

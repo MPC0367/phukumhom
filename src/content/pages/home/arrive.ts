@@ -47,7 +47,10 @@ interface ArriveCopy {
     call: string;
     facebook: string;
     opensFacebook: string;
+    /** The link to the enquiry composer while it only copies a message: never "send". */
     enquiry: string;
+    /** The same link once a delivery service is configured (the `enquiryDelivery` flag). */
+    enquirySend: string;
     enquiryNote: string;
   };
   /** Glossary phrases.locality. */
@@ -75,7 +78,8 @@ export const copy = {
       call: "Call the resort",
       facebook: "Contact on Facebook",
       opensFacebook: "opens Facebook",
-      enquiry: "Send an enquiry",
+      enquiry: "Prepare an enquiry",
+      enquirySend: "Send an enquiry",
       enquiryNote: "An enquiry is a message to the resort, not a confirmed reservation.",
     },
     locality: "In Wang Katha, on the quieter side of the Khao Yai area.",
@@ -100,7 +104,8 @@ export const copy = {
       call: "โทรหารีสอร์ท",
       facebook: "ติดต่อทาง Facebook",
       opensFacebook: "เปิด Facebook",
-      enquiry: "ส่งข้อความสอบถาม",
+      enquiry: "เตรียมข้อความสอบถาม",
+      enquirySend: "ส่งข้อความสอบถาม",
       enquiryNote: "ข้อความสอบถามเป็นการติดต่อรีสอร์ท ยังไม่ใช่การยืนยันการจอง",
     },
     locality: "อยู่ที่ตำบลวังกะทะ ฝั่งที่เงียบกว่าของย่านเขาใหญ่",

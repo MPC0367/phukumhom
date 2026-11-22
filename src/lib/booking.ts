@@ -1,4 +1,5 @@
-import { BOOKING_PROVIDER, RESORT_TIME_ZONE } from "@/content/site-public";
+import { BOOKING_PROVIDER } from "@/content/site-public";
+import { stayError } from "./stay-dates";
 
 /**
  * The booking adapter — the only module that knows how a stay is handed to the booking provider.
@@ -14,48 +15,17 @@ import { BOOKING_PROVIDER, RESORT_TIME_ZONE } from "@/content/site-public";
 
 export const BOOKING = BOOKING_PROVIDER;
 
-/** Dates are date-only strings in the resort's calendar (Asia/Bangkok). They are never turned into instants. */
-export type IsoDate = `${number}-${number}-${number}`;
+/**
+ * The date rules (date-only strings, today at the resort, what makes a stay valid) live in
+ * src/lib/stay-dates.ts, a module with no imports so it can be tested with plain Node. They are
+ * re-exported here: application code keeps importing from this adapter.
+ */
+export { addDays, isIsoDate, nightsBetween, stayError, todayInBangkok, type IsoDate, type StayError } from "./stay-dates";
 
 export interface StayQuery {
   checkin?: string;
   checkout?: string;
   adults?: number;
-}
-
-export type StayError = "invalid-date" | "past-arrival" | "departure-not-after-arrival" | "missing-departure" | "missing-arrival";
-
-const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
-
-export function isIsoDate(value: string | undefined | null): value is IsoDate {
-  if (!value || !ISO_DATE.test(value)) return false;
-  const [y, m, d] = value.split("-").map(Number);
-  const probe = new Date(Date.UTC(y, m - 1, d));
-  return probe.getUTCFullYear() === y && probe.getUTCMonth() === m - 1 && probe.getUTCDate() === d;
-}
-
-/** Today's calendar date at the resort, whatever the visitor's or the server's timezone. */
-export function todayInBangkok(now: Date = new Date()): IsoDate {
-  // en-CA formats as YYYY-MM-DD.
-  return new Intl.DateTimeFormat("en-CA", { timeZone: RESORT_TIME_ZONE, year: "numeric", month: "2-digit", day: "2-digit" }).format(now) as IsoDate;
-}
-
-/** Calendar arithmetic on a date-only value. UTC is used purely as a timezone-free calendar. */
-export function addDays(date: string, days: number): IsoDate {
-  const [y, m, d] = date.split("-").map(Number);
-  return new Date(Date.UTC(y, m - 1, d + days)).toISOString().slice(0, 10) as IsoDate;
-}
-
-/** Validates a stay the way the on-site planner needs it. `null` means the selection can be handed over. */
-export function stayError(q: StayQuery, today: string = todayInBangkok()): StayError | null {
-  const { checkin, checkout } = q;
-  if (!checkin && !checkout) return null; // no dates: the provider's own picker takes over
-  if (!checkin) return "missing-arrival";
-  if (!checkout) return "missing-departure";
-  if (!isIsoDate(checkin) || !isIsoDate(checkout)) return "invalid-date";
-  if (checkin < today) return "past-arrival";
-  if (checkout <= checkin) return "departure-not-after-arrival";
-  return null;
 }
 
 /**

@@ -1,31 +1,24 @@
 /*
- * "Around the resort": the sky panel in the rooftop chapter, and the measure of the closing note.
- * The panel wears .on-twilight (set in the markup), so its text, rules and kickers are the dark tokens.
+ * "Around the resort": the stargazing planner in the twilight chapter (the chapter re-points the
+ * tokens, so text and rules are already the dark ones), and the measure of the closing note.
  */
-.sky {
+/* The stargazing planner: under a hairline, inside the twilight chapter. */
+.planner {
   display: grid;
   gap: var(--s-6);
-  padding: var(--s-7) var(--s-6);
-  border-radius: var(--radius-lg);
+  padding-block-start: var(--s-7);
+  border-block-start: var(--hairline) solid var(--rule);
+  min-width: 0;
 }
 
-.skyHeading {
+.plannerHeading {
   color: var(--text);
 }
 
-/* The definition list sits two-up from 40rem; the caveat lines run beneath it. */
-.sky .skyPanel {
-  gap: var(--s-5);
-}
-
-@media (min-width: 40rem) {
-  .sky {
-    padding: var(--s-8);
-  }
-
-  .sky .skyPanel dl {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: var(--s-8);
+/* Without script the planner is not drawn, so its heading goes with it. */
+@media (scripting: none) {
+  .planner {
+    display: none;
   }
 }
 

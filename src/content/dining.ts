@@ -72,20 +72,16 @@ export const dining: DiningContent = {
     sources: ["S-09", "S-11"],
     points: {
       en: [
-        // glossary.json → phrases.kitchenGardenSeasonal
-        "The resort describes a small kitchen garden of its own. What it gives changes with the season, so no two stays find quite the same things.",
-        "In its own account, purple winged beans, purple yardlong beans and salad leaves are among what grows there.",
-        "The same account mentions homemade things to take home: dried tomatoes and mulberry jam.",
-        "It also speaks of a welcome drink made from whatever fruit is in season, naming marian plum, star fruit, mulberry and gac.",
-        "None of this is fixed for a particular stay. Ask the team what the garden is giving when you visit.",
+        "The resort tells of a small kitchen garden of its own, and what it gives changes with the season.",
+        "Purple winged beans, purple yardlong beans and salad leaves are among what grows there.",
+        "From the garden come homemade things to take home, dried tomatoes and mulberry jam among them, and a welcome drink made with the fruit in season: marian plum, star fruit, mulberry or gac.",
+        "The garden follows the season. Ask the team what it is giving when you visit.",
       ],
       th: [
-        // glossary.json → phrases.kitchenGardenSeasonal
-        "รีสอร์ทเล่าว่ามีสวนครัวแปลงเล็กของตัวเอง ผลผลิตเปลี่ยนไปตามฤดูกาล แต่ละช่วงที่เข้าพักจึงไม่เหมือนกัน",
-        "ผักที่รีสอร์ทเอ่ยถึงว่าปลูกในสวนครัว มีถั่วพูม่วง ถั่วฝักยาวสีม่วง และผักสลัด",
-        "รีสอร์ทยังเล่าถึงของฝากทำเอง คือมะเขือเทศอบแห้งและแยมมัลเบอร์รี",
-        "ส่วนเครื่องดื่มต้อนรับ รีสอร์ทเล่าว่าทำจากผลไม้ตามฤดูกาล ผลไม้ที่เอ่ยถึงมีมะปราง มะเฟือง มัลเบอร์รี และฟักข้าว",
-        "ทั้งหมดนี้เปลี่ยนไปตามฤดูกาล ไม่ได้มีเหมือนกันทุกช่วง สอบถามทีมงานได้ว่าช่วงที่เข้าพักสวนครัวให้อะไรบ้าง",
+        "รีสอร์ทเล่าถึงสวนครัวแปลงเล็กของตัวเอง ซึ่งให้ผลผลิตเปลี่ยนไปตามฤดูกาล",
+        "ในแปลงมีถั่วพูม่วง ถั่วฝักยาวสีม่วง และผักสลัด",
+        "จากสวนครัวยังมีของฝากทำเองอย่างมะเขือเทศอบแห้งและแยมมัลเบอร์รี และเครื่องดื่มต้อนรับที่ทำจากผลไม้ตามฤดูกาล เช่น มะปราง มะเฟือง มัลเบอร์รี หรือฟักข้าว",
+        "สวนครัวเปลี่ยนไปตามฤดูกาล สอบถามทีมงานได้ว่าช่วงที่เข้าพักสวนครัวให้อะไรบ้าง",
       ],
     },
   },

@@ -1,5 +1,5 @@
 import type { L } from "@/content/schema";
-import type { MoonPhaseName } from "@/lib/sky";
+import type { Moonlight, MoonPhaseName } from "@/lib/sky";
 
 /**
  * Every word the clock, the sunset and the moon print (components/motion: Clock, SunsetTime,
@@ -8,7 +8,10 @@ import type { MoonPhaseName } from "@/lib/sky";
  * Truth notes (BUILD-CONTRACT section 2):
  * - The sunset is worked out for Pak Chong town, a district-level point, never for the resort's own
  *   position. It is always printed with "about" / "ประมาณ".
- * - Stargazing is "on clear evenings" only: the caveat is the glossary's own sentence, word for word.
+ * - On the rooftop, stargazing is "on clear evenings": the caveat is the glossary's own sentence, word for word.
+ * - The resort is a dark sky protection area with stargazing all year round (the resort's own message of
+ *   22 Nov 2026, source S-40). The night planner never promises a clear sky: the clouds decide.
+ * - The planner's moonlight is read from the moon's phase alone; it does not claim moonrise or moonset.
  * - No middle dots and no dashes anywhere in these strings.
  */
 
@@ -32,6 +35,23 @@ interface SkyCopy {
   clearEvening: string;
   /** One line saying what the figures are and are not. */
   skyNote: string;
+  /** The stargazing planner on the Experiences page (StarNights). */
+  nights: {
+    /** Name of the row of nights. */
+    listLabel: string;
+    tonight: string;
+    sunset: string;
+    darkFrom: string;
+    moon: string;
+    /** `{pct}` is the lit part of the moon, a whole number. */
+    lit: string;
+    moonlight: Record<Moonlight, string>;
+    legend: string;
+    /** `{date}` is the short date of the evening. */
+    book: string;
+    bookTonight: string;
+    note: string;
+  };
 }
 
 export const copy = {
@@ -55,6 +75,19 @@ export const copy = {
     },
     clearEvening: "On clear evenings, the rooftop is a good place to watch the stars come out.",
     skyNote: "Times are worked out for Pak Chong town and are approximate.",
+    nights: {
+      listLabel: "The next 30 nights",
+      tonight: "Tonight",
+      sunset: "Sunset",
+      darkFrom: "Fully dark",
+      moon: "Moon",
+      lit: "{pct}% lit",
+      moonlight: { little: "Little moonlight", some: "Some moonlight", bright: "Bright moonlight" },
+      legend: "A star marks the nights with little moonlight.",
+      book: "Check availability for {date}",
+      bookTonight: "Check availability for tonight",
+      note: "Worked out for Pak Chong town from the sun and the moon’s phase, so the times are approximate. How much you see depends on the clouds on the night.",
+    },
   },
   th: {
     time: "{time} น.",
@@ -76,6 +109,19 @@ export const copy = {
     },
     clearEvening: "ในคืนที่ฟ้าเปิด ดาดฟ้าเป็นมุมที่เหมาะกับการนั่งดูดาว",
     skyNote: "เวลาคำนวณจากตัวอำเภอปากช่อง และเป็นเวลาโดยประมาณ",
+    nights: {
+      listLabel: "30 คืนข้างหน้า",
+      tonight: "คืนนี้",
+      sunset: "พระอาทิตย์ตก",
+      darkFrom: "ฟ้ามืดสนิท",
+      moon: "ดวงจันทร์",
+      lit: "สว่าง {pct}%",
+      moonlight: { little: "แสงจันทร์น้อย", some: "มีแสงจันทร์บ้าง", bright: "แสงจันทร์สว่าง" },
+      legend: "คืนที่มีรูปดาวกำกับคือคืนที่แสงจันทร์น้อย",
+      book: "ตรวจสอบห้องว่างคืนวันที่ {date}",
+      bookTonight: "ตรวจสอบห้องว่างคืนนี้",
+      note: "คำนวณจากดวงอาทิตย์และข้างขึ้นข้างแรมสำหรับตัวอำเภอปากช่อง เวลาจึงเป็นเวลาโดยประมาณ จะเห็นดาวชัดแค่ไหนขึ้นอยู่กับเมฆในคืนนั้น",
+    },
   },
 } satisfies L<SkyCopy>;
 

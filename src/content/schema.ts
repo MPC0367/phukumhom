@@ -58,10 +58,17 @@ export type FlagId =
   | "mapEmbed";
 export type Flags = Record<FlagId, boolean>;
 
+export interface LineAccount {
+  /** As printed, with its @: "@phukumhomkhaoyai". */
+  id: string;
+  /** The add-friend link that opens the account in LINE. */
+  url: string;
+}
+
 export interface Phone {
   /** As printed on Thai pages: national format. */
   national: string;
-  /** As printed on English pages: international format. The same single number. */
+  /** As printed on English pages: international format. The same number. */
   international: string;
   /** For `tel:` links. */
   e164: string;
@@ -100,13 +107,16 @@ export interface SiteSettings {
     postalCode: string;
     countryCode: "TH";
   };
-  /** The one phone number printed anywhere on the site. */
+  /** The main phone number: every call action dials it, and JSON-LD carries it. */
   phone: Fact<Phone>;
+  /** A second line, printed only beside the main number (contact panel, footer), never as an action of its own. */
+  phoneAlt: Fact<Phone>;
   email: Fact<string>;
   social: {
     facebook: Fact<string>;
     instagram: Fact<string>;
-    line: Fact<string>;
+    /** The LINE Official account: its ID as printed ("@name") and the add-friend link. */
+    line: Fact<LineAccount>;
     whatsapp: Fact<string>;
   };
   maps: {
@@ -156,6 +166,12 @@ export interface Room {
 
   /** Areas are stored separately and never summed for the guest. */
   area: {
+    /**
+     * The one figure the booking page lists for the category ("40 sq m"). It does not say whether that is
+     * the room alone or with its outdoor space, so it is printed as "as listed on the booking page" and
+     * never broken down. The four fields below stay null until the owner supplies measured areas.
+     */
+    listedSqm: Fact<number>;
     indoorSqm: Fact<number>;
     terraceSqm: Fact<number>;
     rooftopSqm: Fact<number>;
@@ -290,7 +306,7 @@ export interface Derivative {
 
 export interface Experience {
   id: string;
-  theme: "gardens" | "outdoors" | "shared-facilities" | "rooftop-evenings";
+  theme: "gardens" | "outdoors" | "shared-facilities" | "rooftop-evenings" | "night-sky";
   name: L;
   description: L;
   asset: AssetId | null;

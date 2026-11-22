@@ -71,6 +71,12 @@ type FillProps = BaseProps & {
   fill: true;
   /** Defaults to a value that is right for a full-bleed band of any height. */
   sizes?: string;
+  /**
+   * How tall the box is, as a CSS length, when it is shorter than the screen (a half-height band is
+   * "max(22rem, 62vh)"). Used only for the default `sizes`: a cover photograph in a shorter box is
+   * laid out narrower, so a phone is offered a smaller file. Defaults to the full screen height.
+   */
+  boxHeight?: string;
 };
 
 export type PictureProps = FramedProps | FillProps;
@@ -119,6 +125,9 @@ function splitOutsideParens(value: string, at: RegExp): string[] {
   return parts;
 }
 
+/** The share of the layout width a 2.5x or denser screen is told, for a full-bleed photograph. */
+const HIGH_DENSITY_SHARE = 0.6;
+
 /** A crop within 1% of the source ratio is the source ratio: 1000×667 is not exactly 3:2. */
 const COVER_TOLERANCE = 1.01;
 
@@ -159,7 +168,13 @@ export function Picture(props: PictureProps) {
 
   // Fill with no sizes: the photograph is as wide as the viewport, or wider when the box is taller than
   // the frame's own shape (every portrait phone). An engine that cannot parse max() falls back to 100vw.
-  const described = props.sizes ?? `max(100vw, calc(100vh * ${round(sourceRatio)}))`;
+  const boxHeight = (fill && props.boxHeight) || "100vh";
+  const cover = `max(100vw, calc(${boxHeight} * ${round(sourceRatio)}))`;
+  // A full-bleed photograph on a 3x phone would ask for three times the layout width: far more
+  // pixels than a photograph shows and the heaviest file on the slowest connection. Screens of 2.5x
+  // and denser are told a narrower width, which lands them near 1.8 device pixels per CSS pixel.
+  // An engine that does not read a resolution condition here skips the entry and uses the next.
+  const described = props.sizes ?? `(min-resolution: 2.5dppx) calc(${cover} * ${HIGH_DENSITY_SHARE}), ${cover}`;
   const sizes = coverSizes(described, sourceRatio, ratio);
 
   const focus = `${round(a.focal.x * 100)}% ${round(a.focal.y * 100)}%`;

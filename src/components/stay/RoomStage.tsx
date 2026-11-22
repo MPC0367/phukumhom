@@ -10,7 +10,7 @@ import { t } from "@/i18n/ui";
 import type { AnalyticsPlacement } from "@/lib/analytics";
 import { href } from "@/lib/routes";
 import { RoomStageClient, type StageEntry } from "./RoomStageClient";
-import { activeRooms, amenitySummary, bathingFact, bathingSetsApart, leadFor, outdoorsFact, roomNumeral } from "./room-facts";
+import { activeRooms, amenitySummary, bathingFact, bathingSetsApart, bedroomFor, guestsFact, leadFor, outdoorsFact, roomNumeral, sizeFact } from "./room-facts";
 import s from "./RoomStage.module.css";
 
 /**
@@ -26,8 +26,10 @@ import s from "./RoomStage.module.css";
  * room ledger never reach the browser bundle.
  *
  * Each entry: numeral · the room name (a heading; Latin script, after the classifier ห้อง on Thai pages)
- * · the gloss · the one-sentence distinction · three fact chips (Outdoors, Bathing, In the room) · View
- * room and Check availability · the line that the room is chosen on the booking page.
+ * · the gloss · the one-sentence distinction · the room's BEDROOM photograph (the stage shows the rooftop
+ * or the tub that sets the room apart; a guest also needs to see where they sleep) · the fact chips
+ * (Size, Guests, Bathing, Outdoors, In the room) · View room and Check availability · the line that the
+ * room is chosen on the booking page.
  *
  * FACTS
  *   - A chip is printed only when its fact may be: Outdoors needs the balcony and the private rooftop to
@@ -68,9 +70,16 @@ export function RoomStage({ lang, leads, initial, headingLevel = 3, placement = 
     const inRoom = amenitySummary(room, lang);
     const setsApart = bathingSetsApart(room);
 
+    const size = sizeFact(room, lang);
+    const guests = guestsFact(room, lang);
+    const bedroom = bedroomFor(room);
+
+    // What a guest decides on, first: how big, for how many, and the one feature that differs.
     const facts: Array<{ key: string; label: string; value: string; marked?: boolean; wide?: boolean }> = [];
-    if (outdoors) facts.push({ key: "outdoors", label: ui.labels.outdoors, value: outdoors });
+    if (size) facts.push({ key: "size", label: ui.labels.size, value: size });
+    if (guests) facts.push({ key: "guests", label: ui.labels.guestsPerRoom, value: guests });
     facts.push({ key: "bathing", label: ui.labels.bathing, value: bathingFact(room, lang), marked: setsApart });
+    if (outdoors) facts.push({ key: "outdoors", label: ui.labels.outdoors, value: outdoors });
     if (inRoom) facts.push({ key: "in-room", label: ui.labels.inTheRoom, value: inRoom, wide: true });
 
     const chips = facts.map((fact, index) => (
@@ -96,6 +105,18 @@ export function RoomStage({ lang, leads, initial, headingLevel = 3, placement = 
           <Frame asset={lead} lang={lang} ratio="3/2" radius="md" sizes="(min-width: 64rem) 30rem, (min-width: 40rem) 60vw, 100vw" />
         </div>
         <p className={s.distinction}>{room.distinction[lang]}</p>
+        {/* The stage shows what sets the room apart (a rooftop, a tub); this is where a guest sleeps. */}
+        {bedroom ? (
+          <figure className={s.bedroom}>
+            <div className={s.bedroomFrame}>
+              <Picture asset={bedroom} lang={lang} ratio="3/2" sizes="(min-width: 40rem) 11rem, 40vw" />
+            </div>
+            <figcaption className={s.bedroomWords}>
+              <span className="eyebrow">{c.stage.bedroom}</span>
+              <span className={s.bedroomCaption}>{getAsset(bedroom).caption[lang]}</span>
+            </figcaption>
+          </figure>
+        ) : null}
         {room.id === first ? (
           <Reveal as="ul" stagger={0.07} delay={0.2} className={s.facts}>
             {chips}

@@ -128,8 +128,9 @@ const env = {
   ...process.env,
   PAGES_EXPORT: "1",
   BASE_PATH: base,
-  NEXT_PUBLIC_SITE_ORIGIN: `${origin}${base}`,
-  NEXT_PUBLIC_PREVIEW_NOTICE: "1",
+  // Origin only. The base path travels separately (BASE_PATH): joined into one string it was read back
+  // with URL.origin, which drops the path, and every canonical and social image pointed at the host root.
+  NEXT_PUBLIC_SITE_ORIGIN: origin,
   NEXT_TELEMETRY_DISABLED: "1",
 };
 delete env.SITE_ENV; // a preview is never the public, indexable site
@@ -230,6 +231,28 @@ if (base) {
   }
 }
 
+// The same for full addresses on our own host: a canonical, an alternate, og:url, og:image, a JSON-LD id
+// or a sitemap entry that names this origin must name it WITH the path prefix. (This is the check that
+// would have caught "https://mpc0367.github.io/en/" in the first deployment.)
+const strayAbsolute = new Map();
+{
+  // The origin as a literal: split on it rather than build a pattern from it. What follows it, up to the
+  // first quote, bracket, backslash or space, is the rest of the address.
+  const rest = /^[^"'<>\\\s]*/;
+  const addressesIn = (text) =>
+    text
+      .split(origin)
+      .slice(1)
+      .map((after) => origin + (rest.exec(after)?.[0] ?? ""));
+  const inside = (u) => u === `${origin}${base}` || u.startsWith(`${origin}${base}/`);
+  const scan = (file) => {
+    const text = fs.readFileSync(file, "utf8");
+    for (const address of addressesIn(text)) if (!inside(address)) strayAbsolute.set(address, path.relative(out, file));
+  };
+  for (const file of htmlFiles) scan(file);
+  for (const name of ["sitemap.xml", "robots.txt"]) if (fs.existsSync(path.join(out, name))) scan(path.join(out, name));
+}
+
 let bytes = 0;
 let files = 0;
 (function size(dir) {
@@ -254,6 +277,12 @@ if (!inPlace) {
 
 console.log(`\nexported ${htmlFiles.length} pages, ${files} files, ${(bytes / 1048576).toFixed(1)} MB → ${inPlace ? "out" : path.join(root, "out")}`);
 console.log(`will be served at ${origin}${base}/`);
+if (strayAbsolute.size) {
+  console.error(`
+${strayAbsolute.size} full address(es) on ${origin} without the "${base}" prefix (canonical, hreflang, Open Graph, JSON-LD or sitemap):`);
+  for (const [url, file] of [...strayAbsolute].slice(0, 25)) console.error(`  ${url}   in ${file}`);
+  process.exitCode = 1;
+}
 if (stray.size) {
   console.error(`\n${stray.size} absolute URL(s) without the "${base}" prefix (they would 404 on the project site):`);
   for (const [url, file] of [...stray].slice(0, 25)) console.error(`  ${url}   in ${file}`);

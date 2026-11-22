@@ -1,17 +1,18 @@
 import gsap from "gsap";
-import { Draggable } from "gsap/Draggable";
-import { Flip } from "gsap/Flip";
-import { InertiaPlugin } from "gsap/InertiaPlugin";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 
 /**
- * GSAP, with every plugin the site uses registered exactly once.
+ * GSAP, with the plugins every page needs registered exactly once: ScrollTrigger and SplitText.
  *
  * Client modules that need their own timeline import from here rather than from "gsap", so the plugins
  * are certain to be registered whatever order the chunks load in:
  *
- *   import { gsap, ScrollTrigger, Flip } from "@/components/motion/gsap";
+ *   import { gsap, ScrollTrigger } from "@/components/motion/gsap";
+ *
+ * Three more plugins are used by one feature each and load on demand, so they are not in the script a
+ * page loads first: Draggable and InertiaPlugin (the drifting reel: ./gsap-drag) and Flip (the places
+ * filter: ./gsap-flip). Import those modules with `import()`, never from here.
  *
  * Registration happens when this module is first evaluated in a browser. On the server the imports are
  * inert: nothing here touches the DOM until it is called.
@@ -26,7 +27,7 @@ let registered = false;
 export function registerMotion(): void {
   if (registered || typeof window === "undefined") return;
   registered = true;
-  gsap.registerPlugin(ScrollTrigger, SplitText, Draggable, InertiaPlugin, Flip);
+  gsap.registerPlugin(ScrollTrigger, SplitText);
   // A phone's address bar sliding away is not a layout change worth re-measuring every trigger for.
   ScrollTrigger.config({ ignoreMobileResize: true });
   // Development only: lets a QA script slow every animation down to look at it (gsap.globalTimeline.timeScale).
@@ -39,7 +40,7 @@ registerMotion();
 
 let refreshTimer: ReturnType<typeof setTimeout> | undefined;
 
-/** Called after every ScrollTrigger refresh (the provider uses it to keep Lenis in step). */
+/** Called after every ScrollTrigger refresh (for anything that must follow a re-measure). */
 export function onRefresh(callback: () => void): () => void {
   if (typeof window === "undefined") return () => {};
   ScrollTrigger.addEventListener("refresh", callback);
@@ -136,4 +137,4 @@ export function watchPending(el: Element, reveal: Reveal): () => void {
   };
 }
 
-export { gsap, Draggable, Flip, InertiaPlugin, ScrollTrigger, SplitText };
+export { gsap, ScrollTrigger, SplitText };

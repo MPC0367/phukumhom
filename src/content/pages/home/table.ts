@@ -44,24 +44,24 @@ export const copy = {
   en: {
     kicker: "Garden and table",
     title: "Table",
-    intro: "What the resort says of its kitchen garden, and the dining pavilion on the lawn.",
+    intro: "A kitchen garden that follows the season, and a dining pavilion on the lawn.",
     accent: "season",
     notes: { garden: "In the garden", season: "By the season" },
     reelKicker: "Plates and garden beds",
     reelLabel: "Photographs of plates and garden beds",
     reelHint: "Drag",
-    reelNote: "The photographs show single plates, drinks and garden beds. They are not a menu.",
+    reelNote: "Plates, drinks and garden beds, photographed at the resort. For today’s menu, ask the team.",
   },
   th: {
     kicker: "สวนครัวและร้านอาหาร",
     title: "ร้านอาหาร",
-    intro: "สวนครัวตามคำบอกเล่าของรีสอร์ท และศาลาอาหารบนสนามหญ้า",
+    intro: "สวนครัวที่เปลี่ยนไปตามฤดูกาล และศาลาอาหารบนสนามหญ้า",
     accent: "",
     notes: { garden: "ในสวนครัว", season: "ตามฤดูกาล" },
     reelKicker: "จานอาหารและแปลงผัก",
     reelLabel: "ภาพจานอาหารและแปลงผัก",
     reelHint: "ลากเพื่อเลื่อนดู",
-    reelNote: "ภาพเหล่านี้คือจานอาหาร เครื่องดื่ม และแปลงผักที่ถ่ายไว้ ไม่ใช่รายการอาหาร",
+    reelNote: "จานอาหาร เครื่องดื่ม และแปลงผักที่ถ่ายไว้ในรีสอร์ท ส่วนเมนูของวันนี้ สอบถามทีมงานได้",
   },
 } satisfies L<TableCopy>;
 

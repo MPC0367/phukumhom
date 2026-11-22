@@ -114,6 +114,8 @@ function solarPosition(date: Date): SolarPosition {
 
 /** Sun 0.833 degrees below a level horizon: the standard definition of sunrise and sunset. */
 const ZENITH = 90.833;
+/** Sun 18 degrees below the horizon: the end of astronomical twilight, when the sky is fully dark. */
+const ASTRONOMICAL_ZENITH = 108;
 
 /**
  * Sunrise or sunset as minutes after local midnight, for the local calendar day containing `date`,
@@ -125,6 +127,7 @@ export function sunEventAt(
   lon: number,
   event: "rise" | "set",
   offsetMinutes: number = BANGKOK_OFFSET_MINUTES,
+  zenith: number = ZENITH,
 ): number | null {
   const local = new Date(date.getTime() + offsetMinutes * MINUTE);
   const midnightUtc = Date.UTC(local.getUTCFullYear(), local.getUTCMonth(), local.getUTCDate()) - offsetMinutes * MINUTE;
@@ -132,7 +135,7 @@ export function sunEventAt(
   let minutes = 720;
   for (let pass = 0; pass < 2; pass++) {
     const { declination, equationOfTime } = solarPosition(new Date(midnightUtc + minutes * MINUTE));
-    const cosHourAngle = cos(ZENITH) / (cos(lat) * cos(declination)) - tan(lat) * tan(declination);
+    const cosHourAngle = cos(zenith) / (cos(lat) * cos(declination)) - tan(lat) * tan(declination);
     if (cosHourAngle > 1 || cosHourAngle < -1) return null;
     const hourAngle = Math.acos(cosHourAngle) / RAD;
     const solarNoon = 720 - 4 * lon - equationOfTime + offsetMinutes;
@@ -145,6 +148,14 @@ export function sunEventAt(
 export function sunsetAt(date: Date, lat: number, lon: number): number {
   // Thailand lies in the tropics: the sun rises and sets every day of the year.
   return sunEventAt(date, lat, lon, "set") ?? 1080;
+}
+
+/**
+ * When the evening sky is fully dark (astronomical twilight ends, the sun 18 degrees down), as minutes after
+ * midnight in Asia/Bangkok. In the tropics this is about 70 to 80 minutes after sunset, all year.
+ */
+export function skyDarkAt(date: Date, lat: number, lon: number): number {
+  return sunEventAt(date, lat, lon, "set", BANGKOK_OFFSET_MINUTES, ASTRONOMICAL_ZENITH) ?? sunsetAt(date, lat, lon) + 75;
 }
 
 /** Today's sunrise as minutes after midnight in Asia/Bangkok. */
@@ -251,4 +262,55 @@ export function moonPhase(date: Date): MoonPhase {
  */
 export function tonight(date: Date): Date {
   return bangkokClock(date).hour < 5 ? date : bangkokInstant(date, 21 * 60);
+}
+
+/* ───────────── Nights ahead, for the stargazing planner ───────────── */
+
+/** How much moonlight a night has, read from the lit part of the disc at 21:00. */
+export type Moonlight = "little" | "some" | "bright";
+
+export interface NightSky {
+  /** The evening's calendar date in Asia/Bangkok, YYYY-MM-DD. */
+  date: string;
+  /** Days from today: 0 is this evening. */
+  offset: number;
+  /** The moon at 21:00 that evening. */
+  moon: MoonPhase;
+  moonlight: Moonlight;
+  /** Minutes after midnight, Asia/Bangkok. */
+  sunset: number;
+  darkFrom: number;
+}
+
+/** Below a quarter lit the moon adds little light; above about three fifths it washes out the fainter stars. */
+export function moonlightOf(illumination: number): Moonlight {
+  if (illumination < 0.25) return "little";
+  if (illumination < 0.6) return "some";
+  return "bright";
+}
+
+const DAY_MS = 86_400_000;
+
+/**
+ * The evenings from today for `count` nights: date, moon at 21:00, sunset and full dark, all for
+ * `place` (Pak Chong by default). A guide from the moon's phase alone: it does not know the clouds,
+ * and it does not work out moonrise or moonset.
+ */
+export function nightsAhead(now: Date, count: number, place: { lat: number; lon: number } = PAK_CHONG): NightSky[] {
+  const nine = bangkokInstant(now, 21 * 60).getTime();
+  const nights: NightSky[] = [];
+  for (let offset = 0; offset < count; offset++) {
+    const at = new Date(nine + offset * DAY_MS);
+    const c = bangkokClock(at);
+    const moon = moonPhase(at);
+    nights.push({
+      date: `${c.year}-${String(c.month).padStart(2, "0")}-${String(c.day).padStart(2, "0")}`,
+      offset,
+      moon,
+      moonlight: moonlightOf(moon.illumination),
+      sunset: sunsetAt(at, place.lat, place.lon),
+      darkFrom: skyDarkAt(at, place.lat, place.lon),
+    });
+  }
+  return nights;
 }

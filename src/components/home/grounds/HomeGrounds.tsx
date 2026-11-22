@@ -15,8 +15,8 @@ import s from "./HomeGrounds.module.css";
  *   rail      05, the kicker, "Grounds", an intro and the pill to the Experiences page
  *   content   four tiles in a staggered 2×2 of mixed shapes, then the one pointer ("ask the team")
  *
- * THE TILES are the four editorial entries of src/content/experiences.ts, in that file's order: the
- * gardens and the pond, the private rooftop, the shared pool, the kitchen garden. Name, photograph and
+ * THE TILES are four entries of src/content/experiences.ts, in TILE_IDS order: the gardens and the
+ * pond, the private rooftop, the shared pool, stargazing. Name, photograph and
  * facts are read from there; the one sentence a tile prints is an excerpt of the entry's description,
  * checked here character for character (see content/pages/home/grounds.ts).
  *
@@ -39,7 +39,7 @@ const FETCH: Record<TileId, PictureRatio> = {
   "gardens-and-pond": "3/4",
   "private-rooftop": "4/5",
   "shared-pool": "1/1",
-  "kitchen-garden": "3/4",
+  stargazing: "3/4",
 };
 
 /**

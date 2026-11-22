@@ -41,7 +41,10 @@ import s from "./EnquiryForm.module.css";
  *
  * WHAT IT ASKS: what the enquiry is about; a name; one way to reply (phone or email, never both); for a
  * stay, optional dates, room type and number of guests; for a group, optional dates and a head count;
- * a message. Visible labels, required marks, autofill hints. Phone numbers may carry "+", spaces and
+ * a message. In copy mode ONLY THE MESSAGE IS REQUIRED: a guest who pastes it into Facebook is already
+ * known there, so a missing name or phone number must not stop them. In delivery mode the name and one
+ * way to reply are required, because the resort has to be able to answer. Visible labels, required
+ * marks, autofill hints. Phone numbers may carry "+", spaces and
  * brackets. No reset button. No medical details are asked for.
  *
  * FROM A ROOM PAGE the address carries ?type=stay&room=<id>: the form opens on "A stay" with that room
@@ -58,6 +61,8 @@ import s from "./EnquiryForm.module.css";
 
 export interface EnquiryFormLabels {
   heading: string;
+  /** The two steps of the copy flow: write and copy here, then send through the resort's own channel. */
+  steps: { label: string; one: string; two: string };
   about: string;
   types: Record<EnquiryType, string>;
   name: string;
@@ -93,7 +98,9 @@ export interface EnquiryFormLabels {
   sent: string;
   failed: string;
   tooMany: string;
-  facebook: string;
+  /** The next steps after copying: the resort's LINE account first, then its verified Facebook page. */
+  openLine: string;
+  openFacebook: string;
   call: string;
   draft: {
     title: string;
@@ -117,6 +124,8 @@ export interface EnquiryFormProps {
   privacyHref: string;
   facebookUrl: string | null;
   telHref: string | null;
+  /** The resort's LINE add-friend link: the first place to paste a copied enquiry. */
+  lineUrl?: string | null;
   id?: string;
 }
 
@@ -134,7 +143,7 @@ const neverChanges = () => () => {};
 
 const put = (pattern: string, values: Record<string, string>) => pattern.replace(/\{(\w+)\}/g, (_, key: string) => values[key] ?? "");
 
-export function EnquiryForm({ lang, labels, rooms, delivery, endpoint, privacyHref, facebookUrl, telHref, id }: EnquiryFormProps) {
+export function EnquiryForm({ lang, labels, rooms, delivery, endpoint, privacyHref, facebookUrl, telHref, lineUrl = null, id }: EnquiryFormProps) {
   const uid = useId();
   const fieldId = (field: EnquiryField) => `${uid}-${field}`;
   const statusRef = useRef<HTMLDivElement>(null);
@@ -175,7 +184,9 @@ export function EnquiryForm({ lang, labels, rooms, delivery, endpoint, privacyHr
 
   function compose(clean: EnquiryInput): string {
     const d = labels.draft;
-    const lines = [d.title, "", put(d.about, { value: labels.types[clean.type] }), put(d.name, { value: clean.name }), put(d.reply, { channel: labels.channels[clean.channel].toLocaleLowerCase(), value: clean.contact })];
+    const lines = [d.title, "", put(d.about, { value: labels.types[clean.type] })];
+    if (clean.name) lines.push(put(d.name, { value: clean.name }));
+    if (clean.contact) lines.push(put(d.reply, { channel: labels.channels[clean.channel].toLocaleLowerCase(), value: clean.contact }));
     if (clean.checkin) lines.push(put(d.arrival, { value: formatDate(clean.checkin, lang) }));
     if (clean.checkout) lines.push(put(d.departure, { value: formatDate(clean.checkout, lang) }));
     if (clean.room) lines.push(put(d.room, { value: rooms.find((option) => option.id === clean.room)?.name ?? clean.room }));
@@ -188,7 +199,7 @@ export function EnquiryForm({ lang, labels, rooms, delivery, endpoint, privacyHr
     event.preventDefault();
     if (outcome.kind === "sending") return;
 
-    const found = validateEnquiry(input, today);
+    const found = validateEnquiry(input, today, { requireIdentity: delivery });
     setErrors(found);
     const first = FIELD_ORDER.find((field) => found[field]);
     if (first) {
@@ -250,6 +261,23 @@ export function EnquiryForm({ lang, labels, rooms, delivery, endpoint, privacyHr
         {labels.heading}
       </h3>
 
+      {delivery ? null : (
+        <ol role="list" className={s.steps} aria-label={labels.steps.label}>
+          <li className={s.step} data-done={outcome.kind === "copied" ? "true" : undefined}>
+            <span className={cx("numeral", s.stepNumber)} aria-hidden="true">
+              1
+            </span>
+            <span>{labels.steps.one}</span>
+          </li>
+          <li className={s.step}>
+            <span className={cx("numeral", s.stepNumber)} aria-hidden="true">
+              2
+            </span>
+            <span>{labels.steps.two}</span>
+          </li>
+        </ol>
+      )}
+
       <SelectField label={labels.about} name="type" value={type} onChange={(event) => isEnquiryType(event.target.value) && setTypeChoice(event.target.value)}>
         {(Object.keys(labels.types) as EnquiryType[]).map((option) => (
           <option key={option} value={option}>
@@ -263,7 +291,8 @@ export function EnquiryForm({ lang, labels, rooms, delivery, endpoint, privacyHr
         label={labels.name}
         name="name"
         autoComplete="name"
-        required
+        required={delivery}
+        optionalLabel={delivery ? undefined : labels.optional}
         maxLength={ENQUIRY_LIMITS.name}
         value={name}
         onChange={(event) => {
@@ -302,7 +331,8 @@ export function EnquiryForm({ lang, labels, rooms, delivery, endpoint, privacyHr
           type={channel === "phone" ? "tel" : "email"}
           inputMode={channel === "phone" ? "tel" : "email"}
           autoComplete={channel === "phone" ? "tel" : "email"}
-          required
+          required={delivery}
+          optionalLabel={delivery ? undefined : labels.optional}
           maxLength={ENQUIRY_LIMITS.contact}
           value={contact}
           onChange={(event) => {
@@ -420,9 +450,14 @@ export function EnquiryForm({ lang, labels, rooms, delivery, endpoint, privacyHr
             <p>{outcome.kind === "copied" ? labels.copiedBody : labels.manualBody}</p>
             <textarea ref={draftRef} className={s.draft} readOnly rows={8} value={outcome.draft} aria-label={labels.draftLabel} />
             <div className={s.next}>
+              {lineUrl ? (
+                <Button href={lineUrl} external variant={outcome.kind === "copied" ? "primary" : "secondary"} icon="arrow-up-right" target="_blank" data-analytics="social_contact_click" data-network="line" data-placement="contact">
+                  {labels.openLine}
+                </Button>
+              ) : null}
               {facebookUrl ? (
-                <Button href={facebookUrl} external variant="secondary" icon="arrow-up-right" target="_blank" data-analytics="social_contact_click" data-network="facebook" data-placement="contact">
-                  {labels.facebook}
+                <Button href={facebookUrl} external variant={lineUrl ? "secondary" : outcome.kind === "copied" ? "primary" : "secondary"} icon="arrow-up-right" target="_blank" data-analytics="social_contact_click" data-network="facebook" data-placement="contact">
+                  {labels.openFacebook}
                 </Button>
               ) : null}
               {telHref ? (

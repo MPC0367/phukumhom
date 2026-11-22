@@ -13,6 +13,46 @@
   margin-block-end: var(--s-2);
 }
 
+/* The two steps of the copy flow: a short ruled list, so the task reads as "do this, then that". */
+.steps {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-block: var(--hairline) solid var(--rule);
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  align-items: baseline;
+  gap: var(--s-2);
+  padding-block: var(--s-3);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.step:lang(th) {
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.step + .step {
+  border-block-start: var(--hairline) solid var(--rule);
+}
+
+.step .stepNumber {
+  font-size: 1.125rem;
+}
+
+/* Once the message is on the clipboard the first step is done: it steps back and the second leads. */
+.step[data-done="true"] {
+  color: var(--text-muted);
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+}
+
 .reply {
   display: grid;
   gap: var(--s-4);

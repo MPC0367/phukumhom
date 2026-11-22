@@ -298,6 +298,37 @@
   color: var(--clay-soft);
 }
 
+/* The second number: small, under the figure. It dials too, but it is never a second big figure. */
+.altPhone {
+  margin-block-start: var(--s-1);
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+  color: var(--text-muted);
+}
+
+.altPhone a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: var(--hairline);
+  text-underline-offset: 0.25em;
+}
+
+.altPhone a:hover {
+  color: var(--text);
+}
+
+.altPhone a:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* The LINE account id inside its button: figures, a touch quieter than the label. */
+.lineId {
+  opacity: 0.78;
+  white-space: nowrap;
+}
+
 /* The time at the resort right now, so a caller knows. The line keeps its place and shows nothing until
    the clock has a value (it has none on the server or without script). */
 .now {

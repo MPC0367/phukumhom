@@ -65,7 +65,16 @@ const nextConfig: NextConfig = {
   // Always render metadata into <head> before the body streams, for every user agent: titles, canonicals and
   // hreflang must be where crawlers, link previews and our own checks expect them. Pages are static, so it costs nothing.
   htmlLimitedBots: /.*/,
-  env: { NEXT_PUBLIC_BASE_PATH: basePath },
+  // The same two values Next itself is given below, published so metadata URLs are built to match them
+  // (src/lib/site-url.ts): the folder the site is served under, and whether page addresses end in a slash.
+  env: {
+    NEXT_PUBLIC_BASE_PATH: basePath,
+    NEXT_PUBLIC_TRAILING_SLASH: isExport ? "1" : "",
+    // Preview or production, for the footer notice and the wording of the policies (src/content/site-public.ts).
+    NEXT_PUBLIC_SITE_MODE: isPublicSite ? "production" : "preview",
+    // The static export is built for GitHub Pages; the privacy page names the host only when it is known.
+    NEXT_PUBLIC_PREVIEW_HOST: isExport ? "github-pages" : "",
+  },
   images: {
     // Derivatives are pre-encoded at fixed widths by scripts/process-images.mjs; no runtime optimizer.
     unoptimized: true,

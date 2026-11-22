@@ -18,7 +18,7 @@ import { announceOverlay } from "./overlay";
  *   - window "pkh:overlay" is dispatched on open and on close (see overlay.ts).
  *
  * Spread `dialogProps` on the <dialog> and attach `ref`. Scrollable regions inside should carry
- * data-lenis-prevent so the wheel still reaches them while smooth scrolling is paused.
+ * overscroll containment so the wheel never chains through to the locked page.
  */
 
 function lockScroll(): () => void {

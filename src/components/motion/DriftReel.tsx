@@ -2,7 +2,8 @@
 
 import { useRef, type CSSProperties, type ReactNode } from "react";
 import { useGSAP } from "@gsap/react";
-import { Draggable, gsap } from "./gsap";
+import type { Draggable } from "gsap/Draggable";
+import { gsap } from "./gsap";
 import { isOverlayOpen } from "./overlay-bus";
 import { useMotionActive } from "./useMotion";
 import styles from "./DriftReel.module.css";
@@ -223,8 +224,12 @@ export function DriftReel({ label, speed = 32, gap, className, children }: Drift
       };
 
       /* ── Drag and fling ── */
+      // The drag plugins are not in the first-load script: they are fetched now, and the reel drifts by
+      // itself until they arrive (./gsap-drag). If the reel is torn down first, nothing is created.
       const dragProxy = document.createElement("div");
-      const [draggable] = Draggable.create(dragProxy, {
+      let draggable: Draggable | null = null;
+      let disposed = false;
+      const dragOptions: Draggable.Vars = {
         type: "x",
         trigger: viewEl,
         inertia: true,
@@ -265,7 +270,14 @@ export function DriftReel({ label, speed = 32, gap, className, children }: Drift
             state.dragged = false;
           });
         },
-      });
+      };
+      void import("./gsap-drag")
+        .then(({ Draggable: Drag }) => {
+          if (!disposed) [draggable] = Drag.create(dragProxy, dragOptions);
+        })
+        .catch(() => {
+          // The reel still drifts and its photographs still open; only grabbing is missing.
+        });
 
       /* ── Clicks ── */
       const onClickCapture = (event: MouseEvent) => {
@@ -332,7 +344,8 @@ export function DriftReel({ label, speed = 32, gap, className, children }: Drift
         mutation?.disconnect();
         visibility?.disconnect();
         focusTween?.kill();
-        draggable.kill();
+        disposed = true;
+        draggable?.kill();
         rootEl.removeEventListener("pointerenter", onEnter);
         rootEl.removeEventListener("pointerleave", onLeave);
         rootEl.removeEventListener("focusin", onFocusIn);

@@ -1,9 +1,13 @@
 import { fact, unknown, type Experience, type L } from "./schema";
 
 /**
- * Time around the resort — editorial entries only.
+ * Time around the resort: four editorial entries and one activity the resort itself named.
  *
- * Nothing here is a bookable activity. The legacy activity list (cycling, kayaking, archery, pedal boats,
+ * STARGAZING is the one activity: the resort wrote to O2 on 22 Nov 2026 (source S-40) that it is a dark
+ * sky protection area (เขตอนุรักษ์ท้องฟ้ามืด) with stargazing all year round. Times, charge and how to join
+ * are not stated, so those fields stay unknown and the copy says "ask the team".
+ *
+ * Nothing else here is a bookable activity. The legacy activity list (cycling, kayaking, archery, pedal boats,
  * pétanque, campfire, BBQ, pony rides) is `needs-confirmation` (RESEARCH FA-09) and is not represented:
  * no entry names an activity, a timetable, a charge or a supervision arrangement. The four entries
  * describe places a guest can see in the photographs — gardens and pond, the private rooftop, the shared
@@ -49,7 +53,8 @@ export const experiences: Experience[] = [
     availability: noTimetable("the rooftop belongs to the room."),
     bookingRequired: unknown<boolean>("Not an activity; the rooftop comes with the room."),
     charge: unknown<"included" | "additional" | "varies">("Not an activity; no separate charge information is published."),
-    // FA-12: the only publishable weather wording. Never guaranteed, never 'dark-sky', no Milky Way season.
+    // FA-12: the rooftop's weather wording. Never guaranteed, no Milky Way season. (The dark sky status is
+    // the stargazing entry's, from the resort's own message, not a promise about any one night.)
     notes: fact<L>(
       { en: "On clear evenings", th: "ในคืนที่ฟ้าเปิด" },
       "source-listed",
@@ -79,13 +84,43 @@ export const experiences: Experience[] = [
     editorial: true,
   },
   {
+    id: "stargazing",
+    theme: "night-sky",
+    name: { en: "Stargazing under a dark sky", th: "ดูดาวใต้ท้องฟ้ามืด" },
+    // S-40, the resort's own words: a dark sky protection area, stargazing all year round. The last
+    // sentence keeps FA-12's rule: a clear sky is never promised.
+    description: {
+      en: "Phukumhom is a dark sky protection area, and there is stargazing at the resort all year round. How much of the sky you see depends on the clouds on the night, so ask the team about stargazing for your dates.",
+      th: "ภูคำหอมเป็นเขตอนุรักษ์ท้องฟ้ามืด และมีกิจกรรมดูดาวตลอดทั้งปี ดาวจะชัดแค่ไหนขึ้นอยู่กับเมฆในคืนนั้น สอบถามทีมงานเรื่องกิจกรรมดูดาวในช่วงที่เข้าพักได้",
+    },
+    asset: "garden-lane-standing-stone-stars-blue-hour", // 01_11, the lane at blue hour with a few stars out
+    where: "resort",
+    availability: fact<L>(
+      { en: "All year round", th: "ตลอดทั้งปี" },
+      "confirmed",
+      ["S-40"],
+      "The resort's own message of 22 Nov 2026: stargazing all year round.",
+      "2026-11-22",
+    ),
+    bookingRequired: unknown<boolean>("Not stated by the resort. Owner question: how does a guest join, and at what time?", ["S-40"]),
+    charge: unknown<"included" | "additional" | "varies">("Not stated by the resort. Owner question: is stargazing included?", ["S-40"]),
+    notes: fact<L>(
+      { en: "Dark sky protection area", th: "เขตอนุรักษ์ท้องฟ้ามืด" },
+      "confirmed",
+      ["S-40"],
+      "The resort's own words, 'เขตอนุรักษ์ท้องฟ้ามืด (dark sky)'. Which body designated it, and when, is not stated: name no organisation and no year until the owner does.",
+      "2026-11-22",
+    ),
+    editorial: false,
+  },
+  {
     id: "kitchen-garden",
     theme: "gardens",
     name: { en: "The kitchen garden", th: "สวนครัว" },
     // DG-07, DG-08; first two sentences are glossary.json → phrases.kitchenGardenSeasonal.
     description: {
-      en: "The resort describes a small kitchen garden of its own. What it gives changes with the season, so no two stays find quite the same things. Purple winged beans, salad leaves and fruit in season are among the things it names.",
-      th: "รีสอร์ทเล่าว่ามีสวนครัวแปลงเล็กของตัวเอง ผลผลิตเปลี่ยนไปตามฤดูกาล แต่ละช่วงที่เข้าพักจึงไม่เหมือนกัน ถั่วพูม่วง ผักสลัด และผลไม้ตามฤดูกาล เป็นส่วนหนึ่งของสิ่งที่รีสอร์ทเอ่ยถึง",
+      en: "The resort tells of a small kitchen garden of its own. Purple winged beans, salad leaves and fruit in season grow there, and what it gives changes through the year.",
+      th: "รีสอร์ทเล่าถึงสวนครัวแปลงเล็กของตัวเอง ในแปลงมีถั่วพูม่วง ผักสลัด และผลไม้ตามฤดูกาล ผลผลิตเปลี่ยนไปตามช่วงเวลาของปี",
     },
     asset: "gac-fruit-hanging-on-vine", // 07_11
     where: "resort",

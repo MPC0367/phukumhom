@@ -1,22 +1,28 @@
 import type { AssetId, L } from "@/content/schema";
 
 /**
- * The Contact page (brief section 17): the wording around the contact facts and the enquiry form.
+ * The Contact page (brief section 17; audit of 8 October 2026, finding C): the wording around the
+ * contact facts and the enquiry composer.
  *
- * The facts are not here: the phone number, the Facebook page and the map listing come from
+ * The facts are not here: the phone numbers, the LINE account, the Facebook page and the map listing come from
  * src/content/site.ts through pub(). Shared words (field labels, validation messages, Copy enquiry,
- * Send enquiry) are read from src/i18n/ui.ts by the page and handed to the form.
+ * Prepare an enquiry) are read from src/i18n/ui.ts by the page and handed to the form.
  *
- * WHAT THE FORM DOES. While the `enquiryDelivery` flag is off (no receiving service is configured) the
- * form does not send anything: it checks what was typed, puts it into a tidy message and copies that
- * message to the clipboard, for the guest to paste into a message to the resort. The page says so in
- * plain words and never shows "sent". With the flag on, the same form posts to /api/enquiry and shows
- * "sent" only when the server has accepted the message.
+ * WHAT THE COMPOSER DOES. While the `enquiryDelivery` flag is off (no receiving service is configured)
+ * nothing is sent. The page is a two-step task and says so beside the button:
+ *   1  write the message and copy it;
+ *   2  open the resort's LINE account (or its Facebook page) and paste it into a chat there.
+ * Every link that leads here says "Prepare an enquiry", never "Send"; the button says "Copy enquiry";
+ * the success state says the message was COPIED and what to do next. Only the message is required: a
+ * name and a reply contact help the resort but must not block a guest who will send through LINE or Facebook.
+ * With the flag on, the same form posts to /api/enquiry and shows "sent" only when the server has
+ * accepted the message; the labels then say "Send".
  *
- * Kept (BUILD-CONTRACT sections 2 and 8): one phone number, no email address, no LINE, WhatsApp or
- * Instagram; no reply time is promised; an enquiry is not a reservation; the form never asks for
- * medical details. Glossary sentences used word for word: phrases.enquiryNotReservation.
- * Third person. No middle dots and no dashes.
+ * Kept (BUILD-CONTRACT sections 2 and 8, updated by the resort's message of 22 Nov 2026): the main phone
+ * number and a second one, no email address, the LINE Official account the resort supplied, the verified
+ * Facebook page and no guessed Messenger or WhatsApp address; no reply time is promised; an enquiry is not a
+ * reservation; the form never asks for medical details. Glossary sentence used word for word:
+ * phrases.enquiryNotReservation. Third person. No middle dots and no dashes.
  */
 
 /** Legacy 05_02: the reception building at dusk. */
@@ -29,9 +35,12 @@ export interface ContactPageCopy {
   /** The second paragraph differs with what the form can do. */
   body: { always: string; draft: string; delivery: string };
   glance: {
-    /** `{phone}` is the published number. */
+    /** `{phone}` is the main number. */
     phone: string;
+    /** `{id}` is the LINE account id, with its @. */
+    line: string;
     facebook: string;
+    draft: string;
     /** Glossary phrases.enquiryNotReservation. */
     notReservation: string;
     rates: string;
@@ -44,6 +53,8 @@ export interface ContactPageCopy {
   };
   form: {
     heading: string;
+    /** The two steps of the copy flow, shown above the fields. */
+    steps: { label: string; one: string; two: string };
     /** Legends and labels the shared table does not have. */
     about: string;
     stayDetails: string;
@@ -56,14 +67,16 @@ export interface ContactPageCopy {
     datesHint: string;
     messageHint: string;
     guestsInvalid: string;
-    /** Under the form: what pressing the button does. */
+    /** Beside the button: what pressing it does. */
     draftNote: string;
     deliveryNote: string;
     privacyLead: string;
     privacyLink: string;
-    /** The panel shown after a successful copy. */
+    /** The status shown after a successful copy, and its next action. */
     copiedHeading: string;
     copiedBody: string;
+    openLine: string;
+    openFacebook: string;
     /** When the clipboard is refused: the message is shown to be copied by hand. */
     manualHeading: string;
     manualBody: string;
@@ -92,34 +105,41 @@ export interface ContactPageCopy {
 export const copy = {
   en: {
     heroKicker: "Contact",
-    statement: "Call, write on Facebook, or put your question in a few lines.",
+    statement: "Call, chat on LINE, or put your question in a few lines.",
     accent: "question",
     body: {
-      always: "The quickest way to reach the resort is by phone. The team can also be reached through the resort’s Facebook page.",
-      draft: "The form further down helps you put an enquiry together. It does not send anything itself: it copies your message, ready to paste into a message to the resort.",
-      delivery: "The form further down sends your enquiry to the resort, and the team replies by the channel you choose.",
+      always: "The quickest way to reach the resort is by phone. The team can also be reached on LINE and through the resort’s Facebook page.",
+      draft: "Further down you can prepare an enquiry: write it here, copy it, then paste it into a chat with the resort on LINE or Facebook. Nothing is sent from this page.",
+      delivery: "Further down you can send an enquiry to the resort, and the team replies by the channel you choose.",
     },
     glance: {
-      phone: "The resort’s phone number is {phone}.",
+      phone: "The resort’s main number is {phone}.",
+      line: "The resort’s LINE Official account is {id}.",
       facebook: "The resort can also be reached through its Facebook page.",
+      draft: "The enquiry page prepares a message for you to copy. It does not send it.",
       notReservation: "An enquiry is a message to the resort, not a confirmed reservation.",
       rates: "Rates and rooms for your dates are shown on the booking page.",
     },
     talk: {
       kicker: "Talk to the resort",
       title: "Talk",
-      intro: "The address, the one phone number, and the time at the resort right now.",
+      intro: "The address, the phone numbers, LINE, and the time at the resort right now.",
     },
     enquiry: {
-      kicker: "Write an enquiry",
+      kicker: "Prepare an enquiry",
       title: "Write",
       intro: {
-        draft: "Fill in what applies. The form turns it into a message you can copy and send yourself.",
+        draft: "Two steps: write and copy your message here, then send it to the resort yourself.",
         delivery: "Fill in what applies and send it. The team replies by the channel you choose.",
       },
     },
     form: {
-      heading: "Your enquiry",
+      heading: "Write your enquiry",
+      steps: {
+        label: "How it works",
+        one: "Write your message and press Copy enquiry.",
+        two: "Open the resort’s LINE account or Facebook page and paste it into a chat.",
+      },
       about: "What is your enquiry about?",
       stayDetails: "About the stay",
       groupDetails: "About the group",
@@ -131,16 +151,18 @@ export const copy = {
       datesHint: "Leave the dates empty if you have not decided.",
       messageHint: "Practical needs are welcome. There is no need to share medical details.",
       guestsInvalid: "Please enter a number of guests, or leave it empty.",
-      draftNote: "Nothing is sent from this page. The button copies your message so you can paste it into a message to the resort.",
+      draftNote: "Copy your message, then paste it into a chat with the resort on LINE or Facebook. Nothing is sent from this page.",
       deliveryNote: "An enquiry is a message to the resort, not a confirmed reservation.",
-      privacyLead: "How the website handles what you type:",
+      privacyLead: "How this page handles what you type:",
       privacyLink: "privacy policy",
-      copiedHeading: "Your message is copied",
-      copiedBody: "Paste it into a message to the resort on Facebook, or read it out on the phone. Nothing has been sent from this page.",
+      copiedHeading: "Message copied",
+      copiedBody: "Open LINE or Facebook and paste it into your chat with the resort.",
+      openLine: "Open the resort’s LINE",
+      openFacebook: "Open the resort’s Facebook page",
       manualHeading: "Copy your message",
-      manualBody: "Your browser did not allow copying. The message is below: select it, copy it, and paste it into a message to the resort.",
+      manualBody: "Your browser did not allow copying. The message is below: select it, copy it, then paste it into a chat with the resort on LINE or Facebook.",
       draftLabel: "Your enquiry, ready to copy",
-      noScript: "The enquiry form needs JavaScript, which is switched off in this browser. Please call the resort or write on Facebook instead.",
+      noScript: "The enquiry page needs JavaScript, which is switched off in this browser. Please call the resort, or write on LINE or Facebook instead.",
       sending: "Sending",
       failedPlain: "Your enquiry could not be sent just now. What you wrote is still here. Please try again.",
       tooManyPlain: "That was several attempts in a short time. Please wait a moment and try again.",
@@ -159,34 +181,41 @@ export const copy = {
   },
   th: {
     heroKicker: "ติดต่อรีสอร์ท",
-    statement: "จะโทร ติดต่อทาง Facebook หรือเขียนคำถามสั้นๆ ก็ได้",
+    statement: "จะโทร แชตทาง LINE หรือเขียนคำถามสั้นๆ ก็ได้",
     accent: "",
     body: {
-      always: "ช่องทางที่ติดต่อรีสอร์ทได้เร็วที่สุดคือโทรศัพท์ และยังติดต่อทีมงานผ่านหน้า Facebook ของรีสอร์ทได้ด้วย",
-      draft: "แบบฟอร์มด้านล่างช่วยเรียบเรียงข้อความสอบถาม แบบฟอร์มนี้ไม่ได้ส่งข้อความให้เอง แต่จะคัดลอกข้อความไว้ให้นำไปวางในข้อความถึงรีสอร์ท",
-      delivery: "แบบฟอร์มด้านล่างจะส่งข้อความสอบถามถึงรีสอร์ท และทีมงานจะติดต่อกลับตามช่องทางที่เลือกไว้",
+      always: "ช่องทางที่ติดต่อรีสอร์ทได้เร็วที่สุดคือโทรศัพท์ และยังติดต่อทีมงานทาง LINE หรือหน้า Facebook ของรีสอร์ทได้ด้วย",
+      draft: "ด้านล่างมีส่วนสำหรับเตรียมข้อความสอบถาม เขียนข้อความที่นี่ คัดลอก แล้วนำไปวางในแชตกับรีสอร์ททาง LINE หรือ Facebook หน้านี้ไม่ได้ส่งข้อความใดๆ",
+      delivery: "ด้านล่างมีแบบฟอร์มสำหรับส่งข้อความสอบถามถึงรีสอร์ท และทีมงานจะติดต่อกลับตามช่องทางที่เลือกไว้",
     },
     glance: {
-      phone: "หมายเลขโทรศัพท์ของรีสอร์ทคือ {phone}",
+      phone: "เบอร์หลักของรีสอร์ทคือ {phone}",
+      line: "LINE Official ของรีสอร์ทคือ {id}",
       facebook: "ติดต่อรีสอร์ทผ่านหน้า Facebook ของรีสอร์ทได้อีกช่องทางหนึ่ง",
+      draft: "หน้าสอบถามจะเตรียมข้อความไว้ให้คัดลอก ไม่ได้ส่งข้อความให้",
       notReservation: "ข้อความสอบถามเป็นการติดต่อรีสอร์ท ยังไม่ใช่การยืนยันการจอง",
       rates: "ราคาและห้องพักของช่วงวันที่ต้องการ ดูได้ในหน้าจอง",
     },
     talk: {
       kicker: "ติดต่อรีสอร์ท",
       title: "ติดต่อ",
-      intro: "ที่อยู่ หมายเลขโทรศัพท์ และเวลาที่รีสอร์ทในขณะนี้",
+      intro: "ที่อยู่ เบอร์โทรศัพท์ LINE และเวลาที่รีสอร์ทในขณะนี้",
     },
     enquiry: {
-      kicker: "เขียนข้อความสอบถาม",
+      kicker: "เตรียมข้อความสอบถาม",
       title: "สอบถาม",
       intro: {
-        draft: "กรอกเฉพาะส่วนที่เกี่ยวข้อง แบบฟอร์มจะเรียบเรียงเป็นข้อความให้คัดลอกไปส่งเอง",
+        draft: "มีสองขั้นตอน เขียนและคัดลอกข้อความที่นี่ แล้วนำไปส่งถึงรีสอร์ทด้วยตัวเอง",
         delivery: "กรอกเฉพาะส่วนที่เกี่ยวข้องแล้วกดส่ง ทีมงานจะติดต่อกลับตามช่องทางที่เลือกไว้",
       },
     },
     form: {
-      heading: "ข้อความสอบถามของคุณ",
+      heading: "เขียนข้อความสอบถาม",
+      steps: {
+        label: "ขั้นตอน",
+        one: "เขียนข้อความ แล้วกดคัดลอกข้อความสอบถาม",
+        two: "เปิด LINE หรือหน้า Facebook ของรีสอร์ท แล้ววางข้อความลงในแชต",
+      },
       about: "เรื่องที่ต้องการสอบถาม",
       stayDetails: "รายละเอียดการเข้าพัก",
       groupDetails: "รายละเอียดของหมู่คณะ",
@@ -198,16 +227,18 @@ export const copy = {
       datesHint: "หากยังไม่ได้กำหนดวันที่ เว้นว่างไว้ได้",
       messageHint: "บอกความต้องการในทางปฏิบัติได้ โดยไม่จำเป็นต้องให้ข้อมูลทางการแพทย์",
       guestsInvalid: "กรุณากรอกจำนวนผู้เข้าพักเป็นตัวเลข หรือเว้นว่างไว้",
-      draftNote: "หน้านี้ไม่ได้ส่งข้อความใดๆ ปุ่มด้านล่างจะคัดลอกข้อความ เพื่อนำไปวางในข้อความถึงรีสอร์ท",
+      draftNote: "คัดลอกข้อความ แล้วนำไปวางในแชตกับรีสอร์ททาง LINE หรือ Facebook หน้านี้ไม่ได้ส่งข้อความใดๆ",
       deliveryNote: "ข้อความสอบถามเป็นการติดต่อรีสอร์ท ยังไม่ใช่การยืนยันการจอง",
-      privacyLead: "เว็บไซต์ดูแลข้อมูลที่กรอกอย่างไร อ่านได้ที่",
+      privacyLead: "หน้านี้ดูแลข้อมูลที่พิมพ์อย่างไร อ่านได้ที่",
       privacyLink: "นโยบายความเป็นส่วนตัว",
       copiedHeading: "คัดลอกข้อความแล้ว",
-      copiedBody: "นำไปวางในข้อความถึงรีสอร์ททาง Facebook หรือใช้อ่านขณะโทรศัพท์ได้ หน้านี้ยังไม่ได้ส่งข้อความใดๆ",
+      copiedBody: "เปิด LINE หรือ Facebook แล้ววางข้อความลงในแชตกับรีสอร์ท",
+      openLine: "เปิด LINE ของรีสอร์ท",
+      openFacebook: "เปิดหน้า Facebook ของรีสอร์ท",
       manualHeading: "คัดลอกข้อความ",
-      manualBody: "เบราว์เซอร์ไม่อนุญาตให้คัดลอกอัตโนมัติ ข้อความอยู่ด้านล่าง เลือกข้อความ คัดลอก แล้วนำไปวางในข้อความถึงรีสอร์ท",
+      manualBody: "เบราว์เซอร์ไม่อนุญาตให้คัดลอกอัตโนมัติ ข้อความอยู่ด้านล่าง เลือกข้อความ คัดลอก แล้วนำไปวางในแชตกับรีสอร์ททาง LINE หรือ Facebook",
       draftLabel: "ข้อความสอบถามที่พร้อมคัดลอก",
-      noScript: "แบบฟอร์มสอบถามต้องใช้ JavaScript ซึ่งปิดอยู่ในเบราว์เซอร์นี้ กรุณาโทรหารีสอร์ทหรือติดต่อทาง Facebook แทน",
+      noScript: "หน้าสอบถามต้องใช้ JavaScript ซึ่งปิดอยู่ในเบราว์เซอร์นี้ กรุณาโทรหารีสอร์ท หรือติดต่อทาง LINE หรือ Facebook แทน",
       sending: "กำลังส่ง",
       failedPlain: "ยังส่งข้อความไม่สำเร็จ ข้อความที่กรอกไว้ยังอยู่ครบ กรุณาลองส่งอีกครั้ง",
       tooManyPlain: "ส่งหลายครั้งในเวลาสั้นๆ กรุณารอสักครู่แล้วลองอีกครั้ง",

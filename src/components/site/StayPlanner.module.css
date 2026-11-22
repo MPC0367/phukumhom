@@ -282,3 +282,20 @@
 .drawer .error {
   margin-block-end: calc(-1 * var(--s-2));
 }
+
+/*
+ * The button's two wordings. Without script the date fields are required, so "Check availability" is
+ * always true and is the one shown. With script the form says whether any date is entered
+ * (data-dates, written by StayPlannerEnhancer): with none, the button offers to browse instead.
+ */
+.whenNoDates {
+  display: none;
+}
+
+.form[data-dates="none"] .whenDates {
+  display: none;
+}
+
+.form[data-dates="none"] .whenNoDates {
+  display: inline;
+}

@@ -1,9 +1,10 @@
 "use client";
 
-import { useCallback, useId, useRef, useState, type KeyboardEvent } from "react";
+import { useCallback, useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
 import { useGSAP } from "@gsap/react";
 import type { Locale, NearbyPlace } from "@/content/schema";
-import { Flip, gsap, ScrollTrigger, watchPending } from "@/components/motion/gsap";
+import type { Flip } from "gsap/Flip";
+import { gsap, ScrollTrigger, watchPending } from "@/components/motion/gsap";
 import { useEntrance, type EntranceControl } from "@/components/motion/useEntrance";
 import { useMotionActive } from "@/components/motion/useMotion";
 import { Chip } from "@/components/ui/Chip";
@@ -85,6 +86,19 @@ export function PlacesList({ lang, rows, groups, labels, headingLevel, className
   const figure = useRef<HTMLSpanElement>(null);
   /** What the list looked like at the moment a chip was pressed. Read once, by the effect that follows the render. */
   const before = useRef<{ state: Flip.FlipState; height: number } | null>(null);
+  /** The Flip plugin, once it has been fetched (it is not in the first-load script: motion/gsap-flip). */
+  const flip = useRef<typeof Flip | null>(null);
+  useEffect(() => {
+    let alive = true;
+    void import("@/components/motion/gsap-flip")
+      .then((module) => {
+        if (alive) flip.current = module.Flip;
+      })
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, []);
   const moving = useRef<gsap.core.Timeline | null>(null);
   /** Shows, at once, every row whose entrance has not run yet. Set by the entrance; called before a filter move. */
   const settleRows = useRef<(() => void) | null>(null);
@@ -111,7 +125,8 @@ export function PlacesList({ lang, rows, groups, labels, headingLevel, className
       const items = Array.from(ul.children);
       gsap.set(items, { clearProps: "opacity,transform" });
       gsap.set(ul, { clearProps: "height,overflow" });
-      before.current = { state: Flip.getState(items), height: ul.offsetHeight };
+      // Without the plugin (a chip pressed in the first moments) the rows simply change.
+      before.current = flip.current ? { state: flip.current.getState(items), height: ul.offsetHeight } : null;
     }
     setFilter(next);
   }
@@ -121,7 +136,8 @@ export function PlacesList({ lang, rows, groups, labels, headingLevel, className
       const from = before.current;
       before.current = null;
       const ul = list.current;
-      if (!from || !ul) return;
+      const Plugin = flip.current;
+      if (!from || !ul || !Plugin) return;
 
       const to = ul.offsetHeight;
       const settle = () => {
@@ -129,7 +145,7 @@ export function PlacesList({ lang, rows, groups, labels, headingLevel, className
         moving.current = null;
       };
 
-      const timeline = Flip.from(from.state, {
+      const timeline = Plugin.from(from.state, {
         ...MOVE,
         absoluteOnLeave: true,
         prune: true,

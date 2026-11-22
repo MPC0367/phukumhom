@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { pub, type Locale } from "@/content/schema";
-import { site } from "@/content/site";
+import { flag, site } from "@/content/site";
 import { Button } from "@/components/ui/Button";
 import { VisuallyHidden } from "@/components/ui/VisuallyHidden";
 import { cx } from "@/components/ui/cx";
@@ -16,15 +16,17 @@ import styles from "./ContactActions.module.css";
  *   <ContactActions lang={lang} include={["directions", "contact"]} placement="journey" />
  *   <ContactActions lang={lang} variant="stack" include={["call", "directions"]} placement="mobile-menu" />
  *
- *   call        tel: link to the one published number            "Call +66 65 542 9451" / "โทร 065 542 9451"
+ *   call        tel: link to the main number                      "Call +66 65 242 6636" / "โทร 065 242 6636"
+ *   line        the resort’s LINE Official account (flag "line")  "Chat on LINE" / "แชตทาง LINE"
  *   directions  the resort's own Google Maps listing              "Open in Google Maps"
  *   facebook    the resort's Facebook page                        "Contact on Facebook"
  *   contact     the contact page of this site                     "Contact the resort"
  *
  * Every action is built from a published fact, read through `pub()`: one that is withheld (or a
  * network whose flag is off) is simply absent, and with nothing to show the component renders
- * nothing. There is no email action because no address is published, and no Instagram / LINE /
- * WhatsApp action until a real one exists.
+ * nothing. There is no email action because no address is published, and no Instagram or WhatsApp
+ * action until a real one exists. The second phone number is never an action: it is printed beside the
+ * main one where a number is shown in full (contact panel, footer).
  *
  * "directions" is the map listing, labelled as the contract rules: "Open in Google Maps". It is
  * never called the arrival gate and no coordinates are printed.
@@ -35,18 +37,18 @@ import styles from "./ContactActions.module.css";
  *
  * `placement` names where the block sits for analytics (a value from ANALYTICS_PLACEMENTS).
  */
-export type ContactAction = "call" | "facebook" | "directions" | "contact";
+export type ContactAction = "call" | "line" | "facebook" | "directions" | "contact";
 
 export interface ContactActionsProps {
   lang: Locale;
   variant?: "row" | "stack";
-  /** Which actions, in this order. Defaults to all four. */
+  /** Which actions, in this order. Defaults to all five. */
   include?: ContactAction[];
   placement?: AnalyticsPlacement;
   className?: string;
 }
 
-const ALL: ContactAction[] = ["call", "directions", "facebook", "contact"];
+const ALL: ContactAction[] = ["call", "line", "directions", "facebook", "contact"];
 
 export function ContactActions({ lang, variant = "row", include = ALL, placement = "inline", className }: ContactActionsProps) {
   const ui = t(lang);
@@ -55,6 +57,7 @@ export function ContactActions({ lang, variant = "row", include = ALL, placement
   const tel = telHref(phone);
   const map = pub(site.maps.listingUrl);
   const facebook = pub(site.social.facebook);
+  const line = flag("line") ? pub(site.social.line) : null;
 
   const items: { id: ContactAction; node: (emphasis: "secondary" | "quiet") => ReactNode }[] = [];
 
@@ -74,6 +77,28 @@ export function ContactActions({ lang, variant = "row", include = ALL, placement
             ) : (
               <span className="tabular">{fill(ui.patterns.callOn, { phone: number })}</span>
             )}
+          </Button>
+        ),
+      });
+    }
+
+    if (id === "line" && line) {
+      items.push({
+        id,
+        node: (emphasis) => (
+          <Button
+            href={line.url}
+            external
+            variant={emphasis}
+            icon="arrow-up-right"
+            fullWidth={stack}
+            data-analytics="social_contact_click"
+            data-network="line"
+            data-placement={placement}
+          >
+            {ui.actions.chatOnLine}
+            {stack ? <span className={cx("tabular", styles.number)}>{line.id}</span> : null}
+            <VisuallyHidden> ({ui.a11y.opensLine})</VisuallyHidden>
           </Button>
         ),
       });

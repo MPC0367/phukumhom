@@ -350,3 +350,16 @@
     border: var(--hairline) solid var(--rule);
   }
 }
+
+/* Where the size and guest figures come from, and when they were read. */
+.listed {
+  max-width: var(--measure);
+  margin-block-start: var(--s-3);
+  color: var(--text-muted);
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+}
+
+.listed:lang(th) {
+  line-height: 1.7;
+}

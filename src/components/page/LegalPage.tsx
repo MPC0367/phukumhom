@@ -2,6 +2,7 @@ import type { LegalBlock, LegalCondition, LegalCopy } from "@/content/pages/lega
 import { pub, type Locale } from "@/content/schema";
 import { getSeo } from "@/content/seo";
 import { site } from "@/content/site";
+import { PREVIEW_OPERATOR } from "@/content/site-public";
 import { Reveal } from "@/components/motion";
 import { AddressText } from "@/components/site/AddressText";
 import { AtAGlance, Breadcrumbs, Kicker, LastUpdated, Section, TextLink, cx } from "@/components/ui";
@@ -19,9 +20,11 @@ import s from "./LegalPage.module.css";
  *   body     "At a glance" and the list of sections in a rail that stays beside the text from 64rem;
  *            the sections as running prose; the resort's contact details last
  *
- * `conditions` says how the site is configured right now (measurement on or off, enquiry delivery on or
- * off). A paragraph marked for another configuration is not printed, so the page never describes a
- * feature that is switched off (src/content/pages/legal.ts).
+ * `conditions` says how the site stands right now: preview or official, measurement on or off, enquiry
+ * delivery on or off, which host. A paragraph is printed only when every condition it names holds, so the
+ * page never describes a feature that is switched off or an operator that is not the operator
+ * (src/content/pages/legal.ts). In a preview the contact section names the studio, not the resort, as the
+ * one to ask about the preview itself.
  *
  * The page has no hero behind the header, so the header is solid and <main> starts below it.
  */
@@ -36,7 +39,8 @@ export interface LegalPageProps {
 export function LegalPage({ lang, route, copy: c, conditions }: LegalPageProps) {
   const ui = t(lang);
   const seo = getSeo(route, lang);
-  const applies = (block: { when?: LegalCondition }) => !block.when || conditions.includes(block.when);
+  const applies = (block: { when?: LegalCondition[] }) => !block.when || block.when.every((condition) => conditions.includes(condition));
+  const preview = conditions.includes("preview");
 
   const sections = c.sections.map((section) => ({ ...section, blocks: section.blocks.filter(applies) })).filter((section) => section.blocks.length > 0);
   const glance = c.glance.filter(applies).map((item) => item.text);
@@ -54,7 +58,7 @@ export function LegalPage({ lang, route, copy: c, conditions }: LegalPageProps) 
           <Reveal trigger="load" className={s.title}>
             <Kicker>{c.kicker}</Kicker>
             <h1 className={cx("h1", s.h1)}>{lang === "th" ? keepThai(seo.h1) : seo.h1}</h1>
-            <p className={cx("lead", s.intro)}>{c.intro}</p>
+            <p className={cx("lead", s.intro)}>{preview ? c.intro.preview : c.intro.official}</p>
             <LastUpdated lang={lang} date={site.lastUpdated} />
           </Reveal>
         </div>
@@ -96,28 +100,45 @@ export function LegalPage({ lang, route, copy: c, conditions }: LegalPageProps) 
               <h2 id={`${c.contact.id}-title`} className={cx("h3", s.heading)}>
                 {c.contact.heading}
               </h2>
-              <div className="prose">
-                <p>{c.contact.text}</p>
-                {hasAddress ? (
-                  <address className={s.address}>
-                    {c.contact.address.split("{address}")[0]}
-                    <AddressText lang={lang} />
-                  </address>
-                ) : null}
-                {number && tel ? (
+              {preview ? (
+                <div className="prose">
+                  <p>{c.contact.preview.text}</p>
                   <p>
-                    {c.contact.phone.split("{phone}")[0]}
-                    <a href={tel} className="tabular">
-                      {number}
-                    </a>
+                    <TextLink variant="arrow" href={PREVIEW_OPERATOR.url} external target="_blank">
+                      {c.contact.preview.studioLink}
+                    </TextLink>
                   </p>
-                ) : null}
-                <p>
-                  <TextLink variant="arrow" href={href(lang, "contact")}>
-                    {c.contact.link}
-                  </TextLink>
-                </p>
-              </div>
+                  <p>{c.contact.preview.resort}</p>
+                  <p>
+                    <TextLink variant="arrow" href={href(lang, "contact")}>
+                      {c.contact.preview.resortLink}
+                    </TextLink>
+                  </p>
+                </div>
+              ) : (
+                <div className="prose">
+                  <p>{c.contact.official.text}</p>
+                  {hasAddress ? (
+                    <address className={s.address}>
+                      {c.contact.official.address.split("{address}")[0]}
+                      <AddressText lang={lang} />
+                    </address>
+                  ) : null}
+                  {number && tel ? (
+                    <p>
+                      {c.contact.official.phone.split("{phone}")[0]}
+                      <a href={tel} className="tabular">
+                        {number}
+                      </a>
+                    </p>
+                  ) : null}
+                  <p>
+                    <TextLink variant="arrow" href={href(lang, "contact")}>
+                      {c.contact.official.link}
+                    </TextLink>
+                  </p>
+                </div>
+              )}
             </section>
           </article>
         </div>

@@ -89,19 +89,19 @@ export const copy = {
     statement: "An open pavilion on the lawn, and a kitchen garden that follows the season.",
     accent: "season",
     body: [
-      "The resort’s restaurant is in an open-sided pavilion. In the photographs its tables stand under a timber roof, with the garden on every side.",
-      "The resort also describes a small kitchen garden of its own. What follows is that account, not a menu. For meals during your stay, the team is the one to ask.",
+      "The resort’s restaurant is an open-sided pavilion in the garden, with tables under a timber roof.",
+      "Menus and garden produce change with the season. Ask the team about today’s menu and seasonal dishes.",
     ],
     glance: {
       restaurant: "The resort has a restaurant of its own, in an open-sided pavilion.",
-      garden: "The resort describes a small kitchen garden; what it gives changes with the season.",
+      garden: "The resort tells of a small kitchen garden that follows the season.",
       ask: "For opening hours, the menu or a dietary request, ask the team before you travel.",
     },
     askMeals: "Ask the team about meals",
     garden: {
       kicker: "The kitchen garden",
       title: "Garden",
-      intro: "The resort’s own account of what it grows and what it makes from it.",
+      intro: "What grows there, and what is made from it.",
       growsTitle: "What grows there",
       seasonTitle: "Made, poured and taken home",
       seasonLabel: "By the season",
@@ -109,10 +109,10 @@ export const copy = {
     pavilion: {
       kicker: "The dining pavilion",
       title: "Pavilion",
-      intro: "The restaurant as the photographs show it, from the lawn and from inside.",
+      intro: "An open-sided pavilion on the lawn, from outside and from within.",
       body: [
-        "The photographs were taken at dusk and after dark, when the lamps under the roof are lit and the pavilion glows on the lawn.",
-        "They show the place, not a sitting: tables, chairs, timber posts and the garden beyond.",
+        "At dusk the lamps under the roof are lit and the pavilion glows on the lawn.",
+        "Tables stand between timber posts, open to the garden on every side.",
       ],
       label: "Photographs of the dining pavilion",
       open: "Open photograph: {caption}",
@@ -120,7 +120,7 @@ export const copy = {
     meals: {
       kicker: "Breakfast and meals",
       title: "Meals",
-      intro: "What can be said plainly today, and who to ask about the rest.",
+      intro: "Breakfast, opening hours and special requests.",
       notes: [
         "For opening hours and the current menu, ask the team before you travel.",
         "If you have a dietary request, tell the team in advance. A request is a message to the kitchen, not a guarantee of a particular preparation.",
@@ -131,7 +131,7 @@ export const copy = {
       kicker: "Plates and garden beds",
       line: "From the garden bed to the plate, as the camera found them.",
       accent: "plate",
-      lead: "The photographs show single plates, drinks and garden beds. They are not a menu.",
+      lead: "Plates, drinks and garden beds, photographed at the resort. For today’s menu, ask the team.",
       label: "Photographs of plates and garden beds",
       hint: "Drag",
     },
@@ -141,19 +141,19 @@ export const copy = {
     statement: "ศาลาโล่งกลางสนามหญ้า กับสวนครัวที่เปลี่ยนไปตามฤดูกาล",
     accent: "",
     body: [
-      "ร้านอาหารของรีสอร์ทอยู่ในศาลาแบบเปิดโล่ง ในภาพถ่ายจะเห็นโต๊ะอาหารตั้งอยู่ใต้หลังคาไม้ มีสวนล้อมอยู่รอบด้าน",
-      "รีสอร์ทยังเล่าถึงสวนครัวแปลงเล็กของตัวเอง เนื้อหาด้านล่างเป็นคำบอกเล่านั้น ไม่ใช่รายการอาหาร ส่วนเรื่องอาหารในช่วงที่เข้าพัก สอบถามทีมงานได้โดยตรง",
+      "ร้านอาหารของรีสอร์ทเป็นศาลาเปิดโล่งกลางสวน โต๊ะอาหารตั้งอยู่ใต้หลังคาไม้",
+      "เมนูและผลผลิตจากสวนครัวเปลี่ยนไปตามฤดูกาล สอบถามทีมงานเรื่องเมนูของวันนี้และอาหารตามฤดูกาลได้",
     ],
     glance: {
       restaurant: "รีสอร์ทมีร้านอาหารของตัวเอง อยู่ในศาลาแบบเปิดโล่ง",
-      garden: "รีสอร์ทเล่าว่ามีสวนครัวแปลงเล็ก ผลผลิตเปลี่ยนไปตามฤดูกาล",
+      garden: "รีสอร์ทเล่าถึงสวนครัวแปลงเล็กที่เปลี่ยนไปตามฤดูกาล",
       ask: "เรื่องเวลาเปิดปิด เมนู หรืออาหารเฉพาะ สอบถามทีมงานก่อนเดินทางได้",
     },
     askMeals: "สอบถามทีมงานเรื่องอาหาร",
     garden: {
       kicker: "สวนครัว",
       title: "สวนครัว",
-      intro: "คำบอกเล่าของรีสอร์ท ว่าปลูกอะไร และนำไปทำอะไรบ้าง",
+      intro: "ปลูกอะไร และนำไปทำอะไรบ้าง",
       growsTitle: "ในแปลงปลูก",
       seasonTitle: "ของทำเองและเครื่องดื่มต้อนรับ",
       seasonLabel: "ตามฤดูกาล",
@@ -161,10 +161,10 @@ export const copy = {
     pavilion: {
       kicker: "ศาลาอาหาร",
       title: "ศาลาอาหาร",
-      intro: "ร้านอาหารอย่างที่เห็นในภาพถ่าย ทั้งจากสนามหญ้าและจากด้านใน",
+      intro: "ศาลาเปิดโล่งบนสนามหญ้า ทั้งจากด้านนอกและด้านใน",
       body: [
-        "ภาพชุดนี้ถ่ายตอนพลบค่ำและยามค่ำ ช่วงที่โคมไฟใต้หลังคาเปิดแล้ว และศาลาสว่างอยู่กลางสนามหญ้า",
-        "ภาพแสดงสถานที่ ไม่ใช่มื้ออาหารมื้อใดมื้อหนึ่ง จะเห็นโต๊ะ เก้าอี้ เสาไม้ และสวนที่อยู่ถัดออกไป",
+        "ยามพลบค่ำ โคมไฟใต้หลังคาเปิดขึ้น และศาลาสว่างอยู่กลางสนามหญ้า",
+        "โต๊ะอาหารตั้งอยู่ระหว่างเสาไม้ เปิดโล่งเห็นสวนรอบด้าน",
       ],
       label: "ภาพถ่ายศาลาอาหาร",
       open: "เปิดดูภาพ {caption}",
@@ -172,7 +172,7 @@ export const copy = {
     meals: {
       kicker: "อาหารเช้าและมื้ออาหาร",
       title: "มื้ออาหาร",
-      intro: "สิ่งที่บอกได้ชัดเจนในตอนนี้ และช่องทางสอบถามเรื่องอื่นๆ",
+      intro: "อาหารเช้า เวลาเปิดปิด และอาหารเฉพาะ",
       notes: [
         "เรื่องเวลาเปิดปิดและเมนูปัจจุบันของร้านอาหาร สอบถามทีมงานก่อนเดินทางได้",
         "หากต้องการอาหารเฉพาะ แจ้งทีมงานล่วงหน้าได้ การแจ้งเป็นการบอกให้ครัวทราบ ยังไม่ใช่การรับรองว่าจะจัดเตรียมได้ตามนั้นทุกอย่าง",
@@ -183,7 +183,7 @@ export const copy = {
       kicker: "จานอาหารและแปลงผัก",
       line: "จากแปลงผักถึงจานอาหาร อย่างที่กล้องบันทึกไว้",
       accent: "",
-      lead: "ภาพเหล่านี้คือจานอาหาร เครื่องดื่ม และแปลงผักที่ถ่ายไว้ ไม่ใช่รายการอาหาร",
+      lead: "จานอาหาร เครื่องดื่ม และแปลงผักที่ถ่ายไว้ในรีสอร์ท ส่วนเมนูของวันนี้ สอบถามทีมงานได้",
       label: "ภาพจานอาหารและแปลงผัก",
       hint: "ลากเพื่อเลื่อนดู",
     },

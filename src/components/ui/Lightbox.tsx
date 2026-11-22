@@ -271,7 +271,7 @@ function Viewer({ items, labels, index, onIndex, onClose, restoreTo }: ViewerPro
           </div>
 
           {many ? (
-            <ol ref={strip} role="list" className={styles.thumbs} data-lenis-prevent>
+            <ol ref={strip} role="list" className={styles.thumbs}>
               {items.map((thumb, i) => (
                 <li key={thumb.id} className={styles.thumbItem}>
                   <button

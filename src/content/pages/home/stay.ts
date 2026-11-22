@@ -7,14 +7,18 @@ import type { L } from "@/content/schema";
  *   kicker                  glossary home.sections.stay.label
  *   compare.intro           glossary home.sections.stay.heading
  *   chosenOnBookingPage     glossary phrases.roomChosenOnBookingPage
- *   compare.askLink         glossary phrases.askBedsOccupancy
  *
  * Words that already live in the shared table are NOT repeated here; the components read them from
  * src/i18n/ui.ts: Compare rooms, All rooms, View room, Ask about this room, Check availability, and the
- * fact labels Outdoors, Bathing, In the room, Good to know.
+ * fact labels Size, Guests, Outdoors, Bathing, In the room.
  *
- * No fact is typed here. Room names, glosses, the one-sentence distinctions, the outdoor and bathing
- * facts, the amenities and the notes all come from src/content/rooms.ts.
+ * No fact is typed here. Room names, glosses, the one-sentence distinctions, the listed size and adult
+ * limit, the outdoor and bathing facts, the amenities and the notes all come from src/content/rooms.ts.
+ *
+ * Revision of 8 October 2026 (audit finding D): the stage and the comparison now print the size and the
+ * adult limit the booking page lists, with one line saying where they come from; the stage shows the
+ * bedroom beside the rooftop; and the one question the page cannot answer (beds, a child's place,
+ * connecting rooms) is a single link, not a sentence repeated per room.
  */
 
 export interface StayCopy {
@@ -26,8 +30,10 @@ export interface StayCopy {
     listLabel: string;
     /** Accessible name of the photograph stage. */
     photoLabel: string;
+    /** The small label on a room's bedroom photograph. */
+    bedroom: string;
   };
-  /** For a screen reader, before the fact that sets a room type apart; the clay mark says it to the eye. */
+  /** For a screen reader, before the fact that sets a room type apart; the clay mark is decoration. */
   distinctLabel: string;
   chosenOnBookingPage: string;
   compare: {
@@ -40,6 +46,8 @@ export interface StayCopy {
     allThree: string;
     /** Explains the clay mark. */
     legend: string;
+    /** Where the size and guest figures come from. `{date}` is the day they were read. */
+    listedNote: string;
     sharedHeading: string;
     askLink: string;
   };
@@ -53,6 +61,7 @@ export const copy = {
     stage: {
       listLabel: "The three room types",
       photoLabel: "Photograph of the selected room type",
+      bedroom: "The bedroom",
     },
     distinctLabel: "Sets this room type apart",
     chosenOnBookingPage: "You choose the room on the booking page.",
@@ -61,9 +70,10 @@ export const copy = {
       caption: "The three room types compared",
       rowHeader: "Feature",
       allThree: "All three room types",
-      legend: "The clay mark shows what sets a room type apart.",
+      legend: "The mark shows the feature that sets a room type apart.",
+      listedNote: "Size and guests are as listed on the booking page, checked {date}.",
       sharedHeading: "For all three room types",
-      askLink: "Ask about beds, occupancy and connecting rooms",
+      askLink: "Ask about beds, a child’s place and connecting rooms",
     },
   },
   th: {
@@ -73,6 +83,7 @@ export const copy = {
     stage: {
       listLabel: "ห้องพักสามแบบ",
       photoLabel: "ภาพถ่ายของห้องพักแบบที่เลือก",
+      bedroom: "ห้องนอน",
     },
     distinctLabel: "จุดที่ต่างจากห้องแบบอื่น",
     chosenOnBookingPage: "เลือกประเภทห้องพักได้ในหน้าจอง",
@@ -81,9 +92,10 @@ export const copy = {
       caption: "เปรียบเทียบห้องพักสามแบบ",
       rowHeader: "รายการ",
       allThree: "ทั้งสามแบบ",
-      legend: "จุดสีอิฐ บอกสิ่งที่ทำให้ห้องแบบนั้นต่างจากแบบอื่น",
+      legend: "จุดสีอิฐบอกสิ่งที่ทำให้ห้องแบบนั้นต่างจากแบบอื่น",
+      listedNote: "ขนาดห้องและจำนวนผู้เข้าพักเป็นไปตามที่ระบุในหน้าจอง ตรวจสอบเมื่อ {date}",
       sharedHeading: "สำหรับห้องพักทั้งสามแบบ",
-      askLink: "สอบถามเรื่องเตียง จำนวนผู้เข้าพัก และห้องที่เชื่อมถึงกัน",
+      askLink: "สอบถามเรื่องเตียง ที่นอนสำหรับเด็ก และห้องที่เชื่อมถึงกัน",
     },
   },
 } satisfies L<StayCopy>;

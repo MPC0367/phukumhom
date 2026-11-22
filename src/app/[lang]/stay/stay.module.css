@@ -8,3 +8,8 @@
 .details > * {
   width: 100%;
 }
+
+/* The one line under the two times: which document rules. */
+.times {
+  margin-block-start: var(--s-3);
+}

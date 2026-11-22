@@ -126,6 +126,28 @@
   transition: text-decoration-color var(--t-hover) var(--ease);
 }
 
+/* The second number: one quiet line under the big one. It dials, with a full-height tap area. */
+.altPhone {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  color: var(--text-muted);
+  font-size: var(--fs-small);
+  text-decoration: underline;
+  text-decoration-thickness: var(--hairline);
+  text-underline-offset: 0.25em;
+}
+
+.altPhone:hover {
+  color: var(--text);
+}
+
+.altPhone:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: var(--s-1);
+  border-radius: var(--radius-sm);
+}
+
 .channel {
   display: inline-flex;
   align-items: center;

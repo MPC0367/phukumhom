@@ -25,7 +25,9 @@ import styles from "./StayPlanner.module.css";
  * (Asia/Bangkok) as the earliest arrival, departure kept after arrival, the glossary's two messages
  * when a range is not possible and, in the drawer, three stay-length chips with a line that restates
  * the chosen stay in words. It never blocks a search without dates: that simply opens
- * the booking page, as the plain link does. It never writes to a field a guest is typing in.
+ * the booking page, as the plain link does, and while no date is entered the button says so ("Browse
+ * rooms and rates") instead of claiming to check dates nobody chose. It never writes to a field a guest
+ * is typing in.
  *
  * Children are not asked for: the provider would assume an age, so they are added on the booking
  * page. The Adults list stops at three; the help line says that a larger party adds rooms on the
@@ -105,7 +107,9 @@ export function StayPlanner({ lang, variant = "dock", className }: StayPlannerPr
             ))}
           </SelectField>
           <Button type="submit" size="lg" icon="arrow-up-right" className={styles.submit} aria-describedby={ids.help}>
-            {ui.actions.checkAvailability}
+            {/* Two wordings, one shown: with dates it checks them; with none it opens the booking page to browse. */}
+            <span className={styles.whenDates}>{ui.actions.checkAvailability}</span>
+            <span className={styles.whenNoDates}>{ui.actions.browseRates}</span>
           </Button>
         </div>
       </form>

@@ -65,7 +65,7 @@ export const copy = {
     setting: {
       kicker: "The setting",
       title: "Setting",
-      intro: "Parts of the resort, as the photographs show them.",
+      intro: "A few corners of the resort.",
       label: "Photographs of the resort",
       open: "Open photograph: {caption}",
     },
@@ -89,7 +89,7 @@ export const copy = {
     setting: {
       kicker: "บรรยากาศ",
       title: "บรรยากาศ",
-      intro: "บางมุมของรีสอร์ท อย่างที่เห็นในภาพถ่าย",
+      intro: "บางมุมของรีสอร์ท",
       label: "ภาพบรรยากาศของรีสอร์ท",
       open: "เปิดดูภาพ {caption}",
     },

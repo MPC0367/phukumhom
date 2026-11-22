@@ -62,9 +62,9 @@ export const copy = {
     tiles: {
       label: "The stay at a glance",
       roomTypes: { label: "Room types", note: "each with a private rooftop" },
-      checkIn: { label: "Check-in from", note: "as currently listed" },
-      checkOut: { label: "Check-out until", note: "as currently listed" },
-      reference: "Your booking confirmation is the reference for both times.",
+      checkIn: { label: "Check-in from", note: "" },
+      checkOut: { label: "Check-out until", note: "" },
+      reference: "Your booking confirmation has the times for your stay.",
     },
     note: "The resort is in the Khao Yai area, not inside the national park.",
     openPhoto: "Open photograph",
@@ -82,8 +82,8 @@ export const copy = {
     tiles: {
       label: "ข้อมูลการเข้าพักโดยสรุป",
       roomTypes: { label: "ประเภทห้องพัก", note: "แต่ละประเภทมีดาดฟ้าส่วนตัว" },
-      checkIn: { label: "เช็กอินได้ตั้งแต่", note: "ตามข้อมูลปัจจุบัน" },
-      checkOut: { label: "เช็กเอาต์ภายใน", note: "ตามข้อมูลปัจจุบัน" },
+      checkIn: { label: "เช็กอินได้ตั้งแต่", note: "" },
+      checkOut: { label: "เช็กเอาต์ภายใน", note: "" },
       reference: "เวลาเช็กอินและเช็กเอาต์ให้ยึดตามใบยืนยันการจองเป็นหลัก",
     },
     note: "รีสอร์ทอยู่ในย่านเขาใหญ่ ไม่ได้อยู่ในเขตอุทยานแห่งชาติเขาใหญ่",

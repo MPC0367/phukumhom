@@ -8,7 +8,7 @@ const info = await p.evaluate(() => {
   const slot = form?.closest("[class*=formSlot]");
   return {
     formHidden: slot ? getComputedStyle(slot).display === "none" : "no slot",
-    fallbackVisible: document.body.innerText.includes("The enquiry form needs JavaScript"),
+    fallbackVisible: document.body.innerText.includes("The enquiry page needs JavaScript"),
     callLinks: [...document.querySelectorAll('a[href^="tel:"]')].length,
   };
 });

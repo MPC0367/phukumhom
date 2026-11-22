@@ -4,6 +4,7 @@ import type { SourceId, SourceRecord } from "./schema";
  * The source register. Every `Fact` in src/content points at one or more of these ids.
  *
  * S-01 … S-31 mirror docs/sources.json and the register in docs/RESEARCH.md §2 (same ids, same order).
+ * S-40 is the resort itself, writing to O2 on 22 Nov 2026 (a chat message, so the URL is the account it named).
  * S-32 … S-39 are the first-party and government pages behind the places in src/content/nearby.ts;
  * their evidence is written up in docs/nearby-research.md (S-31).
  *
@@ -285,6 +286,13 @@ export const sources: SourceRecord[] = [
     url: "https://www.pbvalley.com/",
     kind: "third-party-current",
     read: "2026-10-07",
+  },
+  {
+    id: "S-40",
+    label: "The resort, in a LINE message to O2 Design Studio: 065 242 6636 is the main number, the LINE Official account is @phukumhomkhaoyai, the resort is a dark sky protection area with stargazing all year round",
+    url: "https://line.me/R/ti/p/%40phukumhomkhaoyai",
+    kind: "official-current",
+    read: "2026-11-22",
   },
 ];
 

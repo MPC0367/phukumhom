@@ -7,7 +7,7 @@ import { Phrases } from "@/components/places/Phrases";
 import { ViewAllPhotos } from "@/components/room/ViewAllPhotos";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { BookingLink, ContactActions, RoomName } from "@/components/site";
-import { amenityLabels, outdoorsFact } from "@/components/stay/room-facts";
+import { amenityLabels, bedroomFor, bookingPageName, listedFactsChecked, outdoorsFact } from "@/components/stay/room-facts";
 import {
   Button,
   Chapter,
@@ -22,19 +22,22 @@ import {
   Picture,
   Section,
   TextLink,
+  Tile,
+  TileRow,
   cx,
   lightboxItems,
   lightboxLabels,
   type FactItem,
 } from "@/components/ui";
-import { getDerivative } from "@/content/assets";
+import { getAsset, getDerivative } from "@/content/assets";
 import { copy } from "@/content/pages/room";
-import { POOL_SPA_CLARIFICATION, getRoom } from "@/content/rooms";
+import { POOL_NOTE, POOL_SPA_CLARIFICATION, getRoom } from "@/content/rooms";
 import { ROOM_IDS, pub } from "@/content/schema";
 import { getSeo } from "@/content/seo";
 import { site } from "@/content/site";
 import { isLocale } from "@/i18n/config";
 import { fill, t } from "@/i18n/ui";
+import { formatDate } from "@/lib/format";
 import { href, isRoomId } from "@/lib/routes";
 import { breadcrumbJsonLd, pageMetadata, roomJsonLd, webPageJsonLd } from "@/lib/seo";
 import s from "./room.module.css";
@@ -43,7 +46,10 @@ import s from "./room.module.css";
  * One room type (brief section 10), from one shared template.
  *
  *   hero         the room's catalogued lead photograph, the page topic as the <h1>, the breadcrumb trail
- *   lead         the distinction set large, the summary, the facts; beside them the booking panel
+ *   lead         the distinction set large and the summary; the two figures the booking page lists (size,
+ *                adults per room) with the line that says where they come from; the BEDROOM photograph;
+ *                the feature list. Beside them the booking panel, which names the room as the booking
+ *                page names it when the two differ ("Deluxe with Bathtub")
  *   callout      Executive Pool Spa only: the tub is a tub, and the pool is elsewhere
  *   01  photos   the room's own photograph set as a mosaic that opens the viewer
  *   02  details  the room's practical notes
@@ -51,9 +57,10 @@ import s from "./room.module.css";
  *   onward       the link plan
  *   closing      the forest band, continuous with the footer
  *
- * FACTS. Everything printed about the room comes from src/content/rooms.ts. Size, beds, occupancy,
- * connecting rooms and how the rooftop is reached are withheld there, so they have no row here: the
- * notes say where to ask. A photograph appears only if it is catalogued for this room.
+ * FACTS. Everything printed about the room comes from src/content/rooms.ts. The size and the adult limit
+ * are the booking page's own listing and are printed as that. Bed types, a child's place, connecting
+ * rooms and how the rooftop is reached are withheld there, so they have no row here: one note says
+ * where to ask. The adult and child figures are never added together. A photograph appears only if it is catalogued for this room.
  *
  * BOOKING. The provider cannot preselect a room (BUILD-CONTRACT section 3), so the action reads "Check
  * resort availability" and one line says the room is chosen on the booking page. "Ask about this room"
@@ -86,6 +93,13 @@ export default async function RoomPage({ params }: Props) {
   const checkIn = pub(site.checkIn);
   const checkOut = pub(site.checkOut);
 
+  /* ── The two figures the booking page lists, the bedroom, and the name used after the handoff ── */
+  const listedSqm = pub(room.area.listedSqm);
+  const maxAdults = pub(room.occupancy.maxAdults);
+  const listedChecked = listedFactsChecked(room);
+  const bedroom = bedroomFor(room);
+  const listedAs = bookingPageName(room);
+
   /* ── Facts ── */
   const outdoors = outdoorsFact(room, lang);
   const facts: FactItem[] = [];
@@ -108,7 +122,8 @@ export default async function RoomPage({ params }: Props) {
 
   /* ── The pool and spa-tub clarification stands apart where the room's name could mislead ── */
   const clarification = pub(room.features.rooftopSpaTub) === true ? POOL_SPA_CLARIFICATION[lang] : null;
-  const notes = room.goodToKnow[lang].filter((note) => note !== clarification);
+  // The callout already says where the pool is: the same sentence is not repeated in the notes below it.
+  const notes = clarification ? room.goodToKnow[lang].filter((note) => note !== clarification && note !== POOL_NOTE[lang]) : room.goodToKnow[lang];
 
   /* ── Photographs ── */
   const ids = room.media.gallery;
@@ -149,8 +164,25 @@ export default async function RoomPage({ params }: Props) {
               {room.summary[lang]}
             </Reveal>
 
-            <Reveal delay={0.3} trigger="load" className={s.facts}>
-              <h2 className={cx("eyebrow", s.factsHeading)}>{c.factsHeading}</h2>
+            {listedSqm !== null || maxAdults !== null ? (
+              <Reveal delay={0.25} trigger="load" className={s.figures}>
+                <h2 className={cx("eyebrow", s.factsHeading)}>{c.facts.heading}</h2>
+                <TileRow label={c.facts.heading}>
+                  {listedSqm !== null ? <Tile figure={listedSqm} unit={c.facts.sizeUnit} label={c.facts.sizeLabel} /> : null}
+                  {maxAdults !== null ? <Tile figure={maxAdults} label={c.facts.guestsLabel} note={c.facts.guestsNote} /> : null}
+                </TileRow>
+                {listedChecked ? <p className={cx("small", "muted", s.listed)}>{fill(c.facts.listed, { date: formatDate(listedChecked, lang) })}</p> : null}
+              </Reveal>
+            ) : null}
+
+            {bedroom ? (
+              <Reveal delay={0.3} trigger="load" className={s.bedroom}>
+                <Frame asset={bedroom} lang={lang} ratio="3/2" sizes="(min-width: 64rem) 42rem, 92vw" caption={`${c.facts.bedroom}: ${getAsset(bedroom).caption[lang]}`} />
+              </Reveal>
+            ) : null}
+
+            <Reveal delay={0.3} className={s.facts}>
+              <h2 className={cx("eyebrow", s.factsHeading)}>{c.facts.features}</h2>
               <FactList items={facts} />
             </Reveal>
 
@@ -171,11 +203,14 @@ export default async function RoomPage({ params }: Props) {
                 <BookingLink lang={lang} placement="room-panel" room={room.id} planner size="lg" fullWidth>
                   {ui.actions.checkResortAvailability}
                 </BookingLink>
-                <p className={cx("small", "muted", s.panelNote)}>{c.panel.chosen}</p>
+                <p className={cx("small", "muted", s.panelNote)}>
+                  {c.panel.chosen}
+                  {listedAs ? <> {fill(c.panel.listedAs, { name: listedAs })}</> : null}
+                </p>
                 <Button href={askHref} variant="secondary" fullWidth icon="arrow-right">
                   {ui.actions.askAboutRoom}
                 </Button>
-                <ContactActions lang={lang} variant="stack" include={["call"]} placement="room-panel" />
+                <ContactActions lang={lang} variant="stack" include={["call", "line"]} placement="room-panel" />
               </div>
               {checkIn && checkOut ? (
                 <div className={s.times}>
@@ -236,7 +271,6 @@ export default async function RoomPage({ params }: Props) {
               );
             })}
           </Reveal>
-          <p className={cx("small", "muted", s.photoNote)}>{c.photos.note}</p>
         </Chapter>
       </LightboxRoot>
 

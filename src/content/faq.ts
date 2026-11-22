@@ -35,8 +35,8 @@ const checkOut = pub(site.checkOut);
 const checkInOutAnswer: L =
   checkIn && checkOut
     ? {
-        en: `Check-in is from ${checkIn} and check-out is until ${checkOut}, as currently listed; your booking confirmation is the reference.`,
-        th: `เช็กอินได้ตั้งแต่ ${checkIn} น. และเช็กเอาต์ภายใน ${checkOut} น. ตามข้อมูลปัจจุบัน โดยให้ยึดเวลาในใบยืนยันการจองเป็นหลัก`,
+        en: `Check-in is from ${checkIn} and check-out is until ${checkOut}; your booking confirmation is the reference.`,
+        th: `เช็กอินได้ตั้งแต่ ${checkIn} น. และเช็กเอาต์ภายใน ${checkOut} น. โดยให้ยึดเวลาในใบยืนยันการจองเป็นหลัก`,
       }
     : {
         en: "Your booking confirmation gives the check-in and check-out times for your stay.",
@@ -66,7 +66,7 @@ const petsAnswer: L =
 const parkingAnswer: L =
   freeParking === true
     ? {
-        en: "Yes, the resort has free on-site parking, as currently listed.",
+        en: "The resort has free on-site parking, according to current listings.",
         th: "รีสอร์ทมีที่จอดรถภายในโดยไม่มีค่าใช้จ่าย ตามข้อมูลปัจจุบัน",
       }
     : {
@@ -86,7 +86,7 @@ const wifiItems: FaqItem[] =
           group: "property",
           question: { en: "Is there Wi-Fi?", th: "รีสอร์ทมี Wi-Fi หรือไม่?" },
           answer: {
-            en: ["Yes, the resort has free Wi-Fi, as currently listed.", "If a steady connection matters for your stay, for work for example, ask the resort what to expect before you book."],
+            en: ["The resort has free Wi-Fi, according to current listings.", "If a steady connection matters for your stay, for work for example, ask the resort what to expect before you book."],
             th: ["รีสอร์ทมี Wi-Fi ให้ใช้โดยไม่มีค่าใช้จ่าย ตามข้อมูลปัจจุบัน", "หากต้องใช้อินเทอร์เน็ตเป็นหลักระหว่างเข้าพัก เช่น ต้องทำงาน สอบถามรีสอร์ทก่อนจองได้"],
           },
         },
@@ -300,16 +300,33 @@ export const faq: FaqItem[] = [
     question: { en: "What is there to do at the resort?", th: "ในรีสอร์ทมีอะไรให้ทำบ้าง?" },
     answer: {
       en: [
-        "Most of it is unhurried: gardens to walk in, a pond, a shared outdoor pool and a private rooftop with every room type.",
+        "Most of it is unhurried: gardens to walk in, a pond, a shared outdoor pool, a private rooftop with every room type, and stargazing all year round.",
         // VOICE.md §4 → "Ask the team (activities)"
         "Before you plan around an activity, ask the team what is running for your dates.",
       ],
       th: [
-        "ส่วนใหญ่เป็นการใช้เวลาแบบไม่ต้องรีบ เดินเล่นในสวน นั่งริมสระน้ำ ลงสระว่ายน้ำกลางแจ้งส่วนกลาง หรือขึ้นไปนั่งบนดาดฟ้าส่วนตัวที่มีในห้องพักทุกแบบ",
+        "ส่วนใหญ่เป็นการใช้เวลาแบบไม่ต้องรีบ เดินเล่นในสวน นั่งริมสระน้ำ ลงสระว่ายน้ำกลางแจ้งส่วนกลาง ขึ้นไปนั่งบนดาดฟ้าส่วนตัวที่มีในห้องพักทุกแบบ และดูดาวได้ตลอดทั้งปี",
         "ก่อนวางแผนทำกิจกรรมใด สอบถามทีมงานก่อนว่าช่วงที่เข้าพักมีอะไรเปิดให้บริการบ้าง",
       ],
     },
     link: { route: to("experiences"), label: { en: "Around the resort", th: "รอบรีสอร์ท" } },
+  },
+  {
+    // S-40: the resort's own message of 22 Nov 2026.
+    id: "stargazing",
+    group: "property",
+    question: { en: "Can guests go stargazing?", th: "ที่รีสอร์ทดูดาวได้ไหม?" },
+    answer: {
+      en: [
+        "Yes. Phukumhom is a dark sky protection area, and there is stargazing at the resort all year round.",
+        "How much of the sky you see depends on the clouds on the night, so ask the team about stargazing for your dates.",
+      ],
+      th: [
+        "ได้ ภูคำหอมเป็นเขตอนุรักษ์ท้องฟ้ามืด และมีกิจกรรมดูดาวตลอดทั้งปี",
+        "ดาวจะชัดแค่ไหนขึ้นอยู่กับเมฆในคืนนั้น สอบถามทีมงานเรื่องกิจกรรมดูดาวในช่วงที่เข้าพักได้",
+      ],
+    },
+    link: { route: to("experiences", { hash: "stargazing" }), label: { en: "Stargazing and the next 30 nights", th: "ดูดาวและท้องฟ้า 30 คืนข้างหน้า" } },
   },
   ...wifiItems,
   {

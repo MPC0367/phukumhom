@@ -68,7 +68,7 @@ export const copy = {
     ask: {
       kicker: "Still unsure",
       heading: "Ask the resort directly",
-      lead: "If your question is not here, the team is the one to ask. Call, write on Facebook, or send an enquiry from the contact page.",
+      lead: "If your question is not here, the team is the one to ask. Call, chat on LINE, write on Facebook, or prepare your message on the contact page.",
     },
   },
   th: {
@@ -95,7 +95,7 @@ export const copy = {
     ask: {
       kicker: "ยังไม่แน่ใจ",
       heading: "สอบถามรีสอร์ทโดยตรง",
-      lead: "หากไม่พบคำถามของคุณในหน้านี้ สอบถามทีมงานได้เลย จะโทร ติดต่อทาง Facebook หรือส่งข้อความสอบถามจากหน้าติดต่อรีสอร์ทก็ได้",
+      lead: "หากไม่พบคำถามของคุณในหน้านี้ สอบถามทีมงานได้เลย จะโทร แชตทาง LINE ติดต่อทาง Facebook หรือเตรียมข้อความไว้ในหน้าติดต่อรีสอร์ทก็ได้",
     },
   },
 } satisfies L<FaqPageCopy>;

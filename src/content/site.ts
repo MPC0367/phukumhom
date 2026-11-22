@@ -1,4 +1,4 @@
-import { fact, unknown, type Fact, type FlagId, type L, type Phone, type SiteSettings } from "./schema";
+import { fact, unknown, type Fact, type FlagId, type L, type LineAccount, type Phone, type SiteSettings } from "./schema";
 import { BOOKING_PROVIDER, FLAGS, GA4_MEASUREMENT_ID } from "./site-public";
 
 /**
@@ -6,7 +6,8 @@ import { BOOKING_PROVIDER, FLAGS, GA4_MEASUREMENT_ID } from "./site-public";
  *
  * Every value is a row in docs/RESEARCH.md (ids in the comments) under a ruling in
  * docs/BUILD-CONTRACT.md §2, §3 or §8. Guest-facing code reads facts through `pub()` only.
- * No fact here has been confirmed by the owner; "confirmed" means we followed it end to end
+ * The main phone number, the LINE account and the stargazing facts were confirmed by the resort itself
+ * on 22 Nov 2026 (S-40). Otherwise "confirmed" means we followed a fact end to end
  * on a channel the resort controls.
  */
 export const site: SiteSettings = {
@@ -21,7 +22,7 @@ export const site: SiteSettings = {
     production: "https://www.phukumhom.com",
     preview: "http://127.0.0.1:8352",
   },
-  lastUpdated: "2026-10-07",
+  lastUpdated: "2026-11-22",
 
   // ID-06, ID-07
   address: fact<L>(
@@ -42,12 +43,20 @@ export const site: SiteSettings = {
     countryCode: "TH",
   },
 
-  // ID-10
+  // ID-11. The main number since the resort's own message of 22 Nov 2026 (S-40): "065 242 6636 is the main number".
   phone: fact<Phone>(
+    { national: "065 242 6636", international: "+66 65 242 6636", e164: "+66652426636" },
+    "confirmed",
+    ["S-40", "S-06"],
+    "The resort named this its main number on 22 Nov 2026 (S-40). It was already the second number in the signature of the Sept 2026 posts. Every call action dials it and JSON-LD carries it. The landlines and the commented-out mobile (ledger rows ID-12 to ID-14) are still not printed and not copied here.",
+    "2026-11-22",
+  ),
+  // ID-10. Printed only as a second line beside the main number; never an action of its own.
+  phoneAlt: fact<Phone>(
     { national: "065 542 9451", international: "+66 65 542 9451", e164: "+66655429451" },
     "source-listed",
     ["S-01", "S-06"],
-    "The only number printed anywhere (contract §2). On the Google listing re-read 7 Oct 2026 and first in the signature of the resort's Sept 2026 posts. Four other numbers circulate (ledger rows ID-11 to ID-14, RESEARCH §4.5): a second mobile in the post signature, two landlines on the legacy contact page and a mobile inside an HTML comment there. They are deliberately not copied into this module, which can reach the browser bundle. Owner questions Q-01, Q-02.",
+    "The number on the Google listing (re-read 7 Oct 2026) and first in the Sept 2026 post signature. The resort asked to ADD 065 242 6636 as the main number, not to drop this one, so it stays as a second line. Owner question Q-02: is it still in use?",
   ),
 
   // ID-16, ID-17. Withheld (contract §2: "Not rendered"), so the value is null here, like the other phone numbers.
@@ -69,10 +78,13 @@ export const site: SiteSettings = {
       "No link or handle on any crawled page or in the Facebook mirror. That does not show none exists. Flag off until a real URL is supplied (Q-30).",
       ["S-06", "S-29"],
     ),
-    // ID-20
-    line: unknown<string>(
-      "The resort's post signature carries the label 'Line:' with nothing after it in the mirror; no LINE address or ID on any crawled page. Flag off (Q-30).",
-      ["S-06"],
+    // ID-20. Supplied by the resort on 22 Nov 2026 (S-40); the flag `line` is on.
+    line: fact<LineAccount>(
+      { id: "@phukumhomkhaoyai", url: "https://line.me/R/ti/p/%40phukumhomkhaoyai" },
+      "confirmed",
+      ["S-40", "S-06"],
+      "The resort's own message: 'add LINE Official @phukumhomkhaoyai'. The Sept 2026 post signature carried an empty 'Line:' label. The link is LINE's standard add-friend address for an Official account (the @ is encoded).",
+      "2026-11-22",
     ),
     // ID-21
     whatsapp: unknown<string>(

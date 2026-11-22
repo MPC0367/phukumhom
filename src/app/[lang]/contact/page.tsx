@@ -33,10 +33,11 @@ import s from "./contact.module.css";
  *   onward · closing
  *
  * THE FORM does only what is true (see components/contact/EnquiryForm.tsx): while no receiving service
- * is configured it builds a message and copies it; it never shows "sent". The page reads the
- * `enquiryDelivery` flag and words itself to match.
+ * is configured it is a two-step composer (write and copy here, paste into a message to the resort on
+ * Facebook) and never shows "sent". Every link that leads to it says "Prepare an enquiry". The page
+ * reads the `enquiryDelivery` flag and words itself to match.
  *
- * FACTS. One phone number, the Facebook page and the map listing, each through pub(). No email address
+ * FACTS. The main phone number (the second one sits in the talk panel), the LINE account, the Facebook page and the map listing, each through pub(). No email address
  * is published, so none is shown. No reply time is promised.
  *
  * The query string (?type=stay&room=…) is read by the form in the browser, never here: the page is static.
@@ -60,13 +61,15 @@ export default async function ContactPage({ params }: Props) {
   const phone = pub(site.phone);
   const number = formatPhone(phone, lang);
   const facebook = pub(site.social.facebook);
+  const line = flag("line") ? pub(site.social.line) : null;
 
-  const glance = [number ? fill(c.glance.phone, { phone: number }) : null, facebook ? c.glance.facebook : null, c.glance.notReservation, c.glance.rates].filter(
+  const glance = [number ? fill(c.glance.phone, { phone: number }) : null, line ? fill(c.glance.line, { id: line.id }) : null, facebook ? c.glance.facebook : null, delivery ? null : c.glance.draft, c.glance.notReservation, c.glance.rates].filter(
     (item): item is string => item !== null,
   );
 
   const labels: EnquiryFormLabels = {
     heading: c.form.heading,
+    steps: c.form.steps,
     about: c.form.about,
     types: { stay: ui.labels.enquiryStay, dining: ui.labels.enquiryDining, group: ui.labels.enquiryGroup, general: ui.labels.enquiryGeneral },
     name: ui.labels.name,
@@ -111,7 +114,8 @@ export default async function ContactPage({ params }: Props) {
     sent: ui.messages.enquirySent,
     failed: number ? fill(ui.messages.enquiryFailed, { phone: number }) : c.form.failedPlain,
     tooMany: number ? fill(ui.messages.tooManyAttempts, { phone: number }) : c.form.tooManyPlain,
-    facebook: ui.actions.contactOnFacebook,
+    openLine: c.form.openLine,
+    openFacebook: c.form.openFacebook,
     call: number ? fill(ui.patterns.callOn, { phone: number }) : ui.actions.callResort,
     draft: c.form.draft,
   };
@@ -143,7 +147,7 @@ export default async function ContactPage({ params }: Props) {
         accent={c.accent}
         body={[c.body.always, delivery ? c.body.delivery : c.body.draft]}
         glance={glance}
-        actions={<ContactActions lang={lang} include={["call", "facebook"]} placement="contact" />}
+        actions={<ContactActions lang={lang} include={["call", "line", "facebook"]} placement="contact" />}
       />
 
       <Chapter
@@ -189,7 +193,7 @@ export default async function ContactPage({ params }: Props) {
           <style dangerouslySetInnerHTML={{ __html: `[class~="${s.formSlot}"]{display:none}` }} />
           <Panel padding="lg" className={s.panel}>
             <p className="lead">{c.form.noScript}</p>
-            <ContactActions lang={lang} include={["call", "facebook"]} placement="contact" className={s.noScriptActions} />
+            <ContactActions lang={lang} include={["call", "line", "facebook"]} placement="contact" className={s.noScriptActions} />
           </Panel>
         </noscript>
         <Reveal variant="fade" className={s.formSlot}>
@@ -201,6 +205,7 @@ export default async function ContactPage({ params }: Props) {
               delivery={delivery}
               endpoint={withBase("/api/enquiry")}
               privacyHref={href(lang, "privacy")}
+              lineUrl={line?.url ?? null}
               facebookUrl={facebook}
               telHref={telHref(phone)}
             />

@@ -25,7 +25,8 @@ export const BOOKING_PROVIDER: BookingProvider = {
 export const FLAGS: Flags = {
   offers: false,
   gatherings: false,
-  line: false,
+  // On since the resort supplied its LINE Official account (S-40, 22 Nov 2026).
+  line: true,
   whatsapp: false,
   instagram: false,
   reviewRating: true,
@@ -42,6 +43,27 @@ export const GA4_MEASUREMENT_ID: string | null = process.env.NEXT_PUBLIC_GA4_ID 
 /** Published links (both "confirmed" in the ledger). */
 export const FACEBOOK_URL = "https://www.facebook.com/PhukumhomResort";
 export const MAPS_LISTING_URL = "https://www.google.com/maps?cid=18118211451784483914";
+
+/**
+ * WHOSE SITE THIS IS, RIGHT NOW.
+ *
+ * "preview": an unofficial concept preview made and published by O2 Design Studio. The resort has not
+ * reviewed or approved it and does not operate it. The footer says so, the privacy policy and the terms
+ * are worded for it, and every page is kept out of search indexes.
+ * "production": the resort's own website on its own domain. Only the one deployment that sets
+ * SITE_ENV=production is this (next.config.ts publishes the mode as NEXT_PUBLIC_SITE_MODE).
+ *
+ * Going to production is a deliberate switch with prerequisites (docs/HANDOFF.md): the owner's approval
+ * of the content, the photographs and the policies, and an authorised domain in site.origin.production.
+ */
+export const SITE_MODE: "preview" | "production" = process.env.NEXT_PUBLIC_SITE_MODE === "production" ? "production" : "preview";
+export const IS_PREVIEW: boolean = SITE_MODE === "preview";
+
+/** Who makes and publishes the preview. The studio's own website is its only published contact route. */
+export const PREVIEW_OPERATOR = { name: "O2 Design Studio", url: "https://o2-designstudio.com/" } as const;
+
+/** Where a preview is hosted, when the build knows: the static export is made for GitHub Pages. */
+export const PREVIEW_HOST: "github-pages" | "unspecified" = process.env.NEXT_PUBLIC_PREVIEW_HOST === "github-pages" ? "github-pages" : "unspecified";
 
 /** The resort's time zone. Stay dates and the clock are always computed in it. */
 export const RESORT_TIME_ZONE = "Asia/Bangkok";

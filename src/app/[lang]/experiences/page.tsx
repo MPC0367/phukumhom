@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { HomeClosing } from "@/components/home/closing";
-import { Reveal, SkyTonight, SplitReveal } from "@/components/motion";
-import { Callout, Feature, Features, Onward, PageLead, PhotoMosaic, StatementBand, pageLayout } from "@/components/page";
+import { Reveal, SplitReveal } from "@/components/motion";
+import { Callout, Feature, Features, Onward, PageLead, PhotoMosaic, StarNights, StatementBand, pageLayout } from "@/components/page";
 import { Phrases } from "@/components/places/Phrases";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { Button, Chapter, Chip, PageHero, Section, TextLink, cx } from "@/components/ui";
@@ -17,21 +17,24 @@ import { breadcrumbJsonLd, pageMetadata, webPageJsonLd } from "@/lib/seo";
 import s from "./experiences.module.css";
 
 /**
- * "Around the resort" (brief section 12): four editorial entries, none of them a bookable activity.
+ * "Around the resort" (brief section 12): four editorial entries and stargazing, the one activity the
+ * resort named itself (22 Nov 2026, source S-40).
  *
  *   hero         sunset over the buildings and the clipped hedges
  *   lead         the statement, two paragraphs, "Ask the team", and the short answer
  *   01  gardens  the gardens and the pond, the kitchen garden, and a small set of garden photographs
  *   band         a rooftop terrace at dusk, with the glossary's clear-evening sentence
- *   02  rooftop  mornings and evenings on the private rooftop, beside tonight's sunset and moon
- *   03  pool     the shared pool, told apart from the Executive rooftop spa tub
+ *   02  rooftop  mornings and evenings on the private rooftop
+ *   03  stars    (twilight) stargazing in a dark sky protection area, and the next thirty nights: the
+ *                moon, sunset and full dark for each, with a one-night availability link
+ *   04  pool     the shared pool, told apart from the Executive rooftop spa tub
  *   note         before you plan
  *   onward · closing
  *
  * FACTS. Each entry's name, description and photograph come from src/content/experiences.ts. An
  * entry carries its id as a fragment target (the homepage's tiles link to /experiences#shared-pool and
  * the like). An entry's note is printed (as a chip) only when it is publishable; hours, charges and booking rules are
- * all withheld there, so none has a row here. No activity is named.
+ * all withheld there, so none has a row here. The only activity named is stargazing, in the resort's words.
  */
 
 type Props = { params: Promise<{ lang: string }> };
@@ -59,7 +62,10 @@ export default async function ExperiencesPage({ params }: Props) {
   const kitchen = entry("kitchen-garden");
   const rooftop = entry("private-rooftop");
   const pool = entry("shared-pool");
+  const stars = entry("stargazing");
   const rooftopNote = pub(rooftop.notes)?.[lang] ?? null;
+  const starsNote = pub(stars.notes)?.[lang] ?? null;
+  const starsWhen = pub(stars.availability)?.[lang] ?? null;
 
   const askHref = href(lang, "contact", { query: { type: "general" } });
 
@@ -89,7 +95,7 @@ export default async function ExperiencesPage({ params }: Props) {
         statement={c.statement}
         accent={c.accent}
         body={c.body}
-        glance={[c.glance.grounds, c.glance.pool, c.glance.rooftops, c.glance.ask]}
+        glance={[c.glance.grounds, c.glance.stars, c.glance.pool, c.glance.rooftops, c.glance.ask]}
         actions={
           <Button href={askHref} icon="arrow-right" size="lg">
             {c.askTeam}
@@ -179,9 +185,51 @@ export default async function ExperiencesPage({ params }: Props) {
               <p>{rooftop.description[lang]}</p>
             </Feature>
           ) : null}
-          <Reveal variant="clip" className={cx("on-twilight", s.sky)}>
-            <h3 className={cx("h3", s.skyHeading)}>{c.rooftop.skyHeading}</h3>
-            <SkyTonight lang={lang} className={s.skyPanel} />
+        </div>
+      </Chapter>
+
+      <Chapter
+        lang={lang}
+        id="stars"
+        number={3}
+        tone="twilight"
+        divider={false}
+        kicker={c.stars.kicker}
+        title={
+          <SplitReveal as="span" lang={lang}>
+            {c.stars.title}
+          </SplitReveal>
+        }
+        intro={
+          <Reveal as="span" variant="fade" delay={0.2}>
+            <Phrases lang={lang} text={c.stars.intro} />
+          </Reveal>
+        }
+      >
+        <div className={pageLayout.stack}>
+          {stars.asset ? (
+            <Feature
+              lang={lang}
+              id={stars.id}
+              asset={stars.asset}
+              title={stars.name[lang]}
+              flip
+              actions={
+                <>
+                  {starsNote ? <Chip>{starsNote}</Chip> : null}
+                  {starsWhen ? <Chip>{starsWhen}</Chip> : null}
+                  <TextLink variant="arrow" href={askHref}>
+                    {c.stars.askLink}
+                  </TextLink>
+                </>
+              }
+            >
+              <p>{stars.description[lang]}</p>
+            </Feature>
+          ) : null}
+          <Reveal variant="fade" className={s.planner}>
+            <h3 className={cx("h3", s.plannerHeading)}>{c.stars.plannerHeading}</h3>
+            <StarNights lang={lang} />
           </Reveal>
         </div>
       </Chapter>
@@ -189,7 +237,7 @@ export default async function ExperiencesPage({ params }: Props) {
       <Chapter
         lang={lang}
         id="pool"
-        number={3}
+        number={4}
         tone="sand"
         divider={false}
         kicker={c.pool.kicker}

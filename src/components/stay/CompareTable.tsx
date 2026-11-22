@@ -4,10 +4,11 @@ import { copy } from "@/content/pages/home/stay";
 import { BookingLink } from "@/components/site/BookingLink";
 import { RoomName } from "@/components/site/RoomName";
 import { Chip, Picture, TextLink, VisuallyHidden, cx } from "@/components/ui";
-import { t } from "@/i18n/ui";
+import { fill, t } from "@/i18n/ui";
+import { formatDate } from "@/lib/format";
 import type { AnalyticsPlacement } from "@/lib/analytics";
 import { href } from "@/lib/routes";
-import { activeRooms, amenityLabels, bathingFact, bathingSetsApart, outdoorsFact, ownNotes, roomNumeral, sharedNotes } from "./room-facts";
+import { activeRooms, amenityLabels, bathingFact, bathingSetsApart, bedroomFor, guestsFact, listedFactsChecked, outdoorsFact, roomNumeral, sharedNotes, sizeFact } from "./room-facts";
 import s from "./CompareTable.module.css";
 
 /**
@@ -25,18 +26,24 @@ import s from "./CompareTable.module.css";
  *
  * ROWS (each is built from src/content/rooms.ts; a row is absent when its fact may not be published for
  * every room type, so there is never an empty cell or a placeholder)
- *   Outdoors       balcony and private rooftop, only while both are publishable facts for every room type
+ *   Size           the figure the booking page lists for the room type ("40 sq m")
  *   Bathing        the bathing fact; the cell that sets a room type apart carries the clay mark
+ *   Guests         the adult limit the booking page lists per room ("Up to 3 adults")
+ *   Outdoors       balcony and private rooftop, only while both are publishable facts for every room type
  *   In the room    the six listed amenities
- *   Good to know   each room type's own notes. Notes that all three share are said once, under the table.
- * A row whose value is the same for every room type is written once across the columns and labelled
- * "All three room types": sameness is shown as sameness, and the eye goes to what differs.
+ * THE ORDER IS THE MESSAGE: rows whose values differ come first, rows that are the same for every room
+ * type follow, each written once across the columns and labelled "All three room types". So what differs
+ * is told by position and by words, never by the clay mark alone (which is a decoration with a hidden
+ * label). Beds, child places and connecting rooms have no row: the ledger withholds them, and one link
+ * under the table carries that question to the resort.
+ * The column photographs are the BEDROOMS (the stage above the comparison shows the rooftops), so a
+ * guest sees where they sleep as well as what sets the room apart.
  *
  * UNDER THE TABLE
- *   the notes all three share (breakfast depends on the rate; beds, occupancy and connecting rooms are a
- *   question for the resort), the link that carries that question to the contact page (?type=stay), and
- *   Check availability with the line that the room is chosen on the booking page.
- * Size, beds, occupancy and connecting rooms have no row: the ledger withholds them (BUILD-CONTRACT 2).
+ *   one line saying where the size and guest figures come from and when they were read; the notes all
+ *   three share (the shared pool, breakfast by rate); the one link that carries questions about beds, a
+ *   child's place and connecting rooms to the contact page (?type=stay); and Check availability with the
+ *   line that the room is chosen on the booking page.
  */
 
 export interface CompareTableProps {
@@ -73,6 +80,16 @@ export function CompareTable({ lang, headingLevel = 3, placement = "compare", cl
 
   const rows: Row[] = [];
 
+  const sizes = list.map((room) => sizeFact(room, lang));
+  if (sizes.every((value): value is string => value !== null)) {
+    rows.push({ id: "size", label: ui.labels.size, cells: sizes.map((value) => ({ key: value, node: <span className="tabular">{value}</span> })) });
+  }
+
+  const guests = list.map((room) => guestsFact(room, lang));
+  if (guests.every((value): value is string => value !== null)) {
+    rows.push({ id: "guests", label: ui.labels.guestsPerRoom, cells: guests.map((value) => ({ key: value, node: value })) });
+  }
+
   const outdoors = list.map((room) => outdoorsFact(room, lang));
   if (outdoors.every((value): value is string => value !== null)) {
     rows.push({ id: "outdoors", label: ui.labels.outdoors, cells: outdoors.map((value) => ({ key: value, node: value })) });
@@ -103,27 +120,14 @@ export function CompareTable({ lang, headingLevel = 3, placement = "compare", cl
     });
   }
 
-  const notes = list.map((room) => ownNotes(room, list, lang));
-  if (notes.every((own) => own.length > 0)) {
-    rows.push({
-      id: "notes",
-      label: ui.labels.goodToKnow,
-      cells: notes.map((own) => ({
-        key: own.join("|"),
-        node: (
-          <ul className={s.notes}>
-            {own.map((note) => (
-              <li key={note}>{note}</li>
-            ))}
-          </ul>
-        ),
-      })),
-    });
-  }
-
   const shared = sharedNotes(list, lang);
   const anyMarked = rows.some((row) => row.cells.some((cell) => cell.marked));
   const isSame = (row: Row) => list.length > 1 && row.cells.every((cell) => cell.key === row.cells[0].key);
+  // What differs first, what is shared after: the order itself says which is which.
+  rows.sort((x, y) => Number(isSame(x)) - Number(isSame(y)));
+
+  const checked = list.map(listedFactsChecked).filter((date): date is string => date !== null).sort()[0] ?? null;
+  const listedRows = rows.some((row) => row.id === "size" || row.id === "guests");
 
   /** A cell's value, with the clay mark when it is the room type's difference. */
   const value = (cell: Cell) =>
@@ -152,10 +156,11 @@ export function CompareTable({ lang, headingLevel = 3, placement = "compare", cl
     </div>
   );
 
+  // The bedroom, where the room has one catalogued: the rooftops are on the stage and the room pages.
   const thumb = (room: Room, sizes: string) => (
     <div className={s.thumb}>
       {/* The column or the group is named in words beside it: the photograph is a repeat, so it is silent. */}
-      <Picture asset={room.media.lead} lang={lang} ratio="3/2" sizes={sizes} alt="" />
+      <Picture asset={bedroomFor(room) ?? room.media.lead} lang={lang} ratio="3/2" sizes={sizes} alt="" />
     </div>
   );
 
@@ -255,6 +260,7 @@ export function CompareTable({ lang, headingLevel = 3, placement = "compare", cl
           {c.compare.legend}
         </p>
       ) : null}
+      {listedRows && checked ? <p className={s.listed}>{fill(c.compare.listedNote, { date: formatDate(checked, lang) })}</p> : null}
 
       {/* ── For all three, and the way on ── */}
       <div className={s.foot}>

@@ -77,18 +77,30 @@ export function looksLikePhone(value: string): boolean {
   return /^\+?[\d\s().-]+$/.test(text) && digits >= 8 && digits <= 15;
 }
 
+export interface EnquiryRules {
+  /**
+   * true (the default, and always on the server): a name and a way to reply are required, because the
+   * resort has to be able to answer a message it receives.
+   * false: the page only composes a message for the guest to send through a channel of their own, where
+   * they are already known. Only the message is required; a contact detail is still checked if one is given.
+   */
+  requireIdentity?: boolean;
+}
+
 /**
  * The checks, in the order a guest meets the fields. `today` is the current date at the resort
  * (todayInBangkok()), passed in so the function is pure. Dates and guests are optional: they are checked
  * only when given, and only for a stay or a group.
  */
-export function validateEnquiry(input: EnquiryInput, today: string): EnquiryErrors {
+export function validateEnquiry(input: EnquiryInput, today: string, rules: EnquiryRules = {}): EnquiryErrors {
+  const requireIdentity = rules.requireIdentity !== false;
   const errors: EnquiryErrors = {};
-  if (!input.name.trim()) errors.name = "nameRequired";
+  if (requireIdentity && !input.name.trim()) errors.name = "nameRequired";
 
   const contact = input.contact.trim();
-  if (!contact) errors.contact = "contactRequired";
-  else if (input.channel === "email" && !looksLikeEmail(contact)) errors.contact = "emailInvalid";
+  if (!contact) {
+    if (requireIdentity) errors.contact = "contactRequired";
+  } else if (input.channel === "email" && !looksLikeEmail(contact)) errors.contact = "emailInvalid";
   else if (input.channel === "phone" && !looksLikePhone(contact)) errors.contact = "phoneInvalid";
 
   if (input.type === "stay" || input.type === "group") {

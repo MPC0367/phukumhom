@@ -4,7 +4,6 @@
  *   import { Reveal, SplitReveal, MediaReveal } from "@/components/motion";
  *
  * Mounted once by the language layout:
- *   Loader            first in <body>
  *   MotionProvider    around everything that moves
  *   ScrollProgress    inside the provider
  *   PageTransition    through src/app/[lang]/template.tsx
@@ -17,7 +16,7 @@
  *   useMotion()            { reduced, ready }
  *   useOverlayOpen()       true while any drawer, lightbox, menu or sheet is open
  *   announceOverlay(open)  say that one opened or closed
- *   onLoaderDone(cb)       run when the page is revealed (at once if it already is)
+ *   onLoaderDone(cb)       run once the page is in view: at once (there is no loading screen)
  *   scrollToTarget(t)      glide to a position, element or selector from script (links need nothing)
  *   useResortNow()         the current instant, to the minute; null on the server
  *
@@ -36,8 +35,7 @@ export { scrollToTarget } from "./runtime";
 export { announceOverlay, isOverlayOpen, OVERLAY_EVENT } from "./overlay-bus";
 export { useOverlayOpen } from "./useOverlayOpen";
 
-export { Loader, type LoaderProps } from "./Loader";
-export { isLoaderDone, LOADER_DONE_EVENT, onLoaderDone } from "./loader-bus";
+export { isLoaderDone, onLoaderDone } from "./loader-bus";
 
 export { SplitReveal, type SplitRevealProps } from "./SplitReveal";
 export { Reveal, type RevealProps, type RevealVariant } from "./Reveal";
