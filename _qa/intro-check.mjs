@@ -75,7 +75,7 @@ for (const [engineName, engine] of [
       }
       return 9999;
     });
-    note(`${engineName}: off the screen within about 2 s`, goneAfter <= 2100, `${goneAfter} ms after it was first seen`);
+    note(`${engineName}: off the screen within about 2.4 s`, goneAfter <= 2400, `${goneAfter} ms after it was first seen`);
     await page.waitForTimeout(600);
     note(`${engineName}: its marker is cleared afterwards`, (await state(page)).attr === null);
     note(`${engineName}: no console errors on arrival`, errors.length === 0, errors.slice(0, 3).join(" | "));
@@ -87,7 +87,7 @@ for (const [engineName, engine] of [
     await page.waitForSelector("h1", { state: "attached" });
     const reloaded = await state(page);
     note(`${engineName}: plays again on reload`, reloaded.shown && reloaded.attr !== null, `attr=${reloaded.attr}`);
-    await page.waitForTimeout(2300);
+    await page.waitForTimeout(2600);
 
     // A full load arriving from another page of the site: no replay. (Playwright's forged Referer header
     // makes WebKit refuse the page's own background fetches, so console errors are not counted after this.)
@@ -119,7 +119,7 @@ for (const [engineName, engine] of [
       }
       return { moved, goneAfter: 9999 };
     });
-    note(`${engineName}: reduced motion gets a still version`, s.shown && !still.moved && still.goneAfter <= 2100, `shown=${s.shown} moved=${still.moved} gone after ${still.goneAfter} ms`);
+    note(`${engineName}: reduced motion gets a still version`, s.shown && !still.moved && still.goneAfter <= 2400, `shown=${s.shown} moved=${still.moved} gone after ${still.goneAfter} ms`);
     await context.close();
   }
 

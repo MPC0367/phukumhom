@@ -1,11 +1,11 @@
 import type { Locale } from "@/content/schema";
-import { t } from "@/i18n/ui";
+import { site } from "@/content/site";
 import { IntroScript } from "./IntroScript";
 import styles from "./Intro.module.css";
 
 /**
- * The opening: the wordmark draws itself over a forest-green sky, a small sun rises from behind its
- * horizon line, and the whole panel lifts away. About 1.8 seconds from first paint to gone.
+ * The opening: just text. "Phukumhom Resort Khao Yai" forms letter by letter over the forest-green panel
+ * (the studio's choice, 22 Nov 2026), then the panel lifts away. About 2 seconds from first paint to gone.
  *
  * WHY IT DOES NOT HOLD THE PAGE (audit of 8 Oct 2026, finding E removed a loading screen that did):
  * - The page underneath is the normal page, loading at full speed. Nothing waits on the intro: it is not
@@ -22,7 +22,7 @@ import styles from "./Intro.module.css";
  * first document only, never created again by React in the browser) runs before
  * anything below it is painted and sets html[data-intro="on"], which shows it. At 0.85 s it switches to
  * "lift" and fires `phk:intro-done`, so the homepage hero's entrance (loader-bus.ts) plays as the panel
- * rises (at 1.15 s); at 1.95 s the attribute goes and the overlay is display: none again.
+ * rises (at 1.45 s); at 2.2 s the attribute goes and the overlay is display: none again.
  *
  * Decorative: aria-hidden. The page's own content is in the document from the start for every reader.
  */
@@ -33,30 +33,38 @@ var n=w.performance&&performance.getEntriesByType?performance.getEntriesByType("
 if(n&&n.type==="back_forward")return;
 if(document.referrer){try{if(new URL(document.referrer).origin===location.origin)return;}catch(e){}}
 d.setAttribute("data-intro","on");
-setTimeout(function(){d.setAttribute("data-intro","lift");try{w.dispatchEvent(new Event("phk:intro-done"));}catch(e){}},1150);
-setTimeout(function(){d.removeAttribute("data-intro");},1950);
+setTimeout(function(){d.setAttribute("data-intro","lift");try{w.dispatchEvent(new Event("phk:intro-done"));}catch(e){}},1450);
+setTimeout(function(){d.removeAttribute("data-intro");},2200);
 }catch(e){}})();`;
 
+/** Seconds between one letter starting to form and the next. */
+const STEP = 0.042;
+
 export function Intro({ lang }: { lang: Locale }) {
-  const ui = t(lang);
-  const letters = Array.from(ui.wordmark.name);
+  // The resort's English name in both languages, as the studio asked: "Phukumhom Resort Khao Yai".
+  void lang;
+  const words = site.name.en.split(" ");
+  let index = 0;
   return (
     <>
       <div className={styles.intro} aria-hidden="true">
-        <div className={styles.inner}>
-          <p className={styles.name}>
-            {letters.map((letter, i) => (
-              <span key={i} className={styles.letter} style={{ animationDelay: `${0.06 + i * 0.045}s` }}>
-                {letter}
+        <p className={styles.text}>
+          {words.map((word, w) => (
+            <span key={w}>
+              {w > 0 ? " " : null}
+              <span className={styles.word}>
+                {Array.from(word).map((letter) => {
+                  const delay = 0.08 + index++ * STEP;
+                  return (
+                    <span key={index} className={styles.letter} style={{ animationDelay: `${delay.toFixed(3)}s` }}>
+                      {letter}
+                    </span>
+                  );
+                })}
               </span>
-            ))}
-          </p>
-          <div className={styles.horizon}>
-            <span className={styles.sun} />
-            <span className={styles.line} />
-          </div>
-          <p className={styles.sub}>{ui.wordmark.sub}</p>
-        </div>
+            </span>
+          ))}
+        </p>
       </div>
       <IntroScript code={SCRIPT} />
     </>
