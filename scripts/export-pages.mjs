@@ -6,6 +6,11 @@
 //   options: --base /phukumhom   the path prefix of the project site ("" for a custom domain)
 //            --origin https://mpc0367.github.io        scheme + host the site is served from
 //            --fresh                                    reinstall dependencies in the build folder
+//            --production                               the resort's own website (SITE_ENV=production):
+//                                                       indexable, no preview notice, official policies
+//
+//   The live site (since 28 Nov 2026) is built by CI as
+//     --in-place --base "" --origin https://www.phukumhom.com --production
 //
 // Why a separate folder locally: GitHub Pages has no server, so the export must drop the things only a
 // server can do (the request proxy, the catch-all 404 route) and it must not disturb a running `next dev`.
@@ -13,13 +18,13 @@
 // result back to ./out. Nothing in this folder is modified except ./out and src/lib/built-routes.generated.json.
 //
 // What the export changes compared with the Node build:
-//   - src/proxy.ts is left out: locale choice for "/" becomes a small root index.html, and legacy .php
-//     redirects need the real host (docs for the deployment live with the studio).
+//   - src/proxy.ts is left out: locale choice for "/" becomes a small root index.html, and the legacy .php
+//     addresses (src/content/legacy-redirects.json) and bare page names are forwarded by a script in 404.html.
 //   - src/app/[lang]/[...rest] is left out; a real page (page-not-found) is exported and copied to 404.html,
 //     which GitHub Pages serves for unknown URLs.
 //   - the internal lab and style-guide pages are left out.
-//   - a footer notice says this is a concept preview, not the resort's official website.
-//   - pages stay "noindex": the preview must not compete with the resort's real site in search.
+//   - without --production: a footer notice says this is a concept preview, not the resort's official
+//     website, and pages stay "noindex" so a preview never competes with the real site in search.
 import { spawnSync } from "node:child_process";
 import crypto from "node:crypto";
 import fs from "node:fs";
@@ -35,6 +40,7 @@ const opt = (name, fallback) => {
 };
 
 const inPlace = flag("in-place");
+const production = flag("production");
 const base = opt("base", "/phukumhom").replace(/\/+$/, "");
 const origin = opt("origin", "https://mpc0367.github.io").replace(/\/+$/, "").toLowerCase();
 const tree = inPlace ? root : path.resolve(root, "..", "phukumhom-pages-build");
@@ -133,7 +139,15 @@ const env = {
   NEXT_PUBLIC_SITE_ORIGIN: origin,
   NEXT_TELEMETRY_DISABLED: "1",
 };
-delete env.SITE_ENV; // a preview is never the public, indexable site
+// Only --production is the public, indexable site (and only on the resort's own domain); anything else is a preview.
+if (production) {
+  if (base !== "" || !origin.startsWith("https://www.phukumhom.com")) {
+    throw new Error(`--production is the resort's own domain only: use --base "" --origin https://www.phukumhom.com (got "${origin}${base}")`);
+  }
+  env.SITE_ENV = "production";
+} else {
+  delete env.SITE_ENV;
+}
 rm("out");
 run("node", [path.join("node_modules", "next", "dist", "bin", "next"), "build"], { env, shell: false });
 
@@ -169,8 +183,21 @@ fs.writeFileSync(path.join(out, ".nojekyll"), "");
 
 // 404.html: the Thai not-found page; an unknown URL under /en/ is handed to the English one.
 const notFoundHtml = fs.readFileSync(path.join(out, "th", NOT_FOUND_ROUTE, "index.html"), "utf8");
-const toEnglish = `<script>(function(){var b=${JSON.stringify(base)},p=location.pathname;if(p.indexOf(b+"/en/")===0&&p.indexOf("/${NOT_FOUND_ROUTE}")<0){location.replace(b+"/en/${NOT_FOUND_ROUTE}/")}})()</script>`;
-fs.writeFileSync(path.join(out, "404.html"), notFoundHtml.replace("<head>", `<head>${toEnglish}`));
+const toEnglish = `<script>(function(){var b=${JSON.stringify(base)},p=location.pathname;if(!window.__pkhFwd&&p.indexOf(b+"/en/")===0&&p.indexOf("/${NOT_FOUND_ROUTE}")<0){location.replace(b+"/en/${NOT_FOUND_ROUTE}/")}})()</script>`;
+// With no server, the proxy's forwarding happens here, before the not-found page is drawn: a known address
+// of the 2012 PHP site goes to its new page (the reviewed table the proxy uses, its `page` / `galleryshow`
+// parameters dropped and the rest kept), and a bare page name (/stay) goes into the visitor's language tree.
+// Each target becomes the export's folder form ("/th/gallery?x" → "/th/gallery/?x", "/th#story" → "/th/#story").
+const legacyTable = JSON.parse(fs.readFileSync(path.join(root, "src", "content", "legacy-redirects.json"), "utf8"));
+const legacyTargets = Object.fromEntries(
+  Object.entries(legacyTable).map(([from, { to }]) => {
+    const [, p, q = "", h = ""] = /^([^?#]*)(\?[^#]*)?(#.*)?$/.exec(to);
+    return [from, `${p.endsWith("/") ? p : `${p}/`}${q}${h}`];
+  }),
+);
+const BARE_PAGES = ["stay", "dining", "experiences", "gallery", "location", "contact", "faq", "privacy", "terms"];
+const forward = `<script>(function(){var b=${JSON.stringify(base)},t=${JSON.stringify(legacyTargets)},bare=${JSON.stringify(BARE_PAGES)};var p=location.pathname;if(b&&p.indexOf(b)===0)p=p.slice(b.length)||"/";if(p.length>1)p=p.replace(/\\/+$/,"");var to=t[p];if(!to){var f=p.split("/")[1]||"";if(bare.indexOf(f)>=0){var m=document.cookie.match(/(?:^|; )pkh_lang=(th|en)/);var l=m?m[1]:((navigator.language||"").toLowerCase().indexOf("en")===0?"en":"th");to="/"+l+p+"/"}}if(!to)return;window.__pkhFwd=1;var u=new URL(b+to,location.origin);new URLSearchParams(location.search).forEach(function(v,k){if(k!=="page"&&k!=="galleryshow"&&!u.searchParams.has(k))u.searchParams.append(k,v)});location.replace(u.pathname+u.search+u.hash)})()</script>`;
+fs.writeFileSync(path.join(out, "404.html"), notFoundHtml.replace("<head>", `<head>${forward}${toEnglish}`));
 
 // The root: with no server to read the Accept-Language header, a small page sends the visitor to a
 // language — a saved explicit choice first, then the browser's first language, then Thai — and offers both.

@@ -1,6 +1,9 @@
-name: Deploy preview to GitHub Pages
+name: Deploy www.phukumhom.com to GitHub Pages
 
-# Builds the static export (scripts/export-pages.mjs) and publishes it as the project site.
+# Builds the static export (scripts/export-pages.mjs) and publishes it. Since 28 Nov 2026 this is the
+# resort's own website at https://www.phukumhom.com (custom domain set in Settings → Pages; DNS at the
+# resort's host: phukumhom.com A → GitHub Pages, www CNAME → mpc0367.github.io), so it is built at the
+# domain root as the production site. A push to main goes live.
 # Skipped while the repository is private: GitHub Pages on a free account needs a public repository.
 # One-time setup after making the repository public: Settings → Pages → Source → "GitHub Actions".
 
@@ -37,7 +40,7 @@ jobs:
 
       # The photographs in public/media are committed, so the image pipeline does not run here.
       - name: Static export
-        run: node scripts/export-pages.mjs --in-place --base "/${{ github.event.repository.name }}" --origin "https://${{ github.repository_owner }}.github.io"
+        run: node scripts/export-pages.mjs --in-place --base "" --origin "https://www.phukumhom.com" --production
 
       - uses: actions/configure-pages@v5
 

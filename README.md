@@ -1,11 +1,16 @@
-# Phukumhom Resort Khao Yai — website concept preview
+# Phukumhom Resort Khao Yai — website
 
 A bilingual (Thai and English) website concept for Phukumhom Resort Khao Yai, in Wang Katha, Pak Chong,
 designed and built by [O2 Design Studio](https://o2-designstudio.com/).
 
-**This is a concept preview, not the resort's official website.** It has not been approved by the resort.
-The photographs and the information about the property belong to Phukumhom Resort; the photographs are the
-resort's own published images, used here for design evaluation only. Every page is marked `noindex`.
+**Live at https://www.phukumhom.com since 28 November 2026**, the resort's own website (the resort paid for
+it and supplied its hosting; `phukumhom.com` forwards to `www`). It is built from `main` by GitHub Actions as
+the production site: indexable, no preview notice, the official wording of the privacy policy and terms.
+**A push to `main` goes live.** The photographs and the information about the property belong to Phukumhom
+Resort.
+
+Until 28 November 2026 it was O2's labelled concept preview at https://mpc0367.github.io/phukumhom/ (that
+address now forwards to the domain).
 
 ## What is in it
 
@@ -44,14 +49,22 @@ npm run dev        # http://127.0.0.1:8352
 | `npm run check:content` | Crawls the running site and checks titles, descriptions, links, alt text, JSON-LD |
 | `npm run routes` | Re-reads which pages exist (run after adding or removing a page) |
 
-## The GitHub Pages preview
+## Hosting: GitHub Pages on www.phukumhom.com
 
 `.github/workflows/pages.yml` builds the static export and publishes it on every push to `main`
-(it is skipped while the repository is private). GitHub Pages has no server, so the export leaves out the
-request proxy and the catch-all 404 route, writes a small root page that chooses a language, and copies the
-not-found page to `404.html`. It also adds the footer notice that the site is a concept preview.
+(it is skipped while the repository is private), with
+`--base "" --origin https://www.phukumhom.com --production`. GitHub Pages has no server, so the export leaves
+out the request proxy and the catch-all 404 route, writes a small root page that chooses a language, and
+copies the not-found page to `404.html`, where a script forwards the old site's addresses
+(`src/content/legacy-redirects.json`: `/th/rate.php` and the rest) and bare page names (`/stay`) the way
+the proxy does. `npm run pages` without `--production` still makes a labelled, `noindex` preview.
 
-One-time setup: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+- Pages: **Settings → Pages → Source: GitHub Actions**, custom domain `www.phukumhom.com`, HTTPS enforced.
+- DNS is in the resort's hosting panel (Plesk at its host, ITFeverHost; name servers `ns1/ns2.itfeverhost.com`):
+  `phukumhom.com` A → `185.199.108.153`, `.109.153`, `.110.153`, `.111.153`; `www` CNAME → `mpc0367.github.io`.
+  Mail stays on the resort's server (`mail`, `smtp`, `pop`, `webmail`, `ftp` keep their own A records).
+- The way back: point the two website records at the old server again (`27.254.140.121`) and remove the
+  custom domain in Settings → Pages.
 
 ## Where things are
 
