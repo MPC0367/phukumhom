@@ -21,10 +21,16 @@ import styles from "./Intro.module.css";
  *   a "loading" gate, it never waits for photographs or a timer of its own before the page can be used.
  * - The lift is a CSS animation of transform alone, so it finishes on time even while the page's script
  *   is still starting on a slow phone. pointer-events: none, so it never swallows a tap.
- * - It plays when a page is opened or reloaded. It does not play on Back or Forward, when coming from
- *   another page of this site, or without JavaScript. Under prefers-reduced-motion a still version plays:
- *   nothing moves, the panel simply fades. Nothing is stored in the browser to decide any of this (the
- *   privacy page promises only the language cookie).
+ * - It plays EVERY time the site is opened, on every device (the owner, 28 Nov 2026: "Ensure that the loading
+ *   animation always on all devices this is crucial"): a typed address, a link from anywhere else, a reload,
+ *   and the hops the static host makes on the way in (the root language chooser at phukumhom.com, an old
+ *   2012 .php address forwarded by 404.html, a bare /stay). Until 28 Nov it was skipped whenever the previous
+ *   page was on this origin, and those hops are on this origin, so a visitor who typed phukumhom.com never
+ *   saw it. It is skipped only on Back or Forward and when the previous page was a real page of this site
+ *   (a full page load from /th/… or /en/…, e.g. the language switch), and it cannot run without JavaScript.
+ * - Under prefers-reduced-motion the name is still written (an uncovering in place, nothing travels) and the
+ *   panel fades instead of lifting. Nothing is stored in the browser to decide any of this (the privacy page
+ *   promises only the language cookie).
  *
  * HOW. The overlay is in the server's HTML, display: none. The tiny script right after it (IntroScript: in the
  * first document only, never created again by React in the browser) runs before anything below it is
@@ -37,9 +43,9 @@ import styles from "./Intro.module.css";
 
 const SCRIPT = `(function(){try{
 var d=document.documentElement,w=window;
-var n=w.performance&&performance.getEntriesByType?performance.getEntriesByType("navigation")[0]:null;
-if(n&&n.type==="back_forward")return;
-if(document.referrer){try{if(new URL(document.referrer).origin===location.origin)return;}catch(e){}}
+var n=w.performance&&performance.getEntriesByType?performance.getEntriesByType("navigation")[0]:null,t=n&&n.type;
+if(t==="back_forward")return;
+if(t!=="reload"&&document.referrer){try{var r=new URL(document.referrer),p=r.pathname;if(r.origin===location.origin&&/\\/(th|en)\\//.test(p)&&!/\\.(php|html?)$/i.test(p)&&p.indexOf("/page-not-found")<0)return;}catch(e){}}
 d.setAttribute("data-intro","on");
 setTimeout(function(){d.setAttribute("data-intro","lift");try{w.dispatchEvent(new Event("phk:intro-done"));}catch(e){}},1600);
 setTimeout(function(){d.removeAttribute("data-intro");},2350);

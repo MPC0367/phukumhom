@@ -6,7 +6,8 @@
  *   0.55 to 1.25 s   KHAO YAI follows
  *   1.6 to 2.25 s    the panel lifts away upward, the text a little faster than the panel
  *
- * Under prefers-reduced-motion nothing is drawn or moved: the logo is simply there and the panel fades out.
+ * Under prefers-reduced-motion the name is still written (the mask uncovers it in place; nothing travels) and
+ * the panel fades out instead of lifting (the owner, 28 Nov 2026: the opening plays on every device).
  */
 
 .intro {
@@ -85,20 +86,16 @@
   }
 }
 
-/* Reduced motion: the still version. The logo is there from the start and the panel only fades. */
+/* Reduced motion: the writing stays (it uncovers in place), nothing moves across the screen, and the panel
+   dissolves at the moment it would have lifted. */
 @media (prefers-reduced-motion: reduce) {
   :global(html[data-intro]) .intro {
-    animation: fade-out 0.65s ease 1.45s both;
+    animation: fade-out 0.65s ease 1.6s both;
+    will-change: opacity;
   }
 
-  .logo,
-  .band {
+  .logo {
     animation: none;
-  }
-
-  .band {
-    -webkit-mask-image: none;
-    mask-image: none;
   }
 }
 
